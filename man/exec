@@ -1,0 +1,8 @@
+exec - Custom command execute utility
+
+Description: 
+Custom shell script can be executed over Interface.
+Script can be written with "write" command.
+
+Usage: exec [file] {arguments}
+Example: exec helloworld.sh

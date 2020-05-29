@@ -1,0 +1,7 @@
+rm - Remove a file or directory
+
+Description: 
+Remove a file or directory in data storage.
+
+Usage: rm [file]
+Example: rm textdoc.txt

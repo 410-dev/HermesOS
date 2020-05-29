@@ -1,0 +1,10 @@
+TDDefinitionLoader.init
+TDExtendedServiceLoader.init
+TDBootleakFix.init
+TDAutorepairDataPartition.init
+TDBuildUserspace.init
+TDMemorySet.init
+TDFilesystemSandbox.init
+TDExecutableQuarantine.init
+TDOSProfiler.init
+TDSayHello.init

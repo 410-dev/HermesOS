@@ -1,0 +1,8 @@
+ls - List files in directory
+
+Description: 
+Show files in directory.
+
+Usage: ls [directory]
+Example: ls
+Example: ls data

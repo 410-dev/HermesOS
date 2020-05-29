@@ -1,0 +1,10 @@
+upgrade - System upgrade tool
+
+Description: 
+This tool upgrades your system.
+To use this tool, a new update file should be placed in data partition
+with name of "update" in a format of directory. Once the upgrade
+begins, System will shutdown. When reboots, it will install queued
+update, then shuts down again. When reboots, new System is ready.
+
+Usage: upgrade

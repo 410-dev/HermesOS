@@ -1,0 +1,119 @@
+#!/bin/bash
+function syslangversion() {
+	echo "1.0.1"
+}
+
+function fopen() {
+	if [[ -f "$1" ]]; then
+		echo "$(<$1)"
+		echo "0"
+	else
+		echo "-9"
+	fi
+}
+
+function fwrite() {
+	if [[ ! -f "$1" ]]; then
+		echo "$2" > "$1"
+		if [[ "$(<$1)" == "$2" ]]; then
+			echo "0"
+		else
+			echo "-9"
+		fi
+	else
+		echo "-9"
+	fi
+}
+
+function foverwrite() {
+	if [[ -f "$1" ]]; then
+		echo "$2" > "$1"
+		if [[ "$(<$1)" == "$2" ]]; then
+			echo "0"
+		else
+			echo "-9"
+		fi
+	else
+		echo "-9"
+	fi
+}
+
+function fappend() {
+	if [[ -f "$1" ]]; then
+		echo "$2" >> "$1"
+		if [[ -z "$(echo $(<$1) | grep $2)" ]]; then
+			echo "-9"
+		else
+			echo "0"
+		fi
+	else
+		echo "-9"
+	fi
+}
+
+function fdelete() {
+	if [[ -f "$1" ]]; then
+		rm -rf "$1"
+		if [[ -f "$1" ]]; then
+			echo "-9"
+		else
+			echo "0"
+		fi
+	else
+		echo "-9"
+	fi
+}
+
+function mplxr() {
+	if [[ -f "$MULTIPLEX/$1" ]]; then
+		echo "$(<$MULTIPLEX/$1)"
+	else
+		echo "null"
+	fi
+}
+
+function mplxw() {
+	if [[ ! -d "$MULTIPLEX/$1" ]]; then
+		echo "$2" > "$MULTIPLEX/$1"
+		if [[ "$(<$MULTIPLEX/$1)" == "$2" ]]; then
+			echo "0"
+		else
+			echo "-9"
+		fi
+	else
+		echo "-9"
+	fi
+}
+
+function mplxk() {
+	if [[ ! -f "$MULTIPLEX/$1" ]]; then
+		mkdir "$MULTIPLEX/$1"
+		if [[ -d "$MULTIPLEX/$1" ]]; then
+			echo "0"
+		else
+			echo "-9"
+		fi
+	else
+		echo "-9"
+	fi
+}
+
+function mplxd() {
+	if [[ -f "$MULTIPLEX/$1" ]]; then
+		rm "$MULTIPLEX/$1"
+		echo "0"
+	else
+		echo "-9"
+	fi
+}
+
+export -f syslangversion
+export -f fopen
+export -f fwrite
+export -f foverwrite
+export -f fappend
+export -f fdelete
+export -f mplxw
+export -f mplxr
+export -f mplxk
+export -f mplxd

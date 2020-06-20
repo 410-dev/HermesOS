@@ -13,6 +13,12 @@ SWAP_LOC="$(<$CACHE/SIG/swap_address)"
 export lastExecutedCommand=""
 export USERN=$(mplxr "USER/user_name")
 export MACHN=$(mplxr "SYSTEM/machine_name")
+cd "$CACHE/def"
+for file in *.def
+do
+	source "$file"
+done
+cd "$VFS"
 while [[ true ]]; do
 	"$SYSTEM/sbin/interfacebulletin"
 	if [[ ! -z "$(ls $CACHE/tmp/$SWAP_LOC | grep F0x)" ]]; then
@@ -23,11 +29,14 @@ while [[ true ]]; do
 			echo "$f=$(<$f)" >> "table"
 		done
 	fi
-	cd "$CACHE/def"
-	for file in *.def
-	do
-		source "$file"
-	done
+	if [[ -f "$CACHE/SIG/defreload" ]]; then
+		cd "$CACHE/def"
+		for file in *.def
+		do
+			source "$file"
+		done
+		rm "$CACHE/SIG/defreload"
+	fi
 	cd "$VFS"
 	echo -n "$USERN@$MACHN ~ # "
 	read command

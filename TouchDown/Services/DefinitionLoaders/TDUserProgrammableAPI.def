@@ -1,6 +1,49 @@
 #!/bin/bash
-function apiversion() {
-	echo "1.0.0Beta"
+API_VERSION="1.0.1 Beta"
+
+function Interface.addAlert() {
+	echo "$1" >> "$CACHE/alert"
+}
+
+function Interface.updateDefinitionsOnProgramEnd() {
+	touch "$CACHE/SIG/defreload"
+}
+
+function Machine.connectDiskImage() {
+	mkdir -p "$DATA/mount/$2"
+	hdiutil attach "$USER/$1" -mountpoint "$DATA/mount/$2" >/dev/null
+}
+
+function Machine.disconnectDiskImage() {
+	hdiutil detach "$DATA/mount/$1" $2 >/dev/null
+}
+
+function Machine.setMemory() {
+	export "$1"="$2"
+}
+
+function TouchDownAPI.version() {
+	echo "$API_VERSION"
+}
+
+function TouchDownAPI.manual() {
+	echo "TouchDownAPI_____________"
+	echo "   -(String) manual(): Returns manual"
+	echo "   -(String) version(): Returns API version"
+	echo ""
+	echo "Interface________________"
+	echo "   -(void) addAlert() {String: Alert message}: Add alert message on queue. This will be loaded by interfacebulletin."
+	echo "   -(void) updateDefinitionsOnProgramEnd(): Reloads TouchDown definition table when program ends."
+	echo ""
+	echo "Machine__________________"
+	echo "   -(void) connectDiskImage() {String: dmg path} {String: mountpoint name}: Mounts disk image. It will be mounted under /Data/mount/mountpoint_name"
+	echo "   -(void) disconnectDiskImage() {String: mountpoint name}: Unmounts disk image from mountpoint."
+	echo "   -(void) setMemory() {String: memory name} {String: Data}: Sets memory that is accessible only in the process"
+	echo ""
+	echo "Static (Does not require Static. in front of function)"
+	echo "   -(print) println() {String: toPrint}: Prints a line, then add a linebreak at the end of the line."
+	echo "   -(print) print() {String: toPrint}: Prints a line, then does not add a linebreak."
+	echo ""
 }
 
 function println() {
@@ -11,6 +54,12 @@ function print() {
 	echo -n "$1 $2 $3 $4 $5 $6 $7 $8 $9"
 }
 
-export -f apiversion
+export -f Interface.addAlert
+export -f Interface.updateDefinitionsOnProgramEnd
+export -f Machine.connectDiskImage
+export -f Machine.disconnectDiskImage
+export -f Machine.setMemory
+export -f TouchDownAPI.version
+export -f TouchDownAPI.manual
 export -f println
 export -f print

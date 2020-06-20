@@ -12,4 +12,6 @@ do
         echo "[-] Failed: $file"
     fi
 done
+export Source=""
+export Target=""
 exit 0

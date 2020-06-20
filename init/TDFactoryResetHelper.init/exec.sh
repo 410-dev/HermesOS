@@ -1,0 +1,51 @@
+#!/bin/bash
+if [[ ! -f "$DATA/nvcache/clean-restore" ]]; then
+	echo "[*] No request."
+	exit 0
+elif [[ "$(mplxr "SYSTEM/COMMON/CONFIGURE_DONE")" == "FALSE" ]]; then
+	echo "[*] Detected first boot."
+	exit 0
+else
+	echo "Reset request detected."
+	echo "Checking system source..."
+	if [[ ! -f "$DATA/nvcache/upgrade.dmg" ]] && [[ ! -f "$DATA/nvcache/rom.dmg" ]] ; then
+		echo "Unable to factory reset: Missing required file - $DATA/nvcache/upgrade.dmg or rom.dmg"
+		Interface.addAlert "System factory reset failed: Missing required files"
+		exit 0
+	fi
+	echo "Checking permission on system partition..."
+	touch "$SYSTEM/onwrite" 2>/dev/null
+	if [[ ! -f "$SYSTEM/onwrite" ]]; then
+		echo "Remount required."
+		if [[ ! -d "$DISKSTORE_REALPATH" ]]; then
+			echo "System image realpath not detected. Unable to continue update process."
+			Interface.addAlert "System update failed: System image realpath not detected."
+			exit 0
+		else
+			echo "Remounting /VFS/System..."
+			hdiutil detach "$VFS/System" -force >/dev/null
+			hdiutil attach "$DISKSTORE_REALPATH/system.dmg" -mountpoint "$VFS/System" >/dev/null
+			export attachExitCode=$?
+			touch "$SYSTEM/onwrite" 2>/dev/null
+			if [[ "$attachExitCode" -ne "0" ]] || [[ ! -f "$SYSTEM/onwrite" ]]; then
+				echo "System remount failed."
+				Interface.addAlert "System update failed: System remount as read and write failed."
+				export attachExitCode=""
+				exit 0
+			fi
+			export attachExitCode=""
+		fi
+	fi
+	rm -f "$SYSTEM/onwrite"
+	echo "Mounting system partition..."
+	mkdir -p "$DATA/mount/sysimg"
+	if [[ -f "$DATA/nvcache/upgrade.dmg" ]]; then
+		mv "$DATA/nvcache/upgrade.dmg" "$DATA/nvcache/rom.dmg"
+	fi
+	hdiutil attach "$DATA/nvcache/rom.dmg" -mountpoint "$DATA/mount/sysimg" -readonly >/dev/null
+	echo "Uploading helper tool to cache drive..."
+	cp "$SYSTEM/sbin/reset-helper" "$CACHE/reset-helper"
+	echo "Starting helper."
+	"$CACHE/reset-helper"
+	exit 0
+fi

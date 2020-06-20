@@ -1,0 +1,6 @@
+#!/bin/bash
+if [[ $(mplxr "SYSTEM/POLICY/SECURITY/AllowLocalImgAccess") == "0" ]]; then
+	if [[ ! -f "$DATA/nvcache/update-install" ]] && [[ ! -f "$DATA/nvcache/clean-restore" ]]; then
+		export DISKSTORE_REALPATH="null"
+	fi
+fi

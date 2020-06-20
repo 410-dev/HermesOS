@@ -6,3 +6,4 @@ sudo
 hdiutil
 mount
 umount
+export

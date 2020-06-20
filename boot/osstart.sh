@@ -3,6 +3,10 @@ export NULLVAR="null"
 mkdir -p "$PWD/cache/SIG"
 echo "[*] Running initiation script..."
 "$PWD/System/sbin/initsc"
+if [[ -f "$PWD/cache/upgraded" ]]; then
+	echo "System is upgraded. Stopping boot process."
+	exit 9
+fi
 cd "$PWD/cache/def"
 for file in *.def
 do

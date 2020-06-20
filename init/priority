@@ -1,5 +1,5 @@
 TDDefinitionLoader.init
-TDExtendedServiceLoader.init
+TDFactoryResetHelper.init
 TDBootleakFix.init
 TDAutorepairDataPartition.init
 TDBuildUserspace.init
@@ -7,4 +7,6 @@ TDMemorySet.init
 TDFilesystemSandbox.init
 TDExecutableQuarantine.init
 TDOSProfiler.init
+TDOSUpgradeHelper.init
+TDExtendedServiceLoader.init
 TDSayHello.init

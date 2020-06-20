@@ -32,6 +32,7 @@ if [[ "$(mplxr SYSTEM/GRAPHITE/ENFORCE_CLI)" == 0 ]] && [[ -z "$(echo $b_arg | g
 	echo "Login" > "$MULTIPLEX/USER/INTERFACE/START_MODE"
 	mplxw "SYSTEM/DATASETUP_COMPLETE" "Done" >/dev/null
 	mplxw "SYSTEM/machine_name" "$DEVN" >/dev/null
+	mplxw "SYSTEM/COMMON/CONFIGURE_DONE" "TRUE" >/dev/null
 	graphite_msgbox "Ready" "System is now ready to go."
 	clear
 else
@@ -74,4 +75,5 @@ else
 	mplxw "SYSTEM/DATASETUP_COMPLETE" "Done" >/dev/null
 	mplxw "USER/INTERFACE/START_MODE" "Login" >/dev/null
 	mplxw "SYSTEM/COMMON/SetupDone" "" >/dev/null
+	mplxw "SYSTEM/COMMON/CONFIGURE_DONE" "TRUE" >/dev/null
 fi

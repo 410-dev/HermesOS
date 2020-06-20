@@ -10,6 +10,12 @@ else
 	echo ""
 	"$PWD/System/boot/osstart" >/dev/null
 fi
+if [[ -f "$PWD/cache/upgraded" ]]; then
+	rm -rf "$PWD/cache/"*
+	hdiutil detach "$PWD/cache" -force >/dev/null
+	hdiutil detach "$PWD/Data" -force >/dev/null
+	hdiutil detach "$PWD/System" -force >/dev/null; exit 0
+fi
 cd "$PWD/cache/def"
 for file in *.def
 do

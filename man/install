@@ -1,0 +1,18 @@
+install - A package installer
+
+Description: 
+Install a required package or patch.
+The file extension has to be .tdi with unpacked zip, and the package structure should be the following:
+
+- Package.tdi
+  - meta
+    - name
+    - version
+    - preaction
+    - postaction
+    - targetloc
+  - payload
+    - [Files in tree structure]
+
+Usage: install filename
+Example: install tdupgrade.tdi

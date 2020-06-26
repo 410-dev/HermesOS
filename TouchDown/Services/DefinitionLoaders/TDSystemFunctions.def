@@ -5,8 +5,15 @@ function syslangversion() {
 
 function fopen() {
 	if [[ -f "$1" ]]; then
-		echo "$(<$1)"
 		echo "0"
+	else
+		echo "-9"
+	fi
+}
+
+function fread() {
+	if [[ -f "$1" ]]; then
+		echo "$(<$1)"
 	else
 		echo "-9"
 	fi
@@ -109,6 +116,7 @@ function mplxd() {
 
 export -f syslangversion
 export -f fopen
+export -f fread
 export -f fwrite
 export -f foverwrite
 export -f fappend

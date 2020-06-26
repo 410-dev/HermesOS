@@ -11,6 +11,7 @@ Options:
 --info          : Shows system information.
 --nvram-reset   : Clears all NVRAM data.
 --def-reload    : Reloads definitions.
+--logflush      : Flushes all log
 
 Usage: system [option]
 Example: system --clean-restore

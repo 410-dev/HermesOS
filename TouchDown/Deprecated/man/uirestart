@@ -1,6 +1,0 @@
-uirestart
-
-Description: 
-Restarts /System/sbin/interface.
-
-Usage: uirestart

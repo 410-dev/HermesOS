@@ -1,2 +1,2 @@
 #!/bin/bash
-cat "$PWD/System/boot/splasher.timg"
+cat "$SYSTEM/boot/splasher.timg"

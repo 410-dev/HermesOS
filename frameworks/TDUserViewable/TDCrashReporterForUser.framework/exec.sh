@@ -38,7 +38,7 @@ while [[ true ]]; do
 			done
 		fi
 	fi
-	cd "$VFS"
+	cd "$ROOTFS"
 	if [[ -d "$DATA/logs" ]]; then
 		cd "$DATA/logs"
 		if [[ ! -z $(ls | grep "panic-") ]]; then
@@ -75,5 +75,5 @@ while [[ true ]]; do
 			done
 		fi
 	fi
-	cd "$VFS"
+	cd "$ROOTFS"
 done

@@ -3,6 +3,10 @@ function syslangversion() {
 	echo "1.0.1"
 }
 
+# function tdfs_access() {
+
+# }
+
 function fopen() {
 	if [[ -f "$1" ]]; then
 		echo "0"
@@ -114,7 +118,34 @@ function mplxd() {
 	fi
 }
 
+# function dopen() {
+
+# }
+
+# function dlist() {
+
+# }
+
+# function dcreate() {
+
+# }
+
+# function ddelete() {
+
+# }
+
+function download() {
+	if [[ ! -z "$1" ]]; then
+		echo "-9"
+	elif [[ ! -z "$2" ]]; then
+		echo "-8"
+	else
+		curl -Ls "$1" -o "$2"
+	fi
+}
+
 export -f syslangversion
+# export -f tdfs_access
 export -f fopen
 export -f fread
 export -f fwrite
@@ -125,3 +156,7 @@ export -f mplxw
 export -f mplxr
 export -f mplxk
 export -f mplxd
+# export -f dopen
+# export -f dlist
+# export -f dcreate
+# export -f ddelete

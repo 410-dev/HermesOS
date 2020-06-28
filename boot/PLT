@@ -1,0 +1,9 @@
+#!/bin/bash
+export ROOTFS="/Volumes/VFS"
+export SYSTEM="$ROOTFS/System"
+export BOOTSECT="$SYSTEM/boot"
+export SBIN="$SYSTEM/sbin"
+export DATA="$ROOTFS/Data"
+export USERDATA="$DATA/User"
+export CACHE="$ROOTFS/cache"
+export MULTIPLEX="$DATA/config"

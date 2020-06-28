@@ -18,7 +18,7 @@ for file in *.def
 do
 	source "$file"
 done
-cd "$VFS"
+cd "$ROOTFS"
 while [[ true ]]; do
 	"$SYSTEM/sbin/interfacebulletin"
 	if [[ ! -z "$(ls $CACHE/tmp/$SWAP_LOC | grep F0x)" ]]; then
@@ -37,7 +37,7 @@ while [[ true ]]; do
 		done
 		rm "$CACHE/SIG/defreload"
 	fi
-	cd "$VFS"
+	cd "$ROOTFS"
 	echo -n "$USERN@$MACHN ~ # "
 	read command
 	args=($command)

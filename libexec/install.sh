@@ -23,9 +23,9 @@ fi
 
 # Replace with system function to test target existence
 
-if [[ ! -d "$VFS$(<$USERDATA/$1/meta/targetloc)" ]]; then
-	echo "[-] Specified target: $VFS$(<$USERDATA/$1/meta/targetloc) is not found."
+if [[ ! -d "$ROOTFS$(<$USERDATA/$1/meta/targetloc)" ]]; then
+	echo "[-] Specified target: $ROOTFS$(<$USERDATA/$1/meta/targetloc) is not found."
 	exit 9
 fi
-cp -vr "$USERDATA/$1/payload/"* "$VFS$(<$USERDATA/$1/meta/targetloc)/"
+cp -vr "$USERDATA/$1/payload/"* "$ROOTFS$(<$USERDATA/$1/meta/targetloc)/"
 echo "[*] Done."

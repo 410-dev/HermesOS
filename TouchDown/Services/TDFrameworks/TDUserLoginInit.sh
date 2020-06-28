@@ -14,7 +14,7 @@ else
 				ID=$(<"$SelectedFramework"/identifier)
 				echo "[*] Loading $ID..."
 				mkdir -p "$cached/$ID"
-				cd "$VFS"
+				cd "$ROOTFS"
 				"$DATA/init/$SelectedFramework"/exec "$DATA/init/$SelectedFramework"
 				if [[ $? == 0 ]]; then
 					echo "[*] Load complete."

@@ -17,14 +17,14 @@ while [[ true ]]; do
 				ID=$(<"$SelectedFramework"/identifier)
 				echo "[*] Loading $ID..."
 				mkdir -p "$cached/$ID"
-				cd "$VFS"
+				cd "$ROOTFS"
 				"$sys/$SelectedFramework"/exec "$sys/$SelectedFramework" "$cached/$ID" &
 				ec=$?
 				if [[ $ec == 0 ]]; then
 					echo "[*] Load complete."
 				else
 					echo "[!] An error occured while loading $ID."
-					touch "$PWD/cache/load-failed"
+					touch "$CACHE/load-failed"
 					exit
 				fi
 			else

@@ -2,9 +2,9 @@
 export NULLVAR="null"
 currentDir="$PWD"
 action="$1"
-Data="$PWD/Data/logs"
-sys="$PWD/System/init"
-cached="$PWD/cache/init"
+Data="$DATA/logs"
+sys="$SYSTEM/init"
+cached="$CACHE/init"
 mkdir -p "$Data"
 echo "[*] Reading initsc loading priority..."
 exitCode=0
@@ -33,7 +33,7 @@ while [[ true ]]; do
 					echo "[*] Load complete."
 				else
 					echo "[!] An error occured while loading $ID."
-					touch "$PWD/cache/load-failed"
+					touch "$CACHE/load-failed"
 				fi
 			else
 				echo "[!] Not existing init file: $line"

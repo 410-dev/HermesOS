@@ -22,8 +22,8 @@ else
 			exit 0
 		else
 			echo "Remounting /VFS/System..."
-			hdiutil detach "$VFS/System" -force >/dev/null
-			hdiutil attach "$DISKSTORE_REALPATH/system.dmg" -mountpoint "$VFS/System" >/dev/null
+			hdiutil detach "$ROOTFS/System" -force >/dev/null
+			hdiutil attach "$DISKSTORE_REALPATH/system.dmg" -mountpoint "$ROOTFS/System" >/dev/null
 			export attachExitCode=$?
 			touch "$SYSTEM/onwrite" 2>/dev/null
 			if [[ "$attachExitCode" -ne "0" ]] || [[ ! -f "$SYSTEM/onwrite" ]]; then

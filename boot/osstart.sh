@@ -1,18 +1,18 @@
 #!/bin/bash
 export NULLVAR="null"
-mkdir -p "$PWD/cache/SIG"
+mkdir -p "$CACHE/SIG"
 echo "[*] Running initiation script..."
-"$PWD/System/sbin/initsc"
-if [[ -f "$PWD/cache/upgraded" ]]; then
+"$SYSTEM/sbin/initsc"
+if [[ -f "$CACHE/upgraded" ]]; then
 	echo "System is upgraded. Stopping boot process."
 	exit 9
 fi
-cd "$PWD/cache/def"
+cd "$CACHE/def"
 for file in *.def
 do
 	source "$file"
 done
-cd "$VFS"
+cd "$ROOTFS"
 echo "[*] Running frameworks asyncronously..."
 mkdir -p "$CACHE/frameworks"
 "$SYSTEM/sbin/frameworks" --load

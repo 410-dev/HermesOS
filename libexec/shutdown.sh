@@ -14,7 +14,7 @@ if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 	touch "$CACHE/SIG/shell_close"
 	echo "[*] Requesting kernel to close..."
 	touch "$CACHE/SIG/kernel_close"
-	echo "[O] Pre-shutdown process complete..."
+	echo "[*] Pre-shutdown process complete..."
 	exit 0
 else
 	"$SYSTEM/sbin/taskkill-frameworks"

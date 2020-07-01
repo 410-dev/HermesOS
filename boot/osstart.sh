@@ -27,6 +27,6 @@ elif [[ -f "$CACHE/load-failed" ]]; then
 		sleep 1000
 	done
 else
-	echo "[O] Frameworks loaded without problem."
+	echo "[*] Frameworks loaded without problem."
 	echo "[*] Starting Interface..."
 fi

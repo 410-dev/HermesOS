@@ -5,7 +5,7 @@ function syslangversion() {
 
 function accessible() {
 	if [[ "$1" == "c" ]] || [[ "$1" == "r" ]] || [[ "$1" == "w" ]]; then
-		if [[ -d "$2" ]]; then
+		if [[ -e "$2" ]]; then
 			export Accessible="1"
 			echo "$(<$CACHE/init/TouchDown.Security.FilesystemSandbox/$1lim)" | while read limitedLoc
 			do

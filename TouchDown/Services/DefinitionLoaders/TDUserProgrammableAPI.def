@@ -1,5 +1,5 @@
 #!/bin/bash
-API_VERSION="1.0.1 Beta"
+API_VERSION="1.0.2 Beta"
 
 function Interface.addAlert() {
 	echo "$1" >> "$CACHE/alert"
@@ -22,6 +22,21 @@ function Machine.setMemory() {
 	export "$1"="$2"
 }
 
+function System.libexec() {
+	export args=($1)
+	if [[ -f "$SYSTEM/libexec/${args[0]}" ]]; then
+		"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
+	fi
+}
+
+function System.isJailbroken() {
+	if [[ ! -z "$(fopen $SYSTEM/init/BSFactoryResetHelper.init/exec | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/init/BSMakeSystemWritable.init/exec | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/libexec/bootsnatchutil | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/man/bootsnatchutil | grep 0)" ]] || [[ ! -z "$(fopen $DATA/orig-fs.dmg | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/sbin/semireset-helper | grep 0)" ]]; then
+		echo "1"
+	else
+		echo "0"
+	fi
+}
+
 function TouchDownAPI.version() {
 	echo "$API_VERSION"
 }
@@ -30,6 +45,10 @@ function TouchDownAPI.manual() {
 	echo "TouchDownAPI_____________"
 	echo "   -(String) manual(): Returns manual"
 	echo "   -(String) version(): Returns API version"
+	echo ""
+	echo "System___________________"
+	echo "   -(String?) libexec() {command} {arguments}: Runs TouchDown commands with arguments."
+	echo "   -(char_intform) isJailbroken(): Checks whether system is jailbroken."
 	echo ""
 	echo "Interface________________"
 	echo "   -(void) addAlert() {String: Alert message}: Add alert message on queue. This will be loaded by interfacebulletin."
@@ -56,6 +75,8 @@ function print() {
 
 export -f Interface.addAlert
 export -f Interface.updateDefinitionsOnProgramEnd
+export -f System.libexec
+export -f System.isJailbroken
 export -f Machine.connectDiskImage
 export -f Machine.disconnectDiskImage
 export -f Machine.setMemory

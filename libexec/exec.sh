@@ -1,16 +1,18 @@
 #!/bin/bash
 if [[ -f "$USERDATA/$1" ]]; then
-	echo "Verifying..."
+	if [[ ! -z "$(echo "$b_args" | grep "verbose")" ]]; then
+		echo "[*] Verifying..."
+	fi
 	cat "$USERDATA/$1" | while read fileLine
 	do
 		cat "$CACHE/init/TouchDown.Security.ExecutableQuarantine/disabledContents" | while read disabledCommand
 		do
-			if [[ $(echo "$fileLine") ==  *"$disabledCommand"* ]]; then
+			if [[ $(echo "$fileLine") ==  "$disabledCommand "* ]]; then
 				echo "Execution disabled by sandbox."
 				cd "$DATA"
 				exit 9
-			elif [[ $(echo "$fileLine") ==  "$disabledCommand"* ]]; then
-				echo "Execution disabled by sandbox."
+			elif [[ $(echo "$fileLine") ==  "libexec $disabledCommand "* ]]; then
+				echo "[Warning] This application will access to libexec."
 				cd "$DATA"
 				exit 9
 			fi
@@ -26,7 +28,9 @@ if [[ -f "$USERDATA/$1" ]]; then
 	done
 	exitc=$?
 	if [[ $exitc == 0 ]]; then
-		echo "Verification complete."
+		if [[ ! -z "$(echo "$b_args" | grep "verbose")" ]]; then
+			echo "[*] Verification complete."
+		fi
 		cd "$USERDATA"
 		"$USERDATA/$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8"
 		exitcode=$?

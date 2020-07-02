@@ -12,7 +12,8 @@
 if [[ "$1" == "--clean-restore" ]]; then
 	if [[ -f "$DATA/nvcache/upgrade.dmg" ]] || [[ -f "$DATA/nvcache/rom.dmg" ]]; then
 		touch "$DATA/nvcache/clean-restore"
-		echo "System will be fully erased on next boot."
+		echo "Shutting down..."
+		"$SYSTEM/libexec/shutdown"
 	else
 		echo "Image not detected in NVCache space."
 	fi
@@ -21,6 +22,16 @@ elif [[ "$1" == "--dirty-restore" ]]; then
 	rm -vrf "$DATA/"*
 	echo "Shutting down..."
 	"$SYSTEM/libexec/shutdown"
+elif [[ "$1" == "--rollback" ]]; then
+	if [[ -d "$DATA/preupgrade.system" ]]; then
+		echo "Preparing for rollback..."
+		hdiutil create -volname System -srcfolder "$DATA/preupgrade.system" -ov -format UDRW "$DATA/nvcache/restore.dmg" >/dev/null
+		touch "$DATA/nvcache/do_rollback"
+		echo "Shutting down..."
+		"$SYSTEM/libexec/shutdown"
+	else
+		echo "Image not detected in NVCache space."
+	fi
 elif [[ "$1" == "--uirestart" ]]; then
 	touch "$CACHE/SIG/shell_reload"
 elif [[ "$1" == "--update" ]]; then
@@ -48,6 +59,8 @@ elif [[ "$1" == "--nvram-reset" ]]; then
 	echo "Reseting NVRAM..."
 	rm -rf "$DATA/nvcache"
 	mkdir -p "$DATA/nvcache"
+	echo "Rewriting NVRAM..."
+	cp -r "$SYSTEM/TouchDown/defaults/nvram" "$DATA/"
 	echo "Done."
 elif [[ "$1" == "--def-reload" ]]; then
 	touch "$CACHE/SIG/defreload"

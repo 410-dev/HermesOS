@@ -10,8 +10,8 @@ echo "[*] Reading initsc loading priority..."
 exitCode=0
 logDate=$(date +"%Y-%m-%d-%H:%M")
 while [[ true ]]; do
-	if [[ -f "$sys/priority" ]]; then
-		cat "$sys/priority" | while read line
+	if [[ -f "$sys/LoadOrder" ]]; then
+		cat "$sys/LoadOrder" | while read line
 		do
 			if [[ -d "$currentDir/cache/def" ]]; then
 				cd "$currentDir/cache/def"
@@ -42,7 +42,7 @@ while [[ true ]]; do
 		done
 		break
 	else
-		echo "[!] InitSC priority not found at: $sys/priority"
+		echo "[!] InitSC priority not found at: $sys/LoadOrder"
 		sleep 5
 	fi
 done

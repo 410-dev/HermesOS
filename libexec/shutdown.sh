@@ -8,8 +8,10 @@ if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 		echo "[*] Saving logs..."
 		cp -r "$CACHE/logs" "$DATA"
 	fi
-	echo "[*] Detaching data partition from root filesystem..."
-	hdiutil detach "$DATA" -force >/dev/null
+	if [[ "$(mplxr "SYSTEM/POLICY/isUsingImg")" == "TRUE" ]]; then
+		echo "[*] Detaching data partition from root filesystem..."
+		hdiutil detach "$DATA" -force >/dev/null
+	fi
 	echo "[*] Requesting shell to close..."
 	touch "$CACHE/SIG/shell_close"
 	echo "[*] Requesting kernel to close..."
@@ -21,7 +23,9 @@ else
 	if [[ "$1" -ne "--nologcopy" ]]; then
 		cp -r "$CACHE/logs" "$DATA"
 	fi
-	hdiutil detach "$DATA" -force >/dev/null
+	if [[ "$(mplxr "SYSTEM/POLICY/isUsingImg")" == "TRUE" ]]; then
+		hdiutil detach "$DATA" -force >/dev/null
+	fi
 	touch "$CACHE/SIG/shell_close"
 	touch "$CACHE/SIG/kernel_close"
 	exit 0

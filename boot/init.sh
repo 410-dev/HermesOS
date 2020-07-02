@@ -1,6 +1,12 @@
 #!/bin/bash
 source "$(dirname "$0")/PLT"
 export b_arg="$1 $2 $3 $4 $5 $6"
+if [[ ! -z "$(echo $b_arg | grep "reset_nvram")" ]]; then
+	rm -rf "$DATA/nvram"
+	cp -r "$SYSTEM/TouchDown/defaults/nvram" "$DATA/"
+elif [[ ! -d "$DATA/nvram" ]] ; then
+	cp -r "$SYSTEM/TouchDown/defaults/nvram" "$DATA/"
+fi
 if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 	"$SYSTEM/boot/osstart"
 else

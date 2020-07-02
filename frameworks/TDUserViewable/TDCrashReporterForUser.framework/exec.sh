@@ -18,6 +18,7 @@ while [[ true ]]; do
 				echo ""
 				mv ./processed/"$f" ./processed/"$f($logDate)"
 				cp "$f" ./processed/
+				cp "./processed/$f($logDate)" "$DATA/nvram/crashlogs"
 				rm "$f"
 			done
 		fi
@@ -34,6 +35,7 @@ while [[ true ]]; do
 				echo "===========|END|============"
 				cp "$f" ./processed/
 				mv ./processed/"$f" ./processed/"$f($logDate)"
+				cp "./processed/$f($logDate)" "$DATA/nvram/crashlogs"
 				rm "$f"
 			done
 		fi
@@ -55,6 +57,7 @@ while [[ true ]]; do
 				echo ""
 				cp "$f" ./processed/
 				mv ./processed/"$f" ./processed/"$f($logDate)"
+				cp "./processed/$f($logDate)" "$DATA/nvram/crashlogs"
 				rm "$f"
 			done
 		fi
@@ -71,6 +74,7 @@ while [[ true ]]; do
 				echo "===========|END|============"
 				cp "$f" ./processed/
 				mv ./processed/"$f" ./processed/"$f($logDate)"
+				cp "./processed/$f($logDate)" "$DATA/nvram/crashlogs"
 				rm "$f"
 			done
 		fi

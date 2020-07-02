@@ -46,6 +46,6 @@ else
 	echo "Uploading helper tool to cache drive..."
 	cp "$SYSTEM/sbin/reset-helper" "$CACHE/reset-helper"
 	echo "Starting helper."
-	"$CACHE/reset-helper"
+	"$CACHE/reset-helper" --clean
 	exit 0
 fi

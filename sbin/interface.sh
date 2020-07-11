@@ -1,5 +1,6 @@
 #!/bin/bash
 "$SYSTEM/TouchDown/Utility/preload"
+clear
 if [[ "$(mplxr BOOT/PROTOCOL/EnterSafeMode)" == "0" ]]; then
 	if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 		"$SYSTEM/TouchDown/Services/TDFrameworks/TDUserLoginInit"

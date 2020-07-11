@@ -1,49 +1,53 @@
 #!/bin/bash
-export b_arg="$1 $2 $3 $4 $5 $6"
+source "$(dirname "$0")/PLT"
+export b_arg="$1 $2 $3 $4 $5 $6 $7 $8 $9"
+if [[ ! -z "$(echo $b_arg | grep "reset_nvram")" ]]; then
+	rm -rf "$DATA/nvram"
+	cp -r "$SYSTEM/TouchDown/defaults/nvram" "$DATA/"
+elif [[ ! -d "$DATA/nvram" ]] ; then
+	cp -r "$SYSTEM/TouchDown/defaults/nvram" "$DATA/"
+fi
 if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
-	"$PWD/System/boot/osstart"
+	"$SYSTEM/boot/osstart"
 else
 	clear
-	"$PWD/System/boot/splasher"
-	echo ""
-	echo ""
-	echo ""
-	"$PWD/System/boot/osstart" >/dev/null
+	"$SYSTEM/boot/splasher"
+	"$SYSTEM/boot/osstart" >/dev/null
 fi
-if [[ -f "$PWD/cache/upgraded" ]]; then
-	rm -rf "$PWD/cache/"*
-	hdiutil detach "$PWD/cache" -force >/dev/null
-	hdiutil detach "$PWD/Data" -force >/dev/null
-	hdiutil detach "$PWD/System" -force >/dev/null; exit 0
+if [[ -f "$CACHE/upgraded" ]]; then
+	rm -rf "$CACHE/"*
+	hdiutil detach "$CACHE" -force >/dev/null
+	hdiutil detach "$DATA" -force >/dev/null
+	hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
 fi
-cd "$PWD/cache/def"
+cd "$CACHE/def"
 for file in *.def
 do
 	source "$file"
 done
-cd "$VFS"
+cd "$ROOTFS"
 while [[ true ]]; do
-	"$PWD/System/sbin/interface"
-	if [[ -f "$PWD/cache/SIG/kernel_close" ]]; then
+	"$SYSTEM/sbin/interface"
+	if [[ -f "$CACHE/SIG/kernel_close" ]]; then
 		echo "[*] Kernel close signal detected."
 		break
 	fi
 done
 if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 	echo "[*] Cleaning up frameworks cache..."
-	rm -rf "$PWD/cache/Frameworks"
+	rm -rf "$CACHE/Frameworks"
 	echo "[*] Cleaning up signal cache..."
-	rm -rf "$PWD/cache/SIG"
+	rm -rf "$CACHE/SIG"
 	echo "[*] Full-flushing cache..."
-	rm -rf "$PWD/cache/" 2>/dev/null
+	rm -rf "$CACHE/" 2>/dev/null
 	echo "[*] Closing..."
-	hdiutil detach "$PWD/cache" -force >/dev/null
+	hdiutil detach "$CACHE" -force >/dev/null
 	echo "[*] Goodbye from kernel!"
-	hdiutil detach "$PWD/System" -force >/dev/null; exit 0
+	hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
 else
-	rm -rf "$PWD/cache/Frameworks"
-	rm -rf "$PWD/cache/SIG"
-	rm -rf "$PWD/cache/" 2>/dev/null
-	hdiutil detach "$PWD/cache" -force >/dev/null
-	hdiutil detach "$PWD/System" -force >/dev/null; exit 0
+	rm -rf "$CACHE/Frameworks"
+	rm -rf "$CACHE/SIG"
+	rm -rf "$CACHE/" 2>/dev/null
+	hdiutil detach "$CACHE" -force >/dev/null
+	hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
 fi

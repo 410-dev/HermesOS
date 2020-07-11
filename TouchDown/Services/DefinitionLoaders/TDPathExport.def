@@ -1,7 +1,0 @@
-#!/bin/bash
-export VFS="/Volumes/VFS"
-export SYSTEM="$VFS/System"
-export DATA="$VFS/Data"
-export USERDATA="$DATA/User"
-export CACHE="$VFS/cache"
-export MULTIPLEX="$DATA/config"

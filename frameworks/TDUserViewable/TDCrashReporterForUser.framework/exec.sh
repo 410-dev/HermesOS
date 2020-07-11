@@ -18,6 +18,7 @@ while [[ true ]]; do
 				echo ""
 				mv ./processed/"$f" ./processed/"$f($logDate)"
 				cp "$f" ./processed/
+				cp "./processed/$f($logDate)" "$DATA/nvram/crashlogs"
 				rm "$f"
 			done
 		fi
@@ -34,11 +35,12 @@ while [[ true ]]; do
 				echo "===========|END|============"
 				cp "$f" ./processed/
 				mv ./processed/"$f" ./processed/"$f($logDate)"
+				cp "./processed/$f($logDate)" "$DATA/nvram/crashlogs"
 				rm "$f"
 			done
 		fi
 	fi
-	cd "$VFS"
+	cd "$ROOTFS"
 	if [[ -d "$DATA/logs" ]]; then
 		cd "$DATA/logs"
 		if [[ ! -z $(ls | grep "panic-") ]]; then
@@ -55,6 +57,7 @@ while [[ true ]]; do
 				echo ""
 				cp "$f" ./processed/
 				mv ./processed/"$f" ./processed/"$f($logDate)"
+				cp "./processed/$f($logDate)" "$DATA/nvram/crashlogs"
 				rm "$f"
 			done
 		fi
@@ -71,9 +74,10 @@ while [[ true ]]; do
 				echo "===========|END|============"
 				cp "$f" ./processed/
 				mv ./processed/"$f" ./processed/"$f($logDate)"
+				cp "./processed/$f($logDate)" "$DATA/nvram/crashlogs"
 				rm "$f"
 			done
 		fi
 	fi
-	cd "$VFS"
+	cd "$ROOTFS"
 done

@@ -5,9 +5,10 @@ if [[ "$(mplxr SYSTEM/DATASETUP_COMPLETE)" == "null" ]]; then
 	rm -rf "$DATA/config" 2>/dev/null
 	rm -rf "$DATA/logs" 2>/dev/null
 	rm -rf "$DATA/nvcache" 2>/dev/null
-	cp -r "$SYSTEM/TouchDown/multiplex" "$DATA/"
+	cp -r "$SYSTEM/TouchDown/defaults/multiplex" "$DATA/"
 	mv "$DATA/multiplex" "$DATA/config"
 	mkdir -p "$DATA/nvcache"
+	cp -r "$SYSTEM/TouchDown/defaults/nvram" "$DATA/"
 	mkdir -p "$DATA/init"
 	mplxw USER/INTERFACE/ALERT "" >/dev/null
 	mplxw USER/INTERFACE/ALERT_PRESENT 0 >/dev/null

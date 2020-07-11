@@ -1,24 +1,26 @@
 #!/bin/bash
-action="$1"
+echo "[*] Running frameworks asyncronously..."
+mkdir -p "$CACHE/frameworks"
 Data="$DATA/logs"
-sys="$SYSTEM/frameworks/TDUserViewable"
-cached="$CACHE/nohidden-frameworks/"
+FrameworkLibrary="$SYSTEM/frameworks"
+cached="$CACHE/frameworks"
 mkdir -p "$Data"
 echo "[*] Reading frameworks loading priority..."
 exitCode=0
 logDate=$(date +"%Y-%m-%d-%H:%M")
 while [[ true ]]; do
-	if [[ -f "$sys/LoadOrder" ]]; then
-		cat "$sys/LoadOrder" | while read line
+	if [[ -f "$FrameworkLibrary/LoadOrder" ]]; then
+		cat "$FrameworkLibrary/LoadOrder" | while read line
 		do
-			cd "$sys"
+			cd "$FrameworkLibrary"
 			SelectedFramework="$line"
 			if [[ -d "$line" ]]; then
 				ID=$(<"$SelectedFramework"/identifier)
 				echo "[*] Loading $ID..."
 				mkdir -p "$cached/$ID"
-				cd "$ROOTFS"
-				"$sys/$SelectedFramework"/exec "$sys/$SelectedFramework" "$cached/$ID" &
+				cd /Volumes/VFS
+				echo "LOAD: $ID" >> "$Data/output-frameworkloader-$logDate"
+				"$FrameworkLibrary/$SelectedFramework"/exec "$FrameworkLibrary/$SelectedFramework" "$cached/$ID" & >> "$Data/output-frameworkloader-$logDate" >/dev/null
 				ec=$?
 				if [[ $ec == 0 ]]; then
 					echo "[*] Load complete."
@@ -34,9 +36,8 @@ while [[ true ]]; do
 		done
 		break
 	else
-		echo "[!] Frameworks loading order configuration not found at: $sys/LoadOrder"
+		echo "[!] Frameworks priority not found at: $FrameworkLibrary/LoadOrder"
 		sleep 5
 	fi
 done
-echo "[*] Finished loading viewable frameworks."
 exit $exitCode

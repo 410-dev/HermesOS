@@ -1,18 +1,36 @@
 #!/bin/bash
 function syslangversion() {
-	echo "1.0.1"
+	echo "1.4"
+}
+
+function accessible() {
+	if [[ "$1" == "c" ]] || [[ "$1" == "r" ]] || [[ "$1" == "w" ]]; then
+		echo "$(<$CACHE/init/TouchDown.Security.FilesystemSandbox/$1lim)" | while read limitedLoc
+		do
+			if [[ ! -z $(echo "$2" | grep "$limitedLoc") ]]; then
+				echo "-9"
+				exit 0
+			fi
+		done
+	else
+		echo "-9"
+	fi
 }
 
 function fopen() {
 	if [[ -f "$1" ]]; then
-		echo "0"
+		if [[ $(accessible "r" "$1") == "0" ]]; then
+			echo "0"
+		else
+			echo "-9"
+		fi
 	else
 		echo "-9"
 	fi
 }
 
 function fread() {
-	if [[ -f "$1" ]]; then
+	if [[ "$(fopen "$1")" == "0" ]]; then
 		echo "$(<$1)"
 	else
 		echo "-9"
@@ -21,8 +39,14 @@ function fread() {
 
 function fwrite() {
 	if [[ ! -f "$1" ]]; then
-		echo "$2" > "$1"
-		if [[ "$(<$1)" == "$2" ]]; then
+		if [[ $(accessible "w" "$1") == "-9" ]]; then
+			echo "-9"
+			exit 0
+		fi
+		echo "$2" > "$1" 2>/dev/null
+		if [[ ! -f "$1" ]]; then
+			echo "-9"
+		elif [[ "$(<$1)" == "$2" ]]; then
 			echo "0"
 		else
 			echo "-9"
@@ -34,8 +58,14 @@ function fwrite() {
 
 function foverwrite() {
 	if [[ -f "$1" ]]; then
-		echo "$2" > "$1"
-		if [[ "$(<$1)" == "$2" ]]; then
+		if [[ $(accessible "w" "$1") == "-9" ]]; then
+			echo "-9"
+			exit 0
+		fi
+		echo "$2" > "$1" 2>/dev/null
+		if [[ ! -f "$1" ]]; then
+			echo "-9"
+		elif [[ "$(<$1)" == "$2" ]]; then
 			echo "0"
 		else
 			echo "-9"
@@ -47,6 +77,10 @@ function foverwrite() {
 
 function fappend() {
 	if [[ -f "$1" ]]; then
+		if [[ $(accessible "w" "$1") == "-9" ]]; then
+			echo "-9"
+			exit 0
+		fi
 		echo "$2" >> "$1"
 		if [[ -z "$(echo $(<$1) | grep $2)" ]]; then
 			echo "-9"
@@ -60,12 +94,62 @@ function fappend() {
 
 function fdelete() {
 	if [[ -f "$1" ]]; then
+		if [[ $(accessible "w" "$1") == "-9" ]]; then
+			echo "-9"
+			exit 0
+		fi
 		rm -rf "$1"
 		if [[ -f "$1" ]]; then
 			echo "-9"
 		else
 			echo "0"
 		fi
+	else
+		echo "-9"
+	fi
+}
+
+function dopen() {
+	if [[ -d "$1" ]]; then
+		if [[ $(accessible "r" "$1") == "-9" ]]; then
+			echo "-9"
+			exit 0
+		fi
+		echo "0"
+	else
+		echo "-9"
+	fi
+}
+
+function dread() {
+	if [[ -d "$1" ]]; then
+		if [[ $(accessible "r" "$1") == "-9" ]]; then
+			echo "-9"
+			exit 0
+		fi
+		ls "$1"
+	else
+		echo "-9"
+	fi
+}
+
+function dmake() {
+	if [[ $(accessible "w" "$1") == "-9" ]]; then
+		echo "-9"
+		exit 0
+	fi
+	mkdir -p "$1"
+	echo $?
+}
+
+function ddelete() {
+	if [[ -d "$1" ]]; then
+		if [[ $(accessible "w" "$1") == "-9" ]]; then
+			echo "-9"
+			exit 0
+		fi
+		rm -rf "$1"
+		echo $?
 	else
 		echo "-9"
 	fi
@@ -114,14 +198,25 @@ function mplxd() {
 	fi
 }
 
+function netsession() {
+	"$SYSTEM/TouchDown/Services/TDFrameworks/TDNetwork" "$1" "$2"
+	echo "$?"
+}
+
 export -f syslangversion
+export -f accessible
 export -f fopen
 export -f fread
 export -f fwrite
 export -f foverwrite
 export -f fappend
 export -f fdelete
+export -f dopen
+export -f dread
+export -f dmake
+export -f ddelete
 export -f mplxw
 export -f mplxr
 export -f mplxk
 export -f mplxd
+export -f netsession

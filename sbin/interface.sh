@@ -1,5 +1,6 @@
 #!/bin/bash
 "$SYSTEM/TouchDown/Utility/preload"
+clear
 if [[ "$(mplxr BOOT/PROTOCOL/EnterSafeMode)" == "0" ]]; then
 	if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 		"$SYSTEM/TouchDown/Services/TDFrameworks/TDUserLoginInit"
@@ -18,7 +19,7 @@ for file in *.def
 do
 	source "$file"
 done
-cd "$VFS"
+cd "$ROOTFS"
 while [[ true ]]; do
 	"$SYSTEM/sbin/interfacebulletin"
 	if [[ ! -z "$(ls $CACHE/tmp/$SWAP_LOC | grep F0x)" ]]; then
@@ -37,7 +38,7 @@ while [[ true ]]; do
 		done
 		rm "$CACHE/SIG/defreload"
 	fi
-	cd "$VFS"
+	cd "$ROOTFS"
 	echo -n "$USERN@$MACHN ~ # "
 	read command
 	args=($command)

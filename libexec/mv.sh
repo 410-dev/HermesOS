@@ -7,17 +7,17 @@ if [[ -z "$2" ]]; then
 	echo "Missing parameter: New file location"
 	exit 90
 fi
-if [[ "$1" == *..* ]]; then
-	echo "Access denied: Operation not permitted."
-	exit 99
-fi
-if [[ "$2" == *..* ]]; then
-	echo "Access denied: Operation not permitted."
-	exit 99
-fi
 if [[ ! -e "$USERDATA/$1" ]]; then
 	echo "No such file: $1"
 	exit 91
+fi
+if [[ "$(accessible "w" "$USERDATA/$1")" == -9 ]]; then
+	echo "Access denied: Operation not permitted."
+	exit 99
+fi
+if [[ "$(accessible "w" "$USERDATA/$2")" == -9 ]]; then
+	echo "Access denied: Operation not permitted."
+	exit 99
 fi
 mv "$USERDATA/$1" "$USERDATA/$2"
 exit $?

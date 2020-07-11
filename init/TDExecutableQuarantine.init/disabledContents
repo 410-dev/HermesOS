@@ -7,3 +7,6 @@ hdiutil
 mount
 umount
 export
+echo
+rm
+touch

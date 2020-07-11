@@ -1,15 +1,16 @@
 #!/bin/bash
-if [[ ! -f "$DATA/nvcache/update-install" ]]; then
+if [[ ! -f "$DATA/nvcache/do_rollback" ]]; then
 	echo "[*] No request."
 	exit 0
+elif [[ "$(mplxr "SYSTEM/COMMON/CONFIGURE_DONE")" == "FALSE" ]]; then
+	echo "[*] Detected first boot."
+	exit 0
 else
-	rm "$DATA/nvcache/update-install"
-	echo "Update detected."
-	echo "Updating system image..."
-	echo "Checking upgrade source..."
-	if [[ ! -f "$DATA/nvcache/upgrade.dmg" ]]; then
-		echo "Unable to update: Missing required file - $DATA/nvcache/upgrade.dmg"
-		Interface.addAlert "System update failed: Missing required files"
+	echo "Reset request detected."
+	echo "Checking system source..."
+	if [[ ! -f "$DATA/nvcache/restore.dmg" ]]; then
+		echo "Unable to factory reset: Missing required file - $DATA/nvcache/upgrade.dmg or rom.dmg"
+		Interface.addAlert "System factory reset failed: Missing required files"
 		exit 0
 	fi
 	echo "Checking permission on system partition..."
@@ -36,17 +37,12 @@ else
 		fi
 	fi
 	rm -f "$SYSTEM/onwrite"
-	echo "Mounting system partition..."
-	mkdir -p "$DATA/mount/upgrade"
-	hdiutil attach "$DATA/nvcache/upgrade.dmg" -mountpoint "$DATA/mount/upgrade" -readonly >/dev/null
-	echo "Making a backup point."
-	mkdir -p "$DATA/preupgrade.system"
-	cp -r "$SYSTEM/" "$DATA/preupgrade.system/"
-	echo "Finished backup point generate."
-	echo "Upgrading system with simple copy..."
-	cp -rv "$DATA/mount/upgrade/"* "$SYSTEM/"
-	echo "Upgrade complete."
-	touch "$CACHE/upgraded"
-	Interface.addAlert "Your system is now upgraded."
+	echo "Mounting rollback image..."
+	mkdir -p "$DATA/mount/sysimg"
+	hdiutil attach "$DATA/nvcache/restore.dmg" -mountpoint "$DATA/mount/sysimg" -readonly >/dev/null
+	echo "Uploading helper tool to cache drive..."
+	cp "$SYSTEM/sbin/reset-helper" "$CACHE/reset-helper"
+	echo "Starting helper."
+	"$CACHE/reset-helper" --dirty
 	exit 0
 fi

@@ -1,6 +1,10 @@
 #!/bin/bash
 if [[ ! -z "$1" ]]; then
 	if [[ -f "$USERDATA/$1" ]]; then
+		if [[ "$(accessible "w" "$USERDATA/$1")" == -9 ]]; then
+			echo "Access denied: Operation not permitted."
+			exit 99
+		fi
 		chmod +x "$USERDATA/$1"
 		echo "$1 is now runnable."
 	else

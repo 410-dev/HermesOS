@@ -1,6 +1,6 @@
 #!/bin/bash
 source "$(dirname "$0")/PLT"
-export b_arg="$1 $2 $3 $4 $5 $6"
+export b_arg="$1 $2 $3 $4 $5 $6 $7 $8 $9"
 if [[ ! -z "$(echo $b_arg | grep "reset_nvram")" ]]; then
 	rm -rf "$DATA/nvram"
 	cp -r "$SYSTEM/TouchDown/defaults/nvram" "$DATA/"
@@ -12,9 +12,6 @@ if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 else
 	clear
 	"$SYSTEM/boot/splasher"
-	echo ""
-	echo ""
-	echo ""
 	"$SYSTEM/boot/osstart" >/dev/null
 fi
 if [[ -f "$CACHE/upgraded" ]]; then

@@ -1,5 +1,8 @@
 #!/bin/bash
-API_VERSION="1.0.2 Beta"
+
+function @PROG_START_POINT(){
+	echo -n ""
+}
 
 function Interface.addAlert() {
 	echo "$1" >> "$CACHE/alert"
@@ -25,7 +28,7 @@ function Machine.setMemory() {
 function System.libexec() {
 	export args=($1)
 	if [[ -f "$SYSTEM/libexec/${args[0]}" ]]; then
-		"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
+		"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}"
 	fi
 }
 
@@ -38,10 +41,11 @@ function System.isJailbroken() {
 }
 
 function TouchDownAPI.version() {
-	echo "$API_VERSION"
+	echo "1.0.3"
 }
 
 function TouchDownAPI.manual() {
+	echo "To make the program runnable, you need to add @PROG_START_POINT at the start of the program."
 	echo "TouchDownAPI_____________"
 	echo "   -(String) manual(): Returns manual"
 	echo "   -(String) version(): Returns API version"
@@ -90,6 +94,7 @@ function print() {
 	echo -n "$1 $2 $3 $4 $5 $6 $7 $8 $9"
 }
 
+export -f @PROG_START_POINT
 export -f Interface.addAlert
 export -f Interface.updateDefinitionsOnProgramEnd
 export -f System.libexec

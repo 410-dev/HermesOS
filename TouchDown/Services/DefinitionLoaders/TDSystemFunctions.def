@@ -9,7 +9,7 @@ function accessible() {
 		do
 			if [[ ! -z $(echo "$2" | grep "$limitedLoc") ]]; then
 				echo "-9"
-				exit 0
+				break
 			fi
 		done
 	else
@@ -41,15 +41,15 @@ function fwrite() {
 	if [[ ! -f "$1" ]]; then
 		if [[ $(accessible "w" "$1") == "-9" ]]; then
 			echo "-9"
-			exit 0
-		fi
-		echo "$2" > "$1" 2>/dev/null
-		if [[ ! -f "$1" ]]; then
-			echo "-9"
-		elif [[ "$(<$1)" == "$2" ]]; then
-			echo "0"
 		else
-			echo "-9"
+			echo "$2" > "$1" 2>/dev/null
+			if [[ ! -f "$1" ]]; then
+				echo "-9"
+			elif [[ "$(<$1)" == "$2" ]]; then
+				echo "0"
+			else
+				echo "-9"
+			fi
 		fi
 	else
 		echo "-9"
@@ -60,15 +60,15 @@ function foverwrite() {
 	if [[ -f "$1" ]]; then
 		if [[ $(accessible "w" "$1") == "-9" ]]; then
 			echo "-9"
-			exit 0
-		fi
-		echo "$2" > "$1" 2>/dev/null
-		if [[ ! -f "$1" ]]; then
-			echo "-9"
-		elif [[ "$(<$1)" == "$2" ]]; then
-			echo "0"
 		else
-			echo "-9"
+			echo "$2" > "$1" 2>/dev/null
+			if [[ ! -f "$1" ]]; then
+				echo "-9"
+			elif [[ "$(<$1)" == "$2" ]]; then
+				echo "0"
+			else
+				echo "-9"
+			fi
 		fi
 	else
 		echo "-9"
@@ -79,13 +79,13 @@ function fappend() {
 	if [[ -f "$1" ]]; then
 		if [[ $(accessible "w" "$1") == "-9" ]]; then
 			echo "-9"
-			exit 0
-		fi
-		echo "$2" >> "$1"
-		if [[ -z "$(echo $(<$1) | grep $2)" ]]; then
-			echo "-9"
 		else
-			echo "0"
+			echo "$2" >> "$1"
+			if [[ -z "$(echo $(<$1) | grep $2)" ]]; then
+				echo "-9"
+			else
+				echo "0"
+			fi
 		fi
 	else
 		echo "-9"
@@ -96,13 +96,13 @@ function fdelete() {
 	if [[ -f "$1" ]]; then
 		if [[ $(accessible "w" "$1") == "-9" ]]; then
 			echo "-9"
-			exit 0
-		fi
-		rm -rf "$1"
-		if [[ -f "$1" ]]; then
-			echo "-9"
 		else
-			echo "0"
+			rm -rf "$1"
+			if [[ -f "$1" ]]; then
+				echo "-9"
+			else
+				echo "0"
+			fi
 		fi
 	else
 		echo "-9"
@@ -113,9 +113,9 @@ function dopen() {
 	if [[ -d "$1" ]]; then
 		if [[ $(accessible "r" "$1") == "-9" ]]; then
 			echo "-9"
-			exit 0
+		else
+			echo "0"
 		fi
-		echo "0"
 	else
 		echo "-9"
 	fi
@@ -125,9 +125,9 @@ function dread() {
 	if [[ -d "$1" ]]; then
 		if [[ $(accessible "r" "$1") == "-9" ]]; then
 			echo "-9"
-			exit 0
+		else
+			ls "$1"
 		fi
-		ls "$1"
 	else
 		echo "-9"
 	fi
@@ -136,20 +136,20 @@ function dread() {
 function dmake() {
 	if [[ $(accessible "w" "$1") == "-9" ]]; then
 		echo "-9"
-		exit 0
+	else
+		mkdir -p "$1"
+		echo $?
 	fi
-	mkdir -p "$1"
-	echo $?
 }
 
 function ddelete() {
 	if [[ -d "$1" ]]; then
 		if [[ $(accessible "w" "$1") == "-9" ]]; then
 			echo "-9"
-			exit 0
+		else
+			rm -rf "$1"
+			echo $?
 		fi
-		rm -rf "$1"
-		echo $?
 	else
 		echo "-9"
 	fi

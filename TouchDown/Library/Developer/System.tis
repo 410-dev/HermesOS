@@ -1,0 +1,29 @@
+#!/bin/bash
+
+function System.libexec() {
+	export args=($1)
+	if [[ -f "$SYSTEM/libexec/${args[0]}" ]]; then
+		"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}"
+	fi
+}
+
+function System.isJailbroken() {
+	if [[ ! -z "$(fopen $SYSTEM/init/BSFactoryResetHelper.init/exec | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/init/BSMakeSystemWritable.init/exec | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/libexec/bootsnatchutil | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/man/bootsnatchutil | grep 0)" ]] || [[ ! -z "$(fopen $DATA/orig-fs.dmg | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/sbin/semireset-helper | grep 0)" ]]; then
+		echo "1"
+	else
+		echo "0"
+	fi
+}
+
+function System.getSystemVersion() {
+	echo "$(<$SYSTEM/init/TDOSProfiler.init/sys_version)"
+}
+
+function System.getSystemVersion() {
+	echo "$(<$SYSTEM/init/TDOSProfiler.init/sys_build)"
+}
+
+export -f System.libexec
+export -f System.isJailbroken
+export -f System.getSystemVersion
+export -f System.getSystemBuild

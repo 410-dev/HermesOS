@@ -17,7 +17,7 @@ function @IMPORT() {
 	if [[ -f "$TDLIB/Library/Developer/$1.tis" ]]; then
 		source "$TDLIB/Library/Developer/$1.tis"
 	elif [[ -f "$DATA/Library/Developer/$1.tis" ]]; then
-		source "$TDLIB/Library/Developer/$1.tis"
+		source "$DATA/Library/Developer/$1.tis"
 	else
 		echo "Error: Unable to find specified instruction set."
 		exit 0

@@ -1,4 +1,5 @@
 #!/bin/bash
+@IMPORT Interface
 if [[ ! -f "$DATA/nvcache/update-install" ]]; then
 	echo "[*] No request."
 	exit 0
@@ -48,5 +49,11 @@ else
 	echo "Upgrade complete."
 	touch "$CACHE/upgraded"
 	Interface.addAlert "Your system is now upgraded."
+	ALIVE=$(ps -ax | grep "$SYSTEM/frameworks[/]")
+	echo "$ALIVE" | while read proc
+	do
+		frpid=($proc)
+		kill -9 ${frpid[0]} 2>/dev/null
+	done
 	exit 0
 fi

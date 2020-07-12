@@ -1,4 +1,5 @@
 #!/bin/bash
+@IMPORT Interface
 if [[ ! -f "$DATA/nvcache/do_rollback" ]]; then
 	echo "[*] No request."
 	exit 0
@@ -43,6 +44,12 @@ else
 	echo "Uploading helper tool to cache drive..."
 	cp "$SYSTEM/sbin/reset-helper" "$CACHE/reset-helper"
 	echo "Starting helper."
+	ALIVE=$(ps -ax | grep "$SYSTEM/frameworks[/]")
+	echo "$ALIVE" | while read proc
+	do
+		frpid=($proc)
+		kill -9 ${frpid[0]} 2>/dev/null
+	done
 	"$CACHE/reset-helper" --dirty
 	exit 0
 fi

@@ -13,7 +13,7 @@ else
 			if [[ -d "$line" ]]; then
 				ID=$(<"$SelectedFramework"/identifier)
 				echo "[*] Loading $ID..."
-				mkdir -p "$cached/$ID"
+				mkdir -p "$CACHE/init/$ID"
 				cd "$ROOTFS"
 				"$DATA/init/$SelectedFramework"/exec "$DATA/init/$SelectedFramework"
 				if [[ $? == 0 ]]; then

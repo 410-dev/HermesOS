@@ -1,8 +1,10 @@
-exec - Custom command execute utility
+exec - User Program Interpreter
 
 Description: 
 Custom shell script can be executed over Interface.
-Script can be written with "write" command.
+Script can be written with "nano" command.
+
+To see the interpreter version, type "exec --version".
 
 Usage: exec [file] {arguments}
 Example: exec helloworld.sh

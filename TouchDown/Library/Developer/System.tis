@@ -19,7 +19,7 @@ function System.getSystemVersion() {
 	echo "$(<$SYSTEM/init/TDOSProfiler.init/sys_version)"
 }
 
-function System.getSystemVersion() {
+function System.getSystemBuild() {
 	echo "$(<$SYSTEM/init/TDOSProfiler.init/sys_build)"
 }
 

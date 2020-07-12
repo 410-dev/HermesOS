@@ -4,16 +4,6 @@ function @PROG_START_POINT(){
 	echo -n ""
 }
 
-function @REQUIRE_API() {
-	if [[ -f "$SYSTEM/TouchDown/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.def" ]]; then
-		source "$SYSTEM/TouchDown/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.def"
-	else
-		echo "ERROR: API Version $1 does not exist in LegacySupport."
-		echo "Stopping program."
-		exit 0
-	fi
-}
-
 function Interface.addAlert() {
 	echo "$1" >> "$CACHE/alert"
 }
@@ -51,7 +41,7 @@ function System.isJailbroken() {
 }
 
 function TouchDownAPI.version() {
-	echo "1.0.4"
+	echo "1.0.3"
 }
 
 function TouchDownAPI.manual() {
@@ -76,8 +66,6 @@ function TouchDownAPI.manual() {
 	echo "Static (Does not require Static prefix.)"
 	echo "   -(print) println() {String: toPrint}: Prints a line, then add a linebreak at the end of the line."
 	echo "   -(print) print() {String: toPrint}: Prints a line, then does not add a linebreak."
-	echo "   -(void) @PROG_START_POINT: Tells the interpreter that current file is runnable file."
-	echo "   -(void) @REQUIRE_API {API Version}: Tells the interpreter to use specified version of API."
 	echo ""
 	echo "System Function (Does not require prefix.)"
 	echo "   -(char_intform) accessible() {c,r,w} {path}: Checks whether the file or directory is accessible with specified permission: c (catalog), r (read), w (write)"
@@ -107,7 +95,6 @@ function print() {
 }
 
 export -f @PROG_START_POINT
-export -f @REQUIRE_API
 export -f Interface.addAlert
 export -f Interface.updateDefinitionsOnProgramEnd
 export -f System.libexec

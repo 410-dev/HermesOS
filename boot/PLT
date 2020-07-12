@@ -6,6 +6,7 @@
 
 export ROOTFS="/Volumes/VFS"
 export SYSTEM="$ROOTFS/System"
+export TDLIB="$SYSTEM/TouchDown"
 export BOOTSECT="$SYSTEM/boot"
 export SBIN="$SYSTEM/sbin"
 export DATA="$ROOTFS/Data"

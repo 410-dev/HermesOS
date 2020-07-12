@@ -22,7 +22,7 @@ else
 			Interface.addAlert "System update failed: System image realpath not detected."
 			exit 0
 		else
-			echo "Remounting /VFS/System..."
+			echo "Remounting /System..."
 			hdiutil detach "$ROOTFS/System" -force >/dev/null
 			hdiutil attach "$DISKSTORE_REALPATH/system.dmg" -mountpoint "$ROOTFS/System" >/dev/null
 			export attachExitCode=$?

@@ -26,7 +26,7 @@ while [[ true ]]; do
 				ID=$(<"$SelectedFramework"/identifier)
 				echo "[*] Loading $ID..."
 				mkdir -p "$cached/$ID"
-				cd /Volumes/VFS
+				cd $ROOTFS
 				"$sys/$SelectedFramework"/exec "$sys/$SelectedFramework" "$cached/$ID"
 				ec=$?
 				if [[ $ec == 0 ]]; then

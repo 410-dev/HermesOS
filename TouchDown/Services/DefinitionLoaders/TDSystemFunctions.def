@@ -199,7 +199,7 @@ function mplxd() {
 }
 
 function netsession() {
-	"$SYSTEM/TouchDown/Services/TDFrameworks/TDNetwork" "$1" "$2"
+	"$TDLIB/Services/TDFrameworks/TDNetwork" "$1" "$2"
 	echo "$?"
 }
 

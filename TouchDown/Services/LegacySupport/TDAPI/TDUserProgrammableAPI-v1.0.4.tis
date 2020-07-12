@@ -5,8 +5,8 @@ function @PROG_START_POINT(){
 }
 
 function @REQUIRE_API() {
-	if [[ -f "$SYSTEM/TouchDown/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.tis" ]]; then
-		source "$SYSTEM/TouchDown/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.tis"
+	if [[ -f "$TDLIB/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.tis" ]]; then
+		source "$TDLIB/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.tis"
 	else
 		echo "ERROR: API Version $1 does not exist in LegacySupport."
 		echo "Stopping program."

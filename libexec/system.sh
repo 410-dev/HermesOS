@@ -60,7 +60,7 @@ elif [[ "$1" == "--nvram-reset" ]]; then
 	rm -rf "$DATA/nvcache"
 	mkdir -p "$DATA/nvcache"
 	echo "Rewriting NVRAM..."
-	cp -r "$SYSTEM/TouchDown/defaults/nvram" "$DATA/"
+	cp -r "$TDLIB/defaults/nvram" "$DATA/"
 	echo "Done."
 elif [[ "$1" == "--def-reload" ]]; then
 	touch "$CACHE/SIG/defreload"

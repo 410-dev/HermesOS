@@ -5,8 +5,8 @@ function @PROG_START_POINT(){
 }
 
 function @REQUIRE_API() {
-	if [[ -f "$SYSTEM/TouchDown/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.tis" ]]; then
-		source "$SYSTEM/TouchDown/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.tis"
+	if [[ -f "$TDLIB/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.tis" ]]; then
+		source "$TDLIB/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.tis"
 	else
 		echo "ERROR: API Version $1 does not exist in LegacySupport."
 		exit 0
@@ -14,10 +14,10 @@ function @REQUIRE_API() {
 }
 
 function @IMPORT() {
-	if [[ -f "$SYSTEM/TouchDown/Library/Developer/$1.tis" ]]; then
-		source "$SYSTEM/TouchDown/Library/Developer/$1.tis"
+	if [[ -f "$TDLIB/Library/Developer/$1.tis" ]]; then
+		source "$TDLIB/Library/Developer/$1.tis"
 	elif [[ -f "$DATA/Library/Developer/$1.tis" ]]; then
-		source "$SYSTEM/TouchDown/Library/Developer/$1.tis"
+		source "$TDLIB/Library/Developer/$1.tis"
 	else
 		echo "Error: Unable to find specified instruction set."
 		exit 0

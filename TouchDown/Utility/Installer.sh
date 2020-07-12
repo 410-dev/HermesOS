@@ -1,2 +1,2 @@
 #!/bin/bash
-"$SYSTEM/TouchDown/Services/OSInstaller/interface"
+"$TDLIB/Services/OSInstaller/interface"

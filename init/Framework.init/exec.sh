@@ -18,7 +18,7 @@ while [[ true ]]; do
 				ID=$(<"$SelectedFramework"/identifier)
 				echo "[*] Loading $ID..."
 				mkdir -p "$cached/$ID"
-				cd /Volumes/VFS
+				cd "$ROOTFS"
 				echo "LOAD: $ID" >> "$Data/output-frameworkloader-$logDate"
 				"$FrameworkLibrary/$SelectedFramework"/exec "$FrameworkLibrary/$SelectedFramework" "$cached/$ID" & >> "$Data/output-frameworkloader-$logDate" >/dev/null
 				ec=$?

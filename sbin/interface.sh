@@ -1,11 +1,11 @@
 #!/bin/bash
-"$SYSTEM/TouchDown/Utility/preload"
+"$TDLIB/Utility/preload"
 clear
 if [[ "$(mplxr BOOT/PROTOCOL/EnterSafeMode)" == "0" ]]; then
 	if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
-		"$SYSTEM/TouchDown/Services/TDFrameworks/TDUserLoginInit"
+		"$TDLIB/Services/TDFrameworks/TDUserLoginInit"
 	else
-		"$SYSTEM/TouchDown/Services/TDFrameworks/TDUserLoginInit" >/dev/null
+		"$TDLIB/Services/TDFrameworks/TDUserLoginInit" >/dev/null
 	fi
 else
 	echo "[!] System started with safe mode."

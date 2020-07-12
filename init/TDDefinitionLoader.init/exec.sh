@@ -1,6 +1,6 @@
 #!/bin/bash
-export Source="/Volumes/VFS/System/TouchDown/Services/DefinitionLoaders/"
-export Target="/Volumes/VFS/cache/def"
+export Source="$TDLIB/Services/DefinitionLoaders/"
+export Target="$CACHE/def"
 mkdir -p "$Target"
 cd "$Source"
 for file in *.def

@@ -9,48 +9,66 @@ function @REQUIRE_API() {
 		source "$SYSTEM/TouchDown/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.tis"
 	else
 		echo "ERROR: API Version $1 does not exist in LegacySupport."
+		echo "Stopping program."
 		exit 0
 	fi
 }
 
-function @IMPORT() {
-	if [[ -f "$SYSTEM/TouchDown/Library/Developer/$1.tis" ]]; then
-		source "$SYSTEM/TouchDown/Library/Developer/$1.tis"
-	elif [[ -f "$DATA/Library/Developer/$1.tis" ]]; then
-		source "$SYSTEM/TouchDown/Library/Developer/$1.tis"
+function Interface.addAlert() {
+	echo "$1" >> "$CACHE/alert"
+}
+
+function Interface.updateDefinitionsOnProgramEnd() {
+	touch "$CACHE/SIG/defreload"
+}
+
+function Machine.connectDiskImage() {
+	mkdir -p "$DATA/mount/$2"
+	hdiutil attach "$USER/$1" -mountpoint "$DATA/mount/$2" >/dev/null
+}
+
+function Machine.disconnectDiskImage() {
+	hdiutil detach "$DATA/mount/$1" $2 >/dev/null
+}
+
+function Machine.setMemory() {
+	export "$1"="$2"
+}
+
+function System.libexec() {
+	export args=($1)
+	if [[ -f "$SYSTEM/libexec/${args[0]}" ]]; then
+		"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}"
+	fi
+}
+
+function System.isJailbroken() {
+	if [[ ! -z "$(fopen $SYSTEM/init/BSFactoryResetHelper.init/exec | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/init/BSMakeSystemWritable.init/exec | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/libexec/bootsnatchutil | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/man/bootsnatchutil | grep 0)" ]] || [[ ! -z "$(fopen $DATA/orig-fs.dmg | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/sbin/semireset-helper | grep 0)" ]]; then
+		echo "1"
 	else
-		echo "Error: Unable to find specified instruction set."
-		exit 0
+		echo "0"
 	fi
 }
 
 function TouchDownAPI.version() {
-	echo "1.1.0"
+	echo "1.0.4"
 }
 
 function TouchDownAPI.manual() {
 	echo "To make the program runnable, you need to add @PROG_START_POINT at the start of the program."
-	echo "@ (Programming Attributes)"
-	echo "   -(void) PROG_START_POINT: Tells the interpreter that current file is runnable file."
-	echo "   -(void) REQUIRE_API {API Version}: Tells the interpreter to use specified version of API."
-	echo "   -(void) IMPORT {TIS Path}: Imports more instruction sets (functions)."
-	echo ""
 	echo "TouchDownAPI_____________"
 	echo "   -(String) manual(): Returns manual"
 	echo "   -(String) version(): Returns API version"
 	echo ""
-	echo "System___________________(@IMPORT System)"
+	echo "System___________________"
 	echo "   -(String?) libexec() {command} {arguments}: Runs TouchDown commands with arguments."
 	echo "   -(char_intform) isJailbroken(): Checks whether system is jailbroken."
-	echo "   -(String) getSystemVersion(): Returns system version as string form."
-	echo "   -(String) getSystemBuild(): Returns system build as string form."
 	echo ""
-	echo "Interface________________(@IMPORT Interface)"
+	echo "Interface________________"
 	echo "   -(void) addAlert() {String: Alert message}: Add alert message on queue. This will be loaded by interfacebulletin."
 	echo "   -(void) updateDefinitionsOnProgramEnd(): Reloads TouchDown definition table when program ends."
-	echo "   -(void) restartOnProgramEnd(): Restarts interface when program ends."
 	echo ""
-	echo "Machine__________________(@IMPORT Machine)"
+	echo "Machine__________________"
 	echo "   -(void) connectDiskImage() {String: dmg path} {String: mountpoint name}: Mounts disk image. It will be mounted under /Data/mount/mountpoint_name"
 	echo "   -(void) disconnectDiskImage() {String: mountpoint name}: Unmounts disk image from mountpoint."
 	echo "   -(void) setMemory() {String: memory name} {String: Data}: Sets memory that is accessible only in the process"
@@ -58,6 +76,8 @@ function TouchDownAPI.manual() {
 	echo "Static (Does not require Static prefix.)"
 	echo "   -(print) println() {String: toPrint}: Prints a line, then add a linebreak at the end of the line."
 	echo "   -(print) print() {String: toPrint}: Prints a line, then does not add a linebreak."
+	echo "   -(void) @PROG_START_POINT: Tells the interpreter that current file is runnable file."
+	echo "   -(void) @REQUIRE_API {API Version}: Tells the interpreter to use specified version of API."
 	echo ""
 	echo "System Function (Does not require prefix.)"
 	echo "   -(char_intform) accessible() {c,r,w} {path}: Checks whether the file or directory is accessible with specified permission: c (catalog), r (read), w (write)"
@@ -87,8 +107,14 @@ function print() {
 }
 
 export -f @PROG_START_POINT
-export -f @IMPORT
 export -f @REQUIRE_API
+export -f Interface.addAlert
+export -f Interface.updateDefinitionsOnProgramEnd
+export -f System.libexec
+export -f System.isJailbroken
+export -f Machine.connectDiskImage
+export -f Machine.disconnectDiskImage
+export -f Machine.setMemory
 export -f TouchDownAPI.version
 export -f TouchDownAPI.manual
 export -f println

@@ -87,7 +87,6 @@ function print() {
 }
 
 export -f @PROG_START_POINT
-export -f @IMPORT
 export -f @REQUIRE_API
 export -f TouchDownAPI.version
 export -f TouchDownAPI.manual

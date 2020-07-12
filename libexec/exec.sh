@@ -1,6 +1,8 @@
 #!/bin/bash
-
-if [[ -f "$USERDATA/$1" ]]; then
+if [[ "$1" == "--version" ]]; then
+	echo "Interpreter Version: 1.0.0"
+	exit 0
+elif [[ -f "$USERDATA/$1" ]]; then
 	if [[ ! -z "$(echo "$b_args" | grep "verbose")" ]]; then
 		echo "[*] Verifying..."
 	fi

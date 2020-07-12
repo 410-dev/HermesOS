@@ -1,7 +1,7 @@
 setrunnable - Make a text file based program runnable
 
 Description: 
-Make custom program written with TAW or NANO runnable.
+Make custom program written with NANO runnable.
 
 Usage: setrunnable {text file path}
 Example: setrunnable myprogram

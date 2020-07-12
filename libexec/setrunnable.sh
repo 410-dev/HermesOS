@@ -5,6 +5,10 @@ if [[ ! -z "$1" ]]; then
 			echo "Access denied: Operation not permitted."
 			exit 99
 		fi
+		if [[ -z "$(cat "$USERDATA/$1" | grep "@PROG_START_POINT")" ]]; then
+			echo "Program not recognizable: Unable to find @PROG_START_POINT"
+			exit 9
+		fi
 		chmod +x "$USERDATA/$1"
 		echo "$1 is now runnable."
 	else

@@ -10,3 +10,8 @@ export
 echo
 rm
 touch
+shutdown
+reboot
+launchctl
+halt
+

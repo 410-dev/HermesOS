@@ -11,6 +11,5 @@ TDBootSession.init
 TDFilesystemSandbox.init
 TDExecutableQuarantine.init
 TDOSProfiler.init
-Framework.init
 TDExtendedServiceLoader.init
 TDSayHello.init

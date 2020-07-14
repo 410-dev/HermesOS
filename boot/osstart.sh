@@ -7,6 +7,7 @@ if [[ -f "$CACHE/upgraded" ]]; then
 	echo "System is upgraded. Stopping boot process."
 	exit 9
 fi
+"$SYSTEM/sbin/frameworks-loader"
 if [[ -f "$CACHE/update-complete" ]]; then
 	echo "[*] Update complete."
 	rm -f "$CACHE/update-complete"

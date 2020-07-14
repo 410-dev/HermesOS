@@ -16,5 +16,6 @@ export SBIN="$SYSTEM/sbin"
 
 export USERDATA="$DATA/User"
 export LIB="$DATA/Library"
-export NVRAM="$DATA/nvram"
 export MULTIPLEX="$DATA/config"
+
+export NVRAM="$LIB/nvram"

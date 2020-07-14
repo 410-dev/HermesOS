@@ -4,7 +4,8 @@ if [[ "$(mplxr "SYSTEM/POLICY/isUsingImg")" == "TRUE" ]]; then
 		sleep 10
 		touch "$SYSTEM/integrity_test" 2>/dev/null
 		if [[ -f "$SYSTEM/integrity_test" ]]; then
-			echo "SYSTEM WARNING: System partition is writable!"
+			@IMPORT Interface
+			Interface.addAlert "WARNING: System is writable!"
 		fi
 	done
 else

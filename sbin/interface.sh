@@ -44,13 +44,12 @@ while [[ true ]]; do
 	read command
 	args=($command)
 	if [[ -f "$SYSTEM/libexec/${args[0]}" ]]; then
-		echo "[IN] [$(date +"%Y-%m-%d %H:%M")] COMMAND ENTERED: $command"
-		echo "[OUT-START]"
+		echo "[IN] [$(date +"%Y-%m-%d %H:%M")] COMMAND ENTERED: $command" >> "$LIB/Logs/INTERFACE_$logSuffix.tlog"
+		echo "[OUT-START]" >> "$LIB/Logs/INTERFACE_$logSuffix.tlog"
 		"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}" | tee -a "$LIB/Logs/INTERFACE_$logSuffix.tlog"
 		export lastExecutedCommand="$command"
-		echo "[OUT-END]"
+		echo "[OUT-END]" >> "$LIB/Logs/INTERFACE_$logSuffix.tlog"
 		echo "$lastExecutedCommand" >> "$LIB/Logs/history"
-		echo "[OUT-END]"
 	elif [[ -z "$command" ]]; then
 		echo -n ""
 	else

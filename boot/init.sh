@@ -2,12 +2,12 @@
 source "$(dirname "$0")/PLT"
 export b_arg="$1 $2 $3 $4 $5 $6 $7 $8 $9"
 if [[ ! -z "$(echo $b_arg | grep "reset_nvram")" ]]; then
-	rm -rf "$DATA/nvram"
-	cp -r "$TDLIB/defaults/nvram" "$DATA/"
-elif [[ ! -d "$DATA/nvram" ]] ; then
-	cp -r "$TDLIB/defaults/nvram" "$DATA/"
+	rm -rf "$NVRAM"
+	cp -r "$TDLIB/defaults/nvram" "$NVRAM"
+elif [[ ! -d "$NVRAM" ]] ; then
+	cp -r "$TDLIB/defaults/nvram" "$NVRAM"
 fi
-b_arg="$(<$DATA/nvram/boot_argument) $1 $2 $3 $4 $5 $6 $7 $8 $9"
+b_arg="$(<$NVRAM/boot_argument) $1 $2 $3 $4 $5 $6 $7 $8 $9"
 if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 	"$SYSTEM/boot/osstart"
 else

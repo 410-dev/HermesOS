@@ -5,7 +5,7 @@ if [[ "$1" == "--nvram" ]]; then
 		echo "Error: Not enough arguments."
 		exit 0
 	fi
-	echo "$3" > "$NVRAM/$2"
+	echo "$3 $4 $5 $6 $7 $8 $9" > "$NVRAM/$2"
 elif [[ "$1" == "--username" ]]; then
 	if [[ -z "$2" ]]; then
 		echo "Error: New username is not specified."

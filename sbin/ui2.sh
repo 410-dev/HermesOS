@@ -22,12 +22,12 @@ if [[ -z "$(echo $b_arg | grep enforce_cli)" ]]; then
 			export OUTPUT=$("$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}")
 			$graphitelib/TDGraphicalUIRenderer --title "Output from Command" --msgbox "$OUTPUT" 20 60
 			export lastExecutedCommand="$command"
-			echo "$lastExecutedCommand" >> "$DATA/logs/history"
+			echo "$lastExecutedCommand" >> "$LIB/Logs/history"
 		elif [[ -z "$command" ]]; then
 			echo -n ""
 		else
 			echo "Command not found: ${args[0]}"
-			echo "$lastExecutedCommand" >> "$DATA/logs/history"
+			echo "$lastExecutedCommand" >> "$LIB/Logs/history"
 		fi
 		if [[ -f "$CACHE/SIG/shell_close" ]]; then
 			echo "[*] Exiting..."

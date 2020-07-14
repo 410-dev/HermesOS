@@ -1,6 +1,6 @@
 #!/bin/bash
 action="$1"
-Data="$DATA/logs"
+Data="$LIB/Logs"
 sys="$SYSTEM/frameworks/TDUserViewable"
 cached="$CACHE/nohidden-frameworks/"
 mkdir -p "$Data"

@@ -3,7 +3,7 @@ export DATA_COMPATIBILITY="11"
 if [[ "$(mplxr SYSTEM/DATASETUP_COMPLETE)" == "null" ]]; then
 	echo "[*] Start data partition repair!"
 	rm -rf "$DATA/config" 2>/dev/null
-	rm -rf "$DATA/logs" 2>/dev/null
+	rm -rf "$LIB/Logs" 2>/dev/null
 	rm -rf "$NVRAM" 2>/dev/null
 	cp -r "$TDLIB/defaults/multiplex" "$DATA/"
 	mv "$DATA/multiplex" "$DATA/config"

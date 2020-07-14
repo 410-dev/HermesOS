@@ -15,7 +15,7 @@ if [[ "$1" == "--clean-restore" ]]; then
 		echo "Shutting down..."
 		"$SYSTEM/libexec/shutdown"
 	else
-		echo "Image not detected in NVCache space."
+		echo "Image not detected in NVRAM space."
 	fi
 elif [[ "$1" == "--dirty-restore" ]]; then
 	echo "File erase in progress..."
@@ -30,7 +30,7 @@ elif [[ "$1" == "--rollback" ]]; then
 		echo "Shutting down..."
 		"$SYSTEM/libexec/shutdown"
 	else
-		echo "Image not detected in NVCache space."
+		echo "Image not detected in NVRAM space."
 	fi
 elif [[ "$1" == "--uirestart" ]]; then
 	touch "$CACHE/SIG/shell_reload"

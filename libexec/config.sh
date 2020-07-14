@@ -28,6 +28,9 @@ elif [[ "$1" == "--password" ]]; then
 		else
 			echo -n "New Password: "
 			read pw
+			if [[ -z "$pw" ]]; then
+				mplxw "USER/SECURITY/PASSCODE_PRESENT" "0"
+			fi
 			mplxw "USER/SECURITY/PASSCODE" "$pw"
 			echo "Done."
 		fi
@@ -35,6 +38,7 @@ elif [[ "$1" == "--password" ]]; then
 		echo -n "New Password: "
 		read pw
 		mplxw "USER/SECURITY/PASSCODE" "$pw"
+		mplxw "USER/SECURITY/PASSCODE_PRESENT" "1"
 		echo "Done."
 	fi
 else

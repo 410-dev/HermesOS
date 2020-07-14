@@ -20,6 +20,7 @@ do
 	source "$file"
 done
 cd "$ROOTFS"
+export logSuffix="$(<"$CACHE/SESSION_NUM")"
 while [[ true ]]; do
 	"$SYSTEM/sbin/interfacebulletin"
 	if [[ ! -z "$(ls $CACHE/tmp/$SWAP_LOC | grep F0x)" ]]; then
@@ -43,21 +44,14 @@ while [[ true ]]; do
 	read command
 	args=($command)
 	if [[ -f "$SYSTEM/libexec/${args[0]}" ]]; then
-		"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
+		"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}" | tee -a "$LIB/Logs/INTERFACE_$logSuffix.tlog"
 		export lastExecutedCommand="$command"
-		echo "$lastExecutedCommand" >> "$DATA/logs/history"
-	elif [[ "${args[0]}" == "^[[A" ]]; then
-		export command="$lastExecutedCommand"
-		args=($lastExecutedCommand)
-		if [[ -f "$SYSTEM/libexec/${args[0]}" ]]; then
-			"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
-		fi
-		echo "$lastExecutedCommand" >> "$DATA/logs/history"
+		echo "$lastExecutedCommand" >> "$LIB/Logs/history"
 	elif [[ -z "$command" ]]; then
 		echo -n ""
 	else
 		echo "Command not found: ${args[0]}"
-		echo "$lastExecutedCommand" >> "$DATA/logs/history"
+		echo "$lastExecutedCommand" >> "$LIB/Logs/history"
 	fi
 	if [[ -f "$CACHE/SIG/shell_close" ]]; then
 		echo "[*] Exiting..."

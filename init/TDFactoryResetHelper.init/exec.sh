@@ -1,6 +1,6 @@
 #!/bin/bash
 @IMPORT Interface
-if [[ ! -f "$DATA/nvcache/clean-restore" ]]; then
+if [[ ! -f "$NVRAM/clean-restore" ]]; then
 	echo "[*] No request."
 	exit 0
 elif [[ "$(mplxr "SYSTEM/COMMON/CONFIGURE_DONE")" == "FALSE" ]]; then
@@ -9,8 +9,8 @@ elif [[ "$(mplxr "SYSTEM/COMMON/CONFIGURE_DONE")" == "FALSE" ]]; then
 else
 	echo "Reset request detected."
 	echo "Checking system source..."
-	if [[ ! -f "$DATA/nvcache/upgrade.dmg" ]] && [[ ! -f "$DATA/nvcache/rom.dmg" ]] ; then
-		echo "Unable to factory reset: Missing required file - $DATA/nvcache/upgrade.dmg or rom.dmg"
+	if [[ ! -f "$NVRAM/upgrade.dmg" ]] && [[ ! -f "$NVRAM/rom.dmg" ]] ; then
+		echo "Unable to factory reset: Missing required file - $NVRAM/upgrade.dmg or rom.dmg"
 		Interface.addAlert "System factory reset failed: Missing required files"
 		exit 0
 	fi
@@ -40,10 +40,10 @@ else
 	rm -f "$SYSTEM/onwrite"
 	echo "Mounting system partition..."
 	mkdir -p "$DATA/mount/sysimg"
-	if [[ -f "$DATA/nvcache/upgrade.dmg" ]]; then
-		mv "$DATA/nvcache/upgrade.dmg" "$DATA/nvcache/rom.dmg"
+	if [[ -f "$NVRAM/upgrade.dmg" ]]; then
+		mv "$NVRAM/upgrade.dmg" "$NVRAM/rom.dmg"
 	fi
-	hdiutil attach "$DATA/nvcache/rom.dmg" -mountpoint "$DATA/mount/sysimg" -readonly >/dev/null
+	hdiutil attach "$NVRAM/rom.dmg" -mountpoint "$DATA/mount/sysimg" -readonly >/dev/null
 	echo "Uploading helper tool to cache drive..."
 	cp "$SYSTEM/sbin/reset-helper" "$CACHE/reset-helper"
 	echo "Starting helper."

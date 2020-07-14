@@ -1,15 +1,15 @@
 #!/bin/bash
 @IMPORT Interface
-if [[ ! -f "$DATA/nvcache/update-install" ]]; then
+if [[ ! -f "$NVRAM/update-install" ]]; then
 	echo "[*] No request."
 	exit 0
 else
-	rm "$DATA/nvcache/update-install"
+	rm "$NVRAM/update-install"
 	echo "Update detected."
 	echo "Updating system image..."
 	echo "Checking upgrade source..."
-	if [[ ! -f "$DATA/nvcache/upgrade.dmg" ]]; then
-		echo "Unable to update: Missing required file - $DATA/nvcache/upgrade.dmg"
+	if [[ ! -f "$NVRAM/upgrade.dmg" ]]; then
+		echo "Unable to update: Missing required file - $NVRAM/upgrade.dmg"
 		Interface.addAlert "System update failed: Missing required files"
 		exit 0
 	fi
@@ -39,7 +39,7 @@ else
 	rm -f "$SYSTEM/onwrite"
 	echo "Mounting system partition..."
 	mkdir -p "$DATA/mount/upgrade"
-	hdiutil attach "$DATA/nvcache/upgrade.dmg" -mountpoint "$DATA/mount/upgrade" -readonly >/dev/null
+	hdiutil attach "$NVRAM/upgrade.dmg" -mountpoint "$DATA/mount/upgrade" -readonly >/dev/null
 	echo "Making a backup point."
 	mkdir -p "$DATA/preupgrade.system"
 	cp -r "$SYSTEM/" "$DATA/preupgrade.system/"

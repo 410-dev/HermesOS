@@ -10,11 +10,11 @@ elif [[ ! -z "$(echo $b_arg | grep "enforce_cli")" ]]; then
 	echo ""
 	cat "$SYSTEM/boot/splasher.timg"
 else
-	if [[ -f "$DATA/nvcache/update-install" ]]; then
+	if [[ -f "$NVRAM/update-install" ]]; then
 		export splashd="$(cat "$SYSTEM/boot/splasher-update.timg")"
-	elif [[ -f "$DATA/nvcache/do_rollback" ]]; then
+	elif [[ -f "$NVRAM/do_rollback" ]]; then
 		export splashd="$(cat "$SYSTEM/boot/splasher-rollback.timg")"
-	elif [[ -f "$DATA/nvcache/clean-restore" ]]; then
+	elif [[ -f "$NVRAM/clean-restore" ]]; then
 		export splashd="$(cat "$SYSTEM/boot/splasher-restore.timg")"
 	else
 		export splashd="$(cat "$SYSTEM/boot/splasher-boot.timg")"

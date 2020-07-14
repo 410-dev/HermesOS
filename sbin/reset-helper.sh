@@ -18,6 +18,6 @@ elif [[ "$1" == "--dirty" ]]; then
 	cp -vr "$DATA/mount/sysimg/"* "$SYSTEM/"
 	echo "[3/3] Unmounting image from /Data/mount/sysimg..."
 	hdiutil detach "$DATA/mount/sysimg" -force >/dev/null
-	rm -f "$DATA/nvcache/do_rollback"
+	rm -f "$NVRAM/do_rollback"
 	touch "$CACHE/upgraded"
 fi

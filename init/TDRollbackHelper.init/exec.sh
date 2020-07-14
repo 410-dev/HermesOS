@@ -1,6 +1,6 @@
 #!/bin/bash
 @IMPORT Interface
-if [[ ! -f "$DATA/nvcache/do_rollback" ]]; then
+if [[ ! -f "$NVRAM/do_rollback" ]]; then
 	echo "[*] No request."
 	exit 0
 elif [[ "$(mplxr "SYSTEM/COMMON/CONFIGURE_DONE")" == "FALSE" ]]; then
@@ -9,8 +9,8 @@ elif [[ "$(mplxr "SYSTEM/COMMON/CONFIGURE_DONE")" == "FALSE" ]]; then
 else
 	echo "Reset request detected."
 	echo "Checking system source..."
-	if [[ ! -f "$DATA/nvcache/restore.dmg" ]]; then
-		echo "Unable to factory reset: Missing required file - $DATA/nvcache/upgrade.dmg or rom.dmg"
+	if [[ ! -f "$NVRAM/restore.dmg" ]]; then
+		echo "Unable to factory reset: Missing required file - $NVRAM/upgrade.dmg or rom.dmg"
 		Interface.addAlert "System factory reset failed: Missing required files"
 		exit 0
 	fi
@@ -40,7 +40,7 @@ else
 	rm -f "$SYSTEM/onwrite"
 	echo "Mounting rollback image..."
 	mkdir -p "$DATA/mount/sysimg"
-	hdiutil attach "$DATA/nvcache/restore.dmg" -mountpoint "$DATA/mount/sysimg" -readonly >/dev/null
+	hdiutil attach "$NVRAM/restore.dmg" -mountpoint "$DATA/mount/sysimg" -readonly >/dev/null
 	echo "Uploading helper tool to cache drive..."
 	cp "$SYSTEM/sbin/reset-helper" "$CACHE/reset-helper"
 	echo "Starting helper."

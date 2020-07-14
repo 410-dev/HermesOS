@@ -4,10 +4,10 @@ if [[ "$(mplxr SYSTEM/DATASETUP_COMPLETE)" == "null" ]]; then
 	echo "[*] Start data partition repair!"
 	rm -rf "$DATA/config" 2>/dev/null
 	rm -rf "$DATA/logs" 2>/dev/null
-	rm -rf "$DATA/nvcache" 2>/dev/null
+	rm -rf "$NVRAM" 2>/dev/null
 	cp -r "$TDLIB/defaults/multiplex" "$DATA/"
 	mv "$DATA/multiplex" "$DATA/config"
-	mkdir -p "$DATA/nvcache"
+	mkdir -p "$NVRAM"
 	cp -r "$TDLIB/defaults/nvram" "$DATA/"
 	mkdir -p "$DATA/init"
 	mplxw USER/INTERFACE/ALERT "" >/dev/null

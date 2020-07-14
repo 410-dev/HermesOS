@@ -10,8 +10,8 @@
 
 
 if [[ "$1" == "--clean-restore" ]]; then
-	if [[ -f "$DATA/nvcache/upgrade.dmg" ]] || [[ -f "$DATA/nvcache/rom.dmg" ]]; then
-		touch "$DATA/nvcache/clean-restore"
+	if [[ -f "$NVRAM/upgrade.dmg" ]] || [[ -f "$NVRAM/rom.dmg" ]]; then
+		touch "$NVRAM/clean-restore"
 		echo "Shutting down..."
 		"$SYSTEM/libexec/shutdown"
 	else
@@ -25,8 +25,8 @@ elif [[ "$1" == "--dirty-restore" ]]; then
 elif [[ "$1" == "--rollback" ]]; then
 	if [[ -d "$DATA/preupgrade.system" ]]; then
 		echo "Preparing for rollback..."
-		hdiutil create -volname System -srcfolder "$DATA/preupgrade.system" -ov -format UDRW "$DATA/nvcache/restore.dmg" >/dev/null
-		touch "$DATA/nvcache/do_rollback"
+		hdiutil create -volname System -srcfolder "$DATA/preupgrade.system" -ov -format UDRW "$NVRAM/restore.dmg" >/dev/null
+		touch "$NVRAM/do_rollback"
 		echo "Shutting down..."
 		"$SYSTEM/libexec/shutdown"
 	else
@@ -35,13 +35,13 @@ elif [[ "$1" == "--rollback" ]]; then
 elif [[ "$1" == "--uirestart" ]]; then
 	touch "$CACHE/SIG/shell_reload"
 elif [[ "$1" == "--update" ]]; then
-	if [[ -f "$DATA/nvcache/upgrade.dmg" ]]; then
-		touch "$DATA/nvcache/update-install"
+	if [[ -f "$NVRAM/upgrade.dmg" ]]; then
+		touch "$NVRAM/update-install"
 		echo "Update will be installed on next boot."
 	elif [[ -f "$DATA/User/update.tdupdate" ]];then
 		echo "Found update file."
-		mv "$DATA/User/update.tdupdate" "$DATA/nvcache/upgrade.dmg"
-		touch "$DATA/nvcache/update-install"
+		mv "$DATA/User/update.tdupdate" "$NVRAM/upgrade.dmg"
+		touch "$NVRAM/update-install"
 		echo "Update will be installed on next boot."
 	else
 		echo "System update not detected."
@@ -57,8 +57,8 @@ elif [[ "$1" == "--info" ]]; then
 	profloc=""
 elif [[ "$1" == "--nvram-reset" ]]; then
 	echo "Reseting NVRAM..."
-	rm -rf "$DATA/nvcache"
-	mkdir -p "$DATA/nvcache"
+	rm -rf "$NVRAM"
+	mkdir -p "$NVRAM"
 	echo "Rewriting NVRAM..."
 	cp -r "$TDLIB/defaults/nvram" "$DATA/"
 	echo "Done."

@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ -f "$DATA/nvcache/upgraded" ]]; then
+if [[ -f "$NVRAM/upgraded" ]]; then
 	exit 0
 else
 	echo "[*] Running frameworks asyncronously..."

@@ -5,12 +5,16 @@
 # If this file is edited, the system may not load properly.
 
 export ROOTFS="/Volumes/VFS"
+
 export SYSTEM="$ROOTFS/System"
+export CACHE="$ROOTFS/cache"
+export DATA="$ROOTFS/Data"
+
 export TDLIB="$SYSTEM/TouchDown"
 export BOOTSECT="$SYSTEM/boot"
 export SBIN="$SYSTEM/sbin"
-export DATA="$ROOTFS/Data"
+
 export USERDATA="$DATA/User"
-export CACHE="$ROOTFS/cache"
+export LIB="$DATA/Library"
 export NVRAM="$DATA/nvram"
 export MULTIPLEX="$DATA/config"

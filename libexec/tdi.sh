@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ ! -z "$(echo $b_args | grep "iamdeveloper")" ]] && [[ -f "$NVRAM/enable_dev_option" ]]; then
+if [[ ! -z "$(echo $b_arg | grep "iamdeveloper")" ]] && [[ -f "$NVRAM/enable_dev_option" ]]; then
 	mkdir -p "$CACHE/tdinterpreter"
 	if [[ -z "$1" ]]; then
 		println "TouchDownOS Interpreter Interactive Console"

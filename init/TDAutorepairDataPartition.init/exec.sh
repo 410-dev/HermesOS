@@ -23,7 +23,6 @@ if [[ "$(mplxr SYSTEM/DATASETUP_COMPLETE)" == "null" ]]; then
 elif [[ "$(mplxr SYSTEM/COMMON/DataCompatibility)" -ne "$DATA_COMPATIBILITY" ]]; then
 	echo "[*] Upgrading data partition."
 	cp -r "$DATA/config" "$DATA/config.old"
-	mkdir -p "$DATA/mount"
 else
 	echo "[*] No task for data partition modification."
 fi

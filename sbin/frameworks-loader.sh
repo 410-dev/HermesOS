@@ -4,13 +4,10 @@ if [[ -f "$NVRAM/upgraded" ]]; then
 else
 	echo "[*] Running frameworks asyncronously..."
 	mkdir -p "$CACHE/frameworks"
-	Data="$DATA/logs"
 	FrameworkLibrary="$SYSTEM/frameworks"
 	cached="$CACHE/frameworks"
-	mkdir -p "$Data"
 	echo "[*] Reading frameworks loading priority..."
 	exitCode=0
-	logDate=$(date +"%Y-%m-%d-%H:%M")
 	while [[ true ]]; do
 		if [[ -f "$FrameworkLibrary/LoadOrder" ]]; then
 			cat "$FrameworkLibrary/LoadOrder" | while read line
@@ -22,8 +19,7 @@ else
 					echo "[*] Loading $ID..."
 					mkdir -p "$cached/$ID"
 					cd "$ROOTFS"
-					echo "LOAD: $ID" >> "$Data/output-frameworkloader-$logDate"
-					"$FrameworkLibrary/$SelectedFramework"/exec "$FrameworkLibrary/$SelectedFramework" "$cached/$ID" & >> "$Data/output-frameworkloader-$logDate" >/dev/null
+					"$FrameworkLibrary/$SelectedFramework"/exec "$FrameworkLibrary/$SelectedFramework" "$cached/$ID" & >/dev/null
 					ec=$?
 					if [[ $ec == 0 ]]; then
 						echo "[*] Load complete."

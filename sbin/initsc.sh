@@ -2,13 +2,13 @@
 export NULLVAR="null"
 currentDir="$PWD"
 action="$1"
-Data="$DATA/logs"
+Data="$LIB/Logs"
 sys="$SYSTEM/init"
 cached="$CACHE/init"
 mkdir -p "$Data"
 echo "[*] Reading initsc loading priority..."
 exitCode=0
-logDate=$(date +"%Y-%m-%d-%H:%M")
+logDate=$(date +"%Y-%m-%d_%H-%M")
 while [[ true ]]; do
 	if [[ -f "$sys/LoadOrder" ]]; then
 		cat "$sys/LoadOrder" | while read line
@@ -27,8 +27,11 @@ while [[ true ]]; do
 				echo "[*] Loading $ID..."
 				mkdir -p "$cached/$ID"
 				cd $ROOTFS
-				"$sys/$SelectedFramework"/exec "$sys/$SelectedFramework" "$cached/$ID"
+				echo "[$(date +"%Y-%m-%d %H:%M")] RUN: $ID" >> "$Data/INIT_$logDate.tlog"
+				"$sys/$SelectedFramework"/exec "$sys/$SelectedFramework" "$cached/$ID" | tee -a "$Data/INIT_$logDate.tlog"
 				ec=$?
+				echo "END: $ID" >> "$Data/INIT_$logDate.tlog"
+				echo "EXIT: $ec" >> "$Data/INIT_$logDate.tlog"
 				if [[ $ec == 0 ]]; then
 					echo "[*] Load complete."
 				else

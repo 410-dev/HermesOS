@@ -1,11 +1,8 @@
 #!/bin/bash
 while [[ true ]]; do
-	sleep 3
-	if [[ ! -d "$CACHE/logs/processed" ]]; then
-		mkdir -p "$CACHE/logs/processed"
-	fi
-    if [[ ! -d "$DATA/logs/processed" ]]; then
-		mkdir -p "$DATA/logs/processed"
+	sleep 5
+    if [[ ! -d "$DATA/Library/Logs" ]]; then
+		mkdir -p "$DATA/Library/Logs"
 	fi
 done
 exit 0

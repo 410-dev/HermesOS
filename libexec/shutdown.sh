@@ -2,12 +2,6 @@
 if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 	echo "[*] Terminating background frameworks..."
 	"$SYSTEM/sbin/taskkill-frameworks" "verbose"
-	if [[ "$1" == "--nologcopy" ]]; then
-		echo "[*] Logs will not be copied."
-	else
-		echo "[*] Saving logs..."
-		cp -r "$CACHE/logs" "$DATA"
-	fi
 	if [[ "$(mplxr "SYSTEM/POLICY/isUsingImg")" == "TRUE" ]]; then
 		echo "[*] Detaching data partition from root filesystem..."
 		hdiutil detach "$DATA" -force >/dev/null
@@ -20,9 +14,6 @@ if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 	exit 0
 else
 	"$SYSTEM/sbin/taskkill-frameworks"
-	if [[ "$1" -ne "--nologcopy" ]]; then
-		cp -r "$CACHE/logs" "$DATA"
-	fi
 	if [[ "$(mplxr "SYSTEM/POLICY/isUsingImg")" == "TRUE" ]]; then
 		hdiutil detach "$DATA" -force >/dev/null
 	fi

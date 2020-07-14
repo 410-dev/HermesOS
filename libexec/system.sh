@@ -65,12 +65,8 @@ elif [[ "$1" == "--nvram-reset" ]]; then
 elif [[ "$1" == "--def-reload" ]]; then
 	touch "$CACHE/SIG/defreload"
 elif [[ "$1" == "--logflush" ]]; then
-	if [[ "$2" == "--nocopy" ]]; then
-		echo "Logs will not be copied."
-	else
-		cp -r "$CACHE/logs" "$DATA"
-	fi
-	rm -rf "$CACHE/logs"
+	rm -rf "$LIB/Logs"
+	mkdir -p "$LIB/Logs"
 else
 	echo "No such arguments."
 fi

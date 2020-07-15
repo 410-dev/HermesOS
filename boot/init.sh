@@ -2,14 +2,13 @@
 
 function beginningOfSystem() {
 	source "$(dirname "$0")/PLT"
-	export b_arg="$1 $2 $3 $4 $5 $6 $7 $8 $9"
 	if [[ ! -z "$(echo $b_arg | grep "reset_nvram")" ]]; then
 		rm -rf "$NVRAM"
 		cp -r "$TDLIB/defaults/nvram" "$LIB"
 	elif [[ ! -d "$NVRAM" ]]; then
 		cp -r "$TDLIB/defaults/nvram" "$LIB"
 	fi
-	b_arg="$(<$NVRAM/boot_argument) $1 $2 $3 $4 $5 $6 $7 $8 $9"
+	b_arg="$(<$NVRAM/boot_argument) $b_arg"
 	if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 		"$SYSTEM/boot/osstart"
 	else
@@ -19,7 +18,7 @@ function beginningOfSystem() {
 	fi
 	if [[ -f "$CACHE/upgraded" ]]; then
 		rm -rf "$CACHE/"*
-		if [[ "$1" == "bootergen2" ]]; then
+		if [[ ! -z "$(echo $b_arg | grep "bootergen2")" ]]; then
 			echo "[*] Leaving..."
 		else
 			hdiutil detach "$CACHE" -force >/dev/null
@@ -40,7 +39,7 @@ function beginningOfSystem() {
 		fi
 		echo "[*] Stopping boot process..."
 		rm -rf "$CACHE/"*
-		if [[ "$1" == "bootergen2" ]]; then
+		if [[ ! -z "$(echo $b_arg | grep "bootergen2")" ]]; then
 			echo "[*] Leaving..."
 		else
 			hdiutil detach "$CACHE" -force >/dev/null
@@ -80,7 +79,7 @@ function realEndOfSystem(){
 		echo "[*] Full-flushing cache..."
 		rm -rf "$CACHE/" 2>/dev/null
 		echo "[*] Closing..."
-		if [[ "$1" == "bootergen2" ]]; then
+		if [[ ! -z "$(echo $b_arg | grep "bootergen2")" ]]; then
 			echo "[*] Leaving..."
 		else
 			hdiutil detach "$CACHE" -force >/dev/null
@@ -90,7 +89,7 @@ function realEndOfSystem(){
 		rm -rf "$CACHE/Frameworks"
 		rm -rf "$CACHE/SIG"
 		rm -rf "$CACHE/" 2>/dev/null
-		if [[ "$1" == "bootergen2" ]]; then
+		if [[ ! -z "$(echo $b_arg | grep "bootergen2")" ]]; then
 			echo "[*] Leaving..."
 		else
 			hdiutil detach "$CACHE" -force >/dev/null
@@ -98,6 +97,8 @@ function realEndOfSystem(){
 		fi
 	fi
 }
+
+export b_arg="$1 $2 $3 $4 $5 $6 $7 $8 $9"
 
 while [[ true ]]; do
 	beginningOfSystem

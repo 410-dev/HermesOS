@@ -1,3 +1,4 @@
+TDBuildUserspace.init
 TDDefinitionLoader.init
 TDFactoryResetHelper.init
 TDRollbackHelper.init
@@ -5,7 +6,6 @@ TDOSUpgradeHelper.init
 TDNVRAMManager.init
 TDBootleakFix.init
 TDAutorepairDataPartition.init
-TDBuildUserspace.init
 TDMemorySet.init
 TDBootSession.init
 TDFilesystemSandbox.init
@@ -13,3 +13,4 @@ TDExecutableQuarantine.init
 TDOSProfiler.init
 TDExtendedServiceLoader.init
 TDSayHello.init
+TDRemoveFalseCopiedNVRAM.init

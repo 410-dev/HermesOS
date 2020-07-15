@@ -27,6 +27,11 @@ elif [[ "$1" == "--rollback" ]]; then
 		echo "Preparing for rollback..."
 		hdiutil create -volname System -srcfolder "$DATA/preupgrade.system" -ov -format UDRW "$NVRAM/restore.dmg" >/dev/null
 		touch "$NVRAM/do_rollback"
+		echo "Do you want to erase old image after rollback?"
+		read yn
+		if [[ "$yn" == "Y" ]] || [[ "$yn" == "y" ]]; then
+			rm -rf "$DATA/preupgrade.system"
+		fi
 		echo "Shutting down..."
 		"$SYSTEM/libexec/shutdown"
 	else

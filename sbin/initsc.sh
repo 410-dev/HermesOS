@@ -9,6 +9,7 @@ mkdir -p "$Data"
 echo "[*] Reading initsc loading priority..."
 exitCode=0
 logDate=$(date +"%Y-%m-%d_%H-%M")
+touch "$Data/INIT_$logDate.tlog"
 while [[ true ]]; do
 	if [[ -f "$sys/LoadOrder" ]]; then
 		cat "$sys/LoadOrder" | while read line
@@ -36,7 +37,7 @@ while [[ true ]]; do
 					echo "[*] Load complete."
 				else
 					echo "[!] An error occured while loading $ID."
-					touch "$CACHE/load-failed"
+					touch "$CACHE/init-load-failed"
 				fi
 			else
 				echo "[!] Not existing init file: $line"

@@ -4,7 +4,7 @@ export b_arg="$1 $2 $3 $4 $5 $6 $7 $8 $9"
 if [[ ! -z "$(echo $b_arg | grep "reset_nvram")" ]]; then
 	rm -rf "$NVRAM"
 	cp -r "$TDLIB/defaults/nvram" "$LIB"
-elif [[ ! -d "$NVRAM" ]] ; then
+elif [[ ! -d "$NVRAM" ]]; then
 	cp -r "$TDLIB/defaults/nvram" "$LIB"
 fi
 b_arg="$(<$NVRAM/boot_argument) $1 $2 $3 $4 $5 $6 $7 $8 $9"
@@ -16,6 +16,12 @@ else
 	"$SYSTEM/boot/osstart" >/dev/null
 fi
 if [[ -f "$CACHE/upgraded" ]]; then
+	rm -rf "$CACHE/"*
+	hdiutil detach "$CACHE" -force >/dev/null
+	hdiutil detach "$DATA" -force >/dev/null
+	hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
+elif [[ -f "$CACHE/init-load-failed" ]] || [[ -f "$CACHE/framework-load-failed" ]]; then
+	echo "[!] Stopping boot process..."
 	rm -rf "$CACHE/"*
 	hdiutil detach "$CACHE" -force >/dev/null
 	hdiutil detach "$DATA" -force >/dev/null

@@ -6,7 +6,11 @@ if [[ "$1" == "--clean" ]]; then
 	echo "[2/4] Copying new system from /Data/mount/sysimg..."
 	cp -vr "$DATA/mount/sysimg/"* "$SYSTEM/"
 	echo "[3/4] Unmounting image from /Data/mount/sysimg..."
-	hdiutil detach "$DATA/mount/sysimg" -force >/dev/null
+	if [[ ! -z "$(echo "$b_arg" | grep "bootergen2")" ]]; then
+		echo -n ""
+	else
+		hdiutil detach "$DATA/mount/sysimg" -force >/dev/null
+	fi
 	echo "[4/4] Erasing /Data partition..."
 	rm -vrf "$DATA/"*
 	touch "$CACHE/upgraded"
@@ -17,7 +21,11 @@ elif [[ "$1" == "--dirty" ]]; then
 	echo "[2/4] Copying new system from /Data/mount/sysimg..."
 	cp -vr "$DATA/mount/sysimg/"* "$SYSTEM/"
 	echo "[3/4] Unmounting image from /Data/mount/sysimg..."
-	hdiutil detach "$DATA/mount/sysimg" -force >/dev/null
+	if [[ ! -z "$(echo "$b_arg" | grep "bootergen2")" ]]; then
+		echo -n ""
+	else
+		hdiutil detach "$DATA/mount/sysimg" -force >/dev/null
+	fi
 	rm -f "$NVRAM/do_rollback"
 	echo "[4/4] Initializing NVRAM..."
 	rm -rf "$NVRAM"

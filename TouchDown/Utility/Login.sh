@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "nothing" ]]; then
+if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "nothing" ]] || [[ "$(mplxr USER/SECURITY/PASSCODE_PRESENT)" == "0" ]]; then
 	echo "[*] Login successful (weak)."
 else
 	if [[ "$(mplxr SYSTEM/GRAPHITE/ENFORCE_CLI)" == "0" ]] && [[ -z "$(echo $b_arg | grep enforce_cli)" ]]; then

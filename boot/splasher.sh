@@ -20,4 +20,5 @@ else
 		export splashd="$(cat "$SYSTEM/boot/splasher-boot.timg")"
 	fi
 	$TDLIB/Services/GraphicSupport/GraphiteL/bin/TDGraphicalUIRenderer --infobox "$splashd" 11 84
+	echo -n "Loading TouchDownOS $(<$SYSTEM/init/TDOSProfiler.init/sys_version)..."
 fi

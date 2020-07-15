@@ -2,7 +2,9 @@
 if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 	echo "[*] Terminating background frameworks..."
 	"$SYSTEM/sbin/taskkill-frameworks" "verbose"
-	if [[ "$(mplxr "SYSTEM/POLICY/isUsingImg")" == "TRUE" ]]; then
+	if [[ ! -z "$(echo "$b_arg" | grep "bootergen2")" ]]; then
+		echo -n ""
+	else
 		echo "[*] Detaching data partition from root filesystem..."
 		hdiutil detach "$DATA" -force >/dev/null
 	fi
@@ -14,7 +16,9 @@ if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 	exit 0
 else
 	"$SYSTEM/sbin/taskkill-frameworks"
-	if [[ "$(mplxr "SYSTEM/POLICY/isUsingImg")" == "TRUE" ]]; then
+	if [[ ! -z "$(echo "$b_arg" | grep "bootergen2")" ]]; then
+		echo -n ""
+	else
 		hdiutil detach "$DATA" -force >/dev/null
 	fi
 	touch "$CACHE/SIG/shell_close"

@@ -19,15 +19,34 @@ function beginningOfSystem() {
 	fi
 	if [[ -f "$CACHE/upgraded" ]]; then
 		rm -rf "$CACHE/"*
-		hdiutil detach "$CACHE" -force >/dev/null
-		hdiutil detach "$DATA" -force >/dev/null
-		hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
+		if [[ "$1" == "bootergen2" ]]; then
+			echo "[*] Leaving..."
+		else
+			hdiutil detach "$CACHE" -force >/dev/null
+			hdiutil detach "$DATA" -force >/dev/null
+			hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
+		fi
 	elif [[ -f "$CACHE/init-load-failed" ]] || [[ -f "$CACHE/framework-load-failed" ]]; then
-		echo "[!] Stopping boot process..."
+		if [[ -f "$ROOTFS/Recovery/boot/init" ]]; then
+			"$ROOTFS/Recovery/boot/init" "$ROOTFS"
+		elif [[ -f "$SYSTEM/TouchDown/Library/Recovery/recovery.dmg" ]]; then
+			mkdir -p "$ROOTFS/Recovery"
+			hdiutil attach "$SYSTEM/TouchDown/Library/Recovery/recovery.dmg" -mountpoint "$ROOTFS/Recovery" >/dev/null
+			"$ROOTFS/Recovery/boot/init" "$ROOTFS"
+		elif [[ -f "$SYSTEM/TouchDown/Library/Recovery/lightrecovery.dmg" ]]; then
+			mkdir -p "$ROOTFS/Recovery"
+			hdiutil attach "$SYSTEM/TouchDown/Library/Recovery/lightrecovery.dmg" -mountpoint "$ROOTFS/Recovery" >/dev/null
+			"$ROOTFS/Recovery/boot/init" "$ROOTFS"
+		fi
+		echo "[*] Stopping boot process..."
 		rm -rf "$CACHE/"*
-		hdiutil detach "$CACHE" -force >/dev/null
-		hdiutil detach "$DATA" -force >/dev/null
-		hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
+		if [[ "$1" == "bootergen2" ]]; then
+			echo "[*] Leaving..."
+		else
+			hdiutil detach "$CACHE" -force >/dev/null
+			hdiutil detach "$DATA" -force >/dev/null
+			hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
+		fi
 	fi
 	cd "$CACHE/def"
 	for file in *.def
@@ -61,15 +80,22 @@ function realEndOfSystem(){
 		echo "[*] Full-flushing cache..."
 		rm -rf "$CACHE/" 2>/dev/null
 		echo "[*] Closing..."
-		hdiutil detach "$CACHE" -force >/dev/null
-		echo "[*] Goodbye from kernel!"
-		hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
+		if [[ "$1" == "bootergen2" ]]; then
+			echo "[*] Leaving..."
+		else
+			hdiutil detach "$CACHE" -force >/dev/null
+			hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
+		fi
 	else
 		rm -rf "$CACHE/Frameworks"
 		rm -rf "$CACHE/SIG"
 		rm -rf "$CACHE/" 2>/dev/null
-		hdiutil detach "$CACHE" -force >/dev/null
-		hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
+		if [[ "$1" == "bootergen2" ]]; then
+			echo "[*] Leaving..."
+		else
+			hdiutil detach "$CACHE" -force >/dev/null
+			hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
+		fi
 	fi
 }
 

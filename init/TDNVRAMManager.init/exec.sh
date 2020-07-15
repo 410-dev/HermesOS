@@ -5,12 +5,11 @@ if [[ -f "$NVRAM/nvraminfo" ]]; then
 		rm -rf "$NVRAM"
 		mkdir -p "$NVRAM"
 		echo "[*] Rewriting NVRAM..."
-		cp -r "$TDLIB/defaults/nvram" "$DATA/"
+		cp -r "$TDLIB/defaults/nvram" "$LIB"
 		echo "[*] Done."
 	fi
 else
 	echo "[*] Initializing NVRAM data..."
-	mkdir -p "$NVRAM"
-	cp -r "$TDLIB/defaults/nvram" "$DATA/"
+	cp -r "$TDLIB/defaults/nvram" "$LIB"
 	echo "[*] Done."
 fi

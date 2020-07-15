@@ -23,7 +23,18 @@ function beginningOfSystem() {
 		hdiutil detach "$DATA" -force >/dev/null
 		hdiutil detach "$SYSTEM" -force >/dev/null; exit 0
 	elif [[ -f "$CACHE/init-load-failed" ]] || [[ -f "$CACHE/framework-load-failed" ]]; then
-		echo "[!] Stopping boot process..."
+		if [[ -f "$ROOTFS/Recovery/boot/init" ]]; then
+			"$ROOTFS/Recovery/boot/init" "$ROOTFS"
+		elif [[ -f "$SYSTEM/TouchDown/Library/Recovery/recovery.dmg" ]]; then
+			mkdir -p "$ROOTFS/Recovery"
+			hdiutil attach "$SYSTEM/TouchDown/Library/Recovery/recovery.dmg" -mountpoint "$ROOTFS/Recovery" >/dev/null
+			"$ROOTFS/Recovery/boot/init" "$ROOTFS"
+		elif [[ -f "$SYSTEM/TouchDown/Library/Recovery/lightrecovery.dmg" ]]; then
+			mkdir -p "$ROOTFS/Recovery"
+			hdiutil attach "$SYSTEM/TouchDown/Library/Recovery/lightrecovery.dmg" -mountpoint "$ROOTFS/Recovery" >/dev/null
+			"$ROOTFS/Recovery/boot/init" "$ROOTFS"
+		fi
+		echo "[*] Stopping boot process..."
 		rm -rf "$CACHE/"*
 		hdiutil detach "$CACHE" -force >/dev/null
 		hdiutil detach "$DATA" -force >/dev/null

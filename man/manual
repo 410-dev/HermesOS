@@ -1,7 +1,0 @@
-manual - Show manual for commands
-
-Description: 
-Show the manual of installed commands.
-
-Usage: manual [command]
-Example: manual mkdir

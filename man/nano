@@ -1,7 +1,0 @@
-nano - Powerful Text Editor
-
-Description: 
-Same as GNU Nano.
-
-Usage: nano {file name}
-Example: nano HelloWorld.txt

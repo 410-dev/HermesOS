@@ -1,6 +1,0 @@
-#!/bin/bash
-if [[ $(mplxr "SYSTEM/POLICY/SECURITY/AllowLocalImgAccess") == "0" ]]; then
-	if [[ ! -f "$NVRAM/update-install" ]] && [[ ! -f "$NVRAM/clean-restore" ]] && [[ ! -f "$NVRAM/do_rollback" ]]; then
-		export DISKSTORE_REALPATH="null"
-	fi
-fi

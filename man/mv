@@ -1,8 +1,0 @@
-mv - Move and Rename files
-
-Description: 
-File can be moved and renamed with this.
-
-Usage: mv [original file] [new file name or location]
-Example: mv origfile.txt newfile.txt
-Example: mv origfile.txt Documents/newfile.txt

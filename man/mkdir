@@ -1,7 +1,0 @@
-mkdir - Create directory
-
-Description: 
-Directory will be created on data storage.
-
-Usage: mkdir [directory name]
-Example: mkdir newFolder

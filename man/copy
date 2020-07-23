@@ -1,7 +1,0 @@
-copy - Copy files
-
-Description: 
-File can be copied with this command
-
-Usage: copy [original file] [destination location]
-Example: copy origfile.txt Documents/

@@ -1,0 +1,11 @@
+mpedit - Edit multiplex
+
+Possible Actions: 
+
+setkey [key name]
+setvalue [value name] [value]
+delete [key or value name]
+read [key or value name]
+
+Usage: mpedit [action] [required arguments]
+Example: mpedit setkey USER/INTERFACE/HELLO

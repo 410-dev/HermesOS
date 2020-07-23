@@ -1,0 +1,18 @@
+system - System maintenance utility
+
+Description: 
+System maintenance utility. Refer to option section for more information.
+
+Options:
+--clean-restore : Reinstall system with update image. This is clean reinstallation, and requires an update image.
+--dirty-restore : Clear all user data. This does not reinstall system, but will restore to factory setting. This does not require an update image.
+--rollback      : Rolls back to previous known state of system. This requires preupgrade snapshot.
+--uirestart     : Restarts interface. Login will be required if password is setted.
+--update        : Run system update.
+--info          : Shows system information.
+--nvram-reset   : Clears all NVRAM data.
+--def-reload    : Reloads definitions.
+--logflush      : Flushes all log
+
+Usage: system [option]
+Example: system --clean-restore

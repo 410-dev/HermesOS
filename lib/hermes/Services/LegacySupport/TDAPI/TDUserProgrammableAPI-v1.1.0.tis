@@ -1,0 +1,94 @@
+#!/bin/bash
+
+function @PROG_START_POINT(){
+	echo -n ""
+}
+
+function @REQUIRE_API() {
+	if [[ -f "$TDLIB/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.tis" ]]; then
+		source "$TDLIB/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v$1.tis"
+	else
+		echo "ERROR: API Version $1 does not exist in LegacySupport."
+		exit 0
+	fi
+}
+
+function @IMPORT() {
+	if [[ -f "$TDLIB/Library/Developer/$1.tis" ]]; then
+		source "$TDLIB/Library/Developer/$1.tis"
+	elif [[ -f "$DATA/Library/Developer/$1.tis" ]]; then
+		source "$TDLIB/Library/Developer/$1.tis"
+	else
+		echo "Error: Unable to find specified instruction set."
+		exit 0
+	fi
+}
+
+function TouchDownAPI.version() {
+	echo "1.1.0"
+}
+
+function TouchDownAPI.manual() {
+	echo "To make the program runnable, you need to add @PROG_START_POINT at the start of the program."
+	echo "@ (Programming Attributes)"
+	echo "   -(void) PROG_START_POINT: Tells the interpreter that current file is runnable file."
+	echo "   -(void) REQUIRE_API {API Version}: Tells the interpreter to use specified version of API."
+	echo "   -(void) IMPORT {TIS Path}: Imports more instruction sets (functions)."
+	echo ""
+	echo "TouchDownAPI_____________"
+	echo "   -(String) manual(): Returns manual"
+	echo "   -(String) version(): Returns API version"
+	echo ""
+	echo "System___________________(@IMPORT System)"
+	echo "   -(String?) libexec() {command} {arguments}: Runs TouchDown commands with arguments."
+	echo "   -(char_intform) isJailbroken(): Checks whether system is jailbroken."
+	echo "   -(String) getSystemVersion(): Returns system version as string form."
+	echo "   -(String) getSystemBuild(): Returns system build as string form."
+	echo ""
+	echo "Interface________________(@IMPORT Interface)"
+	echo "   -(void) addAlert() {String: Alert message}: Add alert message on queue. This will be loaded by interfacebulletin."
+	echo "   -(void) updateDefinitionsOnProgramEnd(): Reloads TouchDown definition table when program ends."
+	echo "   -(void) restartOnProgramEnd(): Restarts interface when program ends."
+	echo ""
+	echo "Machine__________________(@IMPORT Machine)"
+	echo "   -(void) connectDiskImage() {String: dmg path} {String: mountpoint name}: Mounts disk image. It will be mounted under /Data/mount/mountpoint_name"
+	echo "   -(void) disconnectDiskImage() {String: mountpoint name}: Unmounts disk image from mountpoint."
+	echo "   -(void) setMemory() {String: memory name} {String: Data}: Sets memory that is accessible only in the process"
+	echo ""
+	echo "Static (Does not require Static prefix.)"
+	echo "   -(print) println() {String: toPrint}: Prints a line, then add a linebreak at the end of the line."
+	echo "   -(print) print() {String: toPrint}: Prints a line, then does not add a linebreak."
+	echo ""
+	echo "System Function (Does not require prefix.)"
+	echo "   -(char_intform) accessible() {c,r,w} {path}: Checks whether the file or directory is accessible with specified permission: c (catalog), r (read), w (write)"
+	echo "   -(char_intform) fopen() {path}: Checks whether the file exists. If exists, returns 0. If not, returns -9."
+	echo "   -(String) fread() {path}: Reads file if exists. Otherwise returns -9."
+	echo "   -(char_intform) fwrite() {path} {contents}: Writes file to specified path. If successful, the function returns 0. If failed, the function returns -9."
+	echo "   -(char_intform) foverwrite() {path} {contents}: Overwrite file to specified path. Returns same as fwrite()."
+	echo "   -(char_intform) fappend() {path} {contents}: Append contents to specified file. Returns same as fwrite()."
+	echo "   -(char_intform) fdelete() {path}: Deletes specified file. Returns same as fwrite(). To delete directory, use ddelete()."
+	echo "   -(char_intform) dopen() {path}: Checks whether the directory exists. If exists, returns 0. If not, returns -9."
+	echo "   -(String) dread() {path}: Shows the list of file in directory. Otherwise returns -9."
+	echo "   -(char_intform) dmake() {path}: Creates a directory. If successful, the function returns 0. If failed, the function returns -9."
+	echo "   -(char_intform) ddelete() {path}: Deletes the directory. If successful, the function returns 0. If failed, the function returns -9."
+	echo "   -(String) mplxr() {address}: Returns value in specified address stored in Multiplex."
+	echo "   -(char_intform) mplxw() {address} {value}: Creates / Write value on specified key address. If successful, the function returns 0. If failed, the function returns -9."
+	echo "   -(char_intform) mplxk() {key}: Creates key. If successful, the function returns 0. If failed, the function returns -9."
+	echo "   -(char_intform) mplxd() {address/key}: Removes key or value. If successful, the function returns 0. If failed, the function returns -9."
+	echo "   -(char_intform) netsession() {URL} {output path}: Downloads file from specified URL and store to specified path. Returns TDNetwork framework output code."
+}
+
+function println() {
+	echo "$1 $2 $3 $4 $5 $6 $7 $8 $9"
+}
+
+function print() {
+	echo -n "$1 $2 $3 $4 $5 $6 $7 $8 $9"
+}
+
+export -f @PROG_START_POINT
+export -f @REQUIRE_API
+export -f TouchDownAPI.version
+export -f TouchDownAPI.manual
+export -f println
+export -f print

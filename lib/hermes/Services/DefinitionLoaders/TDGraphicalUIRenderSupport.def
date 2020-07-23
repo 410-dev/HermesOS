@@ -1,0 +1,27 @@
+#!/bin/bash
+function graphite() {
+    "$TDLIB/Services/GraphicSupport/GraphiteL/bin/TDGraphicalUIRenderer" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+}
+
+function graphite_fileselect() {
+    "$TDLIB/Services/GraphicSupport/GraphiteL/bin/TDFileSelection" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+}
+
+function graphite_infobox() {
+    "$TDLIB/Services/GraphicSupport/GraphiteL/bin/TDInformationNotifier" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+}
+
+function graphite_input() {
+    echo "$($TDLIB/Services/GraphicSupport/GraphiteL/bin/TDInputWindow "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9")"
+}
+
+function graphite_msgbox() {
+    "$TDLIB/Services/GraphicSupport/GraphiteL/bin/TDSimpleMessageBox" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+}
+
+export -f graphite
+export -f graphite_fileselect
+export -f graphite_infobox
+export -f graphite_input
+export -f graphite_msgbox
+export graphitelib="$TDLIB/Services/GraphicSupport/GraphiteL/bin"

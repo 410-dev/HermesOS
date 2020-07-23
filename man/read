@@ -1,0 +1,7 @@
+read - Read a text document
+
+Description: 
+Read a text file.
+
+Usage: read [file]
+Example: read helloworld.txt

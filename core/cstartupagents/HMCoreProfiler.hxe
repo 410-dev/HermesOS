@@ -1,4 +1,4 @@
 #!/bin/bash
-echo "export coreversion=$(<$CORE/resources/coreversion)" >> "$1"
-echo "export corebuild=$(<$CORE/resources/corebuild)" >> "$1"
+echo "export coreversion=$(<"$CORE/resources/coreversion")" >> "$1"
+echo "export corebuild=$(<"$CORE/resources/corebuild")" >> "$1"
 exit 0

@@ -4,5 +4,7 @@ mkdir -p "$CACHE/Logs"
 mkdir -p "$CACHE/"
 mkdir -p "$DATA"
 mkdir -p "$LIBRARY/Services"
-touch -p "$LIBRARY/Services/cmem"
+if [[ ! -f "$LIBRARY/Services/cmem" ]]; then
+	touch "$LIBRARY/Services/cmem"
+fi
 exit 0

@@ -10,9 +10,6 @@ fi
 export BOOTARGS="$BOOTARGS $1 $2 $3 $4 $5 $6 $7 $8 $9"
 
 function loadOS() {
-
-	# LOAD BOOT ARGS FROM NVRAM
-
 	if [[ -f "$SYSTEM/boot/bootscreen.hxe" ]] && [[ $(bootarg.contains "verbose") == 0 ]]; then
 		"$SYSTEM/boot/bootscreen.hxe"
 	fi

@@ -12,7 +12,7 @@ function bootarg.contains() {
 }
 
 function verbose() {
-	if [[ $(bootarg.contains "verbose") == 0 ]]; then
+	if [[ $(bootarg.contains "verbose") == 1 ]]; then
 		echo "$1"
 	fi
 }
@@ -20,7 +20,6 @@ function verbose() {
 function leaveSystem() {
 	if [[ "$IS_IMG" == "TRUE" ]]; then
 		hdiutil detach "$DATA" -force >/dev/null 2>/dev/null
-		hdiutil detach "$CACHE" -force >/dev/null 2>/dev/null
 		hdiutil detach "$LIBRARY" -force >/dev/null 2>/dev/null
 		hdiutil detach "$SYSTEM" -force >/dev/null 2>/dev/null
 		exit 0

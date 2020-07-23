@@ -1,7 +1,7 @@
 #!/bin/bash
 verbose "[*] Hello from CoreStart."
 if [[ -f "$CORE/resources/coreversion" ]]; then
-	verbose "[*] Core version: $(<$CORE/resources/coreversion)"
+	verbose "[*] Core version: $(<"$CORE/resources/coreversion")"
 else
 	verbose "[-] Warning: Core version data not found."
 fi

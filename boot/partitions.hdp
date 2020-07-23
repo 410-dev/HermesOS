@@ -5,10 +5,12 @@
 
 export IS_IMG="FALSE"
 
-export ROOTFS="$(dirname "$0")/../../"
+cd "$(dirname "$0")/../../"
+export ROOTFS="$PWD"
 
 export SYSTEM="$ROOTFS/System"
 export DATA="$ROOTFS/Data"
 export LIBRARY="$ROOTFS/Library"
+export CACHE="$LIBRARY/Cache"
 
 export CORE="$ROOTFS/System/core"

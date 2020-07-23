@@ -1,0 +1,8 @@
+#!/bin/bash
+mkdir -p "$CACHE"
+mkdir -p "$CACHE/Logs"
+mkdir -p "$CACHE/"
+mkdir -p "$DATA"
+mkdir -p "$LIBRARY/Services"
+touch -p "$LIBRARY/Services/cmem"
+exit 0

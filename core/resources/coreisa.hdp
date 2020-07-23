@@ -1,0 +1,21 @@
+#!/bin/bash
+function core.beginOSInterface() {
+	if [[ -f "$SYSTEM/lib/interface" ]]; then
+
+		# If interface exits with:
+		# 0: Shutdown
+		# 100: Reboot
+
+		export exitcode="1"
+		while [[ $exitcode -ne 0 ]] && [[ $exitcode -ne 100 ]]; do
+			"$SYSTEM/lib/interface"
+			exitcode="$?"
+		done
+	else
+		echo "[-] OS Interface not found."
+		echo "[-] Stopping core."
+		export exitcode="0"
+	fi
+}
+
+export -f core.beginOSInterface

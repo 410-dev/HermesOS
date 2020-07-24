@@ -1,0 +1,11 @@
+#!/bin/bash
+if [[ -d "$LIBRARY/crashlogs" ]]; then
+	rm -rf "$LIBRARY/crashlogs"
+fi
+if [[ -f "$LIBRARY/boot_argument" ]]; then
+	rm -f "$LIBRARY/boot_argument"
+fi
+if [[ -f "$LIBRARY/nvraminfo" ]]; then
+	rm -f "$LIBRARY/nvraminfo"
+fi
+exit 0

@@ -1,11 +1,54 @@
 #!/bin/bash
 function core.beginOSInterface() {
+	mkdir -p "$CACHE/definitions"
+	if [[ -f "$CACHE/definition" ]]; then
+		verbose "[*] Found definition file on cache drive."
+		cp "$CACHE/definition" "$CACHE/definitions"
+	fi
+
+	if [[ -d "$LIBRARY/definitions" ]]; then
+		if [[ ! -z "$(ls "$LIBRARY/definitions/"*.hdp 2>/dev/null)" ]]; then
+			verbose "[*] Found definition files in library."
+			ls "$LIBRARY/definitions/"*.hdp | while read line
+			do
+				if [[ ! -z "$line" ]]; then
+					verbose "[*] Uploading: $line"
+					cp "$line" "$CACHE/definitions"
+				fi
+			done
+		fi
+	fi
+	if [[ -d "$SYSTEM/lib/definitions" ]]; then
+		if [[ ! -z "$(ls "$SYSTEM/lib/definitions/"*.hdp 2>/dev/null)" ]]; then
+			verbose "[*] Found definition files in system."
+			ls "$SYSTEM/lib/definitions/"*.hdp | while read line
+			do
+				if [[ ! -z "$line" ]]; then
+					verbose "[*] Uploading: $line"
+					cp "$line" "$CACHE/definitions"
+				fi
+			done
+		fi
+	fi
+	if [[ ! -z "$(ls "$CORE/definitions/"*.hdp 2>/dev/null)" ]]; then
+		verbose "[*] Found definition files in core library."
+		ls "$CORE/definitions/"*.hdp | while read line
+		do
+			if [[ ! -z "$line" ]]; then
+				verbose "[*] Uploading: $line"
+				cp "$line" "$CACHE/definitions"
+			fi
+		done
+	fi
+	export pwdd="$PWD"
+	cd "$CACHE/definitions"
+	for file in *.hdp
+	do
+		source "$file"
+	done
+	cd "$pwdd"
+	export pwdd=""
 	if [[ -f "$SYSTEM/lib/interface" ]]; then
-
-		# If interface exits with:
-		# 0: Shutdown
-		# 100: Reboot
-
 		export exitcode="1"
 		while [[ $exitcode -ne 0 ]] && [[ $exitcode -ne 100 ]]; do
 			"$SYSTEM/lib/interface"

@@ -8,7 +8,7 @@ echo "$agentlist" | while read agentname
 do
 	if [[ ! -z "$agentname" ]]; then
 		verbose "[*] Loading: $agentname"
-		"$CORE/cstartupagents/$agentname" "$CACHE/definitions"
+		"$CORE/cstartupagents/$agentname" "$CACHE/definition"
 		export returned=$?
 		if [[ "$returned" == 0 ]]; then
 			verbose "[*] Load complete."

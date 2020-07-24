@@ -1,21 +1,18 @@
 #!/bin/bash
-export agentlist="$(<$SYSTEM/startupagents/agentlist)"
-export exitStatus="0"
+export agentlist="$(<"$SYSTEM/lib/startupagents/agentlist")"
 echo "$agentlist" | while read agentname
 do
 	if [[ ! -z "$agentname" ]]; then
 		verbose "[*] Loading: $agentname"
-		"$SYSTEM/lib/startupagents/$agentname" "$CACHE/definitions"
+		"$SYSTEM/lib/startupagents/$agentname" "$CACHE/definition"
 		export returned=$?
 		if [[ "$returned" == 0 ]]; then
 			verbose "[*] Load complete."
 		else
 			verbose "[!] $agentname returned exit code $returned."
-			exitStatus=$returned
-			break
+			exit "$returned"
 		fi
 	fi
 done
 export masterdefinition=""
 export agentlist=""
-exit "$exitStatus"

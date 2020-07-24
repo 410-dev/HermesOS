@@ -14,3 +14,12 @@ export LIBRARY="$ROOTFS/Library"
 export CACHE="$LIBRARY/Cache"
 
 export CORE="$ROOTFS/System/core"
+
+export TDLIB="$SYSTEM/lib/hermes"
+export BOOTSECT="$SYSTEM/boot"
+export SBIN="$TDLIB"
+
+export USERDATA="$DATA/User"
+export MULTIPLEX="$LIBRARY/config"
+
+export NVRAM="$LIBRARY/nvram"

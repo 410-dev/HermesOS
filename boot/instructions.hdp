@@ -22,8 +22,10 @@ function leaveSystem() {
 		hdiutil detach "$DATA" -force >/dev/null 2>/dev/null
 		hdiutil detach "$LIBRARY" -force >/dev/null 2>/dev/null
 		hdiutil detach "$SYSTEM" -force >/dev/null 2>/dev/null
+		verbose "[*] Goodbye!"
 		exit 0
 	else
+		verbose "[*] Goodbye!"
 		exit 0
 	fi
 }

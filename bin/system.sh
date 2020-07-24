@@ -70,8 +70,8 @@ elif [[ "$1" == "--nvram-reset" ]]; then
 elif [[ "$1" == "--def-reload" ]]; then
 	touch "$CACHE/SIG/defreload"
 elif [[ "$1" == "--logflush" ]]; then
-	rm -rf "$LIB/Logs"
-	mkdir -p "$LIB/Logs"
+	rm -rf "$LIBRARY/Logs"
+	mkdir -p "$LIBRARY/Logs"
 else
 	echo "No such arguments."
 fi

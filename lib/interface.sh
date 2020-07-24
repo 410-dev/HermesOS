@@ -1,6 +1,6 @@
 #!/bin/bash
-"$TDLIB/Utility/preload"
-clear
+exit 0
+
 if [[ "$(mplxr BOOT/PROTOCOL/EnterSafeMode)" == "0" ]]; then
 	if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
 		"$TDLIB/Services/TDFrameworks/TDUserLoginInit"
@@ -44,17 +44,17 @@ while [[ true ]]; do
 	read command
 	args=($command)
 	if [[ -f "$SYSTEM/libexec/${args[0]}" ]]; then
-		echo "[IN] [$(date +"%Y-%m-%d %H:%M")] COMMAND ENTERED: $command" >> "$LIB/Logs/INTERFACE_$logSuffix.tlog"
-		echo "[OUT-START]" >> "$LIB/Logs/INTERFACE_$logSuffix.tlog"
-		"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}" | tee -a "$LIB/Logs/INTERFACE_$logSuffix.tlog"
+		echo "[IN] [$(date +"%Y-%m-%d %H:%M")] COMMAND ENTERED: $command" >> "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"
+		echo "[OUT-START]" >> "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"
+		"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}" | tee -a "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"
 		export lastExecutedCommand="$command"
-		echo "[OUT-END]" >> "$LIB/Logs/INTERFACE_$logSuffix.tlog"
-		echo "$lastExecutedCommand" >> "$LIB/Logs/history"
+		echo "[OUT-END]" >> "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"
+		echo "$lastExecutedCommand" >> "$LIBRARY/Logs/history"
 	elif [[ -z "$command" ]]; then
 		echo -n ""
 	else
 		echo "Command not found: ${args[0]}"
-		echo "$lastExecutedCommand" >> "$LIB/Logs/history"
+		echo "$lastExecutedCommand" >> "$LIBRARY/Logs/history"
 	fi
 	if [[ -f "$CACHE/SIG/shell_close" ]]; then
 		echo "[*] Exiting..."

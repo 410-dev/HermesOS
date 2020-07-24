@@ -157,7 +157,7 @@ function ddelete() {
 
 function mplxr() {
 	if [[ -f "$MULTIPLEX/$1" ]]; then
-		echo "$(<$MULTIPLEX/$1)"
+		echo "$(<"$MULTIPLEX/$1")"
 	else
 		echo "null"
 	fi
@@ -166,7 +166,7 @@ function mplxr() {
 function mplxw() {
 	if [[ ! -d "$MULTIPLEX/$1" ]]; then
 		echo "$2" > "$MULTIPLEX/$1"
-		if [[ "$(<$MULTIPLEX/$1)" == "$2" ]]; then
+		if [[ "$(<"$MULTIPLEX/$1")" == "$2" ]]; then
 			echo "0"
 		else
 			echo "-9"

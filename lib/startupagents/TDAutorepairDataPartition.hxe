@@ -2,12 +2,12 @@
 export DATA_COMPATIBILITY="11"
 if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
 	echo "[*] Start data partition repair!"
-	rm -rf "$DATA/config" 2>/dev/null
+	rm -rf "$MULTIPLEX" 2>/dev/null
 	rm -rf "$NVRAM" 2>/dev/null
 	echo "[*] Removed old partition data."
 	echo "[*] Rewriting..."
-	cp -r "$TDLIB/defaults/multiplex" "$DATA/"
-	mv "$DATA/multiplex" "$DATA/config"
+	cp -r "$TDLIB/defaults/multiplex" "$LIBRARY"
+	mv "$LIBRARY/multiplex" "$MULTIPLEX"
 	cp -r "$TDLIB/defaults/nvram" "$LIB"
 	mkdir -p "$DATA/init"
 	mkdir -p "$LIBRARY/Logs"

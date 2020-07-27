@@ -10,6 +10,7 @@ if [[ "$1" == "--clean-restore" ]]; then
 elif [[ "$1" == "--dirty-restore" ]]; then
 	echo "File erase in progress..."
 	rm -vrf "$DATA/"*
+	rm -vrf "$LIBRARY/"*
 	echo "Shutting down..."
 	"$SYSTEM/bin/shutdown"
 elif [[ "$1" == "--rollback" ]]; then

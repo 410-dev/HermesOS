@@ -1,0 +1,6 @@
+hic - Hermes Interpreter Console
+
+Description: 
+Custom scripts that requires Instruction Kit can be executed over this interface.
+
+Usage: hic

@@ -12,24 +12,6 @@ function Interface.restartOnProgramEnd() {
 	touch "$CACHE/SIG/shell_reload"
 }
 
-function Interface.activateHiddenUI() {
-	if [[ -z "$1" ]]; then
-		echo "E: UI Name is not specified."
-		exit 0
-	elif [[ "$1" == "ui2" ]] || [[ "$1" == "ui3" ]]; then
-		echo "Using hidden ui may be dangerous. Continue? Y/N"
-		read yn
-		if [[ "$yn" == "y" ]] || [[ "$yn" == "Y" ]]; then
-			"$SYSTEM/sbin/$1"
-		else
-			echo "Aborted."
-		fi
-	else
-		echo "No such UI."
-	fi
-}
-
 export -f Interface.addAlert
 export -f Interface.updateDefinitionsOnProgramEnd
 export -f Interface.restartOnProgramEnd
-export -f Interface.activateHiddenUI

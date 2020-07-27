@@ -1,17 +1,17 @@
 #!/bin/bash
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/../"
 pth="$PWD/System"
 
 echo "Sync start."
-rm -rf "$PWD/../System"
-mkdir -p "$PWD/../System"
-cp -r "$PWD/../Source/" "$PWD/../System/"
-rm -rf "$PWD/../System/.git"
-rm -rf "$PWD/../System/.gitattributes"
-rm -rf "$PWD/../System/.gitignore"
-rm -rf "$PWD/../System/README.md"
-rm -rf "$PWD/../System/compileandrun"
+rm -rf "$PWD/System"
+mkdir -p "$PWD/System"
+cp -r "$PWD/Source/" "$PWD/System/"
+rm -rf "$PWD/System/.git"
+rm -rf "$PWD/System/.gitattributes"
+rm -rf "$PWD/System/.gitignore"
+rm -rf "$PWD/System/README.md"
+rm -rf "$PWD/System/compileandrun"
 echo "Sync done."
 
 # .sh
@@ -65,4 +65,4 @@ done
 find "$pth" -name *.hxe.x.c -depth -exec rm {} \;
 
 
-"$PWD/../System/boot/init" "$1" "$2" "$3" "$4" "$5" "$6"
+"$PWD/System/boot/init" "$1" "$2" "$3" "$4" "$5" "$6"

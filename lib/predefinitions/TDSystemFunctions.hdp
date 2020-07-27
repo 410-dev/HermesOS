@@ -199,7 +199,7 @@ function mplxd() {
 }
 
 function netsession() {
-	"$TDLIB/Services/TDFrameworks/TDNetwork" "$1" "$2"
+	curl -L --progress-bar "$1" -o "$2"
 	echo "$?"
 }
 

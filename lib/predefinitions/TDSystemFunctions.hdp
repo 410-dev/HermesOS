@@ -1,11 +1,11 @@
 #!/bin/bash
 function syslangversion() {
-	echo "1.4"
+	echo "1.5"
 }
 
 function accessible() {
 	if [[ "$1" == "c" ]] || [[ "$1" == "r" ]] || [[ "$1" == "w" ]]; then
-		echo "$(<$CACHE/init/TouchDown.Security.FilesystemSandbox/$1lim)" | while read limitedLoc
+		echo "$(<"$CACHE/proc.faccess/$1lim")" | while read limitedLoc
 		do
 			if [[ ! -z $(echo "$2" | grep "$limitedLoc") ]]; then
 				echo "-9"

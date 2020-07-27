@@ -16,7 +16,9 @@ while [[ true ]]; do
 	echo -n "$USERN@$MACHN ~ # "
 	read command
 	args=($command)
-	if [[ -f "$SYSTEM/bin/${args[0]}" ]]; then
+	if [[ "${args[0]}" == "../"* ]]; then
+		echo "Error: Escaping /System/bin is disallowed. Use exec command."
+	elif [[ -f "$SYSTEM/bin/${args[0]}" ]]; then
 		echo "[IN] [$(date +"%Y-%m-%d %H:%M")] COMMAND ENTERED: $command" >> "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"
 		echo "[OUT-START]" >> "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"
 		"$SYSTEM/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}" | tee -a "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"

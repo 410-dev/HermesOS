@@ -1,7 +1,0 @@
-memset - Memory utility
-
-Description: 
-Sets a memory value.
-
-Usage: memset [address] [contents]
-Example: memset 0x00017436 "Hello World!"

@@ -1,14 +1,4 @@
 #!/bin/bash
-
-# --clean-restore : Reinstall system with update image. This is clean reinstallation, and requires an update image.
-# --dirty-restore : Clear all user data. This does not reinstall system, but will restore to factory setting. This does not require an update image.
-# --uirestart     : Restarts interface. Login will be required if password is setted.
-# --update        : Run system update.
-# --info          : Shows system information.
-# --nvram-reset   : Clears all NVRAM data.
-# --def-reload    : Reloads definitions.
-
-
 if [[ "$1" == "--clean-restore" ]]; then
 	if [[ -f "$NVRAM/upgrade.dmg" ]] || [[ -f "$NVRAM/rom.dmg" ]]; then
 		touch "$NVRAM/clean-restore"

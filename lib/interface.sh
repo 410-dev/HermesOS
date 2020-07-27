@@ -1,9 +1,13 @@
 #!/bin/bash
-# export USERN=$(mplxr "USER/user_name")
-# export MACHN=$(mplxr "SYSTEM/machine_name")
 "$TDLIB/Utility/preload"
-export USERN="root"
-export MACHN="apple_terminal"
+export USERN=$(mplxr "USER/user_name")
+export MACHN=$(mplxr "SYSTEM/machine_name")
+if [[ -z "$USERN" ]]; then
+	export USERN="root"
+fi
+if [[ -z "$MACHN" ]]; then
+	export MACHN="apple_terminal"
+fi
 cd "$CACHE/definitions"
 for file in *.hdp
 do

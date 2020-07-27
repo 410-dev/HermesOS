@@ -1,0 +1,68 @@
+#!/bin/bash
+
+cd "$(dirname "$0")"
+pth="$PWD/System"
+
+echo "Sync start."
+rm -rf "$PWD/../System"
+mkdir -p "$PWD/../System"
+cp -r "$PWD/../Source/" "$PWD/../System/"
+rm -rf "$PWD/../System/.git"
+rm -rf "$PWD/../System/.gitattributes"
+rm -rf "$PWD/../System/.gitignore"
+rm -rf "$PWD/../System/README.md"
+rm -rf "$PWD/../System/compileandrun"
+echo "Sync done."
+
+# .sh
+LIST=$(find "$pth" -name *.sh -depth)
+echo "$LIST" | while read line
+do
+	cd "$(dirname "$line")"
+	echo "PROCESSING: $line"
+	shc -r -f "$line" 2>/dev/null
+	gcc "$line.x.c" -o "$line"
+	name=$(echo "$line" | cut -f 1 -d '.')
+	mv "$name.sh" "$name" 2>/dev/null
+done
+find "$pth" -name *.sh.x.c -depth -exec rm {} \;
+
+
+
+# .framework
+LIST=$(find "$pth" -name *.sh -depth)
+echo "$LIST" | while read line
+do
+	name=$(echo "$line" | cut -f 1 -d '.')
+	chmod +x "$name.framework/exec.sh" 2>/dev/null
+	mv "$name.framework/exec.sh" "$name.framework/exec" 2>/dev/null
+done
+
+
+
+# .init
+LIST=$(find "$pth" -name *.sh -depth)
+echo "$LIST" | while read line
+do
+	name=$(echo "$line" | cut -f 1 -d '.')
+	chmod +x "$name.init/exec.sh" 2>/dev/null
+	mv "$name.init/exec.sh" "$name.init/exec" 2>/dev/null
+done
+
+
+
+# .hxe
+LIST=$(find "$pth" -name *.hxe -depth)
+echo "$LIST" | while read line
+do
+	cd "$(dirname "$line")"
+	echo "PROCESSING: $line"
+	shc -r -f "$line" 2>/dev/null
+	gcc "$line.x.c" -o "$line"
+	name=$(echo "$line" | cut -f 1 -d '.')
+	mv "$name.sh" "$name" 2>/dev/null
+done
+find "$pth" -name *.hxe.x.c -depth -exec rm {} \;
+
+
+"$PWD/../System/boot/init" "$1" "$2" "$3" "$4" "$5" "$6"

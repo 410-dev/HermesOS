@@ -35,5 +35,8 @@ while [[ true ]]; do
 	elif [[ -f "$CACHE/rboot" ]]; then
 		rm -f "$CACHE/rboot"
 		exit 100
+	elif [[ -f "$CACHE/uirestart" ]]; then
+		rm -f "$CACHE/uirestart"
+		exit 101
 	fi
 done

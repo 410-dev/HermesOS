@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ "$(mplxr SYSTEM/GRAPHITE/ENFORCE_CLI)" == 0 ]] && [[ -z "$(echo $b_arg | grep enforce_cli)" ]]; then
+if [[ "$(mplxr SYSTEM/GRAPHITE/ENFORCE_CLI)" == 0 ]] && [[ $(bootarg.contains "enforce_cli") == 0 ]]; then
 	echo "[*] Starting Graphical setup..."
 	while [[ true ]]; do
 		export DEVN="$(graphite_input "What is your device name? (English and Number only, no spacebar)")"

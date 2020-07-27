@@ -38,7 +38,7 @@ elif [[ "$1" == "--rollback" ]]; then
 		echo "Image not detected in NVRAM space."
 	fi
 elif [[ "$1" == "--uirestart" ]]; then
-	touch "$CACHE/SIG/shell_reload"
+	touch "$CACHE/uirestart"
 elif [[ "$1" == "--update" ]]; then
 	if [[ -f "$NVRAM/upgrade.dmg" ]]; then
 		touch "$NVRAM/update-install"
@@ -52,14 +52,12 @@ elif [[ "$1" == "--update" ]]; then
 		echo "System update not detected."
 	fi
 elif [[ "$1" == "--info" ]]; then
-	profloc="$CACHE/init/TouchDown.System.SystemProfiler"
 	echo "System Information"
-	echo "OS Name: $(<$profloc/sys_name)"
-	echo "Version: $(<$profloc/sys_version) (build $(<$profloc/sys_build))"
-	echo "Compatibility: $(<$profloc/sys_compatibility)"
-	echo "Manufacturer: $(<$profloc/sys_manufacture)"
-	echo "Interface Version: $(<$profloc/interface_version)"
-	profloc=""
+	echo "OS Name: $OS_Name"
+	echo "Version: $OS_Version (build $OS_Build)"
+	echo "Manufacturer: $OS_Manufacture"
+	echo "Interface Version: $OS_InterfaceVersion"
+	echo "Copyright Statement: $OS_CopyrightStatement"
 elif [[ "$1" == "--nvram-reset" ]]; then
 	echo "Reseting NVRAM..."
 	rm -rf "$NVRAM"
@@ -67,8 +65,6 @@ elif [[ "$1" == "--nvram-reset" ]]; then
 	echo "Rewriting NVRAM..."
 	cp -r "$TDLIB/defaults/nvram" "$LIB"
 	echo "Done."
-elif [[ "$1" == "--def-reload" ]]; then
-	touch "$CACHE/SIG/defreload"
 elif [[ "$1" == "--logflush" ]]; then
 	rm -rf "$LIBRARY/Logs"
 	mkdir -p "$LIBRARY/Logs"

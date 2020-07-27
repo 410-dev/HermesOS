@@ -53,14 +53,14 @@ if [[ ! -z "$(echo $b_arg | grep "iamdeveloper")" ]] && [[ -f "$NVRAM/enable_dev
 				echo "@PROG_START_POINT" > "$CACHE/tdinterpreter/cmd"
 				echo "$command" >> "$CACHE/tdinterpreter/cmd"
 				chmod +x "$CACHE/tdinterpreter/cmd"
-				"$SYSTEM/libexec/exec" "../../cache/tdinterpreter/cmd"
+				"$SYSTEM/bin/exec" "../../cache/tdinterpreter/cmd"
 			fi
 		done
 	else
 		echo "@PROG_START_POINT" > "$CACHE/tdinterpreter/cmd"
 		echo "$1" >> "$CACHE/tdinterpreter/cmd"
 		chmod +x "$CACHE/tdinterpreter/cmd"
-		"$SYSTEM/libexec/exec" "../../cache/tdinterpreter/cmd"
+		"$SYSTEM/bin/exec" "../../cache/tdinterpreter/cmd"
 	fi
 else
 	echo "Launching Interactive Interpreter Console failed."

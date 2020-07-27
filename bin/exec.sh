@@ -18,8 +18,8 @@ elif [[ -f "$USERDATA/$1" ]]; then
 				echo "Execution disabled by sandbox."
 				cd "$DATA"
 				exit 9
-			elif [[ $(echo "$fileLine") ==  "libexec $disabledCommand "* ]]; then
-				echo "[Warning] This application will access to libexec."
+			elif [[ $(echo "$fileLine") ==  "bin $disabledCommand "* ]]; then
+				echo "[Warning] This application will access to bin."
 				cd "$DATA"
 				exit 9
 			fi

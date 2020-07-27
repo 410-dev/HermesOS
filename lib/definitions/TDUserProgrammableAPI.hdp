@@ -40,7 +40,7 @@ function TouchDownAPI.manual() {
 	echo "   -(String) version(): Returns API version"
 	echo ""
 	echo "System___________________(@IMPORT System)"
-	echo "   -(String?) libexec() {command} {arguments}: Runs TouchDown commands with arguments."
+	echo "   -(String?) bin() {command} {arguments}: Runs TouchDown commands with arguments."
 	echo "   -(char_intform) isJailbroken(): Checks whether system is jailbroken."
 	echo "   -(String) getSystemVersion(): Returns system version as string form."
 	echo "   -(String) getSystemBuild(): Returns system build as string form."

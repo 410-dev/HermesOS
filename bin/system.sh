@@ -13,7 +13,7 @@ if [[ "$1" == "--clean-restore" ]]; then
 	if [[ -f "$NVRAM/upgrade.dmg" ]] || [[ -f "$NVRAM/rom.dmg" ]]; then
 		touch "$NVRAM/clean-restore"
 		echo "Shutting down..."
-		"$SYSTEM/libexec/shutdown"
+		"$SYSTEM/bin/shutdown"
 	else
 		echo "Image not detected in NVRAM space."
 	fi
@@ -21,19 +21,19 @@ elif [[ "$1" == "--dirty-restore" ]]; then
 	echo "File erase in progress..."
 	rm -vrf "$DATA/"*
 	echo "Shutting down..."
-	"$SYSTEM/libexec/shutdown"
+	"$SYSTEM/bin/shutdown"
 elif [[ "$1" == "--rollback" ]]; then
-	if [[ -d "$DATA/preupgrade.system" ]]; then
+	if [[ -d "$LIBRARY/preupgrade.system" ]]; then
 		echo "Preparing for rollback..."
-		hdiutil create -volname System -srcfolder "$DATA/preupgrade.system" -ov -format UDRW "$NVRAM/restore.dmg" >/dev/null
+		hdiutil create -volname System -srcfolder "$LIBRARY/preupgrade.system" -ov -format UDRW "$NVRAM/restore.dmg" >/dev/null
 		touch "$NVRAM/do_rollback"
 		echo "Do you want to erase old image after rollback?"
 		read yn
 		if [[ "$yn" == "Y" ]] || [[ "$yn" == "y" ]]; then
-			rm -rf "$DATA/preupgrade.system"
+			rm -rf "$LIBRARY/preupgrade.system"
 		fi
 		echo "Shutting down..."
-		"$SYSTEM/libexec/shutdown"
+		"$SYSTEM/bin/shutdown"
 	else
 		echo "Image not detected in NVRAM space."
 	fi

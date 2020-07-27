@@ -1,6 +1,7 @@
 #!/bin/bash
 # export USERN=$(mplxr "USER/user_name")
 # export MACHN=$(mplxr "SYSTEM/machine_name")
+"$TDLIB/Utility/preload"
 export USERN="root"
 export MACHN="apple_terminal"
 cd "$CACHE/definitions"

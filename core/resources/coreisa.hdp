@@ -3,7 +3,7 @@ function core.beginOSInterface() {
 	mkdir -p "$CACHE/definitions"
 	if [[ -f "$CACHE/definition" ]]; then
 		verbose "[*] Found definition file on cache drive."
-		cp "$CACHE/definition" "$CACHE/definitions"
+		mv "$CACHE/definition" "$CACHE/definitions/definition.hdp"
 	fi
 
 	if [[ -d "$LIBRARY/definitions" ]]; then

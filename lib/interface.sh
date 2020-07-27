@@ -1,52 +1,25 @@
 #!/bin/bash
-exit 0
-
-if [[ "$(mplxr BOOT/PROTOCOL/EnterSafeMode)" == "0" ]]; then
-	if [[ ! -z "$(echo $b_arg | grep "verbose")" ]]; then
-		"$TDLIB/Services/TDFrameworks/TDUserLoginInit"
-	else
-		"$TDLIB/Services/TDFrameworks/TDUserLoginInit" >/dev/null
-	fi
-else
-	echo "[!] System started with safe mode."
-fi
-SWAP_LOC="$(<$CACHE/SIG/swap_address)"
-export lastExecutedCommand=""
-export USERN=$(mplxr "USER/user_name")
-export MACHN=$(mplxr "SYSTEM/machine_name")
-cd "$CACHE/def"
-for file in *.def
+# export USERN=$(mplxr "USER/user_name")
+# export MACHN=$(mplxr "SYSTEM/machine_name")
+export USERN="root"
+export MACHN="apple_terminal"
+cd "$CACHE/definitions"
+for file in *.hdp
 do
 	source "$file"
 done
 cd "$ROOTFS"
 export logSuffix="$(<"$CACHE/SESSION_NUM")"
 while [[ true ]]; do
-	"$SYSTEM/sbin/interfacebulletin"
-	if [[ ! -z "$(ls $CACHE/tmp/$SWAP_LOC | grep F0x)" ]]; then
-		cd "$CACHE/tmp/$SWAP_LOC"
-		echo "" > "table"
-		for f in *x* ; do
-			export "$f"="$(<$f)"
-			echo "$f=$(<$f)" >> "table"
-		done
-	fi
-	if [[ -f "$CACHE/SIG/defreload" ]]; then
-		cd "$CACHE/def"
-		for file in *.def
-		do
-			source "$file"
-		done
-		rm "$CACHE/SIG/defreload"
-	fi
+	"$SYSTEM/lib/interfacebulletin"
 	cd "$ROOTFS"
 	echo -n "$USERN@$MACHN ~ # "
 	read command
 	args=($command)
-	if [[ -f "$SYSTEM/libexec/${args[0]}" ]]; then
+	if [[ -f "$SYSTEM/bin/${args[0]}" ]]; then
 		echo "[IN] [$(date +"%Y-%m-%d %H:%M")] COMMAND ENTERED: $command" >> "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"
 		echo "[OUT-START]" >> "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"
-		"$SYSTEM/libexec/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}" | tee -a "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"
+		"$SYSTEM/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}" | tee -a "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"
 		export lastExecutedCommand="$command"
 		echo "[OUT-END]" >> "$LIBRARY/Logs/INTERFACE_$logSuffix.tlog"
 		echo "$lastExecutedCommand" >> "$LIBRARY/Logs/history"
@@ -56,12 +29,11 @@ while [[ true ]]; do
 		echo "Command not found: ${args[0]}"
 		echo "$lastExecutedCommand" >> "$LIBRARY/Logs/history"
 	fi
-	if [[ -f "$CACHE/SIG/shell_close" ]]; then
-		echo "[*] Exiting..."
+	if [[ -f "$CACHE/stdown" ]]; then
+		rm -f "$CACHE/stdown"
 		exit 0
-	elif [[ -f "$CACHE/SIG/shell_reload" ]]; then
-		echo "[*] Reloading shell..."
-		rm -f "$CACHE/SIG/shell_reload"
-		exit 0
+	elif [[ -f "$CACHE/rboot" ]]; then
+		rm -f "$CACHE/rboot"
+		exit 100
 	fi
 done

@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ "$1" == "--version" ]]; then
-	echo "Interpreter Version: 1.0.0"
+	echo "Interpreter Version: 1.0.1"
 	exit 0
 elif [[ -f "$USERDATA/$1" ]]; then
 	if [[ ! -z "$(echo "$b_args" | grep "verbose")" ]]; then
@@ -12,7 +12,7 @@ elif [[ -f "$USERDATA/$1" ]]; then
 	fi
 	cat "$USERDATA/$1" | while read fileLine
 	do
-		cat "$CACHE/init/TouchDown.Security.ExecutableQuarantine/disabledContents" | while read disabledCommand
+		echo "$QuarantineData" | while read disabledCommand
 		do
 			if [[ $(echo "$fileLine") ==  "$disabledCommand "* ]]; then
 				echo "Execution disabled by sandbox."

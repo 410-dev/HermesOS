@@ -7,4 +7,3 @@ TDAutorepairDataPartition.hxe
 TDBootSession.hxe
 TDFilesystemSandbox.init/exec
 TDSayHello.hxe
-TDRemoveFalseCopiedNVRAM.hxe

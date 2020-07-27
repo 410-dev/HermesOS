@@ -8,7 +8,7 @@ if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
 	verbose "[*] Rewriting..."
 	cp -r "$TDLIB/defaults/multiplex" "$LIBRARY"
 	mv "$LIBRARY/multiplex" "$MULTIPLEX"
-	cp -r "$TDLIB/defaults/nvram" "$LIB"
+	cp -r "$TDLIB/defaults/nvram" "$LIBRARY"
 	mkdir -p "$DATA/init"
 	mkdir -p "$LIBRARY/Logs"
 	verbose "[*] Configurating multiplex..."

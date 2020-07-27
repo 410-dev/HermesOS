@@ -6,6 +6,5 @@ TDNVRAMManager.hxe
 TDAutorepairDataPartition.hxe
 TDBootSession.hxe
 TDFilesystemSandbox.init/exec
-TDExecutableQuarantine.init/exec
 TDSayHello.hxe
 TDRemoveFalseCopiedNVRAM.hxe

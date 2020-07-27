@@ -1,3 +1,6 @@
+#!/bin/bash
+
+export QuarantineData="
 ../
 bash
 zsh
@@ -14,4 +17,4 @@ shutdown
 reboot
 launchctl
 halt
-
+"

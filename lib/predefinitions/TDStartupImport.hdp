@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function @REQUIRE() {
+	if [[ -f "$TDLIB/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit" ]]; then
+		source "$TDLIB/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit"
+	else
+		echo "ERROR: Virtual ISA Version $1 does not exist in LegacySupport."
+		exit 0
+	fi
+}
+
+function @IMPORT() {
+	if [[ -f "$TDLIB/Library/Developer/$1.iskit" ]]; then
+		source "$TDLIB/Library/Developer/$1.iskit"
+	elif [[ -f "$LIBRARY/Developer/$1.iskit" ]]; then
+		source "$LIBRARY/Developer/$1.iskit"
+	else
+		echo "Error: Unable to find specified instruction set."
+		exit 0
+	fi
+}
+
+export -f @IMPORT
+export -f @REQUIRE

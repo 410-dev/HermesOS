@@ -18,8 +18,8 @@ else
 	verbose "[-] No preload definitions exist for core."
 fi
 export list=""
-if [[ ! -z "$(ls "$SYSTEM/lib/predefinitions/"*.hdp 2>/dev/null)" ]]; then
-	cd "$SYSTEM/lib/predefinitions/"
+if [[ ! -z "$(ls "$OSSERVICES/predefinitions/"*.hdp 2>/dev/null)" ]]; then
+	cd "$OSSERVICES/predefinitions/"
 	verbose "[*] Loading preload definitions: System"
 	for file in *.hdp
 	do
@@ -39,7 +39,10 @@ else
 	echo "[-] Failed loading core startup agents."
 	exit 1
 fi
-if [[ -f "$SYSTEM/lib/startupagents/agentlist" ]]; then
+verbose "[*] Loading cbackground worker.."
+"$CORE/bin/cbackgroundworker"
+verbose "[*] Process complete."
+if [[ -f "$OSSERVICES/startupagents/agentlist" ]]; then
 	verbose "[*] Loading startupagents..."
 	"$CORE/bin/startupagent"
 	export returned=$?
@@ -50,3 +53,15 @@ if [[ -f "$SYSTEM/lib/startupagents/agentlist" ]]; then
 		exit 1
 	fi
 fi
+if [[ -f "$OSSERVICES/backgroundworkers/workerslist" ]]; then
+	verbose "[*] Loading background workers..."
+	"$CORE/bin/backgroundworker"
+	export returned=$?
+	if [[ "$returned" == 0 ]]; then
+		verbose "[*] Workers loaded successfully."
+	else
+		echo "[-] Failed loading startup agents."
+		exit 1
+	fi
+fi
+

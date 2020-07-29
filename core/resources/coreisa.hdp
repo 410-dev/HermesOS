@@ -18,10 +18,10 @@ function core.beginOSInterface() {
 			done
 		fi
 	fi
-	if [[ -d "$SYSTEM/lib/definitions" ]]; then
-		if [[ ! -z "$(ls "$SYSTEM/lib/definitions/"*.hdp 2>/dev/null)" ]]; then
+	if [[ -d "$OSSERVICES/definitions" ]]; then
+		if [[ ! -z "$(ls "$OSSERVICES/definitions/"*.hdp 2>/dev/null)" ]]; then
 			verbose "[*] Found definition files in system."
-			ls "$SYSTEM/lib/definitions/"*.hdp | while read line
+			ls "$OSSERVICES/definitions/"*.hdp | while read line
 			do
 				if [[ ! -z "$line" ]]; then
 					verbose "[*] Uploading: $line"
@@ -48,17 +48,48 @@ function core.beginOSInterface() {
 	done
 	cd "$pwdd"
 	export pwdd=""
-	if [[ -f "$SYSTEM/lib/interface" ]]; then
+	if [[ -f "$OSSERVICES/interface" ]]; then
 		export exitcode="1"
 		while [[ $exitcode -ne 0 ]] && [[ $exitcode -ne 100 ]]; do
-			"$SYSTEM/lib/interface"
+			"$OSSERVICES/interface"
 			exitcode="$?"
 		done
+		core.endSystem
 	else
 		echo "[-] OS Interface not found."
 		echo "[-] Stopping core."
+		core.endSystem
 		export exitcode="0"
 	fi
 }
 
+function core.endSystem() {
+	verbose "[*] Loading lists of system level backgroundworkers..."
+	ALIVE=$(ps -ax | grep "$OSSERVICES[/]backgroundworker")
+	verbose "[*] Killing syncronously..."
+	verbose "$ALIVE" | while read proc
+	do
+		if [[ ! -z "$proc" ]]; then
+			frpid=($proc)
+			kill -9 ${frpid[0]}
+			verbose "[*] Killed PID: ${frpid[0]}"
+		fi
+	done
+	verbose "[*] System background workers are closed."
+
+	verbose "[*] Loading lists of core level backgroundworkers..."
+	ALIVE=$(ps -ax | grep "$CORE/bgworkers[/]")
+	verbose "[*] Killing syncronously..."
+	verbose "$ALIVE" | while read proc
+	do
+		if [[ ! -z "$proc" ]]; then
+			frpid=($proc)
+			kill -9 ${frpid[0]}
+			verbose "[*] Killed PID: ${frpid[0]}"
+		fi
+	done
+	verbose "[*] Background workers are closed."
+}
+
 export -f core.beginOSInterface
+export -f core.endSystem

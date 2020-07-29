@@ -1,24 +1,14 @@
 #!/bin/bash
-export agentlist="
-HMCorePartitionBuilder.hxe
-HMCoreProfiler.hxe
+export workerList="
 "
 export exitStatus="0"
-echo "$agentlist" | while read agentname
+echo "$workerList" | while read workerName
 do
-	if [[ ! -z "$agentname" ]]; then
-		verbose "[*] Loading: $agentname"
-		"$CORE/cstartupagents/$agentname" "$CACHE/definition"
-		export returned=$?
-		if [[ "$returned" == 0 ]]; then
-			verbose "[*] Load complete."
-		else
-			verbose "[!] $agentname returned exit code $returned."
-			exitStatus=$returned
-			break
-		fi
+	if [[ ! -z "$workerName" ]]; then
+		verbose "[*] Starting: $workerName"
+		"$CORE/bgworkers/$workerName" "$CACHE/definition" &
+		verbose "[*] Started: $workerName."
 	fi
 done
-export masterdefinition=""
-export agentlist=""
-exit "$exitStatus"
+export workerList=""
+exit 0

@@ -7,14 +7,6 @@ function System.bin() {
 	fi
 }
 
-function System.isJailbroken() {
-	if [[ ! -z "$(fopen $SYSTEM/init/BSFactoryResetHelper.init/exec | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/init/BSMakeSystemWritable.init/exec | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/bin/bootsnatchutil | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/man/bootsnatchutil | grep 0)" ]] || [[ ! -z "$(fopen $DATA/orig-fs.dmg | grep 0)" ]] || [[ ! -z "$(fopen $SYSTEM/sbin/semireset-helper | grep 0)" ]]; then
-		echo "1"
-	else
-		echo "0"
-	fi
-}
-
 function System.getSystemVersion() {
 	echo "$(<$SYSTEM/init/TDOSProfiler.init/sys_version)"
 }
@@ -24,6 +16,5 @@ function System.getSystemBuild() {
 }
 
 export -f System.bin
-export -f System.isJailbroken
 export -f System.getSystemVersion
 export -f System.getSystemBuild

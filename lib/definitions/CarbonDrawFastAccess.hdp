@@ -1,0 +1,29 @@
+#!/bin/bash
+
+export libcarbondraw="$SYSTEMSUPPORT/Services/GraphicSupport/CarbonDraw"
+
+function carbondraw() {
+    "$libcarbondraw/TDGraphicalUIRenderer" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+}
+
+function carbondraw_fileselect() {
+    "$libcarbondraw/TDFileSelection" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+}
+
+function carbondraw_infobox() {
+    "$libcarbondraw/TDInformationNotifier" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+}
+
+function carbondraw_input() {
+    echo "$("$libcarbondraw/TDInputWindow" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9")"
+}
+
+function carbondraw_msgbox() {
+    "$libcarbondraw/TDSimpleMessageBox" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+}
+
+export -f carbondraw
+export -f carbondraw_fileselect
+export -f carbondraw_infobox
+export -f carbondraw_input
+export -f carbondraw_msgbox

@@ -1,4 +1,36 @@
 #!/bin/bash
+
+function internal_exec() {
+	cat "$1" | while read fileLine
+	do
+		echo "$QuarantineData" | while read disabledCommand
+		do
+			if [[ $(echo "$fileLine") ==  "$disabledCommand "* ]]; then
+				echo "Execution disabled by sandbox."
+				cd "$DATA"
+				exit 9
+			elif [[ $(echo "$fileLine") ==  "bin $disabledCommand "* ]]; then
+				echo "[Warning] This application will access to bin."
+				cd "$DATA"
+				exit 9
+			fi
+			exitc=$?
+			if [[ $exitc == 9 ]]; then
+				exit 9
+			fi
+		done
+		exitc=$?
+		if [[ $exitc == 9 ]]; then
+			exit 9
+		fi
+	done
+	exitc=$?
+	if [[ $exitc == 0 ]]; then
+		cd "$USERDATA"
+		"$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8"
+	fi
+}
+
 if [[ $(bootarg.contains "iamdeveloper") == 1 ]] && [[ -f "$NVRAM/enable_dev_option" ]]; then
 	mkdir -p "$CACHE/tdinterpreter"
 	if [[ -z "$1" ]]; then
@@ -11,8 +43,8 @@ if [[ $(bootarg.contains "iamdeveloper") == 1 ]] && [[ -f "$NVRAM/enable_dev_opt
 				break
 			elif [[ ! -z "$(echo "$command" | grep "@IMPORT")" ]]; then
 				parse=($command)
-				if [[ -f "$TDLIB/Library/Developer/${parse[1]}.iskit" ]]; then
-					source "$TDLIB/Library/Developer/${parse[1]}.iskit"
+				if [[ -f "$SYSTEMSUPPORT/Library/Developer/${parse[1]}.iskit" ]]; then
+					source "$SYSTEMSUPPORT/Library/Developer/${parse[1]}.iskit"
 				elif [[ -f "$DATA/Library/Developer/${parse[1]}.iskit" ]]; then
 					source "$DATA/Library/Developer/${parse[1]}.iskit"
 				else
@@ -22,8 +54,8 @@ if [[ $(bootarg.contains "iamdeveloper") == 1 ]] && [[ -f "$NVRAM/enable_dev_opt
 			elif [[ ! -z "$(echo "$command" | grep "@TDIMPORT")" ]]; then
 				if [[ -f "$NVRAM/enable_tdapi" ]]; then
 					parse=($command)
-					if [[ -f "$TDLIB/Library/Developer/${parse[1]}.iskit" ]]; then
-						source "$TDLIB/Library/Developer/${parse[1]}.iskit"
+					if [[ -f "$SYSTEMSUPPORT/Library/Developer/${parse[1]}.iskit" ]]; then
+						source "$SYSTEMSUPPORT/Library/Developer/${parse[1]}.iskit"
 					elif [[ -f "$DATA/Library/Developer/${parse[1]}.iskit" ]]; then
 						source "$DATA/Library/Developer/${parse[1]}.iskit"
 					else
@@ -35,16 +67,16 @@ if [[ $(bootarg.contains "iamdeveloper") == 1 ]] && [[ -f "$NVRAM/enable_dev_opt
 				fi
 			elif [[ ! -z "$(echo "$command" | grep "@REQUIRE_TDAPI")" ]]; then
 				parse=($command)
-				if [[ -f "$TDLIB/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v${command[1]}.tis" ]]; then
-					source "$TDLIB/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v${command[1]}.tis"
+				if [[ -f "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v${command[1]}.tis" ]]; then
+					source "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v${command[1]}.tis"
 				else
 					echo "ERROR: API Version $command does not exist in LegacySupport."
 					exit 0
 				fi
 			elif [[ ! -z "$(echo "$command" | grep "@REQUIRE")" ]]; then
 				parse=($command)
-				if [[ -f "$TDLIB/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit" ]]; then
-					source "$TDLIB/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit"
+				if [[ -f "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit" ]]; then
+					source "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit"
 				else
 					echo "ERROR: Instruction Kit $command does not exist in LegacySupport."
 					exit 0
@@ -53,14 +85,14 @@ if [[ $(bootarg.contains "iamdeveloper") == 1 ]] && [[ -f "$NVRAM/enable_dev_opt
 				echo "@PROG_START_POINT" > "$CACHE/tdinterpreter/cmd"
 				echo "$command" >> "$CACHE/tdinterpreter/cmd"
 				chmod +x "$CACHE/tdinterpreter/cmd"
-				"$SYSTEM/bin/exec" "../../cache/tdinterpreter/cmd"
+				internal_exec "$CACHE/tdinterpreter/cmd"
 			fi
 		done
 	else
 		echo "@PROG_START_POINT" > "$CACHE/tdinterpreter/cmd"
 		echo "$1" >> "$CACHE/tdinterpreter/cmd"
 		chmod +x "$CACHE/tdinterpreter/cmd"
-		"$SYSTEM/bin/exec" "../../cache/tdinterpreter/cmd"
+		internal_exec "$CACHE/tdinterpreter/cmd"
 	fi
 else
 	echo "Launching Interactive Interpreter Console failed."

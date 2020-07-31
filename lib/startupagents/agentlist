@@ -1,7 +1,5 @@
 TDBuildUserspace.hxe
-TDFactoryResetHelper.hxe
-TDRollbackHelper.hxe
-TDOSUpgradeHelper.hxe
+HMOSUtility.hxe
 TDNVRAMManager.hxe
 TDAutorepairDataPartition.hxe
 TDBootSession.hxe

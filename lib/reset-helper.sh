@@ -17,6 +17,9 @@ rm -rf "$SYSTEM/"*
 mkdir -p "$SYSTEM"
 verbose "[*] Extracting system..."
 unzip -q "$LIBRARY/image.zip" -d "$SYSTEM"
+if [[ -d "$SYSTEM/__MACOSX" ]]; then
+	rm -rf "$SYSTEM/__MACOSX"
+fi
 if [[ -f "$SYSTEMSUPPORT/Utility/convert" ]]; then
 	verbose "[*] Running convert command..."
 	"$SYSTEMSUPPORT/Utility/convert" "$OS_Version_Major" "$OS_Version_Minor" "$OS_Version_Edit"

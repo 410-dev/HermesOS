@@ -1,0 +1,26 @@
+#!/bin/bash
+if [[ ! -f "$NVRAM/bootaction" ]]; then
+	verbose "[*] No boot action requested."
+else
+	export ACTION="$(<"$NVRAM/bootaction")"
+	if [[ "$ACTION" == "update" ]]; then
+		echo "[*] Hermes is being updated..."
+	elif [[ "$ACTION" == "rollback" ]]; then
+		echo "[*] Hermes is restoring previous version..."
+	elif [[ "$ACTION" == "restore" ]]; then 
+		echo "[*] Hermes is being factory-reseted..."
+	else
+		echo "[-] There was a requested boot action, but code: $ACTION is undefined."
+		exit 0
+	fi
+	verbose "[*] Checking image..."
+	if [[ -f "$LIBRARY/image.zip" ]]; then
+		verbose "[*] Image found."
+		verbose "[*] Uploading reset utility to cache drive..."
+		cp "$OSSERVICES/reset-helper" "$CACHE/"
+		verbose "[*] Starting helper!"
+		"$CACHE/reset-helper" "$ACTION"
+	else
+		echo "[-] Image not found."
+	fi
+fi

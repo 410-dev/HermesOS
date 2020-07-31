@@ -1,5 +1,6 @@
 #!/bin/bash
 if [[ -f "$CACHE/updated" ]]; then
+	rm "$CACHE/updated"
 	exit 0
 fi
 "$SYSTEMSUPPORT/Utility/preload"

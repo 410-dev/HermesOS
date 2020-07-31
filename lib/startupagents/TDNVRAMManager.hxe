@@ -5,11 +5,11 @@ if [[ -f "$NVRAM/nvraminfo" ]]; then
 		rm -rf "$NVRAM"
 		mkdir -p "$NVRAM"
 		verbose "[*] Rewriting NVRAM..."
-		cp -r "$TDLIB/defaults/nvram" "$LIBRARY"
+		cp -r "$SYSTEMSUPPORT/defaults/nvram" "$LIBRARY"
 		verbose "[*] Done."
 	fi
 else
 	verbose "[*] Initializing NVRAM data..."
-	cp -r "$TDLIB/defaults/nvram" "$LIBRARY"
+	cp -r "$SYSTEMSUPPORT/defaults/nvram" "$LIBRARY"
 	verbose "[*] Done."
 fi

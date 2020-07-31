@@ -1,5 +1,5 @@
 #!/bin/bash
-"$TDLIB/Utility/preload"
+"$SYSTEMSUPPORT/Utility/preload"
 export USERN=$(mplxr "USER/user_name")
 export MACHN=$(mplxr "SYSTEM/machine_name")
 if [[ -z "$USERN" ]]; then

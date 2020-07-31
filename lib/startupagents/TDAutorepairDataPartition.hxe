@@ -6,9 +6,9 @@ if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
 	rm -rf "$NVRAM" 2>/dev/null
 	verbose "[*] Removed old partition data."
 	verbose "[*] Rewriting..."
-	cp -r "$TDLIB/defaults/multiplex" "$LIBRARY"
+	cp -r "$SYSTEMSUPPORT/defaults/multiplex" "$LIBRARY"
 	mv "$LIBRARY/multiplex" "$MULTIPLEX"
-	cp -r "$TDLIB/defaults/nvram" "$LIBRARY"
+	cp -r "$SYSTEMSUPPORT/defaults/nvram" "$LIBRARY"
 	mkdir -p "$DATA/init"
 	mkdir -p "$LIBRARY/Logs"
 	verbose "[*] Configurating multiplex..."
@@ -16,7 +16,6 @@ if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
 	mplxw USER/INTERFACE/ALERT_PRESENT 0 >/dev/null
 	mplxw USER/INTERFACE/START_MODE Setup >/dev/null
 	mplxw BOOT/PROTOCOL/EnterSafeMode 0 >/dev/null
-	mplxw SYSTEM/GRAPHITE/present 1 >/dev/null
 	mplxw SYSTEM/COMMON/DataCompatibility "$DATA_COMPATIBILITY" >/dev/null
 	verbose "[*] Done."
 elif [[ "$(mplxr SYSTEM/COMMON/DataCompatibility)" -ne "$DATA_COMPATIBILITY" ]]; then

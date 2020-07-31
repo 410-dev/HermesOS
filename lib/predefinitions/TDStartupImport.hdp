@@ -1,8 +1,8 @@
 #!/bin/bash
 
 function @IMPORT() {
-	if [[ -f "$TDLIB/Library/Developer/$1.iskit" ]]; then
-		source "$TDLIB/Library/Developer/$1.iskit"
+	if [[ -f "$SYSTEMSUPPORT/Library/Developer/$1.iskit" ]]; then
+		source "$SYSTEMSUPPORT/Library/Developer/$1.iskit"
 	elif [[ -f "$LIBRARY/Developer/$1.iskit" ]]; then
 		source "$LIBRARY/Developer/$1.iskit"
 	else

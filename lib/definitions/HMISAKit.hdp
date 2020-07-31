@@ -5,17 +5,17 @@ function @PROG_START_POINT(){
 }
 
 function @REQUIRE_TDAPI() {
-	if [[ -f "$TDLIB/Services/LegacySupport/TDAPI-Depricated/TDUserProgrammableAPI-v$1.tis" ]]; then
-		source "$TDLIB/Services/LegacySupport/TDAPI-Depricated/TDUserProgrammableAPI-v$1.tis"
+	if [[ -f "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI-Depricated/TDUserProgrammableAPI-v$1.tis" ]]; then
+		source "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI-Depricated/TDUserProgrammableAPI-v$1.tis"
 	else
 		echo "ERROR: API Version $1 does not exist in LegacySupport."
 		exit 0
 	fi
 }
 
-function @REQUIRE() {
-	if [[ -f "$TDLIB/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit" ]]; then
-		source "$TDLIB/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit"
+function @IMPORT_ISA() {
+	if [[ -f "$SYSTEMSUPPORT/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit" ]]; then
+		source "$SYSTEMSUPPORT/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit"
 	else
 		echo "ERROR: Virtual ISA Version $1 does not exist in LegacySupport."
 		exit 0
@@ -23,8 +23,8 @@ function @REQUIRE() {
 }
 
 function @IMPORT() {
-	if [[ -f "$TDLIB/Library/Developer/$1.iskit" ]]; then
-		source "$TDLIB/Library/Developer/$1.iskit"
+	if [[ -f "$SYSTEMSUPPORT/Library/Developer/$1.iskit" ]]; then
+		source "$SYSTEMSUPPORT/Library/Developer/$1.iskit"
 	elif [[ -f "$LIBRARY/Developer/$1.iskit" ]]; then
 		source "$LIBRARY/Developer/$1.iskit"
 	else
@@ -34,8 +34,8 @@ function @IMPORT() {
 }
 
 function @TDIMPORT() {
-	if [[ -f "$TDLIB/Library/Developer/$1.tis" ]]; then
-		source "$TDLIB/Library/Developer/$1.tis"
+	if [[ -f "$SYSTEMSUPPORT/Library/Developer/$1.tis" ]]; then
+		source "$SYSTEMSUPPORT/Library/Developer/$1.tis"
 	elif [[ -f "$LIBRARY/Developer/$1.tis" ]]; then
 		source "$LIBRARY/Developer/$1.tis"
 	else

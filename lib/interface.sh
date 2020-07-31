@@ -1,4 +1,7 @@
 #!/bin/bash
+if [[ -f "$CACHE/updated" ]]; then
+	exit 0
+fi
 "$SYSTEMSUPPORT/Utility/preload"
 export USERN=$(mplxr "USER/user_name")
 export MACHN=$(mplxr "SYSTEM/machine_name")

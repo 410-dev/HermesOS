@@ -4,15 +4,6 @@ function @PROG_START_POINT(){
 	echo -n ""
 }
 
-function @REQUIRE_TDAPI() {
-	if [[ -f "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI-Depricated/TDUserProgrammableAPI-v$1.tis" ]]; then
-		source "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI-Depricated/TDUserProgrammableAPI-v$1.tis"
-	else
-		echo "ERROR: API Version $1 does not exist in LegacySupport."
-		exit 0
-	fi
-}
-
 function @IMPORT_ISA() {
 	if [[ -f "$SYSTEMSUPPORT/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit" ]]; then
 		source "$SYSTEMSUPPORT/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit"
@@ -33,19 +24,8 @@ function @IMPORT() {
 	fi
 }
 
-function @TDIMPORT() {
-	if [[ -f "$SYSTEMSUPPORT/Library/Developer/$1.tis" ]]; then
-		source "$SYSTEMSUPPORT/Library/Developer/$1.tis"
-	elif [[ -f "$LIBRARY/Developer/$1.tis" ]]; then
-		source "$LIBRARY/Developer/$1.tis"
-	else
-		echo "Error: Unable to find specified TouchDownOS instruction set."
-		exit 0
-	fi
-}
-
 function ISA.version() {
-	echo "2.0.0"
+	echo "2.0.1"
 }
 
 function ISA.manual() {
@@ -107,9 +87,8 @@ function print() {
 }
 
 export -f @PROG_START_POINT
+export -f @IMPORT_ISA
 export -f @IMPORT
-export -f @REQUIRE_TDAPI
-export -f @REQUIRE
 export -f ISA.version
 export -f ISA.manual
 export -f println

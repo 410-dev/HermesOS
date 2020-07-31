@@ -65,15 +65,7 @@ if [[ $(bootarg.contains "iamdeveloper") == 1 ]] && [[ -f "$NVRAM/enable_dev_opt
 				else
 					echo "Error: TouchDown instruction sets are disabled."
 				fi
-			elif [[ ! -z "$(echo "$command" | grep "@REQUIRE_TDAPI")" ]]; then
-				parse=($command)
-				if [[ -f "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v${command[1]}.tis" ]]; then
-					source "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI/TDUserProgrammableAPI-v${command[1]}.tis"
-				else
-					echo "ERROR: API Version $command does not exist in LegacySupport."
-					exit 0
-				fi
-			elif [[ ! -z "$(echo "$command" | grep "@REQUIRE")" ]]; then
+			elif [[ ! -z "$(echo "$command" | grep "@IMPORT_ISA")" ]]; then
 				parse=($command)
 				if [[ -f "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit" ]]; then
 					source "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit"

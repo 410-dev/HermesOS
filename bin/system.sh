@@ -15,7 +15,7 @@ elif [[ "$1" == "--dirty-restore" ]]; then
 	echo "Shutting down..."
 	"$SYSTEM/bin/shutdown"
 elif [[ "$1" == "--rollback" ]]; then
-	if [[ -d "$LIBRARY/rbimage.zip" ]]; then
+	if [[ -f "$LIBRARY/rbimage.zip" ]]; then
 		echo "Preparing for rollback..."
 		mv "$LIBRARY/rbimage.zip" "$LIBRARY/image.zip"
 		echo "rollback" > "$NVRAM/bootaction"

@@ -1,6 +1,6 @@
 #!/bin/bash
-if [[ -f "$CACHE/updated" ]]; then
-	rm "$CACHE/updated"
+if [[ -f "$CACHE/updated" ]] && [[ -f "$NVRAM/DontStartInterfaceAfterUpgrade" ]]; then
+	rm "$CACHE/updated" "$NVRAM/DontStartInterfaceAfterUpgrade"
 	exit 0
 fi
 "$SYSTEMSUPPORT/Utility/preload"

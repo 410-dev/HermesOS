@@ -45,8 +45,8 @@ if [[ $(bootarg.contains "iamdeveloper") == 1 ]] && [[ -f "$NVRAM/enable_dev_opt
 				parse=($command)
 				if [[ -f "$SYSTEMSUPPORT/Library/Developer/${parse[1]}.iskit" ]]; then
 					source "$SYSTEMSUPPORT/Library/Developer/${parse[1]}.iskit"
-				elif [[ -f "$DATA/Library/Developer/${parse[1]}.iskit" ]]; then
-					source "$DATA/Library/Developer/${parse[1]}.iskit"
+				elif [[ -f "$LIBRARY/Developer/${parse[1]}.iskit" ]]; then
+					source "$LIBRARY/Developer/${parse[1]}.iskit"
 				else
 					echo "Error: Unable to find specified instruction set."
 					exit 0

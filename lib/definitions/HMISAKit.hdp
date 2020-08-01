@@ -29,21 +29,23 @@ function ISA.version() {
 }
 
 function ISA.manual() {
-	echo "To make the program runnable, you need to add @PROG_START_POINT at the start of the program."
+	echo "To make the program runnable, you need to add @PROG_RUNNABLE at the start of the program."
 	echo "@ (Programming Attributes)"
-	echo "   -(void) PROG_START_POINT: Tells the interpreter that current file is runnable file."
-	echo "   -(void) REQUIRE_API {API Version}: Tells the interpreter to use specified version of API."
-	echo "   -(void) IMPORT {TIS Path}: Imports more instruction sets (functions)."
+	echo "   -(void) PROG_RUNNABLE: Tells the interpreter that current file is runnable file."
+	echo "   -(void) IMPORT_ISA {ISA Version}: Tells the interpreter to use specified version of ISA."
+	echo "   -(void) IMPORT {ISKit Path}: Imports more instruction sets (functions)."
 	echo ""
 	echo "ISA______________________"
 	echo "   -(String) manual(): Returns manual"
-	echo "   -(String) version(): Returns API version"
+	echo "   -(String) version(): Returns ISA version"
 	echo ""
 	echo "System___________________(@IMPORT System)"
 	echo "   -(String?) bin() {command} {arguments}: Runs TouchDown commands with arguments."
-	echo "   -(char_intform) isJailbroken(): Checks whether system is jailbroken."
 	echo "   -(String) getSystemVersion(): Returns system version as string form."
 	echo "   -(String) getSystemBuild(): Returns system build as string form."
+	echo "System Static____________(@IMPORT System)"
+	echo "   -(print) println() {String: toPrint}: Prints a line, then add a linebreak at the end of the line."
+	echo "   -(print) print() {String: toPrint}: Prints a line, then does not add a linebreak."
 	echo ""
 	echo "Interface________________(@IMPORT Interface)"
 	echo "   -(void) addAlert() {String: Alert message}: Add alert message on queue. This will be loaded by interfacebulletin."
@@ -55,12 +57,7 @@ function ISA.manual() {
 	echo "   -(void) disconnectDiskImage() {String: mountpoint name}: Unmounts disk image from mountpoint."
 	echo "   -(void) setMemory() {String: memory name} {String: Data}: Sets memory that is accessible only in the process"
 	echo ""
-	echo "Static (Does not require Static prefix.)"
-	echo "   -(print) println() {String: toPrint}: Prints a line, then add a linebreak at the end of the line."
-	echo "   -(print) print() {String: toPrint}: Prints a line, then does not add a linebreak."
-	echo ""
-	echo "System Function (Does not require prefix.)"
-	echo "   -(char_intform) accessible() {c,r,w} {path}: Checks whether the file or directory is accessible with specified permission: c (catalog), r (read), w (write)"
+	echo "FileIO___________________(@IMPORT FileIO) (Does not require prefix)"
 	echo "   -(char_intform) fopen() {path}: Checks whether the file exists. If exists, returns 0. If not, returns -9."
 	echo "   -(String) fread() {path}: Reads file if exists. Otherwise returns -9."
 	echo "   -(char_intform) fwrite() {path} {contents}: Writes file to specified path. If successful, the function returns 0. If failed, the function returns -9."
@@ -71,25 +68,19 @@ function ISA.manual() {
 	echo "   -(String) dread() {path}: Shows the list of file in directory. Otherwise returns -9."
 	echo "   -(char_intform) dmake() {path}: Creates a directory. If successful, the function returns 0. If failed, the function returns -9."
 	echo "   -(char_intform) ddelete() {path}: Deletes the directory. If successful, the function returns 0. If failed, the function returns -9."
+	echo "   -(char_intform) netsession() {URL} {output path}: Downloads file from specified URL and store to specified path."
+	echo ""
+	echo "System Function (Does not require prefix)"
+	echo "   -(char_intform) accessible() {c,r,w} {path}: Checks whether the file or directory is accessible with specified permission: c (catalog), r (read), w (write)"
 	echo "   -(String) mplxr() {address}: Returns value in specified address stored in Multiplex."
 	echo "   -(char_intform) mplxw() {address} {value}: Creates / Write value on specified key address. If successful, the function returns 0. If failed, the function returns -9."
 	echo "   -(char_intform) mplxk() {key}: Creates key. If successful, the function returns 0. If failed, the function returns -9."
 	echo "   -(char_intform) mplxd() {address/key}: Removes key or value. If successful, the function returns 0. If failed, the function returns -9."
-	echo "   -(char_intform) netsession() {URL} {output path}: Downloads file from specified URL and store to specified path. Returns TDNetwork framework output code."
 }
 
-function println() {
-	echo "$1 $2 $3 $4 $5 $6 $7 $8 $9"
-}
-
-function print() {
-	echo -n "$1 $2 $3 $4 $5 $6 $7 $8 $9"
-}
-
-export -f @PROG_START_POINT
+export -f @PROG_RUNNABLE
 export -f @IMPORT_ISA
 export -f @IMPORT
 export -f ISA.version
 export -f ISA.manual
-export -f println
-export -f print
+

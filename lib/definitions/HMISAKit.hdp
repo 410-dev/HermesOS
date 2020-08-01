@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function @PROG_START_POINT(){
+function @PROG_RUNNABLE(){
 	echo -n ""
 }
 

@@ -74,14 +74,14 @@ if [[ $(bootarg.contains "iamdeveloper") == 1 ]] && [[ -f "$NVRAM/enable_dev_opt
 					exit 0
 				fi
 			elif [[ ! -z $command ]]; then
-				echo "@PROG_START_POINT" > "$CACHE/tdinterpreter/cmd"
+				echo "@PROG_RUNNABLE" > "$CACHE/tdinterpreter/cmd"
 				echo "$command" >> "$CACHE/tdinterpreter/cmd"
 				chmod +x "$CACHE/tdinterpreter/cmd"
 				internal_exec "$CACHE/tdinterpreter/cmd"
 			fi
 		done
 	else
-		echo "@PROG_START_POINT" > "$CACHE/tdinterpreter/cmd"
+		echo "@PROG_RUNNABLE" > "$CACHE/tdinterpreter/cmd"
 		echo "$1" >> "$CACHE/tdinterpreter/cmd"
 		chmod +x "$CACHE/tdinterpreter/cmd"
 		internal_exec "$CACHE/tdinterpreter/cmd"

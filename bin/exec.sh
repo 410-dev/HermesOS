@@ -6,8 +6,8 @@ elif [[ -f "$USERDATA/$1" ]]; then
 	if [[ $(bootarg.contains "verbose") == 1 ]]; then
 		echo "[*] Verifying..."
 	fi
-	if [[ -z "$(cat "$USERDATA/$1" | grep "@PROG_START_POINT")" ]]; then
-		echo "Unable to start program: Unable to find @PROG_START_POINT"
+	if [[ -z "$(cat "$USERDATA/$1" | grep "@PROG_RUNNABLE")" ]]; then
+		echo "Unable to start program: Unable to find @PROG_RUNNABLE"
 		exit 9
 	fi
 	cat "$USERDATA/$1" | while read fileLine

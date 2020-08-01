@@ -4,7 +4,7 @@ if [[ "$ACTION" == "update" ]]; then
 	verbose "[*] Generating a rollback point..."
 	mkdir -p "$LIBRARY/system-backup"
 	cp -r "$SYSTEM/"* "$LIBRARY/system-backup"
-	echo "Making rollback image..."
+	echo "[*] Making rollback image..."
 	export pwdb="$PWD"
 	cd "$LIBRARY/system-backup"
 	zip -rq "rbimage.zip" . -x ".*" -x "__MACOSX"
@@ -32,3 +32,4 @@ fi
 echo "[*] Done."
 mkdir -p "$CACHE"
 touch "$CACHE/updated"
+rm -rf "$NVRAM/bootaction"

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+source "$SYSTEMSUPPORT/Library/Developer/System.iskit"
 function internal_exec() {
 	cat "$1" | while read fileLine
 	do
@@ -36,6 +36,7 @@ if [[ $(bootarg.contains "iamdeveloper") == 1 ]] && [[ -f "$NVRAM/enable_dev_opt
 	if [[ -z "$1" ]]; then
 		println "Hermes Interpreter Interactive Console"
 		println "Type ISA.manual to see available commands. To stop, type exit."
+		println "System.iskit is automatically imported."
 		while [[ true ]]; do
 			echo -n "\$ "
 			read command

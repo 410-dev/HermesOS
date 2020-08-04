@@ -12,6 +12,9 @@ if [[ -f "$LIBRARY/image.zip" ]]; then
 fi
 echo "Checking tag..."
 export URL="$(<"$(dirname "$0")/ota-profile")"
+if [[ -f "$NVRAM/ota-profile" ]]; then
+	export URL="$(<"$NVRAM/ota-profile")"
+fi
 curl -Ls "$URL" -o "$CACHE/ota-profile"
 source "$CACHE/ota-profile"
 if [[ ! -z "$(<"$(dirname "$0")/ota-address")" ]] && [[ ! -z "$(<"$(dirname "$0")/ota-address")" ]]; then

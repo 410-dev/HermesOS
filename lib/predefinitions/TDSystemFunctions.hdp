@@ -3,20 +3,6 @@ function syslangversion() {
 	echo "1.5"
 }
 
-function accessible() {
-	if [[ "$1" == "c" ]] || [[ "$1" == "r" ]] || [[ "$1" == "w" ]]; then
-		echo "$(<"$CACHE/proc.faccess/$1lim")" | while read limitedLoc
-		do
-			if [[ ! -z $(echo "$2" | grep "$limitedLoc") ]]; then
-				echo "-9"
-				break
-			fi
-		done
-	else
-		echo "-9"
-	fi
-}
-
 function mplxr() {
 	if [[ -f "$MULTIPLEX/$1" ]]; then
 		echo "$(<"$MULTIPLEX/$1")"

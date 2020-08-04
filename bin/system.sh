@@ -56,6 +56,8 @@ elif [[ "$1" == "--nvram-reset" ]]; then
 elif [[ "$1" == "--logflush" ]]; then
 	rm -rf "$LIBRARY/Logs"
 	mkdir -p "$LIBRARY/Logs"
+elif [[ "$1" == "--ota-download" ]]; then
+	"$SYSTEMSUPPORT/Services/Update/dlutil"
 else
 	echo "No such arguments."
 fi

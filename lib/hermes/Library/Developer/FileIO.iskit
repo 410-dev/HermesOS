@@ -6,7 +6,7 @@ function syslangversion() {
 
 function fopen() {
 	if [[ -f "$1" ]]; then
-		if [[ $(accessible "r" "$1") == "0" ]]; then
+		if [[ -z $(accessible "r" "$1") ]]; then
 			echo "0"
 		else
 			echo "-9"

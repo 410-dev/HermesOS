@@ -1,8 +1,4 @@
 #!/bin/bash
-function syslangversion() {
-	echo "1.5"
-}
-
 function mplxr() {
 	if [[ -f "$MULTIPLEX/$1" ]]; then
 		echo "$(<"$MULTIPLEX/$1")"
@@ -46,8 +42,6 @@ function mplxd() {
 	fi
 }
 
-export -f syslangversion
-export -f accessible
 export -f mplxw
 export -f mplxr
 export -f mplxk

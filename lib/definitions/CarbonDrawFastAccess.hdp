@@ -3,7 +3,7 @@
 export libcarbondraw="$SYSTEMSUPPORT/Services/GraphicSupport/CarbonDraw"
 
 function carbondraw() {
-    "$libcarbondraw/TDGraphicalUIRenderer" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+    "$libcarbondraw/engine" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
 }
 
 function carbondraw_fileselect() {

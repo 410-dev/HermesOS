@@ -4,6 +4,11 @@
 # delete [key or value name]
 # read [key or value name]
 
+if [[ "$(accessible "w" "$MULTIPLEX/$2")" == "-9" ]]; then
+	echo "Error: Modifying data not within multiplex is not permitted."
+	exit -9
+fi
+
 if [[ "$1" == "setkey" ]]; then
 	if [[ -z "$2" ]]; then
 		echo "Error: Key name is not specified."

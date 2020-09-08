@@ -41,10 +41,12 @@ while [[ true ]]; do
 		echo "$lastExecutedCommand" >> "$LIBRARY/Logs/history"
 	fi
 	if [[ -f "$CACHE/stdown" ]]; then
-		rm -f "$CACHE/stdown"
+		verbose "[*] Flushing cache data..."
+		rm -rf "$CACHE"
 		exit 0
 	elif [[ -f "$CACHE/rboot" ]]; then
-		rm -f "$CACHE/rboot"
+		verbose "[*] Flushing cache data..."
+		rm -rf "$CACHE"
 		exit 100
 	elif [[ -f "$CACHE/uirestart" ]]; then
 		rm -f "$CACHE/uirestart"

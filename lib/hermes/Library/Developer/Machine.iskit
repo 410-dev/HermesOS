@@ -9,10 +9,6 @@ function Machine.disconnectDiskImage() {
 	hdiutil detach "$DATA/mount/$1" $2 >/dev/null
 }
 
-function Machine.setMemory() {
-	export "$1"="$2"
-}
 
 export -f Machine.connectDiskImage
 export -f Machine.disconnectDiskImage
-export -f Machine.setMemory

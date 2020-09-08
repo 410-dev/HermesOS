@@ -9,7 +9,7 @@ sudo
 hdiutil
 mount
 umount
-export
+export -f
 echo
 rm
 touch

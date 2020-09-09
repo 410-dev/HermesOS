@@ -8,11 +8,11 @@ function System.bin() {
 }
 
 function System.getSystemVersion() {
-	echo "$(<$SYSTEM/init/TDOSProfiler.init/sys_version)"
+	echo "$OS_Version"
 }
 
 function System.getSystemBuild() {
-	echo "$(<$SYSTEM/init/TDOSProfiler.init/sys_build)"
+	echo "$OS_Build"
 }
 
 function println() {

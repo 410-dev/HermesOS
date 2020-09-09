@@ -1,4 +1,13 @@
 #!/bin/bash
+
+function loadDefinition() {
+	cd "$CACHE/definitions"
+	for file in *.hdp
+	do
+		source "$file"
+	done
+}
+
 if [[ -f "$CACHE/updated" ]] && [[ -f "$NVRAM/DontStartInterfaceAfterUpgrade" ]]; then
 	rm "$CACHE/updated" "$NVRAM/DontStartInterfaceAfterUpgrade"
 	exit 0
@@ -12,11 +21,7 @@ fi
 if [[ -z "$MACHN" ]]; then
 	export MACHN="apple_terminal"
 fi
-cd "$CACHE/definitions"
-for file in *.hdp
-do
-	source "$file"
-done
+loadDefinition
 cd "$ROOTFS"
 export logSuffix="$(<"$CACHE/SESSION_NUM")"
 while [[ true ]]; do
@@ -55,5 +60,7 @@ while [[ true ]]; do
 	elif [[ -f "$CACHE/uirestart" ]]; then
 		rm -f "$CACHE/uirestart"
 		exit 101
+	elif [[ -f "$CACHE/defreload" ]]; then
+		loadDefinition
 	fi
 done

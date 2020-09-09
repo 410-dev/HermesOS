@@ -5,11 +5,11 @@ function Interface.addAlert() {
 }
 
 function Interface.updateDefinitionsOnProgramEnd() {
-	touch "$CACHE/SIG/defreload"
+	touch "$CACHE/defreload"
 }
 
 function Interface.restartOnProgramEnd() {
-	touch "$CACHE/SIG/shell_reload"
+	touch "$CACHE/uirestart"
 }
 
 export -f Interface.addAlert

@@ -2,5 +2,6 @@ hic - Hermes Interpreter Console
 
 Description: 
 Custom scripts that requires Instruction Kit can be executed over this interface.
+This program is locked by default. To enable, set enable_dev_option to 1 in nvram.
 
 Usage: hic

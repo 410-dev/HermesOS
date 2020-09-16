@@ -1,0 +1,6 @@
+open - Start a bundled application
+
+The application should be structured in conventional format.
+You may pass in parameters as the following:
+
+ex: open exampleapp.bxe [argument]

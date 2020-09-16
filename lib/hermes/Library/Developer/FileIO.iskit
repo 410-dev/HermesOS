@@ -1,9 +1,4 @@
 #!/bin/bash
-
-function syslangversion() {
-	echo "1.5"
-}
-
 function fopen() {
 	if [[ -f "$1" ]]; then
 		if [[ -z $(accessible "r" "$1") ]]; then
@@ -147,7 +142,6 @@ function netsession() {
 	echo "$?"
 }
 
-export -f syslangversion
 export -f fopen
 export -f fread
 export -f fwrite

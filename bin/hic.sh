@@ -31,7 +31,7 @@ function internal_exec() {
 	fi
 }
 
-if [[ $(bootarg.contains "iamdeveloper") == 1 ]] && [[ -f "$NVRAM/enable_dev_option" ]]; then
+if [[ -f "$NVRAM/enable_dev_option" ]]; then
 	mkdir -p "$CACHE/tdinterpreter"
 	if [[ -z "$1" ]]; then
 		println "Hermes Interpreter Interactive Console"

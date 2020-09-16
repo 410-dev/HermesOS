@@ -7,9 +7,18 @@ source "$(dirname "$0")/instructions.hdp"
 if [[ -f "$LIBRARY/Services/cmem" ]]; then
 	source "$LIBRARY/Services/cmem"
 fi
+
+# Added for HermesOS
 if [[ -f "$NVRAM/boot_argument" ]]; then
 	export BOOTARGS="$BOOTARGS $(<"$NVRAM/boot_argument")"
 fi
+if [[ -f "$NVRAM/boot_reference" ]]; then
+	cp "$NVRAM/boot_reference" "$CACHE/bootconf"
+	chmod +x "$CACHE/bootconf"
+	source "$CACHE/bootconf"
+	rm -f "$CACHE/bootconf"
+fi
+
 export BOOTARGS="$BOOTARGS $1 $2 $3 $4 $5 $6 $7 $8 $9"
 
 function loadOS() {

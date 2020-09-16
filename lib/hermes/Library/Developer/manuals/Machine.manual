@@ -1,0 +1,5 @@
+Machine__________________(@IMPORT Machine)
+   -(void) connectDiskImage() {String: dmg path} {String: mountpoint name}: Mounts disk image. It will be mounted under /Data/mount/mountpoint_name
+   -(void) disconnectDiskImage() {String: mountpoint name}: Unmounts disk image from mountpoint.
+   -(void) setMemory() {String: memory name} {String: Data}: Sets memory that is accessible only in the process
+	

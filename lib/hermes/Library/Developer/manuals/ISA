@@ -1,0 +1,9 @@
+To make the program runnable, you need to add @PROG_RUNNABLE at the start of the program.
+@ (Programming Attributes)
+   -(void) PROG_RUNNABLE: Tells the interpreter that current file is runnable file.
+   -(void) IMPORT_ISA {ISA Version}: Tells the interpreter to use specified version of ISA.
+   -(void) IMPORT {ISKit Path}: Imports more instruction sets (functions).
+
+ISA______________________
+   -(String) manual(): Returns manual
+   -(String) version(): Returns ISA version

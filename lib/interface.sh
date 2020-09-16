@@ -24,12 +24,13 @@ fi
 loadDefinition
 cd "$ROOTFS"
 export logSuffix="$(<"$CACHE/SESSION_NUM")"
+export working_directory="$USERDATA"
 while [[ true ]]; do
 	"$SYSTEM/lib/interfacebulletin"
-	cd "$ROOTFS"
+	cd "$working_directory"
 	echo -n "$USERN@$MACHN ~ # "
 	read command
-	args=($command)
+	export args=($command)
 	if [[ "${args[0]}" == "../"* ]]; then
 		echo "Error: Escaping /System/bin is disallowed. Use exec command."
 	elif [[ -f "$SYSTEM/bin/${args[0]}" ]]; then

@@ -1,6 +1,6 @@
 #!/bin/bash
 function syslangversion() {
-	echo "1.5MultiplexOnly"
+	echo "1.5"
 }
 
 function accessible() {

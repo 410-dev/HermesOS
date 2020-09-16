@@ -4,6 +4,8 @@ function System.bin() {
 	export args=("$1 $2 $3 $4 $5 $6 $7 $8 $9")
 	if [[ -f "$SYSTEM/bin/${args[0]}" ]]; then
 		"$SYSTEM/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}"
+	else
+		echo "Command not found."
 	fi
 }
 

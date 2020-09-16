@@ -31,10 +31,16 @@ function ISA.version() {
 function ISA.manual() {
 	export manuals="$SYSTEMSUPPORT/Library/Developer/manuals"
 	cat "$manuals/ISA"
+	echo ""
+	echo ""
 	cat "$manuals/System"
+	echo ""
+	echo ""
 	ls "$manuals/"*.manual | while read agentname
 	do
 		cat "$agentname"
+		echo ""
+		echo ""
 	done
 }
 

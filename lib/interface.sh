@@ -11,8 +11,19 @@ function loadDefinition() {
 if [[ -f "$CACHE/updated" ]] && [[ -f "$NVRAM/DontStartInterfaceAfterUpgrade" ]]; then
 	rm "$CACHE/updated" "$NVRAM/DontStartInterfaceAfterUpgrade"
 	exit 0
+elif [[ "$(mplxr USER/SECURITY/LOGIN_ATTEMPT)" == "64" ]]; then
+	echo "Error: Unable to start user interface"
+	echo "Error code: 64"
+	echo "You entered wrong password more than 5 times."
+	exit 0
 fi
 "$SYSTEMSUPPORT/Utility/preload"
+if [[ "$(mplxr USER/SECURITY/LOGIN_ATTEMPT)" == "64" ]]; then
+	echo "Error: Unable to start user interface"
+	echo "Error code: 64"
+	echo "You entered wrong password more than 5 times."
+	exit 0
+fi
 export USERN=$(mplxr "USER/user_name")
 export MACHN=$(mplxr "SYSTEM/machine_name")
 if [[ -z "$USERN" ]]; then

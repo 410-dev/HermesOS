@@ -1,16 +1,14 @@
 # Volume Signature
 # Runnable Hermes Core eXtension
 
-export CXS_AUTOGEN_FILENAME="volsign.hcx"
+export CXS_AUTOGEN_FILENAME="lib/hermes/defaults/nvram/VFVSG/systemroot.hcx"
 
 export CXS_ENTITLEMENT="SYSTEM"
-export CXS_SECTOR="$CXS_ENTITLEMENT"
-export CXS_SECT_INTEG="null"
 
 export CERT_MANUFACTURE="410"
 
-export CXS_SIGNSEED="$(md5 -qs "OS=Hermes;MAJOR=10;MANUFACTURE=$CERT_MANUFACTURE;INTEG=$CXS_SECT_INTEG")"
-export CXS_CODESIGN_FORMAT="$(echo "entitlement=$CXS_ENTITLEMENT;sector=$CXS_SECTOR;signseed=$CXS_SIGNSEED" | shasum -a 512)"
-export CXS_CODESIGN_ARRAY=($CXS_CODESIGN_FORMAT)
+export CXS_SIGNSEED="$(md5 -qs "OS=Hermes;MAJOR=10;MANUFACTURE=$CERT_MANUFACTURE")"
+export CXS_CODESIGN="$(echo "entitlement=$CXS_ENTITLEMENT;signseed=$CXS_SIGNSEED" | shasum -a 512)"
 
-echo "${CXS_CODESIGN_ARRAY[0]}" > "./$CXS_AUTOGEN_FILENAME"
+
+echo "$CXS_CODESIGN" > "./$CXS_AUTOGEN_FILENAME"

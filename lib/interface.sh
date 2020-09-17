@@ -31,6 +31,7 @@ while [[ true ]]; do
 	echo -n "$USERN@$MACHN ~ # "
 	read command
 	export args=($command)
+	export USERLV="1"
 	if [[ "${args[0]}" == "../"* ]]; then
 		echo "Error: Escaping /System/bin is disallowed. Use exec command."
 	elif [[ -f "$SYSTEM/bin/${args[0]}" ]]; then
@@ -50,6 +51,7 @@ while [[ true ]]; do
 		echo "Command not found: ${args[0]}"
 		echo "$lastExecutedCommand" >> "$LIBRARY/Logs/history"
 	fi
+	export USERLV="1"
 	if [[ -f "$CACHE/stdown" ]]; then
 		verbose "[*] Flushing cache data..."
 		rm -rf "$CACHE"

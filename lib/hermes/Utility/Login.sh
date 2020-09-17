@@ -16,7 +16,7 @@ else
 	else
 		while [[ true ]]; do
 			echo -n "Please enter your password: "
-			read PASS
+			read -s PASS
 			if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "$(md5 -qs $PASS)" ]]; then
 				echo "[*] Login successful."
 				break

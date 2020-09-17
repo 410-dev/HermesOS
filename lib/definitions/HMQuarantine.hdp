@@ -10,6 +10,7 @@ hdiutil
 mount
 umount
 export -f
+export USERLV
 echo
 rm
 touch

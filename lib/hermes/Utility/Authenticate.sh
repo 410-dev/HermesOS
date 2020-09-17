@@ -5,6 +5,8 @@ read in
 if [[ "$in" == "y" ]] || [[ "$in" == "Y" ]]; then
 	if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "nothing" ]] || [[ "$(mplxr USER/SECURITY/PASSCODE_PRESENT)" == "0" ]]; then
 		exit 0
+	elif [[ "$3" == "userlevel" ]]; then
+		exit 0
 	else
 		for (( i = 0; i < 3; i++ )); do
 			echo -n "Please enter your password: "

@@ -1,0 +1,7 @@
+# Access Permission Data
+export ACCESS_ROOT_PERMISSION="/Cache
+/Library"
+
+export ACCESS_USER_PERMISSION="/User"
+
+export ACCESS_EXTERNAL_DRIVE="/mount"

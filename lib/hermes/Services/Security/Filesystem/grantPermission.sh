@@ -1,9 +1,4 @@
 #!/bin/bash
-
-# lastExecutedCommand is the process name.
-# USERLV gets user permission
-# $1 is real path
-
 if [[ "$USERLV" == "0" ]]; then
 	exit 0
 else
@@ -16,19 +11,22 @@ else
 		fi
 	done
 
-	echo "$ACCESS_USER_PERMISSION" | while read line
+	echo "$NVRAM/security/saved_userlevel_fileaccess" | while read line
 	do
-		if [[ ! -z "$(echo "$1" | grep line)" ]]; then
-			"$SYSTEMSUPPORT/Utility/Authenticate" "$lastExecutedCommand" "user's data" "userlevel"
-			exit $?
+		if [[ "$line" == "$lastExecutedCommand" ]]; then
+			exit 0
 		fi
 	done
 
-	echo "$ACCESS_EXTERNAL_DRIVE" | while read line
+	echo "$ACCESS_USER_PERMISSION" | while read line
 	do
 		if [[ ! -z "$(echo "$1" | grep line)" ]]; then
-			"$SYSTEMSUPPORT/Utility/Authenticate" "$lastExecutedCommand" "external storage" "userlevel"
-			exit $?
+			"$SYSTEMSUPPORT/Utility/Authenticate" "$lastExecutedCommand" "personal data" "userlevel"
+			export exitc=$?
+			if [[ "$exitc" == "0" ]]; then
+				echo "$lastExecutedCommand" >> "$NVRAM/security/saved_userlevel_fileaccess"
+			fi
+			exit $exitc
 		fi
 	done
 	exit 1

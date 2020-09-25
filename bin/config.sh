@@ -26,25 +26,42 @@ elif [[ "$1" == "--machinename" ]]; then
 elif [[ "$1" == "--password" ]]; then
 	if [[ "$(mplxr USER/SECURITY/PASSCODE_PRESENT)" == "1" ]]; then
 		echo -n "Old Password: "
-		read pw
+		read -s pw
+		echo ""
 		if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "$(md5 -qs "$pw")" ]]; then
 			echo -n "New Password: "
-			read pw
-			if [[ -z "$pw" ]]; then
-				mplxw "USER/SECURITY/PASSCODE_PRESENT" "0" >/dev/null
+			read -s pw1
+			echo ""
+			echo -n "Retype New Password: "
+			read -s pw2
+			echo ""
+			if [[ "$pw1" == "$pw2" ]]; then
+				if [[ -z "$pw1" ]]; then
+					mplxw "USER/SECURITY/PASSCODE_PRESENT" "0" >/dev/null
+				fi
+				mplxw "USER/SECURITY/PASSCODE" "$(md5 -qs "$pw1")" >/dev/null
+				echo "Done."
+			else
+				echo "Error: Password does not match."
 			fi
-			mplxw "USER/SECURITY/PASSCODE" "$(md5 -qs "$pw")" >/dev/null
-			echo "Done."
 		else
 			echo "Wrong password!"
 			exit 0
 		fi
 	else
 		echo -n "New Password: "
-		read pw
-		mplxw "USER/SECURITY/PASSCODE" "$(md5 -qs "$pw")" >/dev/null
-		mplxw "USER/SECURITY/PASSCODE_PRESENT" "1" >/dev/null
-		echo "Done."
+		read -s pw1
+		echo ""
+		echo -n "Retype New Password: "
+		read -s pw2
+		echo ""
+		if [[ "$pw1" == "$pw2" ]]; then
+			mplxw "USER/SECURITY/PASSCODE" "$(md5 -qs "$pw1")" >/dev/null
+			mplxw "USER/SECURITY/PASSCODE_PRESENT" "1" >/dev/null
+			echo "Done."
+		else
+			echo "Error: Password does not match."
+		fi
 	fi
 else
 	echo "Unknown action."

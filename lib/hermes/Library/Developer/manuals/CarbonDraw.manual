@@ -1,6 +1,0 @@
-CarbonDraw_______________(@IMPORT CarbonDraw)
-   -(void) defaultDraw(): This follows "dialog" default grammar.
-   -(void) infoBox() {contents} {width} {height}: This shows an infobox without title. If width or height is set to 0, then it is automatically adjusted.
-   -(String) readInput() {title} {width} {height}: This shows an input box with title. If width or height is set to 0, then it is automatically adjusted.
-   -(void) messageBox() {title} {message} {width} {height}: This shows a dialog box with title. If width or height is set to 0, then it is automatically adjusted.
-   

@@ -67,9 +67,14 @@ function mplxd() {
 	fi
 }
 
+function hmlog() {
+	echo "$1" >> "$CACHE/Logs/log_HMLogger.hlog"
+}
+
 export -f syslangversion
 export -f accessible
 export -f mplxw
 export -f mplxr
 export -f mplxk
 export -f mplxd
+export -f hmlog

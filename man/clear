@@ -1,0 +1,5 @@
+clear - Clears console line
+
+Flushes all line on the screen.
+
+Usage: clear

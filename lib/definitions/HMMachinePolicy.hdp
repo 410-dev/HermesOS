@@ -1,0 +1,1 @@
+export POLICY_ACCESS_ROOT_DEVICE="$(mplxr SYSTEM/POLICY/access_to_rootdevice)"

@@ -11,7 +11,7 @@ else
 		fi
 	done
 
-	echo "$NVRAM/security/saved_userlevel_fileaccess" | while read line
+	ls -1 "$NVRAM/security/saved_userlevel_fileaccess/" | while read line
 	do
 		if [[ "$line" == "$lastExecutedCommand" ]]; then
 			exit 0
@@ -24,7 +24,7 @@ else
 			"$SYSTEMSUPPORT/Utility/Authenticate" "$lastExecutedCommand" "personal data" "userlevel"
 			export exitc=$?
 			if [[ "$exitc" == "0" ]]; then
-				echo "$lastExecutedCommand" >> "$NVRAM/security/saved_userlevel_fileaccess"
+				touch "$NVRAM/security/saved_userlevel_fileaccess/$lastExecutedCommand"
 			fi
 			exit $exitc
 		fi

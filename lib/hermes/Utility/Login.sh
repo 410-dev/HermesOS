@@ -6,6 +6,7 @@ else
 	for (( i = 0; i < 5; i++ )); do
 		echo -n "Please enter your password: "
 		read -s PASS
+		echo ""
 		if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "$(md5 -qs $PASS)" ]]; then
 			echo "[*] Login successful."
 			export successful=1

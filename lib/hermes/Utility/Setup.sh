@@ -32,6 +32,7 @@ while [[ true ]]; do
 			if [[ "$PASSPRESENT" == "1" ]]; then
 				echo -n "What is your password? : "
 				read -s PASS
+				echo ""
 				if [[ -z "$PASS" ]]; then
 					echo "[-] Invalid input."
 				else

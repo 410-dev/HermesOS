@@ -11,6 +11,7 @@ if [[ "$in" == "y" ]] || [[ "$in" == "Y" ]]; then
 		for (( i = 0; i < 3; i++ )); do
 			echo -n "Please enter your password: "
 			read -s PASS
+			echo ""
 			if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "$(md5 -qs $PASS)" ]]; then
 				exit 0
 			else

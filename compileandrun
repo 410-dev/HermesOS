@@ -65,9 +65,5 @@ done
 find "$pth" -name *.hxe.x.c -depth -exec rm {} \;
 
 cd "$pth"
-chmod +x "./volsign.rhcx"
-"./volsign.rhcx"
-rm -f "./volsign.rhcx"
-chflags hidden "./volsign.hcx"
 
 "$PWD/boot/init" "$1" "$2" "$3" "$4" "$5" "$6"

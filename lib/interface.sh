@@ -1,5 +1,5 @@
 #!/bin/bash
-
+afplay "$SYSTEMSUPPORT/Library/SystemComponents/sys_onStart.mp3" &
 function loadDefinition() {
 	cd "$CACHE/definitions"
 	for file in *.hdp

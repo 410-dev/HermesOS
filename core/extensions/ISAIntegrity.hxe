@@ -1,0 +1,10 @@
+#!/bin/bash
+export EXPECTED_HASH="c85ff4881a88aab61c876566d2f4cbc4"
+if [[ "$EXPECTED_HASH" == "$(md5 -qs "$CORE/coreisa")" ]]; then
+	exit 0
+else
+	echo "CoreISA modified" > "$BOOTREFUSE"
+	echo "Expected: $EXPECTED_HASH" >> "$BOOTREFUSE"
+	echo "Received: $(md5 -qs "$CORE/coreisa")" >> "$BOOTREFUSE"
+	exit 1
+fi

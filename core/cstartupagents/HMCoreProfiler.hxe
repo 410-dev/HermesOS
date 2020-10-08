@@ -1,5 +1,0 @@
-#!/bin/bash
-echo "export CoreVersion=$(<"$CORE/resources/coreversion")" >> "$1"
-echo "export CoreBuild=$(<"$CORE/resources/corebuild")" >> "$1"
-echo "export CoreName=\"$(<"$CORE/resources/corename")\"" >> "$1"
-exit 0

@@ -1,17 +1,21 @@
 #!/bin/bash
 export agentlist="
 HMCorePartitionBuilder.hxe
-HMCoreProfiler.hxe
+ISAIntegrity.hxe
 "
 export exitStatus="0"
 echo "$agentlist" | while read agentname
 do
 	if [[ ! -z "$agentname" ]]; then
 		verbose "[*] Loading: $agentname"
-		"$CORE/cstartupagents/$agentname" "$CACHE/definition"
+		"$CORE/extensions/$agentname"
 		export returned=$?
 		if [[ "$returned" == 0 ]]; then
 			verbose "[*] Load complete."
+		elif [[ -f "$BOOTREFUSE" ]]; then
+			echo "❌"
+			verbose "Boot refused: $(cat "$BOOTREFUSE")"
+			exit 2
 		else
 			verbose "[!] $agentname returned exit code $returned."
 			exitStatus=$returned
@@ -19,6 +23,17 @@ do
 		fi
 	fi
 done
-export masterdefinition=""
 export agentlist=""
+
+export workerList="
+"
+echo "$workerList" | while read workerName
+do
+	if [[ ! -z "$workerName" ]]; then
+		verbose "[*] Starting: $workerName"
+		"$CORE/bgworkers/$workerName" &
+		verbose "[*] Started: $workerName."
+	fi
+done
+export workerList=""
 exit "$exitStatus"

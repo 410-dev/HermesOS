@@ -1,15 +1,23 @@
 #!/bin/bash
 function core.beginOSInterface() {
 	mkdir -p "$CACHE/definitions"
-	if [[ -f "$CACHE/definition" ]]; then
-		verbose "[*] Found definition file on cache drive."
-		mv "$CACHE/definition" "$CACHE/definitions/definition.hdp"
-	fi
 
 	if [[ -d "$LIBRARY/definitions" ]]; then
 		if [[ ! -z "$(ls "$LIBRARY/definitions/"*.hdp 2>/dev/null)" ]]; then
 			verbose "[*] Found definition files in library."
 			ls "$LIBRARY/definitions/"*.hdp | while read line
+			do
+				if [[ ! -z "$line" ]]; then
+					verbose "[*] Uploading: $line"
+					cp "$line" "$CACHE/definitions"
+				fi
+			done
+		fi
+	fi
+	if [[ -d "$OSSERVICES/predefinitions" ]]; then
+		if [[ ! -z "$(ls "$OSSERVICES/predefinitions/"*.hdp 2>/dev/null)" ]]; then
+			verbose "[*] Found definition files in system."
+			ls "$OSSERVICES/predefinitions/"*.hdp | while read line
 			do
 				if [[ ! -z "$line" ]]; then
 					verbose "[*] Uploading: $line"
@@ -42,10 +50,12 @@ function core.beginOSInterface() {
 	fi
 	export pwdd="$PWD"
 	cd "$CACHE/definitions"
-	for file in *.hdp
-	do
-		source "$file"
-	done
+	if [[ -f *.hdp ]]; then
+		for file in *.hdp
+		do
+			source "$file"
+		done
+	fi
 	cd "$pwdd"
 	export pwdd=""
 	if [[ -f "$OSSERVICES/interface" ]]; then

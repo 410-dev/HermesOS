@@ -15,6 +15,7 @@ export LIBRARY="$ROOTFS/Library"
 export CACHE="$LIBRARY/Cache"
 
 export CORE="$ROOTFS/System/core"
+export BOOTREFUSE="$CACHE/bootrefuse"
 
 export SYSTEMSUPPORT="$SYSTEM/lib/hermes"
 export BOOTSECT="$SYSTEM/boot"

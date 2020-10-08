@@ -1,12 +1,6 @@
 #!/bin/bash
-echo "[[=====================]]"
-echo "[[  HERMES BOOTLOADER  ]]"
-echo "[[=====================]]"
 source "$(dirname "$0")/partitions.hdp"
 source "$(dirname "$0")/instructions.hdp"
-if [[ -f "$LIBRARY/Services/cmem" ]]; then
-	source "$LIBRARY/Services/cmem"
-fi
 
 # Added for HermesOS
 if [[ -f "$NVRAM/boot_argument" ]]; then
@@ -28,23 +22,22 @@ function loadOS() {
 	verbose "[*] Starting Hermes..."
 	if [[ -f "$CORE/bin/corestart" ]]; then
 		"$CORE/bin/corestart"
-		if [[ $? -ne 0 ]]; then
-			echo "[-] CoreStart terminated with unexpected return code."
+		export endcode=$?
+		if [[ -f "$BOOTREFUSE" ]]; then
+			echo "Ending System."
+			leaveSystem
+		elif [[ $endcode -ne 0 ]]; then
+			"$CORE/bin/error" "CoreStart terminated with unexpected return code: $endcode"
 			exit 0
 		fi
 	else
-		verbose "[!] ERROR: Unable to load core!"
-		verbose "[-] Aborting boot procedure."
+		"$CORE/bin/error" "Unable to load core. Aborting boot procedure."
 		exit 0
 	fi
 }
 
 function loadDefinition(){
-	if [[ -f "$CACHE/definitons" ]]; then
-		source "$CACHE/definitons"
-		rm -f "$CACHE/definitons"
-	fi
-	source "$CORE/resources/coreisa.hdp"
+	source "$CORE/coreisa"
 }
 
 while [[ true ]]; do

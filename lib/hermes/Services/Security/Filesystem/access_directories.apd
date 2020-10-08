@@ -2,7 +2,9 @@
 export ACCESS_ROOT_PERMISSION="/Cache
 /Library
 /config
-/nvram"
+/nvram
+/init
+/System"
 
 export ACCESS_USER_PERMISSION="/User
 /mount"

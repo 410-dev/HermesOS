@@ -41,8 +41,8 @@ function loadDefinition(){
 }
 
 while [[ true ]]; do
-	loadOS
 	loadDefinition
+	loadOS
 	core.beginOSInterface
 	if [[ "$exitcode" == 0 ]]; then
 		break

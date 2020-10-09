@@ -1,4 +1,6 @@
 #!/bin/bash
+clear
+echo "HermesOS $OS_Version"
 if [[ ! -f "$SYSTEMSUPPORT/Utility/$(mplxr USER/INTERFACE/START_MODE)" ]]; then
 	echo "[*] Unable to locate preload utility."
 	while [[ true ]]; do

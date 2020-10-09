@@ -1,5 +1,4 @@
 #!/bin/bash
-afplay "$SYSTEMSUPPORT/Library/SystemComponents/sys_onStart.mp3" &
 function loadDefinition() {
 	cd "$CACHE/definitions"
 	for file in *.hdp
@@ -7,6 +6,8 @@ function loadDefinition() {
 		source "$file"
 	done
 }
+
+loadDefinition
 
 if [[ -f "$CACHE/updated" ]] && [[ -f "$NVRAM/DontStartInterfaceAfterUpgrade" ]]; then
 	rm "$CACHE/updated" "$NVRAM/DontStartInterfaceAfterUpgrade"
@@ -32,7 +33,6 @@ fi
 if [[ -z "$MACHN" ]]; then
 	export MACHN="apple_terminal"
 fi
-loadDefinition
 cd "$ROOTFS"
 export logSuffix="$(<"$CACHE/SESSION_NUM")"
 export working_directory="$USERDATA"

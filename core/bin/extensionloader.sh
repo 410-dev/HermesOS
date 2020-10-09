@@ -1,7 +1,6 @@
 #!/bin/bash
 export agentlist="
 HMCorePartitionBuilder.hxe
-ISAIntegrity.hxe
 "
 export exitStatus="0"
 echo "$agentlist" | while read agentname

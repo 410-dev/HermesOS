@@ -18,16 +18,9 @@ function verbose() {
 }
 
 function leaveSystem() {
-	if [[ "$IS_IMG" == "TRUE" ]]; then
-		hdiutil detach "$DATA" -force >/dev/null 2>/dev/null
-		hdiutil detach "$LIBRARY" -force >/dev/null 2>/dev/null
-		hdiutil detach "$SYSTEM" -force >/dev/null 2>/dev/null
-		verbose "[*] Goodbye!"
-		exit 0
-	else
-		verbose "[*] Goodbye!"
-		exit 0
-	fi
+	rm -rf "$CACHE" 2>/dev/null
+	verbose "[*] Goodbye!"
+	exit 0
 }
 
 export -f bootarg.contains

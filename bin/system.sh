@@ -51,13 +51,13 @@ elif [[ "$1" == "--nvram-reset" ]]; then
 	rm -rf "$NVRAM"
 	mkdir -p "$NVRAM"
 	echo "Rewriting NVRAM..."
-	cp -r "$SYSTEMSUPPORT/defaults/nvram" "$LIB"
+	cp -r "$OSSERVICES/defaults/nvram" "$LIB"
 	echo "Done."
 elif [[ "$1" == "--logflush" ]]; then
 	rm -rf "$LIBRARY/Logs"
 	mkdir -p "$LIBRARY/Logs"
 elif [[ "$1" == "--ota-download" ]]; then
-	"$SYSTEMSUPPORT/Services/Update/dlutil"
+	"$OSSERVICES/Services/Update/dlutil"
 else
 	echo "No such arguments."
 fi

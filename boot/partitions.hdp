@@ -16,10 +16,7 @@ export CACHE="$LIBRARY/Cache"
 
 export CORE="$ROOTFS/System/core"
 export BOOTREFUSE="$CACHE/bootrefuse"
-
-export SYSTEMSUPPORT="$SYSTEM/lib/hermes"
 export BOOTSECT="$SYSTEM/boot"
-export SBIN="$SYSTEMSUPPORT"
 
 export USERDATA="$DATA/User"
 export MULTIPLEX="$LIBRARY/config"

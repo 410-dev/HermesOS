@@ -1,5 +1,5 @@
 #!/bin/bash
-source "$SYSTEMSUPPORT/Library/Developer/System.iskit"
+source "$OSSERVICES/Library/Developer/System.iskit"
 function internal_exec() {
 	cat "$1" | while read fileLine
 	do
@@ -44,8 +44,8 @@ if [[ -f "$NVRAM/enable_dev_option" ]]; then
 				break
 			elif [[ ! -z "$(echo "$command" | grep "@IMPORT")" ]]; then
 				parse=($command)
-				if [[ -f "$SYSTEMSUPPORT/Library/Developer/${parse[1]}.iskit" ]]; then
-					source "$SYSTEMSUPPORT/Library/Developer/${parse[1]}.iskit"
+				if [[ -f "$OSSERVICES/Library/Developer/${parse[1]}.iskit" ]]; then
+					source "$OSSERVICES/Library/Developer/${parse[1]}.iskit"
 				elif [[ -f "$LIBRARY/Developer/${parse[1]}.iskit" ]]; then
 					source "$LIBRARY/Developer/${parse[1]}.iskit"
 				else
@@ -54,8 +54,8 @@ if [[ -f "$NVRAM/enable_dev_option" ]]; then
 				fi
 			elif [[ ! -z "$(echo "$command" | grep "@IMPORT_ISA")" ]]; then
 				parse=($command)
-				if [[ -f "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit" ]]; then
-					source "$SYSTEMSUPPORT/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit"
+				if [[ -f "$OSSERVICES/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit" ]]; then
+					source "$OSSERVICES/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit"
 				else
 					echo "ERROR: Instruction Kit $command does not exist in LegacySupport."
 					exit 0

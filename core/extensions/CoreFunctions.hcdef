@@ -12,7 +12,7 @@ function accessible() {
 				break
 			fi
 		done
-		"$SYSTEMSUPPORT/Services/Security/Filesystem/grantPermission" "$2" &
+		"$OSSERVICES/Services/Security/Filesystem/grantPermission" "$2" &
 		while [[ ! -f "$CACHE/faccess_token" ]]; do
 			sleep 1
 		done

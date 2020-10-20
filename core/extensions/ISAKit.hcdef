@@ -5,8 +5,8 @@ function @PROG_RUNNABLE(){
 }
 
 function @IMPORT_ISA() {
-	if [[ -f "$SYSTEMSUPPORT/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit" ]]; then
-		source "$SYSTEMSUPPORT/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit"
+	if [[ -f "$OSSERVICES/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit" ]]; then
+		source "$OSSERVICES/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit"
 	else
 		echo "ERROR: Virtual ISA Version $1 does not exist in LegacySupport."
 		exit 0
@@ -14,8 +14,8 @@ function @IMPORT_ISA() {
 }
 
 function @IMPORT() {
-	if [[ -f "$SYSTEMSUPPORT/Library/Developer/$1.iskit" ]]; then
-		source "$SYSTEMSUPPORT/Library/Developer/$1.iskit"
+	if [[ -f "$OSSERVICES/Library/Developer/$1.iskit" ]]; then
+		source "$OSSERVICES/Library/Developer/$1.iskit"
 	elif [[ -f "$LIBRARY/Developer/$1.iskit" ]]; then
 		source "$LIBRARY/Developer/$1.iskit"
 	else
@@ -29,7 +29,7 @@ function ISA.version() {
 }
 
 function ISA.manual() {
-	export manuals="$SYSTEMSUPPORT/Library/Developer/manuals"
+	export manuals="$OSSERVICES/Library/Developer/manuals"
 	cat "$manuals/ISA"
 	echo ""
 	echo ""

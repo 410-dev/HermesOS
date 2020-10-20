@@ -2,7 +2,6 @@
 source "$(dirname "$0")/partitions.hdp"
 source "$(dirname "$0")/instructions.hdp"
 
-# Added for HermesOS
 if [[ -f "$NVRAM/boot_argument" ]]; then
 	export BOOTARGS="$BOOTARGS $(<"$NVRAM/boot_argument")"
 fi
@@ -13,21 +12,23 @@ if [[ -f "$NVRAM/boot_reference" ]]; then
 	rm -f "$CACHE/bootconf"
 fi
 
+if [[ -f "$BOOTREFUSE" ]]; then
+	rm -f "$BOOTREFUSE"
+fi
+
 export BOOTARGS="$BOOTARGS $1 $2 $3 $4 $5 $6 $7 $8 $9"
 
-function loadOS() {
-	if [[ -f "$SYSTEM/boot/bootscreen.hxe" ]] && [[ $(bootarg.contains "verbose") == 0 ]]; then
-		"$SYSTEM/boot/bootscreen.hxe"
-	fi
+function startup() {
 	verbose "[*] Starting Hermes..."
-	if [[ -f "$CORE/bin/corestart" ]]; then
-		"$CORE/bin/corestart"
+	if [[ -f "$CORE/core" ]]; then
+		source "$CORE/core"
+		osstart
 		export endcode=$?
 		if [[ -f "$BOOTREFUSE" ]]; then
-			echo "Ending System."
+			echo "[-] Ending System."
 			leaveSystem
 		elif [[ $endcode -ne 0 ]]; then
-			"$CORE/bin/error" "CoreStart terminated with unexpected return code: $endcode"
+			error "Core.osstart terminated with unexpected return code: $endcode"
 			exit 0
 		fi
 	else
@@ -36,14 +37,10 @@ function loadOS() {
 	fi
 }
 
-function loadDefinition(){
-	source "$CORE/coreisa"
-}
-
 while [[ true ]]; do
-	loadDefinition
-	loadOS
-	core.beginOSInterface
+	startup
+	source "$CORE/nullify"
+	uistart
 	if [[ "$exitcode" == 0 ]]; then
 		break
 	fi

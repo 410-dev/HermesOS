@@ -1,5 +1,11 @@
 #!/bin/bash
 
+function error() {
+	echo "😵"
+	verbose "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+	exit 120
+}
+
 function extensionLoader() {
 	cd "$CORE/extensions"
 	export agentlist="$(ls -p | grep -v / | grep ".hxe")" 2>/dev/null
@@ -18,8 +24,7 @@ function extensionLoader() {
 				exit 2
 			else
 				verbose "[!] $agentname returned exit code $returned."
-				exitStatus=$returned
-				break
+				error "Agent $agentname returned exit code $returned."
 			fi
 		fi
 	done
@@ -28,11 +33,11 @@ function extensionLoader() {
 
 function osstart() {
 	cd "$CORE/extensions"
-	export deflist="$(ls -p | grep -v / | grep ".hcdef")"
-	echo "$deflist" | while read defname
+	while read defname
 	do
-		source "$defname"
-	done
+		verbose "[*] Reading memory allocation data: $defname"
+		source "$CORE/extensions/$defname"
+	done <<< "$(ls -p | grep -v / | grep ".hcdef")"
 	extensionLoader
 }
 
@@ -53,7 +58,7 @@ function osstop() {
 
 function uistart() {
 	if [[ -f "$OSSERVICES/interface" ]]; then
-		export exitcode="1"
+		exitcode=1
 		while [[ $exitcode -ne 0 ]] && [[ $exitcode -ne 100 ]]; do
 			"$OSSERVICES/interface"
 			exitcode="$?"
@@ -67,14 +72,12 @@ function uistart() {
 	fi
 }
 
-function error() {
-	echo "😵"
-	verbose "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
-	exit 0
-}
-
-export -f extensionLoader
-export -f osstart
-export -f uistart
-export -f osstop
-export -f error
+if [[ "$1" == "osstart" ]]; then
+	osstart
+elif [[ "$1" == "uistart" ]]; then
+	uistart
+elif [[ "$1" == "osstop" ]]; then
+	osstop
+elif [[ "$1" == "error" ]]; then
+	error "$2" "$3" "$4"
+fi

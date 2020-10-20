@@ -39,7 +39,7 @@ function startup() {
 
 while [[ true ]]; do
 	startup
-	source "$CORE/nullify"
+	"$CORE/rmleak"
 	uistart
 	if [[ "$exitcode" == 0 ]]; then
 		break

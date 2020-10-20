@@ -31,7 +31,7 @@ function osstart() {
 	export deflist="$(ls -p | grep -v / | grep ".hcdef")"
 	echo "$deflist" | while read defname
 	do
-		source "$deflist"
+		source "$defname"
 	done
 	extensionLoader
 }

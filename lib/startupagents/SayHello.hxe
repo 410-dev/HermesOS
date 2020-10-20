@@ -1,9 +1,0 @@
-#!/bin/bash
-if [[ -f "$CACHE/alert" ]]; then
-	if [[ -z "$(cat "$CACHE/alert" | grep "Hermes User Executive")" ]]; then
-		echo "Hermes User Executive" >> "$CACHE/alert"
-	fi
-else
-	echo "Hermes User Executive" >> "$CACHE/alert"
-fi
-exit 0

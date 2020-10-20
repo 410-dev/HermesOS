@@ -1,4 +1,0 @@
-Interface________________(@IMPORT Interface)
-   -(void) addAlert() {String: Alert message}: Add alert message on queue. This will be loaded by interfacebulletin.
-   -(void) updateDefinitionsOnProgramEnd(): Reloads TouchDown definition table when program ends.
-   -(void) restartOnProgramEnd(): Restarts interface when program ends.

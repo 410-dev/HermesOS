@@ -1,12 +1,11 @@
 #!/bin/bash
 function loadDefinition() {
-	if [[ -d "$CACHE/definitions" ]]; then
-		cd "$CACHE/definitions"
-		for file in *.hdp
-		do
-			source "$file"
-		done
-	fi
+	cd "$CORE/extensions"
+	while read defname
+	do
+		verbose "[*] Reading memory allocation data: $defname"
+		source "$CORE/extensions/$defname"
+	done <<< "$(ls -p | grep -v / | grep ".hcdef")"
 }
 
 loadDefinition
@@ -80,6 +79,7 @@ while [[ true ]]; do
 		rm -f "$CACHE/uirestart"
 		exit 101
 	elif [[ -f "$CACHE/defreload" ]]; then
+		echo "[!] Reloading definition on interface level will not affect on root system!"
 		loadDefinition
 	fi
 done

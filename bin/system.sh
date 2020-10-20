@@ -51,7 +51,7 @@ elif [[ "$1" == "--nvram-reset" ]]; then
 	rm -rf "$NVRAM"
 	mkdir -p "$NVRAM"
 	echo "Rewriting NVRAM..."
-	cp -r "$OSSERVICES/defaults/nvram" "$LIB"
+	cp -r "$OSSERVICES/Default/nvram" "$LIB"
 	echo "Done."
 elif [[ "$1" == "--logflush" ]]; then
 	rm -rf "$LIBRARY/Logs"

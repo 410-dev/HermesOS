@@ -9,7 +9,7 @@ cd "$(dirname "$0")/../../"
 export ROOTFS="$PWD"
 
 export SYSTEM="$ROOTFS/System"
-export OSSERVICES="$SYSTEM/lib"
+export OSSERVICES="$SYSTEM/sys"
 export DATA="$ROOTFS/Data"
 export LIBRARY="$ROOTFS/Library"
 export CACHE="$LIBRARY/Cache"

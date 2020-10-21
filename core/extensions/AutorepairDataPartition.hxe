@@ -24,4 +24,23 @@ elif [[ "$(mplxr SYSTEM/COMMON/DataCompatibility)" -ne "$DATA_COMPATIBILITY" ]];
 else
 	verbose "[*] No task for data partition modification."
 fi
+
+verbose "[*] Generating: USERDATA"
+mkdir -p "$USERDATA"
+verbose "[*] Generating: Library"
+verbose "[*] Generating: Developer"
+mkdir -p "$LIBRARY/Developer"
+verbose "[*] Generating: Logs"
+mkdir -p "$LIBRARY/Logs"
+verbose "[*] Generating: init"
+mkdir -p "$DATA/init"
+verbose "[*] Generating: nvram"
+mkdir -p "$NVRAM"
+verbose "[*] Generating: mount"
+mkdir -p "$DATA/mount"
+verbose "[*] Generating: config"
+mkdir -p "$MULTIPLEX"
+verbose "[*] Done."
+
+
 exit 0

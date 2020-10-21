@@ -3,9 +3,9 @@ function loadDefinition() {
 	cd "$CORE/extensions"
 	while read defname
 	do
-		verbose "[*] Reading memory allocation data: $defname"
+		verbose "[*] Refreshing memory link: $defname"
 		source "$CORE/extensions/$defname"
-	done <<< "$(ls -p | grep -v / | grep ".hcdef")"
+	done <<< "$(ls -p | grep -v / | grep ".hmref")"
 }
 
 loadDefinition

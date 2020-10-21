@@ -39,20 +39,4 @@ else
 	verbose "[*] No task for data partition modification."
 fi
 
-
-if [[ -f "$NVRAM/nvraminfo" ]]; then
-	if [[ -z "$(cat "$NVRAM/nvraminfo" | grep "COMPATIBILITY=NVRV01XU")" ]]; then
-		verbose "[*] NVRAM is incompatible. Resetting NVRAM."
-		rm -rf "$NVRAM"
-		mkdir -p "$NVRAM"
-		verbose "[*] Rewriting NVRAM..."
-		cp -r "$OSSERVICES/Default/nvram" "$LIBRARY"
-		verbose "[*] Done."
-	fi
-else
-	verbose "[*] Initializing NVRAM data..."
-	cp -r "$OSSERVICES/Default/nvram" "$LIBRARY"
-	verbose "[*] Done."
-fi
-
 exit 0

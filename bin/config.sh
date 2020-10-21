@@ -17,6 +17,21 @@ elif [[ "$1" == "--username" ]]; then
 		exit 0
 	fi
 	mplxw "USER/user_name" "$2" >/dev/null
+elif [[ "$1" == "--fastboot" ]]; then
+	if [[ -z "$2" ]]; then
+		echo "Error: on / off is not specified."
+		exit 0
+	elif [[ "$2" == "on" ]]; then
+		echo "Turning fastboot on..."
+		mplxw "SYSTEM/POLICY/use_fastboot" "1" >/dev/null
+	elif [[ "$2" == "off" ]]; then
+		echo "Turning fastboot off..."
+		mplxw "SYSTEM/POLICY/use_fastboot" "0" >/dev/null
+	else
+		echo "Unknown state: $2"
+		echo "State must be either one: on / off"
+		echo "Case sensitive."
+	fi
 elif [[ "$1" == "--machinename" ]]; then
 	if [[ -z "$2" ]]; then
 		echo "Error: New machine name is not specified."

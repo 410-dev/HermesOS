@@ -37,7 +37,7 @@ function osstart() {
 	do
 		verbose "[*] Reading memory allocation data: $defname"
 		source "$CORE/extensions/$defname"
-	done <<< "$(ls -p | grep -v / | grep ".hcdef")"
+	done <<< "$(ls -p | grep -v / | grep ".hmref")"
 	extensionLoader
 }
 
@@ -58,17 +58,18 @@ function osstop() {
 
 function uistart() {
 	if [[ -f "$OSSERVICES/interface" ]]; then
-		exitcode=1
+		export exitcode=1
 		while [[ $exitcode -ne 0 ]] && [[ $exitcode -ne 100 ]]; do
 			"$OSSERVICES/interface"
 			exitcode="$?"
 		done
 		osstop
+		exit "$exitcode"
 	else
 		echo "[-] OS Interface not found."
 		echo "[-] Stopping core."
 		osstop
-		export exitcode="0"
+		exit 0
 	fi
 }
 
@@ -76,6 +77,7 @@ if [[ "$1" == "osstart" ]]; then
 	osstart
 elif [[ "$1" == "uistart" ]]; then
 	uistart
+	exit $?
 elif [[ "$1" == "osstop" ]]; then
 	osstop
 elif [[ "$1" == "error" ]]; then

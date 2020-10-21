@@ -18,7 +18,7 @@ fi
 
 export BOOTARGS="$BOOTARGS $1 $2 $3 $4 $5 $6 $7 $8 $9"
 
-function startup() {
+while [[ true ]]; do
 	verbose "[*] Starting Hermes..."
 	if [[ -f "$CORE/core" ]]; then
 		"$CORE/core" "osstart"
@@ -34,13 +34,9 @@ function startup() {
 		"$CORE/core" "error" "Unable to load core. Aborting boot procedure."
 		exit 0
 	fi
-}
-
-while [[ true ]]; do
-	startup
 	"$CORE/rmleak"
 	"$CORE/core" "uistart"
-	if [[ "$exitcode" == 0 ]]; then
+	if [[ "$?" == 0 ]]; then
 		break
 	fi
 done

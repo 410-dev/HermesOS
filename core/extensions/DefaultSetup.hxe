@@ -1,4 +1,18 @@
 #!/bin/bash
+
+mkdir -p "$USERDATA"
+mkdir -p "$LIBRARY/Developer"
+mkdir -p "$LIBRARY/Logs"
+mkdir -p "$DATA/init"
+mkdir -p "$NVRAM"
+mkdir -p "$DATA/mount"
+mkdir -p "$MULTIPLEX"
+mkdir -p "$CACHE"
+mkdir -p "$CACHE/Logs"
+mkdir -p "$CACHE/"
+mkdir -p "$DATA"
+mkdir -p "$LIBRARY/Services"
+
 export DATA_COMPATIBILITY="11"
 if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
 	verbose "[*] Start data partition repair!"
@@ -25,22 +39,20 @@ else
 	verbose "[*] No task for data partition modification."
 fi
 
-verbose "[*] Generating: USERDATA"
-mkdir -p "$USERDATA"
-verbose "[*] Generating: Library"
-verbose "[*] Generating: Developer"
-mkdir -p "$LIBRARY/Developer"
-verbose "[*] Generating: Logs"
-mkdir -p "$LIBRARY/Logs"
-verbose "[*] Generating: init"
-mkdir -p "$DATA/init"
-verbose "[*] Generating: nvram"
-mkdir -p "$NVRAM"
-verbose "[*] Generating: mount"
-mkdir -p "$DATA/mount"
-verbose "[*] Generating: config"
-mkdir -p "$MULTIPLEX"
-verbose "[*] Done."
 
+if [[ -f "$NVRAM/nvraminfo" ]]; then
+	if [[ -z "$(cat "$NVRAM/nvraminfo" | grep "COMPATIBILITY=NVRV01XU")" ]]; then
+		verbose "[*] NVRAM is incompatible. Resetting NVRAM."
+		rm -rf "$NVRAM"
+		mkdir -p "$NVRAM"
+		verbose "[*] Rewriting NVRAM..."
+		cp -r "$OSSERVICES/Default/nvram" "$LIBRARY"
+		verbose "[*] Done."
+	fi
+else
+	verbose "[*] Initializing NVRAM data..."
+	cp -r "$OSSERVICES/Default/nvram" "$LIBRARY"
+	verbose "[*] Done."
+fi
 
 exit 0

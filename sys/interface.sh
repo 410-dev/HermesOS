@@ -48,7 +48,7 @@ while [[ true ]]; do
 		mplxw "USER/INTERFACE/ALERT_PRESENT" "0"
 		mplxw "USER/INTERFACE/ALERT" ""
 	fi
-	echo -n "${GREEN}${USERN}@${GREEN}${MACHN}${C_DEFAULT} ~ # "
+	echo -en "${GREEN}${USERN}${C_DEFAULT}@${BLUE}${MACHN}${C_DEFAULT} ~ # "
 	read command
 	export args=($command)
 	export USERLV="1"

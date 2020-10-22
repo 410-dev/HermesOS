@@ -5,7 +5,7 @@ if [[ "$(mplxr "SYSTEM/POLICY/use_fastboot")"  == "1" ]]; then
 	while read defname
 	do
 		if [[ -f "$CORE/extensions/additional/$defname" ]]; then
-			verbose "[*] Adding thread for process: $defname"
+			verbose "[${GREEN}*${C_DEFAULT}] Adding thread for process: $defname"
 			"$CORE/extensions/additional/$defname" &
 		fi
 	done <<< "$(ls -p | grep -v / | grep ".hxe")"
@@ -13,7 +13,7 @@ else
 	while read defname
 	do
 		if [[ -f "$CORE/extensions/additional/$defname" ]]; then
-			verbose "[*] Adding thread for process: $defname"
+			verbose "[${GREEN}*${C_DEFAULT}] Adding thread for process: $defname"
 			"$CORE/extensions/additional/$defname"
 		fi
 	done <<< "$(ls -p | grep -v / | grep ".hxe")"

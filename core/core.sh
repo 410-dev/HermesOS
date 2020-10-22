@@ -13,7 +13,7 @@ function extensionLoader() {
 	echo "$agentlist" | while read agentname
 	do
 		if [[ ! -z "$agentname" ]]; then
-			verbose "[*] Loading: $agentname"
+			verbose "[${GREEN}*${C_DEFAULT}] Loading: $agentname"
 			"./$agentname"
 			export returned=$?
 			if [[ "$returned" == 0 ]]; then

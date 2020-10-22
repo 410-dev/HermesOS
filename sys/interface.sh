@@ -3,7 +3,7 @@ function loadDefinition() {
 	cd "$CORE/extensions"
 	while read defname
 	do
-		verbose "[*] Refreshing memory link: $defname"
+		verbose "[${GREEN}*${C_DEFAULT}] Refreshing memory link: $defname"
 		source "$CORE/extensions/$defname"
 	done <<< "$(ls -p | grep -v / | grep ".hmref")"
 }
@@ -14,16 +14,16 @@ if [[ -f "$CACHE/updated" ]] && [[ -f "$NVRAM/DontStartInterfaceAfterUpgrade" ]]
 	rm "$CACHE/updated" "$NVRAM/DontStartInterfaceAfterUpgrade"
 	exit 0
 elif [[ "$(mplxr USER/SECURITY/LOGIN_ATTEMPT)" == "64" ]]; then
-	echo "Error: Unable to start user interface"
-	echo "Error code: 64"
-	echo "You entered wrong password more than 5 times."
+	echo -e "${RED}Error: Unable to start user interface"
+	echo -e "${RED}Error code: 64"
+	echo -e "${RED}You entered wrong password more than 5 times.${C_DEFAULT}"
 	exit 0
 fi
 "$OSSERVICES/Utility/preload"
 if [[ "$(mplxr USER/SECURITY/LOGIN_ATTEMPT)" == "64" ]]; then
-	echo "Error: Unable to start user interface"
-	echo "Error code: 64"
-	echo "You entered wrong password more than 5 times."
+	echo -e "${RED}Error: Unable to start user interface"
+	echo -e "${RED}Error code: 64"
+	echo -e "${RED}You entered wrong password more than 5 times.${C_DEFAULT}"
 	exit 0
 fi
 
@@ -48,12 +48,12 @@ while [[ true ]]; do
 		mplxw "USER/INTERFACE/ALERT_PRESENT" "0"
 		mplxw "USER/INTERFACE/ALERT" ""
 	fi
-	echo -n "$USERN@$MACHN ~ # "
+	echo -n "${GREEN}${USERN}@${GREEN}${MACHN}${C_DEFAULT} ~ # "
 	read command
 	export args=($command)
 	export USERLV="1"
 	if [[ "${args[0]}" == "../"* ]]; then
-		echo "Error: Escaping /System/bin is disallowed. Use exec command."
+		echo -e "${RED}Error: Escaping /System/bin is disallowed. Use exec command.${C_DEFAULT}"
 	elif [[ -f "$SYSTEM/bin/${args[0]}" ]]; then
 		if [[ "${args[0]}" == "lec" ]]; then
 			echo -n ""
@@ -68,11 +68,11 @@ while [[ true ]]; do
 	fi
 	export USERLV="1"
 	if [[ -f "$CACHE/stdown" ]]; then
-		verbose "[*] Flushing cache data..."
+		verbose "[${GREEN}*${C_DEFAULT}] Flushing cache data..."
 		rm -rf "$CACHE"
 		exit 0
 	elif [[ -f "$CACHE/rboot" ]]; then
-		verbose "[*] Flushing cache data..."
+		verbose "[${GREEN}*${C_DEFAULT}] Flushing cache data..."
 		rm -rf "$CACHE"
 		exit 100
 	elif [[ -f "$CACHE/uirestart" ]]; then

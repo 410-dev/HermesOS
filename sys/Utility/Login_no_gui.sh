@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "nothing" ]] || [[ "$(mplxr USER/SECURITY/PASSCODE_PRESENT)" == "0" ]]; then
-	verbose "[*] Login successful (weak)."
+	verbose "[${GREEN}*${C_DEFAULT}] Login successful (weak)."
 else
 	echo "User: $(mplxr "USER/user_name")"
 	export successful=0

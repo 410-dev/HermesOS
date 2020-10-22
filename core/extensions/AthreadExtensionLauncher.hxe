@@ -3,7 +3,7 @@ cd "$CORE/extensions/athread"
 while read defname
 do
 	if [[ -f "$CORE/extensions/athread/$defname" ]]; then
-		verbose "[*] Launching athread extension: $defname"
+		verbose "[${GREEN}*${C_DEFAULT}] Launching athread extension: $defname"
 		"$CORE/extensions/athread/$defname" &
 	fi
 done <<< "$(ls -p | grep -v / | grep ".hxe")"

@@ -1,5 +1,5 @@
 #!/bin/bash
-verbose "[*] Starting non-graphical setup..."
+verbose "[${GREEN}*${C_DEFAULT}] Starting non-graphical setup..."
 while [[ true ]]; do
 	echo -n "What is your device name? (English and Number only, no spacebar) : "
 	read DEVN

@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ ! -f "$NVRAM/bootaction" ]]; then
-	verbose "[*] No boot action requested."
+	verbose "[${GREEN}*${C_DEFAULT}] No boot action requested."
 else
 	export ACTION="$(<"$NVRAM/bootaction")"
 	if [[ "$ACTION" == "update" ]]; then
@@ -13,12 +13,12 @@ else
 		echo "[-] There was a requested boot action, but code: $ACTION is undefined."
 		exit 0
 	fi
-	verbose "[*] Checking image..."
+	verbose "[${GREEN}*${C_DEFAULT}] Checking image..."
 	if [[ -f "$LIBRARY/image.zip" ]]; then
-		verbose "[*] Image found."
-		verbose "[*] Uploading reset utility to cache drive..."
+		verbose "[${GREEN}*${C_DEFAULT}] Image found."
+		verbose "[${GREEN}*${C_DEFAULT}] Uploading reset utility to cache drive..."
 		cp "$OSSERVICES/reset-helper" "$CACHE/"
-		verbose "[*] Starting helper!"
+		verbose "[${GREEN}*${C_DEFAULT}] Starting helper!"
 		"$CACHE/reset-helper" "$ACTION"
 	else
 		echo "[-] Image not found."

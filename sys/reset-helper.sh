@@ -1,7 +1,7 @@
 #!/bin/bash
 export ACTION="$1"
 if [[ "$ACTION" == "update" ]]; then
-	verbose "[*] Generating a rollback point..."
+	verbose "[${GREEN}*${C_DEFAULT}] Generating a rollback point..."
 	mkdir -p "$LIBRARY/system-backup"
 	cp -r "$SYSTEM/"* "$LIBRARY/system-backup"
 	echo "[*] Making rollback image..."
@@ -12,20 +12,20 @@ if [[ "$ACTION" == "update" ]]; then
 	mv "$LIBRARY/system-backup/rbimage.zip" "$LIBRARY/rbimage.zip"
 	rm -rf "$LIBRARY/system-backup"
 fi
-verbose "[*] Cleaning system..."
+verbose "[${GREEN}*${C_DEFAULT}] Cleaning system..."
 rm -rf "$SYSTEM/"*
 mkdir -p "$SYSTEM"
-verbose "[*] Extracting system..."
+verbose "[${GREEN}*${C_DEFAULT}] Extracting system..."
 unzip -q "$LIBRARY/image.zip" -d "$SYSTEM"
 if [[ -d "$SYSTEM/__MACOSX" ]]; then
 	rm -rf "$SYSTEM/__MACOSX"
 fi
 if [[ -f "$SYSTEMSUPPORT/Utility/convert" ]]; then
-	verbose "[*] Running convert command..."
+	verbose "[${GREEN}*${C_DEFAULT}] Running convert command..."
 	"$SYSTEMSUPPORT/Utility/convert" "$OS_Version_Major" "$OS_Version_Minor" "$OS_Version_Edit"
 fi
 if [[ "$ACTION" == "restore" ]]; then
-	verbose "[*] Removing user data..."
+	verbose "[${GREEN}*${C_DEFAULT}] Removing user data..."
 	rm -rf "$LIBRARY"/* "$DATA"/*
 	mkdir -p "$LIBRARY" "$DATA"
 fi

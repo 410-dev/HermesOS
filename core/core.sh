@@ -17,13 +17,13 @@ function extensionLoader() {
 			"./$agentname"
 			export returned=$?
 			if [[ "$returned" == 0 ]]; then
-				verbose "[*] Load complete."
+				verbose "[${GREEN}*${C_DEFAULT}] Load complete."
 			elif [[ -f "$BOOTREFUSE" ]]; then
 				echo "❌"
-				verbose "Boot refused: $(cat "$BOOTREFUSE")"
+				verbose "${RED}Boot refused: $(cat "$BOOTREFUSE") ${C_DEFAULT}"
 				exit 2
 			else
-				verbose "[!] $agentname returned exit code $returned."
+				verbose "[${YELLOW}!${C_DEFAULT}] $agentname returned exit code $returned."
 				error "Agent $agentname returned exit code $returned."
 			fi
 		fi
@@ -35,25 +35,25 @@ function osstart() {
 	cd "$CORE/extensions"
 	while read defname
 	do
-		verbose "[*] Reading memory allocation data: $defname"
+		verbose "[${GREEN}*${C_DEFAULT}] Reading memory allocation data: $defname"
 		source "$CORE/extensions/$defname"
 	done <<< "$(ls -p | grep -v / | grep ".hmref")"
 	extensionLoader
 }
 
 function osstop() {
-	verbose "[*] Loading lists of backgroundworkers..."
+	verbose "[${GREEN}*${C_DEFAULT}] Loading lists of backgroundworkers..."
 	ALIVE=$(ps -ax | grep "$CORE/extensions[/]")
-	verbose "[*] Killing syncronously..."
+	verbose "[${GREEN}*${C_DEFAULT}] Killing syncronously..."
 	verbose "$ALIVE" | while read proc
 	do
 		if [[ ! -z "$proc" ]]; then
 			frpid=($proc)
 			kill -9 ${frpid[0]}
-			verbose "[*] Killed PID: ${frpid[0]}"
+			verbose "[${GREEN}*${C_DEFAULT}] Killed PID: ${frpid[0]}"
 		fi
 	done
-	verbose "[*] Background workers are closed."
+	verbose "[${GREEN}*${C_DEFAULT}] Background workers are closed."
 }
 
 function uistart() {
@@ -66,8 +66,8 @@ function uistart() {
 		osstop
 		exit "$exitcode"
 	else
-		echo "[-] OS Interface not found."
-		echo "[-] Stopping core."
+		echo -e "[${RED}-${C_DEFAULT}] OS Interface not found."
+		echo -e "[${RED}-${C_DEFAULT}] Stopping core."
 		osstop
 		exit 0
 	fi

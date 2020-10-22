@@ -19,19 +19,19 @@ fi
 export BOOTARGS="$BOOTARGS $1 $2 $3 $4 $5 $6 $7 $8 $9"
 
 while [[ true ]]; do
-	verbose "[*] Starting Hermes..."
+	verbose "[${GREEN}*${C_DEFAULT}] Starting Hermes..."
 	if [[ -f "$CORE/core" ]]; then
 		"$CORE/core" "osstart"
 		export endcode=$?
 		if [[ -f "$BOOTREFUSE" ]]; then
-			echo "[-] Ending System."
+			echo -e "[${RED}-${C_DEFAULT}] Ending System."
 			leaveSystem
 		elif [[ $endcode -ne 0 ]]; then
-			"$CORE/core" "error" "Core.osstart terminated with unexpected return code: $endcode"
+			"$CORE/core" "error" "${RED}Core.osstart terminated with unexpected return code: ${endcode}${C_DEFAULT}"
 			exit 0
 		fi
 	else
-		"$CORE/core" "error" "Unable to load core. Aborting boot procedure."
+		"$CORE/core" "error" "${RED}Unable to load core. Aborting boot procedure.${C_DEFAULT}"
 		exit 0
 	fi
 	"$CORE/rmleak"

@@ -37,8 +37,11 @@ if [[ -z "$MACHN" ]]; then
 fi
 cd "$ROOTFS"
 
-
 while [[ true ]]; do
+
+	declare -i HUID
+	export HUID="1"
+
 	if [[ -f "$CACHE/alert" ]] ; then
 		cat "$CACHE/alert"
 		rm "$CACHE/alert"

@@ -1,4 +1,11 @@
 #!/bin/bash
+
+if [[ "$HUID" -ne 0 ]]; then
+	echo "Permission denied: $HUID"
+	exit 0
+fi
+
+
 source "$OSSERVICES/Library/Developer/System.iskit"
 function internal_exec() {
 	cat "$1" | while read fileLine

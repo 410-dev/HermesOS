@@ -1,22 +1,26 @@
 #!/bin/bash
 if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "nothing" ]] || [[ "$(mplxr USER/SECURITY/PASSCODE_PRESENT)" == "0" ]]; then
-	verbose "[${GREEN}*${C_DEFAULT}] Login successful (weak)."
+	verbose "[${GREEN}*${C_DEFAULT}] $2 successful."
+	exit 0
 else
-	echo "User: $(mplxr "USER/user_name")"
 	export successful=0
 	for (( i = 0; i < 5; i++ )); do
 		echo -n "Please enter your password: "
 		read -s PASS
 		echo ""
 		if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "$(md5 -qs $PASS)" ]]; then
-			echo "[*] Login successful."
+			echo "$2 successful."
 			export successful=1
-			break
+			exit 0
 		else
-			echo "[-] Login failed."
+			echo "$2 failed."
+			sleep 1
 		fi
 	done
 	if [[ "$successful" == "0" ]]; then
-		mplxw USER/SECURITY/LOGIN_ATTEMPT "64" >/dev/null
+		if [[ "$1" == "--login" ]]; then
+			mplxw USER/SECURITY/LOGIN_ATTEMPT "64" >/dev/null
+		fi
+		exit 1
 	fi
 fi

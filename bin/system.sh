@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if [[ "$HUID" -ne 0 ]]; then
+	echo "Permission denied: $HUID"
+	exit 0
+fi
+
 if [[ "$1" == "--clean-restore" ]]; then
 	if [[ -f "$LIBRARY/image.zip" ]]; then
 		echo "Preparing to restore..."

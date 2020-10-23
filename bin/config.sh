@@ -1,4 +1,8 @@
 #!/bin/bash
+if [[ "$HUID" -ne 0 ]]; then
+	echo "Permission denied: $HUID"
+	exit 0
+fi
 
 if [[ "$1" == "--nvram" ]]; then
 	if [[ -z "$2" ]] || [[ -z "$3" ]]; then

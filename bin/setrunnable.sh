@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if [[ "$HUID" -ne 0 ]]; then
+	echo "Permission denied: $HUID"
+	exit 0
+fi
+
 if [[ ! -z "$1" ]]; then
 	if [[ -f "$USERDATA/$1" ]]; then
 		if [[ "$(accessible "w" "$USERDATA/$1")" == -9 ]]; then

@@ -3,6 +3,10 @@
 # setvalue [value name] [value]
 # delete [key or value name]
 # read [key or value name]
+if [[ "$HUID" -ne 0 ]]; then
+	echo "Permission denied: $HUID"
+	exit 0
+fi
 
 if [[ "$(accessible "w" "$MULTIPLEX/$2")" == "-9" ]]; then
 	echo "Error: Modifying data not within multiplex is not permitted."

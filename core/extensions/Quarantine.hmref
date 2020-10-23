@@ -10,7 +10,9 @@ hdiutil
 mount
 umount
 export -f
-export USERLV
+export HUID
+declare -i HUID
+declare HUID
 echo
 rm
 touch

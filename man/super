@@ -1,0 +1,17 @@
+super - Separating command execution privilage
+
+Description: 
+This command elevates running instance privilage to access
+sensitive commands, such as:
+
+config
+frestrictor
+hic
+mpedit
+reboot
+shutdown
+system
+
+
+Usage: super [command to run] [parameter]
+Example: super config --username user

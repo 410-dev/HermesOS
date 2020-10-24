@@ -10,7 +10,6 @@ mkdir -p "$DATA/mount"
 mkdir -p "$MULTIPLEX"
 mkdir -p "$CACHE"
 mkdir -p "$CACHE/Logs"
-mkdir -p "$CACHE/"
 mkdir -p "$DATA"
 mkdir -p "$LIBRARY/Services"
 
@@ -30,7 +29,6 @@ if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
 	mplxw USER/INTERFACE/ALERT "" >/dev/null
 	mplxw USER/INTERFACE/ALERT_PRESENT 0 >/dev/null
 	mplxw USER/INTERFACE/START_MODE Setup >/dev/null
-	mplxw BOOT/PROTOCOL/EnterSafeMode 0 >/dev/null
 	mplxw SYSTEM/COMMON/DataCompatibility "$DATA_COMPATIBILITY" >/dev/null
 	verbose "[${GREEN}*${C_DEFAULT}] Done."
 elif [[ "$(mplxr SYSTEM/COMMON/DataCompatibility)" -ne "$DATA_COMPATIBILITY" ]]; then

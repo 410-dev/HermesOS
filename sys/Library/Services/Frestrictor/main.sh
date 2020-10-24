@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ -f "$NVRAM/frestrictor_config" ]]; then
-	if [[ ! -z "$(echo "$NVRAM/frestrictor_config" | grep "--full-disable")" ]]; then
+	if [[ ! -z "$(echo "$NVRAM/frestrictor_config" | grep "full-disable")" ]]; then
 		exit 0
 	fi
 fi

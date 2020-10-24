@@ -38,7 +38,9 @@ function osstart() {
 		verbose "[${GREEN}*${C_DEFAULT}] Reading memory allocation data: $defname"
 		source "$CORE/extensions/$defname"
 	done <<< "$(ls -p | grep -v / | grep ".hmref")"
-	extensionLoader
+	if [[ $(bootarg.contains "safe") -ne 1 ]]; then
+		extensionLoader
+	fi
 }
 
 function osstop() {

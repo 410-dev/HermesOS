@@ -1,0 +1,10 @@
+frestrictor - Private File Accessing Restrictor
+
+Description: 
+This command will change setting of Frestrictor service.
+Frestrictor will limit all process from accessing to your
+private file unless you trust the process.
+
+You must run this command via super.
+
+Usage: frestrictor

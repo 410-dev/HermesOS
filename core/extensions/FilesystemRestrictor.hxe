@@ -1,0 +1,17 @@
+#!/bin/bash
+
+mkdir -p "$CACHE/faccess"
+
+# Write Limit
+echo "/System
+/Library
+" > "$CACHE/faccess/wlim"
+
+# Read Limit
+echo "/System
+/Library/Cache
+" > "$CACHE/faccess/rlim"
+
+# Catalog Limit
+echo "/System
+" > "$CACHE/faccess/clim"

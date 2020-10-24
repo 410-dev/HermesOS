@@ -11,7 +11,7 @@ if [[ ! -e "$USERDATA/$1" ]]; then
 	echo "No such file: $1"
 	exit 91
 fi
-if [[ "$(accessible "w" "$USERDATA/$1")" == -9 ]]; then
+if [[ "$(accessible "w" "$USERDATA/$1")" -ne 0 ]]; then
 	echo "Access denied: Operation not permitted."
 	exit 99
 fi

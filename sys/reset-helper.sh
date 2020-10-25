@@ -20,9 +20,9 @@ unzip -q "$LIBRARY/image.zip" -d "$SYSTEM"
 if [[ -d "$SYSTEM/__MACOSX" ]]; then
 	rm -rf "$SYSTEM/__MACOSX"
 fi
-if [[ -f "$SYSTEMSUPPORT/Utility/convert" ]]; then
+if [[ -f "$OSSERVICES/Utility/convert" ]]; then
 	verbose "[${GREEN}*${C_DEFAULT}] Running convert command..."
-	"$SYSTEMSUPPORT/Utility/convert" "$OS_Version_Major" "$OS_Version_Minor" "$OS_Version_Edit"
+	"$OSSERVICES/Utility/convert" "$OS_Version_Major" "$OS_Version_Minor" "$OS_Version_Edit"
 fi
 if [[ "$ACTION" == "restore" ]]; then
 	verbose "[${GREEN}*${C_DEFAULT}] Removing user data..."

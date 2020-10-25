@@ -7,7 +7,9 @@ else
 	for (( i = 0; i < 5; i++ )); do
 		export PASS="$("$OSSERVICES/Library/display" --stdout --passwordbox "$2 to: $(mplxr "USER/user_name")" 0 0)"
 		echo ""
-		if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "$(md5 -qs $PASS)" ]]; then
+		if [[ -z "$PASS" ]]; then
+			echo -n
+		elif [[ "$(mplxr USER/SECURITY/PASSCODE)" == "$(md5 -qs $PASS)" ]]; then
 			echo -e "$2 successful."
 			export successful=1
 			clear

@@ -8,7 +8,9 @@ else
 		echo -n "Please enter your password: "
 		read -s PASS
 		echo ""
-		if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "$(md5 -qs $PASS)" ]]; then
+		if [[ -z "$PASS" ]]; then
+			echo -n
+		elif [[ "$(mplxr USER/SECURITY/PASSCODE)" == "$(md5 -qs $PASS)" ]]; then
 			echo "$2 successful."
 			export successful=1
 			exit 0

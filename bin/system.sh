@@ -71,7 +71,7 @@ elif [[ "$1" == "--logflush" ]]; then
 	rm -rf "$LIBRARY/Logs"
 	mkdir -p "$LIBRARY/Logs"
 elif [[ "$1" == "--ota-download" ]]; then
-	"$OSSERVICES/Services/Update/dlutil"
+	"$OSSERVICES/Library/Services/Update/dlutil"
 else
 	echo "No such arguments."
 fi

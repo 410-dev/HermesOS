@@ -16,18 +16,27 @@ if [[ -f "$NVRAM/ota-profile" ]]; then
 	export URL="$(<"$NVRAM/ota-profile")"
 fi
 curl -Ls "$URL" -o "$CACHE/ota-profile"
+if [[ ! -z "$(cat "$CACHE/ota-profile" | grep "404:")" ]]; then
+	echo "Compatible image not found. Unable to download image."
+	exit 0
+fi
 source "$CACHE/ota-profile"
-if [[ ! -z "$(<"$(dirname "$0")/ota-address")" ]] && [[ ! -z "$(<"$(dirname "$0")/ota-address")" ]]; then
-	curl -L --progress-bar "$(<"$(dirname "$0")/ota-address")/$OS_Tag/$(<"$(dirname "$0")/ota-filename")" -o "$LIBRARY/image.zip"
-	if [[ ! -z "$(cat "$LIBRARY/image.zip" | grep "lib/hermes")" ]]; then
-		echo "Download was successful: $OS_Tag"
-		exit 0
+if [[ ! -z "$OS_Version_Major" ]]; then
+	if [[ ! -z "$(<"$(dirname "$0")/ota-address")" ]] && [[ ! -z "$(<"$(dirname "$0")/ota-filename")" ]]; then
+		curl -L --progress-bar "$(<"$(dirname "$0")/ota-address")/$OS_Tag/$(<"$(dirname "$0")/ota-filename")" -o "$LIBRARY/image.zip"
+		if [[ ! -z "$(cat "$LIBRARY/image.zip" | grep "lib/hermes")" ]]; then
+			echo "Download was successful: $OS_Tag"
+			exit 0
+		else
+			echo "Failed downloading: $OS_Tag"
+			rm "$LIBRARY/image.zip"
+			exit 0
+		fi
 	else
-		echo "Failed downloading: $OS_Tag"
-		rm "$LIBRARY/image.zip"
+		echo "Internal Error: Address not found."
 		exit 0
 	fi
 else
-	echo "Internal Error: Address not found."
+	echo "Compatible image not found. Unable to download image."
 	exit 0
 fi

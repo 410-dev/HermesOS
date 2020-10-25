@@ -53,12 +53,20 @@ elif [[ "$1" == "--info" ]]; then
 	echo "Interface Version: $OS_InterfaceVersion"
 	echo "Copyright Statement: $OS_CopyrightStatement"
 elif [[ "$1" == "--nvram-reset" ]]; then
-	echo "Reseting NVRAM..."
-	rm -rf "$NVRAM"
-	mkdir -p "$NVRAM"
-	echo "Rewriting NVRAM..."
-	cp -r "$OSSERVICES/Default/nvram" "$LIB"
-	echo "Done."
+	echo -e "${RED}Are you sure you want to reset NVRAM?"
+	echo -e "${RED}This action will reset all the frestrictor trusted data.${DEFAULT}"
+	echo "y/n"
+	read yn
+	if [[ "$yn" == "y" ]] || [[ "$yn" == "Y" ]]; then
+		echo "Reseting NVRAM..."
+		rm -rf "$NVRAM"
+		mkdir -p "$NVRAM"
+		echo "Rewriting NVRAM..."
+		cp -r "$SYSTEMSUPPORT/defaults/nvram" "$LIB"
+		echo "Done."
+	else
+		echo "Aborted."
+	fi 
 elif [[ "$1" == "--logflush" ]]; then
 	rm -rf "$LIBRARY/Logs"
 	mkdir -p "$LIBRARY/Logs"

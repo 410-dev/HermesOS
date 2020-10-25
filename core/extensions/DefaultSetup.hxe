@@ -22,7 +22,6 @@ if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
 	verbose "[${GREEN}*${C_DEFAULT}] Rewriting..."
 	cp -r "$OSSERVICES/Default/multiplex" "$LIBRARY"
 	mv "$LIBRARY/multiplex" "$MULTIPLEX"
-	cp -r "$OSSERVICES/Default/nvram" "$LIBRARY"
 	mkdir -p "$DATA/init"
 	mkdir -p "$LIBRARY/Logs"
 	verbose "[${GREEN}*${C_DEFAULT}] Configurating multiplex..."

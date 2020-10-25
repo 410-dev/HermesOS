@@ -24,7 +24,7 @@ source "$CACHE/ota-profile"
 if [[ ! -z "$OS_Version_Major" ]]; then
 	if [[ ! -z "$(<"$(dirname "$0")/ota-address")" ]] && [[ ! -z "$(<"$(dirname "$0")/ota-filename")" ]]; then
 		curl -L --progress-bar "$(<"$(dirname "$0")/ota-address")/$OS_Tag/$(<"$(dirname "$0")/ota-filename")" -o "$LIBRARY/image.zip"
-		if [[ ! -z "$(cat "$LIBRARY/image.zip" | grep "lib/hermes")" ]]; then
+		if [[ ! -z "$(cat "$LIBRARY/image.zip" | grep "sys/interface")" ]]; then
 			echo "Download was successful: $OS_Tag"
 			exit 0
 		else

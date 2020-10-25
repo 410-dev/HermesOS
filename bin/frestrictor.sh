@@ -4,29 +4,10 @@ if [[ "$HUID" -ne 0 ]]; then
 	exit 0
 fi
 
-export compatibleKernel="3.0.1"
-export compatibleSystem="10.0.0"
 export programversion="1.0"
 
 echo "FRESTRICTOR - Let your files in your hand"
 echo "========================================="
-if [[ "$OS_Version" == "$compatibleSystem" ]]; then
-	echo -n ""
-else
-	echo "OS Version is incompatible!"
-	echo "Required: $compatibleSystem"
-	echo "Actual: $OS_Version"
-	exit 0
-fi
-
-if [[ "$CoreVersion" == "$compatibleKernel" ]]; then
-	echo -n ""
-else
-	echo "OS Version is incompatible!"
-	echo "Required: $compatibleKernel"
-	echo "Actual: $CoreVersion"
-	exit 0
-fi
 
 if [[ ! -d "$NVRAM/security/frestrictor_trustedagents" ]]; then
 	mkdir -p "$NVRAM/security/frestrictor_trustedagents"

@@ -61,8 +61,6 @@ elif [[ "$1" == "--nvram-reset" ]]; then
 		echo "Reseting NVRAM..."
 		rm -rf "$NVRAM"
 		mkdir -p "$NVRAM"
-		echo "Rewriting NVRAM..."
-		cp -r "$SYSTEMSUPPORT/defaults/nvram" "$LIB"
 		echo "Done."
 	else
 		echo "Aborted."

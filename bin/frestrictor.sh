@@ -15,6 +15,12 @@ fi
 
 echo "Frestrictor $programversion - Management Panel"
 
+if [[ -f "$NVRAM/frestrictor_config" ]]; then
+	if [[ ! -z "$(echo "$NVRAM/frestrictor_config" | grep "full-disable")" ]]; then
+		echo "[DISABLED]"
+	fi
+fi
+
 
 while [[ true ]]; do
 	echo ""

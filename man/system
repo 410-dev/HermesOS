@@ -11,8 +11,8 @@ Options:
 --update        : Run system update.
 --info          : Shows system information.
 --nvram-reset   : Clears all NVRAM data.
---logflush      : Flushes all log
---ota-download  : Downloads latest system image from server
+--logflush      : Flushes all log.
+--ota-download  : Downloads latest system image from server.
 --extensions    : Lists all installed hardware extensions.
 
 Usage: system [option]

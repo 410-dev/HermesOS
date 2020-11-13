@@ -1,0 +1,7 @@
+tpaste - Temporary Storage
+
+Loads the content in temporary storage
+
+Usage: tpaste [optional: paste location]
+Example: tpaste
+Example: tpaste document.txt

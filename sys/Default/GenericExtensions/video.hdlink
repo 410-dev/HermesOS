@@ -1,0 +1,6 @@
+export VID_MANU="Hermes"
+export VID_NAME="Generic Video Device"
+export VID_MEM_SIZE="256"
+export VID_MEM_UNIT="KB"
+export VID_MEM_TYPE="GDDR"
+export VID_CTL="$OSSERVICES/Default/GenericExtensions/vidctl"

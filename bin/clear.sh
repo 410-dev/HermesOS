@@ -1,2 +1,2 @@
 #!/bin/bash
-clear
+"$VID_CTL" clearScreen

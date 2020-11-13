@@ -1,0 +1,6 @@
+export CPU_MANU="Hermes"
+export CPU_NAME="Generic Processor"
+export CPU_CLOCK="1.0GHz"
+export CPU_CACHE="4KB"
+export CPU_CORES="1"
+export CPU_CTL="$OSSERVICES/Default/GenericExtensions/cpuctl"

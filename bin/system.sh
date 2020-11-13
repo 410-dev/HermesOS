@@ -52,6 +52,13 @@ elif [[ "$1" == "--info" ]]; then
 	echo "Manufacturer: $OS_Manufacture"
 	echo "Interface Version: $OS_InterfaceVersion"
 	echo "Copyright Statement: $OS_CopyrightStatement"
+	echo ""
+	echo "Hardware Information"
+	echo "HardLink Version: $HardLink_Version"
+	echo "Processor: $CPU_MANU $CPU_NAME $CPU_CLOCK ${CPU_CORES}-Core with $CPU_CACHE Cache"
+	echo "Video: $VID_MANU - $VID_NAME with $VID_MEM_SIZE$VID_MEM_UNIT $VID_MEM_TYPE"
+	echo "Memory: $MEM_SIZE$MEM_UNIT $MEM_MANU $MEM_NAME $MEM_CLOCK"
+	echo "Disk: $DISK_MANU $DISK_NAME $DISK_SIZE$DISK_UNIT $DISK_TYPE Drive"
 elif [[ "$1" == "--nvram-reset" ]]; then
 	echo -e "${RED}Are you sure you want to reset NVRAM?"
 	echo -e "${RED}This action will reset all the frestrictor trusted data.${C_DEFAULT}"
@@ -70,6 +77,8 @@ elif [[ "$1" == "--logflush" ]]; then
 	mkdir -p "$LIBRARY/Logs"
 elif [[ "$1" == "--ota-download" ]]; then
 	"$OSSERVICES/Library/Services/Update/dlutil"
+elif [[ "$1" == "--extensions" ]]; then
+	ls -1 "$LIBRARY/HardwareExtensions"
 else
 	echo "No such arguments."
 fi

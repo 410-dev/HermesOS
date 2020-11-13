@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Hardlink is a software that automatically writes hardware driver if does not exists.
+# It also manages fundamental hardware such as S2G1 operation.
+
+export HardLink_Version="11.0.0"
+
+cd "$OSSERVICES/Default/GenericExtensions"
+while read extension
+do
+	verbose "[${GREEN}*${C_DEFAULT}] Loading Generic HardLink Extensions: $extension"
+	source "$OSSERVICES/Default/GenericExtensions/$extension"
+done <<< "$(ls -p | grep -v / | grep ".hdlink")"
+
+if [[ $(bootarg.contains "safe") == 0 ]]; then
+	if [[ -d "$LIBRARY/HardwareExtensions/" ]]; then
+		if [[ -f "$LIBRARY/HardwareExtensions/memory.hdlink" ]]; then
+			cd "$LIBRARY/HardwareExtensions/"
+			while read extension
+			do
+				verbose "[${GREEN}*${C_DEFAULT}] Loading HardLink Extensions: $extension"
+				source "$LIBRARY/HardwareExtensions/$extension"
+			done <<< "$(ls -p | grep -v / | grep ".hdlink")"
+		fi
+	fi
+fi

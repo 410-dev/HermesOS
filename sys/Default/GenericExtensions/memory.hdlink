@@ -1,0 +1,8 @@
+export MEM_MANU="Hermes"
+export MEM_NAME="Generic Memory"
+export MEM_SIZE="512"
+export MEM_UNIT="KB"
+export MEM_TYPE="DRAM"
+export MEM_CLOCK="1000MHz"
+export MEM_HARDLOCA="$CACHE"
+export MEM_CTL="$OSSERVICES/Default/GenericExtensions/memctl"

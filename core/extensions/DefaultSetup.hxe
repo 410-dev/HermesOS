@@ -1,17 +1,19 @@
 #!/bin/bash
 
 mkdir -p "$USERDATA"
+mkdir -p "$MULTIPLEX"
+
 mkdir -p "$LIBRARY/Developer"
 mkdir -p "$LIBRARY/Logs"
+mkdir -p "$LIBRARY/Services"
+
 mkdir -p "$DATA/init"
+mkdir -p "$DATA/mount"
+
+mkdir -p "$CACHE/Logs"
+
 mkdir -p "$NVRAM"
 mkdir -p "$NVRAM/security"
-mkdir -p "$DATA/mount"
-mkdir -p "$MULTIPLEX"
-mkdir -p "$CACHE"
-mkdir -p "$CACHE/Logs"
-mkdir -p "$DATA"
-mkdir -p "$LIBRARY/Services"
 
 export DATA_COMPATIBILITY="11"
 if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then

@@ -22,6 +22,13 @@ function leaveSystem() {
 	exit 0
 }
 
+function fallToRecovery() {
+	export ROOTFS="$CACHE/recovery"
+	export OSSERVICES="$ROOTFS/sys"
+	export CORE="$ROOTFS/core"
+}
+
 export -f bootarg.contains
 export -f verbose
 export -f leaveSystem
+export -f fallToRecovery

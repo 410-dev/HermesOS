@@ -1,0 +1,12 @@
+#!/bin/bash
+export OS_Version="11.0.0"
+export OS_Version_Major="11"
+export OS_Version_Minor="0"
+export OS_Version_Edit="0"
+export OS_Name="HermesOS Recovery"
+export OS_Edition="Construction"
+export OS_Codename="Oraia"
+export OS_Tag="11.0.0-Recovery"
+export OS_Manufacture="410"
+export OS_InterfaceVersion="11-Recovery"
+export OS_CopyrightStatement="Copyright (C) 410 2020. All rights reserved."

@@ -13,6 +13,7 @@ Options:
 --nvram-reset   : Clears all NVRAM data.
 --logflush      : Flushes all log
 --ota-download  : Downloads latest system image from server
+--extensions    : Lists all installed hardware extensions.
 
 Usage: system [option]
 Example: system --clean-restore

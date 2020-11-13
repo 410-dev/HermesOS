@@ -1,2 +1,2 @@
 #!/bin/bash
-"$OSSERVICES/Library/SystemComponents/logo/execute"
+"$OSSERVICES/Library/Services/Startup/logo/execute"

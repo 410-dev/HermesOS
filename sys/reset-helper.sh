@@ -33,3 +33,4 @@ echo "[*] Done."
 mkdir -p "$CACHE"
 touch "$CACHE/updated"
 rm -rf "$NVRAM/bootaction"
+exit 1

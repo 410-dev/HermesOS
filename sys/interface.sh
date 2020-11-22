@@ -10,10 +10,7 @@ function loadDefinition() {
 
 loadDefinition
 
-if [[ -f "$CACHE/updated" ]] && [[ -f "$NVRAM/DontStartInterfaceAfterUpgrade" ]]; then
-	rm "$CACHE/updated" "$NVRAM/DontStartInterfaceAfterUpgrade"
-	exit 0
-elif [[ "$(mplxr USER/SECURITY/LOGIN_ATTEMPT)" == "64" ]]; then
+if [[ "$(mplxr USER/SECURITY/LOGIN_ATTEMPT)" == "64" ]]; then
 	echo -e "${RED}Error: Unable to start user interface"
 	echo -e "${RED}Error code: 64"
 	echo -e "${RED}You entered wrong password more than 5 times.${C_DEFAULT}"

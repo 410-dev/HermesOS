@@ -20,6 +20,7 @@ else
 		cp "$OSSERVICES/reset-helper" "$CACHE/"
 		verbose "[${GREEN}*${C_DEFAULT}] Starting helper!"
 		"$CACHE/reset-helper" "$ACTION"
+		exit $?
 	else
 		echo "[-] Image not found."
 	fi

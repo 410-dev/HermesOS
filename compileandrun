@@ -66,4 +66,7 @@ find "$pth" -name *.hxe.x.c -depth -exec rm {} \;
 
 cd "$pth"
 
+if [[ "$1" == "norun" ]]; then
+	exit 0
+fi
 "$PWD/boot/init" "$1" "$2" "$3" "$4" "$5" "$6"

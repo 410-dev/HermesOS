@@ -18,14 +18,18 @@ function verbose() {
 }
 
 function leaveSystem() {
-	rm -rf "$CACHE" 2>/dev/null
-	exit 0
+	if [[ $(bootarg.contains "no-cache-reset") == 0 ]]; then
+		rm -rf "$CACHE" 2>/dev/null
+		exit 0
+	fi
+	
 }
 
 function fallToRecovery() {
-	export ROOTFS="$CACHE/recovery"
-	export OSSERVICES="$ROOTFS/sys"
-	export CORE="$ROOTFS/core"
+	mkdir -p "$RECOVERY"
+	echo "Entering recovery..."
+	cp -r "$OSSERVICES/Library/RecoveryOS/"* "$RECOVERY"
+	"$RECOVERY/BOOT"
 }
 
 export -f bootarg.contains

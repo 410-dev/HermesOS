@@ -18,7 +18,13 @@ fi
 
 export BOOTARGS="$BOOTARGS $1 $2 $3 $4 $5 $6 $7 $8 $9"
 
-while [[ true ]]; do
+if [[ $(bootarg.contains "recovery") == 1 ]]; then
+	fallToRecovery
+	leaveSystem
+	exit 0
+fi
+
+while [[ $(bootarg.contains "recovery") == 0 ]]; do
 	verbose "[${GREEN}*${C_DEFAULT}] Starting Hermes..."
 	if [[ -f "$CORE/core" ]]; then
 		"$CORE/core" "osstart"

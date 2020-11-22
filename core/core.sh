@@ -18,6 +18,10 @@ function extensionLoader() {
 			export returned=$?
 			if [[ "$returned" == 0 ]]; then
 				verbose "[${GREEN}*${C_DEFAULT}] Load complete."
+			elif [[ "$returned" == 1 ]] && [[ "$agentname" == "OSUtility.hxe" ]]; then
+				echo -e "${GREEN}System update complete. Please restart the computer."
+				touch "$BOOTREFUSE"
+				exit 0
 			elif [[ -f "$BOOTREFUSE" ]]; then
 				echo "❌"
 				verbose "${RED}Boot refused: $(cat "$BOOTREFUSE") ${C_DEFAULT}"
@@ -25,6 +29,7 @@ function extensionLoader() {
 			else
 				verbose "[${YELLOW}!${C_DEFAULT}] $agentname returned exit code $returned."
 				error "Agent $agentname returned exit code $returned."
+				exit 120
 			fi
 		fi
 	done

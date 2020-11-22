@@ -2,6 +2,5 @@ tcopy - Temporary Storage
 
 Copies file or text to temporary storage
 
-Usage: tcopy [to copy (text or file)]
-Example: tcopy Document.txt
+Usage: tcopy [to copy text]
 Example: tcopy "Hello World!"

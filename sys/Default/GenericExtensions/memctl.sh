@@ -14,7 +14,7 @@ function defineSpace() {
 
 function defineData() {
 	if [[ ! -f "$CACHE/isolated_memory/$(encrypt "$1")" ]]; then
-		echo "$2" > "$(encrypt "$1")"
+		echo "$2" > "$CACHE/isolated_memory/$(encrypt "$1")"
 	else
 		echo "[MemAllocator] Failed allocating memory: $1" >> "$CACHE/alert"
 	fi
@@ -37,6 +37,10 @@ function readData() {
 		cat "$CACHE/isolated_memory/$(encrypt "$1")"
 	fi
 }
+
+if [[ ! -d "$CACHE/isolated_memory" ]]; then
+	mkdir -p "$CACHE/isolated_memory"
+fi
 
 if [[ "$1" == "define" ]]; then
 	if [[ "$2" == "space" ]]; then

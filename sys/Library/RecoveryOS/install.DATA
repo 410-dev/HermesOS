@@ -4,8 +4,7 @@ function install() {
 	echo "What do you want to install? :"
 	echo ""
 	echo "1. System"
-	echo "2. Driver (Only in recovery)"
-	echo "3. Package"
+	echo "2. Package"
 	echo ""
 	echo -n "> "
 	read menu
@@ -41,33 +40,6 @@ function install() {
 			colorprint "${GREEN}Done."
 			break
 		elif [[ "$menu" == "2" ]]; then
-			if [[ ! -d "$DATA" ]]; then
-				colorprint "${RED}Unable to get driver files from storage."
-				break
-			fi
-			echo "Finding driver files..."
-			export query="$(find "$DATA" | grep ".DATA")"
-			if [[ -z "$query" ]]; then
-				colorprint "${RED}Error: Unable to find driver file."
-				break
-			fi
-			echo "Drivers found: "
-			echo "$query"
-			echo "Please type the name of the driver file."
-			echo -n "> "
-			read selected
-			if [[ "$selected" == ".DATA" ]] || [[ "$selected" == "/" ]]; then
-				colorprint "${RED}Such input is not allowed."
-			elif [[ ! -z "$(echo "$query" | grep "$selected")" ]]; then
-				echo "Installing driver..."
-				mkdir -p "$SYSCAC/recovery_drivers"
-				cp "$DATA/$(echo "$query" | grep "$selected")" "$SYSCAC/recovery_drivers"
-				break
-			else
-				colorprint "${RED}Driver not found."
-				break
-			fi
-		elif [[ "$menu" == "3" ]]; then
 			if [[ -d "$DATA" ]]; then
 				colorprint "${RED}Unable to get package files from storage."
 				break

@@ -1,4 +1,3 @@
-#!/bin/bash
 export C_DEFAULT="\033[39m"
 export BLACK="\033[30m"
 export RED="\033[91m"
@@ -7,3 +6,9 @@ export YELLOW="\033[93m"
 export BLUE="\033[34m"
 export MAGENTA="\033[95m"
 export CYAN="\033[96m"
+
+function colorprint() {
+	echo -e "${1} ${C_DEFAULT}"
+}
+
+export -f colorprint

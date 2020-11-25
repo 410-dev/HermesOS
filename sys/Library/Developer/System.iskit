@@ -16,7 +16,12 @@ function print() {
 	echo -en "$1 $2 $3 $4 $5 $6 $7 $8 $9"
 }
 
+function cprint() {
+	echo -e "$1${C_DEFAULT}"
+}
+
 export -f System.getSystemVersion
 export -f System.getSystemBuild
 export -f println
 export -f print
+export -f cprint

@@ -33,14 +33,14 @@ function install() {
 				    rm -rf "$selectedDisk/System"
 		        fi
 				mkdir -p "$selectedDisk/System"
-				unzip -q "$selectedDisk/recovery_dimg/image.zip" -d "$selectedDisk/System"
+				unzip -o -q "$selectedDisk/recovery_dimg/image.zip" -d "$selectedDisk/System"
 			fi
 			echo "Configuring..."
 			postinstconfigure
 			colorprint "${GREEN}Done."
 			break
 		elif [[ "$menu" == "2" ]]; then
-			if [[ -d "$DATA" ]]; then
+			if [[ ! -d "$DATA" ]]; then
 				colorprint "${RED}Unable to get package files from storage."
 				break
 			fi
@@ -65,10 +65,11 @@ function install() {
 			read selected
 			if [[ "$selected" == ".DATA" ]] || [[ "$selected" == "/" ]]; then
 				colorprint "${RED}Such input is not allowed."
+				break
 			elif [[ ! -z "$(echo "$query" | grep "$selected")" ]]; then
 				echo "Installing package..."
-				mkdir -p "$SYSCAC/recovery_drivers"
-				cp "$DATA/$(echo "$query" | grep "$selected")" "$SYSCAC/recovery_drivers"
+				unzip -o -q "$(echo "$query" | grep "$selected")" -d "$selectedDisk" -A
+				rm -rf "$selectedDisk/__MACOSX"
 				break
 			else
 				colorprint "${RED}Package not found."

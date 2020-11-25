@@ -10,7 +10,8 @@ while [[ true ]]; do
 	[[ "$commands" == "help" ]] || 
 	[[ "$commands" == "install" ]] || 
 	[[ "$commands" == "selectdisk" ]] || 
-	[[ "$commands" == "updatept" ]]; then
+	[[ "$commands" == "updatept" ]] ||
+	[[ "$commands" == "nvreset" ]]; then
 		"$commands"
 	elif [[ "$commands" == "shutdown" ]]; then
 		rm -rf "$SYSCAC"

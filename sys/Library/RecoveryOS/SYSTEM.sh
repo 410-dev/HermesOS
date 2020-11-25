@@ -16,6 +16,12 @@ while [[ true ]]; do
 	elif [[ "$commands" == "shutdown" ]]; then
 		rm -rf "$SYSCAC"
 		break
+		unset cleardisk
+		unset help
+		unset install
+		unset selectdisk
+		unset updatept
+		unset nvreset
 	elif [[ ! -z "$(echo "$commands" | grep ".DATA")" ]]; then
 		echo "DRIVER DATA: "
 		cat "$SYSLOC/$commands"

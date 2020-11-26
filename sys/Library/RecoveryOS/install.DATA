@@ -68,7 +68,7 @@ function install() {
 				break
 			elif [[ ! -z "$(echo "$query" | grep "$selected")" ]]; then
 				echo "Installing package..."
-				unzip -o -q "$(echo "$query" | grep "$selected")" -d "$selectedDisk" -A
+				unzip -o -q "$(echo "$query" | grep "$selected")" -d "$selectedDisk"
 				rm -rf "$selectedDisk/__MACOSX"
 				break
 			else

@@ -7,7 +7,6 @@ mkdir -p "$LIBRARY/Developer"
 mkdir -p "$LIBRARY/Logs"
 mkdir -p "$LIBRARY/Services"
 
-mkdir -p "$DATA/init"
 mkdir -p "$DATA/mount"
 
 mkdir -p "$CACHE/Logs"

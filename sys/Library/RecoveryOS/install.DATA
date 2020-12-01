@@ -1,85 +1,94 @@
 #!/bin/bash
 
-function install() {
-	echo "What do you want to install? :"
-	echo ""
-	echo "1. System"
-	echo "2. Package"
-	echo ""
-	echo -n "> "
-	read menu
-	while [[ true ]]; do
-		if [[ "$menu" == "1" ]]; then
-			if [[ -z "$selectedDisk" ]]; then
-				colorprint "${RED}Error: Disk not selected."
-				break
-			fi
-			if [[ -d "$SYSLOC/sysorig" ]]; then
-				echo "Using local package..."
-				echo "Installing..."
-				cp -r "$SYSLOC/sysorig/System" "$selectedDisk"
-			else
-				echo "System package not found."
-				echo "Downloading system packages..."
-				colorprint "${YELLOW}Package will be downloaded to current disk."
-				mkdir -p "$selectedDisk/recovery_dimg"
-				curl -Ls "https://github.com/410-dev/HermesOS/releases/download/10.0.1/image.zip" -o "$selectedDisk/recovery_dimg/image.zip"
-				if [[ $? -ne 0 ]]; then
-					echo "Failed downloading HermesOS 10.0.1 (Minimum compatible version)"
-					break
-				fi
-				echo "Installing..."
-				if [[ -d "$selectedDisk/System" ]]; then
-				    rm -rf "$selectedDisk/System"
-		        fi
-				mkdir -p "$selectedDisk/System"
-				unzip -o -q "$selectedDisk/recovery_dimg/image.zip" -d "$selectedDisk/System"
-			fi
-			echo "Configuring..."
-			postinstconfigure
-			colorprint "${GREEN}Done."
-			break
-		elif [[ "$menu" == "2" ]]; then
-			if [[ ! -d "$DATA" ]]; then
-				colorprint "${RED}Unable to get package files from storage."
-				break
-			fi
-			if [[ -z "$selectedDisk" ]]; then
-				colorprint "${RED}Error: Disk not selected."
-				break
-			fi
-			if [[ ! -d "$selectedDisk/System" ]]; then
-				colorprint "${RED}Error: No system installed."
-				break
-			fi
-			echo "Finding package files..."
-			export query="$(find "$DATA" | grep ".PACKAGE")"
-			if [[ -z "$query" ]]; then
-				colorprint "${RED}Error: Unable to find package file."
-				break
-			fi
-			echo "Packages found: "
-			echo "$query"
-			echo "Please type the name of the package file."
-			echo -n "> "
-			read selected
-			if [[ "$selected" == ".DATA" ]] || [[ "$selected" == "/" ]]; then
-				colorprint "${RED}Such input is not allowed."
-				break
-			elif [[ ! -z "$(echo "$query" | grep "$selected")" ]]; then
-				echo "Installing package..."
-				unzip -o -q "$(echo "$query" | grep "$selected")" -d "$selectedDisk"
-				rm -rf "$selectedDisk/__MACOSX"
-				break
-			else
-				colorprint "${RED}Package not found."
-				break
-			fi
-		else
-			echo "No such option."
+function installsys() {
+	if [[ -z "$selectedDisk" ]]; then
+		colorprint "${RED}Error: Disk not selected."
+		break
+	fi
+	if [[ -d "$SYSLOC/sysorig" ]]; then
+		echo "Using local package..."
+		echo "Installing..."
+		cp -r "$SYSLOC/sysorig/System" "$selectedDisk"
+	else
+		echo "System package not found."
+		echo "Downloading system packages..."
+		colorprint "${YELLOW}Package will be downloaded to current disk."
+		mkdir -p "$selectedDisk/recovery_dimg"
+		curl -Ls "https://github.com/410-dev/HermesOS/releases/download/10.0.1/image.zip" -o "$selectedDisk/recovery_dimg/image.zip"
+		if [[ $? -ne 0 ]]; then
+			echo "Failed downloading HermesOS 10.0.1 (Minimum compatible version)"
 			break
 		fi
-	done
+		echo "Installing..."
+		if [[ -d "$selectedDisk/System" ]]; then
+			rm -rf "$selectedDisk/System"
+		fi
+		mkdir -p "$selectedDisk/System"
+		unzip -o -q "$selectedDisk/recovery_dimg/image.zip" -d "$selectedDisk/System"
+	fi
+	echo "Configuring..."
+	postinstconfigure
+	colorprint "${GREEN}Done."
+	break
 }
 
+function install() {
+	if [[ $(bootarg.contains "$1") == 1 ]]; then
+		echo "What do you want to install? :"
+		echo ""
+		echo "1. System"
+		echo "2. Package"
+		echo ""
+		echo -n "> "
+		read menu
+		while [[ true ]]; do
+			if [[ "$menu" == "1" ]]; then
+				installsys
+			elif [[ "$menu" == "2" ]]; then
+				if [[ ! -d "$DATA" ]]; then
+					colorprint "${RED}Unable to get package files from storage."
+					break
+				fi
+				if [[ -z "$selectedDisk" ]]; then
+					colorprint "${RED}Error: Disk not selected."
+					break
+				fi
+				if [[ ! -d "$selectedDisk/System" ]]; then
+					colorprint "${RED}Error: No system installed."
+					break
+				fi
+				echo "Finding package files..."
+				export query="$(find "$DATA" | grep ".PACKAGE")"
+				if [[ -z "$query" ]]; then
+					colorprint "${RED}Error: Unable to find package file."
+					break
+				fi
+				echo "Packages found: "
+				echo "$query"
+				echo "Please type the name of the package file."
+				echo -n "> "
+				read selected
+				if [[ "$selected" == ".DATA" ]] || [[ "$selected" == "/" ]]; then
+					colorprint "${RED}Such input is not allowed."
+					break
+				elif [[ ! -z "$(echo "$query" | grep "$selected")" ]]; then
+					echo "Installing package..."
+					unzip -o -q "$(echo "$query" | grep "$selected")" -d "$selectedDisk"
+					rm -rf "$selectedDisk/__MACOSX"
+					break
+				else
+					colorprint "${RED}Package not found."
+					break
+				fi
+			else
+				echo "No such option."
+				break
+			fi
+		done
+	else
+		installsys
+	fi
+}
+
+export -f installsys
 export -f install

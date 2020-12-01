@@ -12,7 +12,7 @@ while [[ true ]]; do
 	[[ "$commands" == "selectdisk" ]] || 
 	[[ "$commands" == "updatept" ]] ||
 	[[ "$commands" == "nvreset" ]]; then
-		"$commands"
+		"$commands" "rec_mode_set_unlocked_installer"
 	elif [[ "$commands" == "shutdown" ]]; then
 		rm -rf "$SYSCAC"
 		break

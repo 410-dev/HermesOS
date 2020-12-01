@@ -5,17 +5,12 @@
 
 # EDIT THE VALUES HERE
 export SYSNAME="Hermes Recovery"
-export SYSVERS="11.0.1"
+export SYSVERS="11.0.2"
 export SYSEXEC="SYSTEM"
 
 # DO NOT EDIT FROM HERE
 export SYSLOC="$RECOVERY"
 export SYSCAC="$CACHE"
-echo "=================="
-echo "||  MINISYSTEM  ||"
-echo "=================="
-echo ""
-echo ""
 echo "Loading: $SYSNAME $SYSVERS"
 cd "$SYSLOC"
 while read DATAFILE

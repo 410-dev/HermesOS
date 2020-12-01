@@ -1,0 +1,7 @@
+installdriver - Installs hardware driver
+
+Description: 
+This command will install a hardware driver.
+Accepted driver package. Extension is: .hdripkg
+
+Usage: installdriver driver.hdripkg

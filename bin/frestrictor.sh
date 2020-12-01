@@ -4,13 +4,25 @@ if [[ "$HUID" -ne 0 ]]; then
 	exit 0
 fi
 
-export programversion="1.0"
+export programversion="1.1"
 
 echo "FRESTRICTOR - Let your files in your hand"
 echo "========================================="
 
 if [[ ! -d "$NVRAM/security/frestrictor_trustedagents" ]]; then
 	mkdir -p "$NVRAM/security/frestrictor_trustedagents"
+	touch "$NVRAM/security/frestrictor_trustedagents/ls"
+	touch "$NVRAM/security/frestrictor_trustedagents/copy"
+	touch "$NVRAM/security/frestrictor_trustedagents/mkdir"
+	touch "$NVRAM/security/frestrictor_trustedagents/mv"
+	touch "$NVRAM/security/frestrictor_trustedagents/nano"
+	touch "$NVRAM/security/frestrictor_trustedagents/open"
+	touch "$NVRAM/security/frestrictor_trustedagents/read"
+	touch "$NVRAM/security/frestrictor_trustedagents/rm"
+	touch "$NVRAM/security/frestrictor_trustedagents/setrunnable"
+	touch "$NVRAM/security/frestrictor_trustedagents/super"
+	touch "$NVRAM/security/frestrictor_trustedagents/tpaste"
+	touch "$NVRAM/security/frestrictor_trustedagents/installdriver"
 fi
 
 echo "Frestrictor $programversion - Management Panel"

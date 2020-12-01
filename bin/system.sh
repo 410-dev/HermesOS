@@ -1,11 +1,10 @@
 #!/bin/bash
 
-if [[ "$HUID" -ne 0 ]]; then
-	echo "Permission denied: $HUID"
-	exit 0
-fi
-
 if [[ "$1" == "--clean-restore" ]]; then
+	if [[ "$HUID" -ne 0 ]]; then
+		echo "Permission denied: $HUID"
+		exit 0
+	fi
 	if [[ -f "$LIBRARY/image.zip" ]]; then
 		echo "Preparing to restore..."
 		echo "restore" > "$NVRAM/bootaction"
@@ -15,12 +14,22 @@ if [[ "$1" == "--clean-restore" ]]; then
 		echo "Image not detected in Library."
 	fi
 elif [[ "$1" == "--dirty-restore" ]]; then
+	if [[ "$HUID" -ne 0 ]]; then
+		echo "Permission denied: $HUID"
+		exit 0
+	fi
+
 	echo "File erase in progress..."
 	rm -vrf "$DATA/"*
 	rm -vrf "$LIBRARY/"*
 	echo "Shutting down..."
 	"$SYSTEM/bin/shutdown"
 elif [[ "$1" == "--rollback" ]]; then
+	if [[ "$HUID" -ne 0 ]]; then
+		echo "Permission denied: $HUID"
+		exit 0
+	fi
+
 	if [[ -f "$LIBRARY/rbimage.zip" ]]; then
 		echo "Preparing for rollback..."
 		mv "$LIBRARY/rbimage.zip" "$LIBRARY/image.zip"
@@ -33,6 +42,11 @@ elif [[ "$1" == "--rollback" ]]; then
 elif [[ "$1" == "--uirestart" ]]; then
 	touch "$CACHE/uirestart"
 elif [[ "$1" == "--update" ]]; then
+	if [[ "$HUID" -ne 0 ]]; then
+		echo "Permission denied: $HUID"
+		exit 0
+	fi
+
 	if [[ -f "$LIBRARY/image.zip" ]] || [[ -f "$USERDATA/update.zip" ]]; then
 		echo "Preparing for update..."
 		if [[ -f "$USERDATA/update.zip" ]]; then
@@ -60,6 +74,11 @@ elif [[ "$1" == "--info" ]]; then
 	echo "Memory: $MEM_SIZE$MEM_UNIT $MEM_MANU $MEM_NAME $MEM_CLOCK"
 	echo "Disk: $DISK_MANU $DISK_NAME $DISK_SIZE$DISK_UNIT $DISK_TYPE Drive"
 elif [[ "$1" == "--nvram-reset" ]]; then
+	if [[ "$HUID" -ne 0 ]]; then
+		echo "Permission denied: $HUID"
+		exit 0
+	fi
+
 	echo -e "${RED}Are you sure you want to reset NVRAM?"
 	echo -e "${RED}This action will reset all the frestrictor trusted data.${C_DEFAULT}"
 	echo "y/n"

@@ -59,7 +59,11 @@ while [[ true ]]; do
 			echo -n ""
 		else
 			export lastExecutedCommand="$command"
-			echo "${args[0]}" > "$CACHE/process"
+			if [[ "${args[0]}" == "super" ]]; then
+				echo "${args[1]}" > "$CACHE/process"
+			else
+				echo "${args[0]}" > "$CACHE/process"
+			fi
 		fi
 		"$SYSTEM/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
 	elif [[ -z "$command" ]]; then

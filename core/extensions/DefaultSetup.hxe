@@ -14,6 +14,22 @@ mkdir -p "$CACHE/Logs"
 mkdir -p "$NVRAM"
 mkdir -p "$NVRAM/security"
 
+if [[ ! -d "$NVRAM/security/frestrictor_trustedagents" ]]; then
+	mkdir -p "$NVRAM/security/frestrictor_trustedagents"
+	touch "$NVRAM/security/frestrictor_trustedagents/ls"
+	touch "$NVRAM/security/frestrictor_trustedagents/copy"
+	touch "$NVRAM/security/frestrictor_trustedagents/mkdir"
+	touch "$NVRAM/security/frestrictor_trustedagents/mv"
+	touch "$NVRAM/security/frestrictor_trustedagents/nano"
+	touch "$NVRAM/security/frestrictor_trustedagents/open"
+	touch "$NVRAM/security/frestrictor_trustedagents/read"
+	touch "$NVRAM/security/frestrictor_trustedagents/rm"
+	touch "$NVRAM/security/frestrictor_trustedagents/setrunnable"
+	touch "$NVRAM/security/frestrictor_trustedagents/super"
+	touch "$NVRAM/security/frestrictor_trustedagents/tpaste"
+	touch "$NVRAM/security/frestrictor_trustedagents/installdriver"
+fi
+
 export DATA_COMPATIBILITY="11"
 if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
 	verbose "[${GREEN}*${C_DEFAULT}] Start data partition repair!"

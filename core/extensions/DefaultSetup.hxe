@@ -8,6 +8,7 @@ mkdir -p "$LIBRARY/Logs"
 mkdir -p "$LIBRARY/Services"
 
 mkdir -p "$DATA/mount"
+mkdir -p "$DATA/Applications"
 
 mkdir -p "$CACHE/Logs"
 

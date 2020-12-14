@@ -1,0 +1,6 @@
+apps - Shows applications
+
+This command shows the list of the apps that are installed in
+/data/Applications
+
+ex: apps

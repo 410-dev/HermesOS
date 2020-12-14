@@ -1,0 +1,6 @@
+projectcreate - Create a code project
+
+This command will make a code project with conventional structure.
+
+Usage: projectcreate [project name]
+ex: projectcreate HelloWorld

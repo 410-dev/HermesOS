@@ -1,0 +1,9 @@
+appbuild - Make the app
+
+This command will translate the code project into user runnable application package.
+The project MUST be in conventional structure.
+To make project, use projectcreate command.
+
+Usage: appbuild [project name] (--nosdkv (This will not limit the execution based on OS version))
+ex: appbuild mycodeproject --nosdkv
+    appbuild mycodeproject

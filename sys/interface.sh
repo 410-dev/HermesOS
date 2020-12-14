@@ -52,6 +52,7 @@ while [[ true ]]; do
 	read command
 	export args=($command)
 	export USERLV="1"
+	echo "${args[0]}" > "$CACHE/process"
 	if [[ "${args[0]}" == "../"* ]]; then
 		echo -e "${RED}Error: Escaping /System/bin is disallowed. Use exec command.${C_DEFAULT}"
 	elif [[ -f "$SYSTEM/bin/${args[0]}" ]]; then
@@ -69,6 +70,8 @@ while [[ true ]]; do
 	elif [[ -z "$command" ]]; then
 		echo -n ""
 	elif [[ "$(mplxr USER/INTERFACE/DEVELOPER_OPTION)" == "1" ]]; then
+		export lastExecutedCommand="$command"
+		echo "${args[0]}" > "$CACHE/process"
 		if [[ -f "$SYSTEM/sys/Library/Developer/bin/${args[0]}" ]]; then
 			"$SYSTEM/sys/Library/Developer/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
 		else

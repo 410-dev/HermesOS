@@ -3,7 +3,8 @@
 mkdir -p "$USERDATA"
 mkdir -p "$MULTIPLEX"
 
-mkdir -p "$LIBRARY/Developer"
+mkdir -p "$LIBRARY/Developer/Frameworks"
+touch "$LIBRARY/Developer/Frameworks/org.hermesapi.Foundation.hfw"
 mkdir -p "$LIBRARY/Logs"
 mkdir -p "$LIBRARY/Services"
 

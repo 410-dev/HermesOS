@@ -68,6 +68,12 @@ while [[ true ]]; do
 		"$SYSTEM/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
 	elif [[ -z "$command" ]]; then
 		echo -n ""
+	elif [[ "$(mplxr USER/INTERFACE/DEVELOPER_OPTION)" == "1" ]]; then
+		if [[ -f "$SYSTEM/sys/Library/Developer/bin/${args[0]}" ]]; then
+			"$SYSTEM/sys/Library/Developer/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
+		else
+			echo "Command not found: ${args[0]}"
+		fi
 	else
 		echo "Command not found: ${args[0]}"
 	fi

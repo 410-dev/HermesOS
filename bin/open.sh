@@ -15,9 +15,7 @@ if [[ -f "$USERDATA/$1" ]]; then
 	mv "$DATA/Applications/pkgunpack" "$DATA/Applications/$APPNAME"
 	rm -f "$CACHE/package.zip"
 	echo "Installation successful."
-fi
-
-if [[ -d "$DATA/Applications/$1" ]]; then
+elif [[ -d "$DATA/Applications/$1" ]]; then
 	if [[ -f "$DATA/Applications/$1/runner" ]]; then
 		if [[ ! -f "$DATA/Applications/$1/INFO" ]]; then
 			echo "Unable to execute application: INFO is missing."

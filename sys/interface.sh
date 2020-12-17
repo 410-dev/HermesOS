@@ -8,8 +8,6 @@ function loadDefinition() {
 	done <<< "$(ls -p | grep -v / | grep ".hmref")"
 }
 
-loadDefinition
-
 if [[ "$(mplxr USER/SECURITY/LOGIN_ATTEMPT)" == "64" ]]; then
 	echo -e "${RED}Error: Unable to start user interface"
 	echo -e "${RED}Error code: 64"

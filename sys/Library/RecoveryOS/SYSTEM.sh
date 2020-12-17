@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Hermes RecoveryOS"
 echo "Type help to see available commands."
-export selectedDisk=""
+unset selectedDisk
 while [[ true ]]; do
 	echo -n "RECOVERY > "
 	read commands

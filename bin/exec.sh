@@ -3,7 +3,7 @@ if [[ "$1" == "--version" ]]; then
 	echo "Interpreter Version: 1.0.1"
 	exit 0
 elif [[ -f "$USERDATA/$1" ]]; then
-	if [[ $(bootarg.contains "verbose") == 1 ]]; then
+	if [[ $(bootArgumentHas "verbose") == 1 ]]; then
 		echo "[*] Verifying..."
 	fi
 	if [[ -z "$(cat "$USERDATA/$1" | grep "@PROG_RUNNABLE")" ]]; then
@@ -35,7 +35,7 @@ elif [[ -f "$USERDATA/$1" ]]; then
 	done
 	exitc=$?
 	if [[ $exitc == 0 ]]; then
-		if [[ $(bootarg.contains "verbose") == 1 ]]; then
+		if [[ $(bootArgumentHas "verbose") == 1 ]]; then
 			echo "[*] Verification complete."
 		fi
 		cd "$USERDATA"

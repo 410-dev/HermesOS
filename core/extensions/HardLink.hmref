@@ -12,7 +12,7 @@ do
 	source "$OSSERVICES/Default/GenericExtensions/$extension"
 done <<< "$(ls -p | grep -v / | grep ".hdlink")"
 
-if [[ $(bootarg.contains "safe") == 0 ]]; then
+if [[ $(bootArgumentHas "safe") == 0 ]]; then
 	if [[ -d "$LIBRARY/HardwareExtensions/" ]]; then
 		if [[ -f "$LIBRARY/HardwareExtensions/memory.hdlink" ]]; then
 			cd "$LIBRARY/HardwareExtensions/"

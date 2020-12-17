@@ -11,17 +11,18 @@ function bootArgumentHas() {
 }
 
 function bootarg.contains() { # This is legacy instruction. Delete on Hermes13.
+	echo "WARNING: INSTRUCTION bootarg.contains IS REPLACED WITH bootArgumentHas. bootarg.contains INSTRUCTION WILL BE REMOVED IN THE FUTURE VERSION OF HERMES."
 	bootArgumentHas "$1"
 }
 
 function verbose() {
-	if [[ $(bootarg.contains "verbose") == 1 ]]; then
+	if [[ $(bootArgumentHas "verbose") == 1 ]]; then
 		echo -e "$1"
 	fi
 }
 
 function leaveSystem() {
-	if [[ $(bootarg.contains "no-cache-reset") == 0 ]]; then
+	if [[ $(bootArgumentHas "no-cache-reset") == 0 ]]; then
 		rm -rf "$CACHE" 2>/dev/null
 		exit 0
 	fi
@@ -35,8 +36,8 @@ function fallToRecovery() {
 	"$RECOVERY/BOOT"
 }
 
-export -f bootarg.contains
 export -f bootArgumentHas
+export -f bootarg.contains
 export -f verbose
 export -f leaveSystem
 export -f fallToRecovery
@@ -59,13 +60,13 @@ fi
 
 export BOOTARGS="$BOOTARGS $1 $2 $3 $4 $5 $6 $7 $8 $9"
 
-if [[ $(bootarg.contains "recovery") == 1 ]]; then
+if [[ $(bootArgumentHas "recovery") == 1 ]]; then
 	fallToRecovery
 	leaveSystem
 	exit 0
 fi
 
-while [[ $(bootarg.contains "recovery") == 0 ]]; do
+while [[ $(bootArgumentHas "recovery") == 0 ]]; do
 	verbose "[${GREEN}*${C_DEFAULT}] Starting Hermes..."
 	if [[ -f "$CORE/loader" ]]; then
 		source "$CORE/loader"

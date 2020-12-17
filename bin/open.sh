@@ -22,7 +22,7 @@ elif [[ -d "$DATA/Applications/$1" ]]; then
 			exit
 		fi
 		source "$DATA/Applications/$1/INFO"
-		if [[ "$BUILTFOR" == "$SDK_COMPATIBILITY" ]] || [[ $(bootarg.contains "ignore_sdk_compatibility") == 1 ]] || [[ "$BUILTFOR" == "all" ]]; then
+		if [[ "$BUILTFOR" == "$SDK_COMPATIBILITY" ]] || [[ $(bootArgumentHas "ignore_sdk_compatibility") == 1 ]] || [[ "$BUILTFOR" == "all" ]]; then
 			chmod +x "$DATA/Applications/$1/runner"
 			if [[ "$ALLOCTHREAD" == "backgroundservice" ]]; then
 				"$DATA/Applications/$1/runner" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" &

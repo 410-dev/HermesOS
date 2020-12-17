@@ -4,7 +4,7 @@ if [[ "$HUID" -ne 0 ]]; then
 	exit 0
 fi
 
-if [[ $(bootarg.contains "verbose") == 1 ]]; then
+if [[ $(bootArgumentHas "verbose") == 1 ]]; then
 	echo "[*] Requesting shell to close..."
 fi
 touch "$CACHE/rboot"

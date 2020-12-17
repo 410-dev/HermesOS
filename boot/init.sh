@@ -11,7 +11,7 @@ function bootArgumentHas() {
 }
 
 function bootarg.contains() { # This is legacy instruction. Delete on Hermes13.
-	bootArgumentHas
+	bootArgumentHas "$1"
 }
 
 function verbose() {
@@ -67,22 +67,21 @@ fi
 
 while [[ $(bootarg.contains "recovery") == 0 ]]; do
 	verbose "[${GREEN}*${C_DEFAULT}] Starting Hermes..."
-	if [[ -f "$CORE/core" ]]; then
-		"$CORE/core" "osstart"
+	if [[ -f "$CORE/loader" ]]; then
+		source "$CORE/loader"
 		export endcode=$?
 		if [[ -f "$BOOTREFUSE" ]]; then
 			echo -e "[${RED}-${C_DEFAULT}] Ending System."
 			leaveSystem
 		elif [[ $endcode -ne 0 ]]; then
-			"$CORE/core" "error" "${RED}Core.osstart terminated with unexpected return code: ${endcode}${C_DEFAULT}"
+			"$CORE/error" "${RED}Core.osstart terminated with unexpected return code: ${endcode}${C_DEFAULT}"
 			exit 0
 		fi
 	else
-		"$CORE/core" "error" "${RED}Unable to load core. Aborting boot procedure.${C_DEFAULT}"
+		"$CORE/error" "${RED}Unable to load core. Aborting boot procedure.${C_DEFAULT}"
 		exit 0
 	fi
-	"$CORE/rmleak"
-	"$CORE/core" "uistart"
+	"$CORE/uistart"
 	if [[ "$?" == 0 ]]; then
 		break
 	fi

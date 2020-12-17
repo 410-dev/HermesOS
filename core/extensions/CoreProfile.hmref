@@ -1,4 +1,4 @@
 #!/bin/bash
-export CoreVersion="4.0.0-OE1"
-export CoreBuild="36-1"
+export CoreVersion="4.0.1-OE1"
+export CoreBuild="37-1"
 export CoreName="Hermes Optimal"

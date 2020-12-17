@@ -1,6 +1,47 @@
 #!/bin/bash
 source "$(dirname "$0")/partitions.hdp"
-source "$(dirname "$0")/instructions.hdp"
+
+# INSTRUCTIONS
+function bootArgumentHas() {
+	if [[ ! -z "$(echo "$BOOTARGS" | grep "$1")" ]]; then
+		echo 1
+	else
+		echo 0
+	fi
+}
+
+function bootarg.contains() { # This is legacy instruction. Delete on Hermes13.
+	bootArgumentHas
+}
+
+function verbose() {
+	if [[ $(bootarg.contains "verbose") == 1 ]]; then
+		echo -e "$1"
+	fi
+}
+
+function leaveSystem() {
+	if [[ $(bootarg.contains "no-cache-reset") == 0 ]]; then
+		rm -rf "$CACHE" 2>/dev/null
+		exit 0
+	fi
+	
+}
+
+function fallToRecovery() {
+	mkdir -p "$RECOVERY"
+	echo "Entering recovery..."
+	cp -r "$OSSERVICES/Library/RecoveryOS/"* "$RECOVERY"
+	"$RECOVERY/BOOT"
+}
+
+export -f bootarg.contains
+export -f bootArgumentHas
+export -f verbose
+export -f leaveSystem
+export -f fallToRecovery
+
+# END OF INSTRUCTIONS
 
 if [[ -f "$NVRAM/boot_argument" ]]; then
 	export BOOTARGS="$BOOTARGS $(<"$NVRAM/boot_argument")"

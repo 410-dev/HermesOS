@@ -1,0 +1,33 @@
+#!/bin/bash
+cd "$CORE/extensions"
+while read defname
+do
+	verbose "[${GREEN}*${C_DEFAULT}] Reading memory allocation data: $defname"
+	source "$CORE/extensions/$defname"
+done <<< "$(ls -p | grep -v / | grep ".hmref")"
+cd "$CORE/extensions"
+export agentlist="$(ls -p | grep -v / | grep ".hxe")" 2>/dev/null
+export exitStatus="0"
+while read agentname
+do
+	if [[ ! -z "$agentname" ]]; then
+		verbose "[*] Loading: $agentname"
+		"./$agentname"
+		export returned=$?
+		if [[ "$returned" == 0 ]]; then
+			verbose "[${GREEN}*${C_DEFAULT}] Load complete."
+		elif [[ "$returned" == 1 ]] && [[ "$agentname" == "OSUtility.hxe" ]]; then
+			echo -e "${GREEN}System update complete. Please restart the computer."
+			touch "$BOOTREFUSE"
+			exit 0
+		elif [[ -f "$BOOTREFUSE" ]]; then
+			echo "❌"
+			verbose "${RED}Boot refused: $(cat "$BOOTREFUSE") ${C_DEFAULT}"
+			exit 2
+		else
+			verbose "[${YELLOW}!${C_DEFAULT}] $agentname returned exit code $returned."
+			error "Agent $agentname returned exit code $returned."
+			exit 120
+		fi
+	fi
+done <<< "$agentlist"

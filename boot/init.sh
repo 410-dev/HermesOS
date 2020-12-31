@@ -10,11 +10,6 @@ function bootArgumentHas() {
 	fi
 }
 
-function bootarg.contains() { # This is legacy instruction. Delete on Hermes13.
-	echo "WARNING: INSTRUCTION bootarg.contains IS REPLACED WITH bootArgumentHas. bootarg.contains INSTRUCTION WILL BE REMOVED IN THE FUTURE VERSION OF HERMES."
-	bootArgumentHas "$1"
-}
-
 function verbose() {
 	if [[ $(bootArgumentHas "verbose") == 1 ]]; then
 		echo -e "$1"
@@ -37,7 +32,6 @@ function fallToRecovery() {
 }
 
 export -f bootArgumentHas
-export -f bootarg.contains
 export -f verbose
 export -f leaveSystem
 export -f fallToRecovery

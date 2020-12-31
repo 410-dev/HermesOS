@@ -38,7 +38,7 @@ function internal_exec() {
 	fi
 }
 
-if [[ -f "$NVRAM/enable_dev_option" ]]; then
+if [[ -f "$NVRAM/enable_dev_option" ]] || [[ "$OS_UnlockedDistro" == "Unlocked" ]]; then
 	mkdir -p "$CACHE/tdinterpreter"
 	if [[ -z "$1" ]]; then
 		println "Hermes Interpreter Interactive Console"

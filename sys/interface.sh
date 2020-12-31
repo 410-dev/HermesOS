@@ -35,7 +35,11 @@ cd "$ROOTFS"
 while [[ true ]]; do
 
 	declare -i HUID
-	export HUID="1"
+	if [[ "$OS_UnlockedDistro" == "Unlocked" ]]; then
+		export HUID="0"
+	else
+		export HUID="1"
+	fi
 
 	if [[ -f "$CACHE/alert" ]] ; then
 		cat "$CACHE/alert"
@@ -49,7 +53,7 @@ while [[ true ]]; do
 	echo -en "${GREEN}${USERN}${C_DEFAULT}@${BLUE}${MACHN}${C_DEFAULT} ~ # "
 	read command
 	export args=($command)
-	export USERLV="1"
+	
 	echo "${args[0]}" > "$CACHE/process"
 	if [[ "${args[0]}" == "../"* ]]; then
 		echo -e "${RED}Error: Escaping /System/bin is disallowed. Use exec command.${C_DEFAULT}"
@@ -78,7 +82,6 @@ while [[ true ]]; do
 	else
 		echo "Command not found: ${args[0]}"
 	fi
-	export USERLV="1"
 	if [[ -f "$CACHE/stdown" ]]; then
 		verbose "[${GREEN}*${C_DEFAULT}] Flushing cache data..."
 		rm -rf "$CACHE"

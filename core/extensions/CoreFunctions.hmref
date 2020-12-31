@@ -4,25 +4,29 @@ function syslangversion() {
 }
 
 function accessible() {
-	if [[ "$1" == "c" ]] || [[ "$1" == "r" ]] || [[ "$1" == "w" ]]; then
-		echo "$(<"$CACHE/faccess/$1lim")" | while read limitedLoc
-		do
-			if [[ ! -z "$limitedLoc" ]]; then
-				if [[ ! -z $(echo "$2" | grep "$limitedLoc") ]]; then
-					echo "9"
-					touch "$CACHE/restricted"
-					break
-				fi
-			fi
-		done
-		if [[ ! -f "$CACHE/restricted" ]]; then
-			"$OSSERVICES/Library/Services/Frestrictor/main" "verify" "$(<"$CACHE/process")"
-			echo "$?"
-		else
-			rm -f "$CACHE/restricted"
-		fi
+	if [[ "$OS_UnlockedDistro" == "Unlocked" ]]; then
+		echo "0"
 	else
-		echo "9"
+		if [[ "$1" == "c" ]] || [[ "$1" == "r" ]] || [[ "$1" == "w" ]]; then
+			echo "$(<"$CACHE/faccess/$1lim")" | while read limitedLoc
+			do
+				if [[ ! -z "$limitedLoc" ]]; then
+					if [[ ! -z $(echo "$2" | grep "$limitedLoc") ]]; then
+						echo "9"
+						touch "$CACHE/restricted"
+						break
+					fi
+				fi
+			done
+			if [[ ! -f "$CACHE/restricted" ]]; then
+				"$OSSERVICES/Library/Services/Frestrictor/main" "verify" "$(<"$CACHE/process")"
+				echo "$?"
+			else
+				rm -f "$CACHE/restricted"
+			fi
+		else
+			echo "9"
+		fi
 	fi
 }
 

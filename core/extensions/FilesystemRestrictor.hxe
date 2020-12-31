@@ -2,16 +2,22 @@
 
 mkdir -p "$CACHE/faccess"
 
-# Write Limit
-echo "/System
-/Library
-" > "$CACHE/faccess/wlim"
+if [[ "$OS_UnlockedDistro" == "Unlocked" ]]; then
+	echo "" > "$CACHE/faccess/wlim"
+	echo "" > "$CACHE/faccess/rlim"
+	echo "" > "$CACHE/faccess/clim"
+else
+	# Write Limit
+	echo "/System
+	/Library
+	" > "$CACHE/faccess/wlim"
 
-# Read Limit
-echo "/System
-/Library/Cache
-" > "$CACHE/faccess/rlim"
+	# Read Limit
+	echo "/System
+	/Library/Cache
+	" > "$CACHE/faccess/rlim"
 
-# Catalog Limit
-echo "/System
-" > "$CACHE/faccess/clim"
+	# Catalog Limit
+	echo "/System
+	" > "$CACHE/faccess/clim"
+fi

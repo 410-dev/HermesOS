@@ -60,7 +60,7 @@ elif [[ "$1" == "--update" ]]; then
 	fi
 elif [[ "$1" == "--info" ]]; then
 	echo "System Information"
-	echo "OS Name: $OS_Name $OS_Codename"
+	echo "OS Name: $OS_Name"
 	echo "Version: $OS_Version (build $OS_Build)"
 	echo "Kernel: $CoreName - $CoreVersion"
 	echo "Manufacturer: $OS_Manufacture"

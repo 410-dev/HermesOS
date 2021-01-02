@@ -1,0 +1,14 @@
+prosystem - Toggle Pro System Mode
+
+This command will enable / disable Pro System Mode.
+Pro System will unlock all the restrictions.
+Frestrictor and super will be disabled.
+System partition read/write will be enabled.
+
+Level:
+0 - Disable
+1 - Enable
+Other - Disable
+
+Usage: prosystem --set-key {level}
+Example: prosystem --set-key 1

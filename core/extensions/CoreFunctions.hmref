@@ -1,6 +1,11 @@
 #!/bin/bash
 function syslangversion() {
-	echo "1.6"
+	echo "2.0"
+}
+
+function aopen() {
+	export BundlePath="$1"
+	"$1/runner"
 }
 
 function accessible() {

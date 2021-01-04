@@ -5,7 +5,7 @@ if [[ $(bootArgumentHas "verbose") == 0 ]]; then
 	if [[ -f "$OSSERVICES/Library/Services/Startup/sys_onStart.mp3" ]]; then
 		afplay "$OSSERVICES/Library/Services/Startup/sys_onStart.mp3" &
 	fi
-	sleep 2
+	sleep 1
 else
 	cat "$OSSERVICES/Library/Services/Startup/logo/logo_vbm.asimg"
 	if [[ -f "$OSSERVICES/Library/Services/Startup/sys_onStart.mp3" ]]; then

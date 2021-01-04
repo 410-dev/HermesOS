@@ -5,12 +5,12 @@ if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "nothing" ]] || [[ "$(mplxr USER/SECU
 else
 	export successful=0
 	for (( i = 0; i < 5; i++ )); do
-		export PASS="$("$OSSERVICES/Library/display" --stdout --passwordbox "Login to: $(mplxr "USER/user_name")" 0 0)"
+		export PASS="$("$OSSERVICES/Library/display" --stdout --passwordbox "[ HermesOS $OS_Version_Major ] Login to: $(mplxr "USER/user_name")" 0 0)"
 		echo ""
 		if [[ -z "$PASS" ]]; then
 			echo -n
 		elif [[ "$(mplxr USER/SECURITY/PASSCODE)" == "$(md5 -qs $PASS)" ]]; then
-			echo -e "Login successful."
+			verbose "Login successful."
 			export successful=1
 			clear
 			exit 0

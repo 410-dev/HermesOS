@@ -1,0 +1,6 @@
+export APPNAME="Setup"
+export APPVERSION="${OS_Versioin}"
+export APPBUILD="${OS_Build}"
+export FRAMEWORKS="org.hermesapi.Foundation"
+export ALLOCTHREAD="main"
+export AUTHOR="410-dev"

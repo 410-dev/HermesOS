@@ -13,9 +13,6 @@ mkdir -p "$DATA/Applications"
 
 mkdir -p "$CACHE/Logs"
 
-mkdir -p "$NVRAM"
-mkdir -p "$NVRAM/security"
-
 if [[ ! -d "$NVRAM/security/frestrictor_trustedagents" ]]; then
 	mkdir -p "$NVRAM/security/frestrictor_trustedagents"
 	touch "$NVRAM/security/frestrictor_trustedagents/ls"

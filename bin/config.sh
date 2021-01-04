@@ -4,12 +4,27 @@ if [[ "$HUID" -ne 0 ]]; then
 	exit 0
 fi
 
-if [[ "$1" == "--nvram" ]]; then
-	if [[ -z "$2" ]] || [[ -z "$3" ]]; then
+if [[ -z "$1" ]]; then
+	echo "Error: Not enough arguments."
+	exit 0
+elif [[ "$1" == "--nvram" ]]; then
+	mkdir -p "$NVRAM"
+	if [[ -z "$2" ]]; then
+		ls -1 "$NVRAM" | while read conf
+		do
+			if [[ -f "$NVRAM/$conf" ]]; then
+				echo "$conf        : $(cat "$NVRAM/$conf")"
+			else
+				echo "$conf - has multiple configurations"
+			fi
+		done
+		exit 0
+	fi
+	if [[ -z "$3" ]]; then	
 		echo "Error: Not enough arguments."
 		exit 0
 	fi
-	if [[ ! -z "$(echo $2 | grep security/)" ]]; then
+	elif [[ ! -z "$(echo $2 | grep security/)" ]]; then
 		echo "Operation not permitted: Editing security data in NVRAM is not permitted."
 		exit 9
 	else

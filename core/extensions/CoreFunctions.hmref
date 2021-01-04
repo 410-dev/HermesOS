@@ -83,6 +83,7 @@ function hmlog() {
 }
 
 export -f syslangversion
+export -f aopen
 export -f accessible
 export -f mplxw
 export -f mplxr

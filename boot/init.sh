@@ -38,9 +38,6 @@ export -f fallToRecovery
 
 # END OF INSTRUCTIONS
 
-if [[ -f "$NVRAM/boot_argument" ]]; then
-	export BOOTARGS="$BOOTARGS $(<"$NVRAM/boot_argument")"
-fi
 if [[ -f "$NVRAM/boot_reference" ]]; then
 	cp "$NVRAM/boot_reference" "$CACHE/bootconf"
 	chmod +x "$CACHE/bootconf"
@@ -52,7 +49,11 @@ if [[ -f "$BOOTREFUSE" ]]; then
 	rm -f "$BOOTREFUSE"
 fi
 
-export BOOTARGS="$BOOTARGS $1 $2 $3 $4 $5 $6 $7 $8 $9"
+
+export BOOTARGS="$1 $2 $3 $4 $5 $6 $7 $8 $9"
+if [[ -f "$NVRAM/boot-arguments" ]]; then
+	export BOOTARGS="$BOOTARGS $(<"$NVRAM/boot-arguments")"
+fi
 
 if [[ $(bootArgumentHas "recovery") == 1 ]]; then
 	fallToRecovery

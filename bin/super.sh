@@ -1,6 +1,6 @@
 #!/bin/bash
 
-"$OSSERVICES/Utility/Authenticator" --authenticate "Authentication"
+"$OSSERVICES/Utility/Authenticator"
 if [[ "$?" == 0 ]]; then
 	declare -i HUID
 	export HUID="0"

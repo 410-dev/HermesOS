@@ -1,13 +1,24 @@
 #!/bin/bash
-export OS_Version="12.0.0"
-export OS_Version_Major="12"
+export OS_Version="13.0.0"
+export OS_Version_Major="13"
 export OS_Version_Minor="0"
 export OS_Version_Edit="0"
-export OS_Build="1012"
+export OS_Build="1068"
 export OS_Name="HermesOS"
-export OS_Edition="Test Release"
-export OS_Tag="12.0.0"
+export OS_Edition="Release"
+export OS_Tag="13.0.0"
 export OS_Manufacture="410"
-export OS_InterfaceVersion="12.0"
+export OS_InterfaceVersion="13.0"
 export OS_CopyrightStatement="Copyright (C) 410 2020. All rights reserved."
+
 mkdir -p "$NVRAM/security"
+
+if [[ ! -f "$NVRAM/security/lockstate" ]]; then
+	echo "Locked" > "$NVRAM/security/lockstate"
+fi
+if [[ ! -f "$NVRAM/security/prosys" ]]; then
+	echo "Default" > "$NVRAM/security/prosys"
+fi
+
+export OS_UnlockedDistro="$(<"$NVRAM/security/lockstate")"
+export OS_ProSystemStatus="$(<"$NVRAM/security/prosys")"

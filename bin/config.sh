@@ -24,7 +24,7 @@ elif [[ "$1" == "--nvram" ]]; then
 		echo "Error: Not enough arguments."
 		exit 0
 	fi
-	elif [[ ! -z "$(echo $2 | grep security/)" ]]; then
+	if [[ ! -z "$(echo $2 | grep security/)" ]]; then
 		echo "Operation not permitted: Editing security data in NVRAM is not permitted."
 		exit 9
 	else

@@ -99,7 +99,9 @@ elif [[ "$1" == "--logflush" ]]; then
 elif [[ "$1" == "--ota-download" ]]; then
 	"$OSSERVICES/Library/Services/Update/dlutil"
 elif [[ "$1" == "--extensions" ]]; then
-	ls -1 "$LIBRARY/HardwareExtensions"
+	if [[ -d "$LIBRARY/HardwareExtensions" ]]; then
+		ls -1 "$LIBRARY/HardwareExtensions"
+	fi
 else
 	echo "No such arguments."
 fi

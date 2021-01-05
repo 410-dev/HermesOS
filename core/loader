@@ -17,7 +17,7 @@ do
 		if [[ "$returned" == 0 ]]; then
 			verbose "[${GREEN}*${C_DEFAULT}] Load complete."
 		elif [[ "$returned" == 1 ]] && [[ "$agentname" == "OSUtility.hxe" ]]; then
-			echo -e "${GREEN}System update complete. Please restart the computer."
+			echo -e "${GREEN}System update complete. Please restart the computer.${C_DEFAULT}"
 			touch "$BOOTREFUSE"
 			exit 0
 		elif [[ -f "$BOOTREFUSE" ]]; then

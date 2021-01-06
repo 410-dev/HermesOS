@@ -7,6 +7,7 @@ mkdir -p "$LIBRARY/Developer/Frameworks"
 touch "$LIBRARY/Developer/Frameworks/org.hermesapi.Foundation.hfw"
 mkdir -p "$LIBRARY/Logs"
 mkdir -p "$LIBRARY/Services"
+mkdir -p "$LIBRARY/Preferences"
 
 mkdir -p "$DATA/mount"
 mkdir -p "$DATA/Applications"

@@ -97,6 +97,24 @@ elif [[ "$1" == "--password" ]]; then
 			echo "Error: Password does not match."
 		fi
 	fi
+elif [[ "$1" == "--language" ]]; then
+	if [[ -z "$2" ]]; then
+		echo "You are currently using: ${LANG_ID}"
+		echo ""
+		echo "Available languages:"
+		ls -1 "$SYSTEM/sys/Default/Languages"
+	else
+		if [[ -f "$SYSTEM/sys/Default/Languages/$2" ]]; then
+			echo "Setting language..."
+			rm -rf "$LIBRARY/Preferences/Language/system.hlang"
+			cp "$SYSTEM/sys/Default/Languages/$2" "$LIBRARY/Preferences/Language"
+			mv "$LIBRARY/Preferences/Language/$2" "$LIBRARY/Preferences/Language/system.hlang"
+			source "$LIBRARY/Preferences/Language/system.hlang"
+			echo "${LANGUAGE_CHANGED}"
+		else
+			echo "No such language found."
+		fi
+	fi
 else
 	echo "Unknown action."
 fi

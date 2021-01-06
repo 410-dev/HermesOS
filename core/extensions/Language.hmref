@@ -1,0 +1,18 @@
+#!/bin/bash
+if [[ ! -f "$LIBRARY/Preferences/Language/system.hlang" ]]; then
+	verbose "[${RED}*${C_DEFAULT}] Default language not set. Setting English as temporary language..."
+	mkdir -p "$LIBRARY/Preferences/Language"
+	cp "$SYSTEM/sys/Default/Languages/en-us.hlang" "$LIBRARY/Preferences/Language"
+	mv "$LIBRARY/Preferences/Language/en-us.hlang" "$LIBRARY/Preferences/Language/system.hlang"
+fi
+
+verbose "[${GREEN}*${C_DEFAULT}] Reading language data..."
+source "$LIBRARY/Preferences/Language/system.hlang"
+
+if [[ -d "$LIBRARY/Preferences/Language/" ]]; then
+	while read defname
+	do
+		verbose "[${GREEN}*${C_DEFAULT}] Reading extra language data: $defname"
+		source "$LIBRARY/Preferences/Language/$defname"
+	done <<< "$(ls -p | grep -v / | grep ".hlang")"
+fi

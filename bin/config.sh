@@ -106,7 +106,6 @@ elif [[ "$1" == "--language" ]]; then
 	elif [[ $(bootArgumentHas "verbose") == "1" ]] || [[ $(bootArgumentHas "nogui") == "1" ]] || [[ $(bootArgumentHas "safe") == "1" ]]; then
 		if [[ -f "$SYSTEM/sys/Default/Languages/$2" ]]; then
 			echo "Setting language..."
-			rm -rf "$LIBRARY/Preferences/Language/"*
 			cp "$SYSTEM/sys/Default/Languages/en-us/"* "$LIBRARY/Preferences/Language/"
 			source "$LIBRARY/Preferences/Language/system.hlang"
 			echo "${LANGUAGE_CHANGED}"

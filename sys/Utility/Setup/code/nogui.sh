@@ -10,7 +10,6 @@ while [[ true ]]; do
 		echo "You have selected: ${LANG_ID}"
 	elif [[ -d "$SYSTEM/sys/Default/Languages/$language" ]]; then
 		echo "${SETTING_LANGUAGE}"
-		rm -rf "$LIBRARY/Preferences/Language/system.hlang"
 		cp "$SYSTEM/sys/Default/Languages/$language/"* "$LIBRARY/Preferences/Language/"
 		source "$LIBRARY/Preferences/Language/system.hlang"
 		echo "${LANGUAGE_CHANGED_ON_SETUP}"

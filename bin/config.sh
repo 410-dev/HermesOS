@@ -103,17 +103,18 @@ elif [[ "$1" == "--language" ]]; then
 		echo ""
 		echo "Available languages:"
 		ls -1 "$SYSTEM/sys/Default/Languages"
-	else
+	elif [[ $(bootArgumentHas "verbose") == "1" ]] || [[ $(bootArgumentHas "nogui") == "1" ]] || [[ $(bootArgumentHas "safe") == "1" ]]; then
 		if [[ -f "$SYSTEM/sys/Default/Languages/$2" ]]; then
 			echo "Setting language..."
-			rm -rf "$LIBRARY/Preferences/Language/system.hlang"
-			cp "$SYSTEM/sys/Default/Languages/$2" "$LIBRARY/Preferences/Language"
-			mv "$LIBRARY/Preferences/Language/$2" "$LIBRARY/Preferences/Language/system.hlang"
+			rm -rf "$LIBRARY/Preferences/Language/"*
+			cp "$SYSTEM/sys/Default/Languages/en-us/"* "$LIBRARY/Preferences/Language/"
 			source "$LIBRARY/Preferences/Language/system.hlang"
 			echo "${LANGUAGE_CHANGED}"
 		else
 			echo "No such language found."
 		fi
+	else
+		"$SYSTEM/sys/Utility/Setup/code/langset_gui"
 	fi
 else
 	echo "Unknown action."

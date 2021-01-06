@@ -2,8 +2,7 @@
 if [[ ! -f "$LIBRARY/Preferences/Language/system.hlang" ]]; then
 	verbose "[${RED}*${C_DEFAULT}] Default language not set. Setting English as temporary language..."
 	mkdir -p "$LIBRARY/Preferences/Language"
-	cp "$SYSTEM/sys/Default/Languages/en-us.hlang" "$LIBRARY/Preferences/Language"
-	mv "$LIBRARY/Preferences/Language/en-us.hlang" "$LIBRARY/Preferences/Language/system.hlang"
+	cp "$SYSTEM/sys/Default/Languages/en-us/"* "$LIBRARY/Preferences/Language/"
 fi
 
 verbose "[${GREEN}*${C_DEFAULT}] Reading language data..."

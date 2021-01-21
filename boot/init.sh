@@ -31,10 +31,16 @@ function fallToRecovery() {
 	"$RECOVERY/BOOT"
 }
 
+function Log() {
+	echo "$(date '+%Y %m %d %H:%M:%S') [ $1 ] $2" >> "$LIBRARY/Logs/$LOGFILENAME"
+}
+
 export -f bootArgumentHas
 export -f verbose
 export -f leaveSystem
 export -f fallToRecovery
+export -f Log
+export LOGFILENAME="$(date '+%Y%m%d%H%M%S')"
 
 # END OF INSTRUCTIONS
 

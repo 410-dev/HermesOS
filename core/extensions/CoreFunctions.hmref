@@ -8,33 +8,6 @@ function aopen() {
 	"$1/runner"
 }
 
-function accessible() {
-	if [[ "$OS_UnlockedDistro" == "Unlocked" ]]; then
-		echo "0"
-	else
-		if [[ "$1" == "c" ]] || [[ "$1" == "r" ]] || [[ "$1" == "w" ]]; then
-			echo "$(<"$CACHE/faccess/$1lim")" | while read limitedLoc
-			do
-				if [[ ! -z "$limitedLoc" ]]; then
-					if [[ ! -z $(echo "$2" | grep "$limitedLoc") ]]; then
-						echo "9"
-						touch "$CACHE/restricted"
-						break
-					fi
-				fi
-			done
-			if [[ ! -f "$CACHE/restricted" ]]; then
-				"$OSSERVICES/Library/Services/Frestrictor/main" "verify" "$(<"$CACHE/process")"
-				echo "$?"
-			else
-				rm -f "$CACHE/restricted"
-			fi
-		else
-			echo "9"
-		fi
-	fi
-}
-
 function mplxr() {
 	if [[ -f "$MULTIPLEX/$1" ]]; then
 		echo "$(<"$MULTIPLEX/$1")"
@@ -80,7 +53,6 @@ function mplxd() {
 
 export -f syslangversion
 export -f aopen
-export -f accessible
 export -f mplxw
 export -f mplxr
 export -f mplxk

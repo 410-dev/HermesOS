@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Listing prohibitied access points (Both read and write)
+
+# lv0 = Super Privilege
+# lv1 = Default Privilege
+# lv2 = Unauthorized thrid party software
+
+
+export lv0="/System"
+export lv1="/System
+/Library"
+export lv2="/System
+/Library
+/Data"

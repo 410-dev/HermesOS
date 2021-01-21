@@ -1,7 +1,7 @@
 #!/bin/bash
 function fopen() {
 	if [[ -f "$1" ]]; then
-		if [[ -z $(accessible "r" "$1") ]]; then
+		if [[ -z $(access_fs "$1") ]]; then
 			echo "0"
 		else
 			echo "-9"
@@ -21,7 +21,7 @@ function fread() {
 
 function fwrite() {
 	if [[ ! -f "$1" ]]; then
-		if [[ $(accessible "w" "$1") == "-9" ]]; then
+		if [[ $(access_fs "$1") == "-9" ]]; then
 			echo "-9"
 		else
 			echo "$2" > "$1" 2>/dev/null
@@ -40,7 +40,7 @@ function fwrite() {
 
 function foverwrite() {
 	if [[ -f "$1" ]]; then
-		if [[ $(accessible "w" "$1") == "-9" ]]; then
+		if [[ $(access_fs "$1") == "-9" ]]; then
 			echo "-9"
 		else
 			echo "$2" > "$1" 2>/dev/null
@@ -59,7 +59,7 @@ function foverwrite() {
 
 function fappend() {
 	if [[ -f "$1" ]]; then
-		if [[ $(accessible "w" "$1") == "-9" ]]; then
+		if [[ $(access_fs "$1") == "-9" ]]; then
 			echo "-9"
 		else
 			echo "$2" >> "$1"
@@ -76,7 +76,7 @@ function fappend() {
 
 function fdelete() {
 	if [[ -f "$1" ]]; then
-		if [[ $(accessible "w" "$1") == "-9" ]]; then
+		if [[ $(access_fs "$1") == "-9" ]]; then
 			echo "-9"
 		else
 			rm -rf "$1"
@@ -93,7 +93,7 @@ function fdelete() {
 
 function dopen() {
 	if [[ -d "$1" ]]; then
-		if [[ $(accessible "r" "$1") == "-9" ]]; then
+		if [[ $(access_fs "$1") == "-9" ]]; then
 			echo "-9"
 		else
 			echo "0"
@@ -105,7 +105,7 @@ function dopen() {
 
 function dread() {
 	if [[ -d "$1" ]]; then
-		if [[ $(accessible "r" "$1") == "-9" ]]; then
+		if [[ $(access_fs "$1") == "-9" ]]; then
 			echo "-9"
 		else
 			ls "$1"
@@ -116,7 +116,7 @@ function dread() {
 }
 
 function dmake() {
-	if [[ $(accessible "w" "$1") == "-9" ]]; then
+	if [[ $(access_fs "$1") == "-9" ]]; then
 		echo "-9"
 	else
 		mkdir -p "$1"
@@ -126,7 +126,7 @@ function dmake() {
 
 function ddelete() {
 	if [[ -d "$1" ]]; then
-		if [[ $(accessible "w" "$1") == "-9" ]]; then
+		if [[ $(access_fs "$1") == "-9" ]]; then
 			echo "-9"
 		else
 			rm -rf "$1"

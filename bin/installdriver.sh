@@ -6,7 +6,7 @@ if [[ "$HUID" -ne 0 ]]; then
 fi
 
 if [[ -f "$USERDATA/$1" ]]; then
-    if [[ "$(accessible "r" "$USERDATA/$1")" -ne 0 ]]; then
+    if [[ "$(access_fs "$USERDATA/$1")" -ne 0 ]]; then
         echo "Access denied: Operation not permitted."
         exit 99
     fi

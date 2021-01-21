@@ -1,0 +1,11 @@
+#!/bin/bash
+function access_fs() {
+	"$OSSERVICES/Library/Services/Fort/mgr" "$HUID" "fsys" "$1"
+}
+
+function access_cmd() {
+	"$OSSERVICES/Library/Services/Fort/mgr" "$HUID" "exec" "$1"
+}
+
+export -f access_fs
+export -f access_cmd

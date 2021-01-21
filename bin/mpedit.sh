@@ -8,7 +8,7 @@ if [[ "$HUID" -ne 0 ]]; then
 	exit 0
 fi
 
-if [[ "$(accessible "w" "$MULTIPLEX/$2")" == "-9" ]]; then
+if [[ "$(access_fs "$MULTIPLEX/$2")" == "-9" ]]; then
 	echo "Error: Modifying data not within multiplex is not permitted."
 	exit -9
 fi

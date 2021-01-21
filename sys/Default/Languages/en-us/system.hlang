@@ -1,0 +1,17 @@
+#!/bin/bash
+
+export LANG_ID_NAME="en-us"
+export LANG_ID="English - United States"
+export LANGUAGE_CHANGED="You have changed the language. To make the new preference effective, you should restart your computer."
+export SETTING_LANGUAGE="Setting language..."
+export INVALID_INPUT="Invalid input."
+export NO_SUCH_LANGUAGE="No such language."
+export COMMAND_NOT_FOUND="Command not found: "
+export ESCAPE_NOT_ALLOWED="${RED}Error: Escaping /System/bin is disallowed. Use exec command.${C_DEFAULT}"
+export FLUSHING_CACHE_DATA="[${GREEN}*${C_DEFAULT}] Flushing cache data..."
+export RELOAD_WARNING="[!] Reloading definition on interface level will not affect on root system!"
+export ERROR_CODE="Error code: "
+export ERROR="Error: "
+export UI_START_FAIL="Unable to start user interface."
+export PASS_TOOMANY_ATTEMPTS="You entered wrong password more than 5 times."
+export REFRESHING_MEMORYLINK="[${GREEN}*${C_DEFAULT}] Refreshing memory link: "

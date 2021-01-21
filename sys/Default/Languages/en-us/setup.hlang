@@ -1,0 +1,25 @@
+#!/bin/bash
+
+function clear_setuplang() {
+	unset SETUP_SETTING_LANGUAGE SETUP_KEEP_LANG SETUP_CHOOSE_LANG
+	unset SETUP_LANG_SELECTED SETUP_NO_SUCH_LANG SETUP_LANGUAGE_CHANGED
+	unset SETUP_ASK_NAME SETUP_ASL_DEVNAME SETUP_ASK_PASSBOOL
+	unset SETUP_ASK_PASSWORD SETUP_INVALID_INPUT SETUP_ENABLE_PROSYSTEM
+	unset SETUP_ENABLE_AUTOLOGIN SETUP
+	unset -f clear_setuplang
+}
+
+export SETUP="Setup"
+export SETUP_SETTING_LANGUAGE="Setting language..."
+export SETUP_KEEP_LANG="To keep your current language, just press enter."
+export SETUP_CHOOSE_LANG="Choose your language: "
+export SETUP_LANG_SELECTED="You have selected: "
+export SETUP_NO_SUCH_LANG="No such language."
+export SETUP_LANGUAGE_CHANGED="Default language has changed. You should restart your computer after the setup is done."
+export SETUP_ASK_NAME="What is your name? (English and Number only, no spacebar) : "
+export SETUP_ASK_DEVNAME="What is your device name? (English and Number only, no spacebar) : "
+export SETUP_ASK_PASSBOOL="Would you use a passcode? 0 (No)/1 (Yes) : "
+export SETUP_ASK_PASSWORD="What is your password? : "
+export SETUP_INVALID_INPUT="Invalid input."
+export SETUP_ENABLE_PROSYSTEM="Would you enable Pro System? (System protection will be disabled) yes / no: "
+export SETUP_ENABLE_AUTOLOGIN="Do you want to enable auto-login? yes / no"

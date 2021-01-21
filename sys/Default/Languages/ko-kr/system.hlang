@@ -1,0 +1,17 @@
+#!/bin/bash
+
+export LANG_ID_NAME="ko-kr"
+export LANG_ID="한국어 - 대한민국"
+export LANGUAGE_CHANGED="언어가 변경되었습니다. 시스템 전체에 언어를 적용하시려면 기기를 재시동 해 주세요."
+export SETTING_LANGUAGE="언어 설정중..."
+export INVALID_INPUT="올바르지 않은 입력입니다."
+export NO_SUCH_LANGUAGE="해당 언어가 없습니다."
+export COMMAND_NOT_FOUND="명령을 찾을 수 없습니다: "
+export ESCAPE_NOT_ALLOWED="${RED}오류: /System/bin 외부에 있는 명령어는 직접접근이 불가능합니다. exec 명령어를 사용해 주세요.${C_DEFAULT}"
+export FLUSHING_CACHE_DATA="[${GREEN}*${C_DEFAULT}] 캐시 데이터 소거중..."
+export RELOAD_WARNING="[!] Interface 레벨에서 정의값/메모리 새로고침은 시스템 루트에 영향을 주지 않습니다!"
+export ERROR_CODE="오류 코드: "
+export ERROR="오류: "
+export UI_START_FAIL="Interface 를 시작할 수 없습니다."
+export PASS_TOOMANY_ATTEMPTS="잘못된 비밀번호를 5번 이상 입력하였습니다."
+export REFRESHING_MEMORYLINK="[${GREEN}*${C_DEFAULT}] 메모리 링크를 새로고침 하는중: "

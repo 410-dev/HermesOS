@@ -3,42 +3,42 @@ verbose "[${GREEN}*${C_DEFAULT}] Starting non-graphical setup..."
 ls -1 "$SYSTEM/sys/Default/Languages"
 while [[ true ]]; do
 	echo ""
-	echo "To keep your current language, just press enter."
-	echo -n "Choose your language: "
+	echo "${SETUP_KEEP_LANG}"
+	echo -n "${SETUP_CHOOSE_LANG}"
 	read language
 	if [[ -z "$language" ]]; then
-		echo "You have selected: ${LANG_ID}"
+		echo "${SETUP_LANG_SELECTED} ${LANG_ID}"
 	elif [[ -d "$SYSTEM/sys/Default/Languages/$language" ]]; then
 		echo "${SETTING_LANGUAGE}"
 		cp "$SYSTEM/sys/Default/Languages/$language/"* "$LIBRARY/Preferences/Language/"
 		source "$LIBRARY/Preferences/Language/system.hlang"
-		echo "${LANGUAGE_CHANGED_ON_SETUP}"
+		echo "${SETUP_LANGUAGE_CHANGED}"
 	else
-		echo "No such language."
+		echo "${SETUP_NO_SUCH_LANG}"
 	fi
 done
 while [[ true ]]; do
-	echo -n "What is your name? (English and Number only, no spacebar) : "
+	echo -n ""
 	read USRNAME
 	if [[ -z "$USRNAME" ]]; then
-		echo "[-] ${INVALID_INPUT}"
+		echo "[-] ${SETUP_INVALID_INPUT}"
 	else
 		mplxw "USER/user_name" "$USRNAME" >/dev/null
 		break
 	fi
 done
 while [[ true ]]; do
-	echo -n "What is your device name? (English and Number only, no spacebar) : "
+	echo -n "${SETUP_ASL_DEVNAME}"
 	read DEVN
 	if [[ -z "$DEVN" ]]; then
-		echo "[-] ${INVALID_INPUT}"
+		echo "[-] ${SETUP_INVALID_INPUT}"
 	else
 		mplxw "SYSTEM/machine_name" "$DEVN" >/dev/null
 		break
 	fi
 done
 while [[ true ]]; do
-	echo -n "Would you use a passcode? 0 (No)/1 (Yes) : "
+	echo -n "${SETUP_ASK_PASSBOOL}"
 	read PASSPRESENT
 	if [[ "$PASSPRESENT" == 0 ]]; then
 		mplxw "USER/SECURITY/PASSCODE_PRESENT" "$PASSPRESENT" >/dev/null
@@ -47,11 +47,11 @@ while [[ true ]]; do
 		mplxw "USER/SECURITY/PASSCODE_PRESENT" "$PASSPRESENT" >/dev/null
 		while [[ true ]]; do
 			if [[ "$PASSPRESENT" == "1" ]]; then
-				echo -n "What is your password? : "
+				echo -n "${SETUP_ASK_PASSWORD}"
 				read -s PASS
 				echo ""
 				if [[ -z "$PASS" ]]; then
-					echo "[-] ${INVALID_INPUT}"
+					echo "[-] ${SETUP_INVALID_INPUT}"
 				else
 					mplxw "USER/SECURITY/PASSCODE" "$(md5 -qs $PASS)" >/dev/null
 					break
@@ -60,14 +60,14 @@ while [[ true ]]; do
 		done
 		break
 	else
-		echo "[-] ${INVALID_INPUT}"
+		echo "[-] ${SETUP_INVALID_INPUT}"
 	fi
 done
 while [[ true ]]; do
-	echo -n "Would you enable Pro System? (System protection will be disabled) yes / no: "
+	echo -n "${SETUP_ENABLE_PROSYSTEM}"
 	read yn
 	if [[ -z "$yn" ]]; then
-		echo "[-] ${INVALID_INPUT}"
+		echo "[-] ${SETUP_INVALID_INPUT}"
 	elif [[ "$yn" == "YES" ]] || [[ "$yn" == "Yes" ]] || [[ "$yn" == "yes" ]]; then
 		mkdir -p "$NVRAM/security"
 		echo "Pro System" > "$NVRAM/security/prosys"
@@ -79,12 +79,12 @@ while [[ true ]]; do
 		echo "Locked" > "$NVRAM/security/lockstate"
 		break
 	else
-		echo "[-] ${INVALID_INPUT}"
+		echo "[-] ${SETUP_INVALID_INPUT}"
 	fi
 done
 if [[ "$PROSYS" == 1 ]] && [[ "$PASSPRESENT" == "1" ]]; then
 	while [[ true ]]; do
-		echo -n "Do you want to enable auto-login? yes / no"
+		echo -n "${SETUP_ENABLE_AUTOLOGIN}"
 		read AUTOLOGIN
 		if [[ "$AUTOLOGIN" == "YES" ]] || [[ "$AUTOLOGIN" == "Yes" ]] || [[ "$AUTOLOGIN" == "yes" ]]; then
 			mkdir -p "$NVRAM/security"
@@ -95,7 +95,7 @@ if [[ "$PROSYS" == 1 ]] && [[ "$PASSPRESENT" == "1" ]]; then
 			echo "" > "$NVRAM/security/autologin"
 			break
 		else
-			echo "[-] ${INVALID_INPUT}"
+			echo "[-] ${SETUP_INVALID_INPUT}"
 		fi
 	done
 fi

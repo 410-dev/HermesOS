@@ -1,26 +1,27 @@
 #!/bin/bash
 verbose "[${GREEN}*${C_DEFAULT}] Starting graphical setup..."
-"$BundlePath/langset_gui"
 
+"$BundlePath/code/langset_gui"
+source "$LIBRARY/Preferences/Language/system.hlang"
 while [[ true ]]; do
-	export USRNAME="$("$SYSTEM/sys/Library/display" --stdout --inputbox "What is your name?" 0 0)"
+	export USRNAME="$("$SYSTEM/sys/Library/display" --stdout --inputbox "${SETUP_ASK_NAME}" 0 0)"
 	if [[ -z "$USRNAME" ]]; then
-		echo "[-] Invalid input."
+		echo "${SETUP_INVALID_INPUT}"
 	else
 		mplxw "USER/user_name" "$USRNAME" >/dev/null
 		break
 	fi
 done
 while [[ true ]]; do
-	export DEVN="$("$SYSTEM/sys/Library/display" --stdout --inputbox "What is your device name?" 0 0)"
+	export DEVN="$("$SYSTEM/sys/Library/display" --stdout --inputbox "${SETUP_ASK_DEVNAME}" 0 0)"
 	if [[ -z "$DEVN" ]]; then
-		echo "[-] Invalid input."
+		echo "${SETUP_INVALID_INPUT}"
 	else
 		mplxw "SYSTEM/machine_name" "$DEVN" >/dev/null
 		break
 	fi
 done
-"$SYSTEM/sys/Library/display" --title "Setup" --yesno "Would you use a passcode?" 0 0
+"$SYSTEM/sys/Library/display" --title "${SETUP}" --yesno "${SETUP_ASK_PASSBOOL}" 0 0
 export PASSPRESENT=$?
 if [[ "$PASSPRESENT" == "0" ]]; then
 	export PASSPRESENT="1"
@@ -31,18 +32,18 @@ mplxw "USER/SECURITY/PASSCODE_PRESENT" "$PASSPRESENT" >/dev/null
 while [[ "$PASSPRESENT" == "1" ]]; do
 	if [[ "$PASSPRESENT" == "1" ]]; then
 		clear
-		echo -n "What is your password?: "
+		echo -n "${SETUP_ASK_PASSWORD}"
 		read -s PASS
 		echo ""
 		if [[ -z "$PASS" ]]; then
-			echo "[-] Invalid input."
+			echo "${SETUP_INVALID_INPUT}"
 		else
 			mplxw "USER/SECURITY/PASSCODE" "$(md5 -qs $PASS)" >/dev/null
 			break
 		fi
 	fi
 done
-"$SYSTEM/sys/Library/display" --title "Setup" --yesno "Do you want to enable Pro System? (System protection will be disabled)" 0 0
+"$SYSTEM/sys/Library/display" --title "${SETUP}" --yesno "${SETUP_ENABLE_PROSYSTEM}" 0 0
 export PROSYS=$?
 if [[ "$PROSYS" == "0" ]]; then
 	export PROSYS="1"
@@ -59,7 +60,7 @@ elif [[ "$PROSYS" == "0" ]]; then
 	echo "Locked" > "$NVRAM/security/lockstate"
 fi
 if [[ "$PROSYS" == 1 ]] && [[ "$PASSPRESENT" == "1" ]]; then
-	"$SYSTEM/sys/Library/display" --title "Setup" --yesno "Do you want to enable auto-login?" 0 0
+	"$SYSTEM/sys/Library/display" --title "${SETUP}" --yesno "${SETUP_ENABLE_AUTOLOGIN}" 0 0
 	export AUTOLOGIN=$?
 	if [[ "$AUTOLOGIN" == "0" ]]; then
 		export AUTOLOGIN="1"

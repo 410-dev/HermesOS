@@ -3,22 +3,22 @@ function loadDefinition() {
 	cd "$CORE/extensions"
 	while read defname
 	do
-		verbose "[${GREEN}*${C_DEFAULT}] Refreshing memory link: $defname"
+		verbose "${REFRESHING_MEMORYLINK}$defname"
 		source "$CORE/extensions/$defname"
 	done <<< "$(ls -p | grep -v / | grep ".hmref")"
 }
 
 if [[ "$(mplxr USER/SECURITY/LOGIN_ATTEMPT)" == "64" ]]; then
-	echo -e "${RED}Error: Unable to start user interface"
-	echo -e "${RED}Error code: 64"
-	echo -e "${RED}You entered wrong password more than 5 times.${C_DEFAULT}"
+	echo -e "${RED}${ERROR}${UI_START_FAIL}"
+	echo -e "${RED}${ERROR_CODE}64"
+	echo -e "${RED}${PASS_TOOMANY_ATTEMPTS}${C_DEFAULT}"
 	exit 0
 fi
 "$OSSERVICES/Utility/preload"
 if [[ "$(mplxr USER/SECURITY/LOGIN_ATTEMPT)" == "64" ]]; then
-	echo -e "${RED}Error: Unable to start user interface"
-	echo -e "${RED}Error code: 64"
-	echo -e "${RED}You entered wrong password more than 5 times.${C_DEFAULT}"
+	echo -e "${RED}${ERROR}${UI_START_FAIL}"
+	echo -e "${RED}${ERROR_CODE}64"
+	echo -e "${RED}${PASS_TOOMANY_ATTEMPTS}${C_DEFAULT}"
 	exit 0
 fi
 
@@ -56,7 +56,7 @@ while [[ true ]]; do
 	
 	echo "${args[0]}" > "$CACHE/process"
 	if [[ "${args[0]}" == "../"* ]]; then
-		echo -e "${RED}Error: Escaping /System/bin is disallowed. Use exec command.${C_DEFAULT}"
+		echo -e "$ESCAPE_NOT_ALLOWED"
 	elif [[ -f "$SYSTEM/bin/${args[0]}" ]]; then
 		if [[ "${args[0]}" == "lec" ]]; then
 			echo -n ""
@@ -77,24 +77,24 @@ while [[ true ]]; do
 		if [[ -f "$SYSTEM/sys/Library/Developer/bin/${args[0]}" ]]; then
 			"$SYSTEM/sys/Library/Developer/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
 		else
-			echo "Command not found: ${args[0]}"
+			echo "${COMMAND_NOT_FOUND}${args[0]}"
 		fi
 	else
-		echo "Command not found: ${args[0]}"
+		echo "${COMMAND_NOT_FOUND}${args[0]}"
 	fi
 	if [[ -f "$CACHE/stdown" ]]; then
-		verbose "[${GREEN}*${C_DEFAULT}] Flushing cache data..."
+		verbose "$FLUSHING_CACHE_DATA"
 		rm -rf "$CACHE"
 		exit 0
 	elif [[ -f "$CACHE/rboot" ]]; then
-		verbose "[${GREEN}*${C_DEFAULT}] Flushing cache data..."
+		verbose "$FLUSHING_CACHE_DATA"
 		rm -rf "$CACHE"
 		exit 100
 	elif [[ -f "$CACHE/uirestart" ]]; then
 		rm -f "$CACHE/uirestart"
 		exit 101
 	elif [[ -f "$CACHE/defreload" ]]; then
-		echo "[!] Reloading definition on interface level will not affect on root system!"
+		echo "$RELOAD_WARNING"
 		loadDefinition
 	fi
 done

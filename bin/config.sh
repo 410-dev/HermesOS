@@ -113,6 +113,7 @@ elif [[ "$1" == "--language" ]]; then
 			echo "No such language found."
 		fi
 	else
+		export BundlePath="$SYSTEM/sys/Utility/Setup"
 		"$SYSTEM/sys/Utility/Setup/code/langset_gui"
 	fi
 else

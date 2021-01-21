@@ -5,12 +5,11 @@ if [[ ! -f "$LIBRARY/Preferences/Language/system.hlang" ]]; then
 	cp "$SYSTEM/sys/Default/Languages/en-us/"* "$LIBRARY/Preferences/Language/"
 fi
 
-
 while read defname
 do
 	verbose "[${GREEN}*${C_DEFAULT}] Reading extra language data: $defname"
 	source "$LIBRARY/Preferences/Language/$defname"
-done <<< "$(ls -p | grep -v / | grep ".hlang")"
+done <<< "$(ls -p "$LIBRARY/Preferences/Language" | grep -v / | grep ".hlang")"
 
 verbose "[${GREEN}*${C_DEFAULT}] Reading system language data..."
 source "$LIBRARY/Preferences/Language/system.hlang"

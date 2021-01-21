@@ -67,6 +67,7 @@ elif [[ "$1" == "--info" ]]; then
 	echo "Interface Version: $OS_InterfaceVersion"
 	echo "Lock State: $OS_UnlockedDistro"
 	echo "System Mode: $OS_ProSystemStatus"
+	echo "Language: $LANG_ID"
 	echo "Copyright Statement: $OS_CopyrightStatement"
 	echo ""
 	echo "Hardware Information"

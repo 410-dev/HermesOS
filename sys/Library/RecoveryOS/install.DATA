@@ -14,12 +14,12 @@ function installsys() {
 		echo "Downloading system packages..."
 		colorprint "${YELLOW}Package will be downloaded to current disk."
 		mkdir -p "$selectedDisk/recovery_dimg"
-		curl -Ls "https://github.com/410-dev/HermesOS/releases/download/10.0.1/image.zip" -o "$selectedDisk/recovery_dimg/image.zip"
+		curl -Ls "https://github.com/410-dev/HermesOS/releases/download/13.0.1/image.zip" -o "$selectedDisk/recovery_dimg/image.zip"
 		if [[ $? -ne 0 ]]; then
-			echo "Failed downloading HermesOS 10.0.1 (Minimum compatible version)"
+			echo "Failed downloading HermesOS 13.0.1 (Minimum compatible version)"
 			break
 		fi
-		echo "Installing..."
+		echo "Installing HermesOS 13.0.1..."
 		if [[ -d "$selectedDisk/System" ]]; then
 			rm -rf "$selectedDisk/System"
 		fi

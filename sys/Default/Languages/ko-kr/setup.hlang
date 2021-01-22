@@ -23,3 +23,5 @@ export SETUP_ASK_PASSWORD="비밀번호를 입력하세요: "
 export SETUP_INVALID_INPUT="올바르지 않은 입력입니다."
 export SETUP_ENABLE_PROSYSTEM="Pro System 을 활성화 하시겠습니까? (시스템 보호가 비활성화 됩니다.) yes / no:"
 export SETUP_ENABLE_AUTOLOGIN="자동 로그인을 활성화 하시겠습니까? yes / no"
+
+export -f clear_setuplang

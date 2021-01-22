@@ -23,5 +23,6 @@ export SETUP_ASK_PASSWORD="What is your password? : "
 export SETUP_INVALID_INPUT="Invalid input."
 export SETUP_ENABLE_PROSYSTEM="Would you enable Pro System? (System protection will be disabled) yes / no: "
 export SETUP_ENABLE_AUTOLOGIN="Do you want to enable auto-login? yes / no"
+export SETUP_DONE="System is now ready."
 
 export -f clear_setuplang

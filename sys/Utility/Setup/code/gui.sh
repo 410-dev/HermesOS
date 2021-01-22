@@ -99,4 +99,5 @@ if [[ "$PROSYS" == 1 ]] && [[ "$PASSPRESENT" == "1" ]]; then
 	fi
 fi
 "$BundlePath/code/writer"
+"$OSSERVICES/Library/display" --msgbox "${SETUP_DONE}" 0 0
 clear

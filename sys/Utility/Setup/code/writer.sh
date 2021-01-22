@@ -5,3 +5,5 @@ mplxw "USER/INTERFACE/START_MODE" "Login" >/dev/null
 mplxw "SYSTEM/COMMON/SetupDone" "" >/dev/null
 mplxw "SYSTEM/COMMON/CONFIGURE_DONE" "TRUE" >/dev/null
 echo "[*] Done."
+
+echo "Please restart your computer." >> "$CACHE/alert"

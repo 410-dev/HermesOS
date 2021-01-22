@@ -2,7 +2,7 @@
 verbose "[${GREEN}*${C_DEFAULT}] Starting graphical setup..."
 
 "$BundlePath/code/langset_gui"
-source "$LIBRARY/Preferences/Language/system.hlang"
+source "$LIBRARY/Preferences/Language/setup.hlang"
 while [[ true ]]; do
 	export USRNAME="$("$OSSERVICES/Library/display" --stdout --inputbox "${SETUP_ASK_NAME}" 0 0)"
 	if [[ -z "$USRNAME" ]]; then

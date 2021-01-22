@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ -z "$1" ]]; then
-	echo "Missing parameter: app name"
+	echo "${MISSING_PARAM}app name"
 	exit
 fi
 

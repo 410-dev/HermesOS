@@ -1,7 +1,7 @@
 #!/bin/bash
 function sys_log() {
 	mkdir -p "$LIBRARY/Logs/"
-	echo "$(date '+%Y %m %d %H:%M:%S') [ $1 ] $2" >> "$LIBRARY/Logs/$LOGFILENAME"
+	echo "$(date '+%Y-%m-%d %H:%M:%S') [ $1 ] $2" >> "$LIBRARY/Logs/$LOGFILENAME"
 }
 
 function bootArgumentHas() {

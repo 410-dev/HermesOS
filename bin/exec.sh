@@ -45,6 +45,6 @@ elif [[ -f "$USERDATA/$1" ]]; then
 		exit $exitcode
 	fi
 else
-	echo "Executable file not found."
+	echo "${NO_SUCH_FILE}Type=Executable"
 fi
 cd "$DATA"

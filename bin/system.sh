@@ -2,7 +2,7 @@
 
 if [[ "$1" == "--clean-restore" ]]; then
 	if [[ "$HUID" -ne 0 ]]; then
-		echo "Permission denied: $HUID"
+		echo "${PERMISSION_DENIED}$HUID"
 		exit 0
 	fi
 	if [[ -f "$LIBRARY/image.zip" ]]; then
@@ -15,7 +15,7 @@ if [[ "$1" == "--clean-restore" ]]; then
 	fi
 elif [[ "$1" == "--dirty-restore" ]]; then
 	if [[ "$HUID" -ne 0 ]]; then
-		echo "Permission denied: $HUID"
+		echo "${PERMISSION_DENIED}$HUID"
 		exit 0
 	fi
 
@@ -26,7 +26,7 @@ elif [[ "$1" == "--dirty-restore" ]]; then
 	"$SYSTEM/bin/shutdown"
 elif [[ "$1" == "--rollback" ]]; then
 	if [[ "$HUID" -ne 0 ]]; then
-		echo "Permission denied: $HUID"
+		echo "${PERMISSION_DENIED}$HUID"
 		exit 0
 	fi
 
@@ -43,7 +43,7 @@ elif [[ "$1" == "--uirestart" ]]; then
 	touch "$CACHE/uirestart"
 elif [[ "$1" == "--update" ]]; then
 	if [[ "$HUID" -ne 0 ]]; then
-		echo "Permission denied: $HUID"
+		echo "${PERMISSION_DENIED}$HUID"
 		exit 0
 	fi
 
@@ -78,7 +78,7 @@ elif [[ "$1" == "--info" ]]; then
 	echo "Disk: $DISK_MANU $DISK_NAME $DISK_SIZE$DISK_UNIT $DISK_TYPE Drive"
 elif [[ "$1" == "--nvram-reset" ]]; then
 	if [[ "$HUID" -ne 0 ]]; then
-		echo "Permission denied: $HUID"
+		echo "${PERMISSION_DENIED}$HUID"
 		exit 0
 	fi
 

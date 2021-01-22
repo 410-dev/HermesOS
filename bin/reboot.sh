@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ "$HUID" -ne 0 ]]; then
-	echo "Permission denied: $HUID"
+	echo "${PERMISSION_DENIED}$HUID"
 	exit 0
 fi
 

@@ -3,16 +3,16 @@
 export builderversion="12.0.0"
 
 if [[ -z "$1" ]]; then
-	echo "Error: Missing argument (1)"
+	echo "${ERROR}Missing argument (1)"
 	exit
 elif [[ ! -d "$USERDATA/$1" ]]; then
-	echo "Error: Missing project file"
+	echo "${ERROR}Missing project file"
 	exit
 elif [[ ! -f "$USERDATA/$1/code/main" ]]; then
-	echo "Error: File \"code/main\" not found."
+	echo "${ERROR}File \"code/main\" not found."
 	exit
 elif [[ ! -f "$USERDATA/$1/INFO" ]]; then
-	echo "Error: File \"INFO\" not found."
+	echo "${ERROR}File \"INFO\" not found."
 	exit
 fi
 

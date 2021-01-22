@@ -1,11 +1,11 @@
 #!/bin/bash
 if [[ "$HUID" -ne 0 ]]; then
-	echo "Permission denied: $HUID"
+	echo "${PERMISSION_DENIED} $HUID"
 	exit 0
 fi
 
 if [[ -z "$1" ]]; then
-	echo "Error: Not enough arguments."
+	echo "${NOT_ENOUGH_ARGS}"
 	exit 0
 elif [[ "$1" == "--nvram" ]]; then
 	mkdir -p "$NVRAM"
@@ -21,39 +21,24 @@ elif [[ "$1" == "--nvram" ]]; then
 		exit 0
 	fi
 	if [[ -z "$3" ]]; then	
-		echo "Error: Not enough arguments."
+		echo "${NOT_ENOUGH_ARGS}"
 		exit 0
 	fi
 	if [[ ! -z "$(echo $2 | grep security/)" ]]; then
-		echo "Operation not permitted: Editing security data in NVRAM is not permitted."
+		echo "${OPERATION_NOT_PERMITTED}Editing security data in NVRAM is not permitted."
 		exit 9
 	else
 		echo "$3 $4 $5 $6 $7 $8 $9" > "$NVRAM/$2"
 	fi
 elif [[ "$1" == "--username" ]]; then
 	if [[ -z "$2" ]]; then
-		echo "Error: New username is not specified."
+		echo "${ERROR}New username is not specified."
 		exit 0
 	fi
 	mplxw "USER/user_name" "$2" >/dev/null
-elif [[ "$1" == "--fastboot" ]]; then
-	if [[ -z "$2" ]]; then
-		echo "Error: on / off is not specified."
-		exit 0
-	elif [[ "$2" == "on" ]]; then
-		echo "Turning fastboot on..."
-		mplxw "SYSTEM/POLICY/use_fastboot" "1" >/dev/null
-	elif [[ "$2" == "off" ]]; then
-		echo "Turning fastboot off..."
-		mplxw "SYSTEM/POLICY/use_fastboot" "0" >/dev/null
-	else
-		echo "Unknown state: $2"
-		echo "State must be either one: on / off"
-		echo "Case sensitive."
-	fi
 elif [[ "$1" == "--machinename" ]]; then
 	if [[ -z "$2" ]]; then
-		echo "Error: New machine name is not specified."
+		echo "${ERROR}New machine name is not specified."
 		exit 0
 	fi
 	mplxw "SYSTEM/machine_name" "$2" >/dev/null
@@ -74,9 +59,9 @@ elif [[ "$1" == "--password" ]]; then
 					mplxw "USER/SECURITY/PASSCODE_PRESENT" "0" >/dev/null
 				fi
 				mplxw "USER/SECURITY/PASSCODE" "$(md5 -qs "$pw1")" >/dev/null
-				echo "Done."
+				echo "${DONE}"
 			else
-				echo "Error: Password does not match."
+				echo "${ERROR}Password does not match."
 			fi
 		else
 			echo "Wrong password!"
@@ -92,9 +77,9 @@ elif [[ "$1" == "--password" ]]; then
 		if [[ "$pw1" == "$pw2" ]]; then
 			mplxw "USER/SECURITY/PASSCODE" "$(md5 -qs "$pw1")" >/dev/null
 			mplxw "USER/SECURITY/PASSCODE_PRESENT" "1" >/dev/null
-			echo "Done."
+			echo "${DONE}"
 		else
-			echo "Error: Password does not match."
+			echo "${ERROR}Password does not match."
 		fi
 	fi
 elif [[ "$1" == "--language" ]]; then

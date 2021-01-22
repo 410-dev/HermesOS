@@ -33,7 +33,7 @@ if [[ ! -z "$OS_Version_Major" ]]; then
 			exit 0
 		fi
 	else
-		echo "Internal Error: Address not found."
+		echo "Internal ${ERROR}Address not found."
 		exit 0
 	fi
 else

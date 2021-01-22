@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ "$HUID" -ne 0 ]]; then
-	echo "Permission denied: $HUID"
+	echo "${PERMISSION_DENIED}$HUID"
 	exit 0
 fi
 
@@ -56,7 +56,7 @@ if [[ -f "$NVRAM/enable_dev_option" ]] || [[ "$OS_UnlockedDistro" == "Unlocked" 
 				elif [[ -f "$LIBRARY/Developer/${parse[1]}.iskit" ]]; then
 					source "$LIBRARY/Developer/${parse[1]}.iskit"
 				else
-					echo "Error: Unable to find specified instruction set."
+					echo "${ERROR}Unable to find specified instruction set."
 					exit 0
 				fi
 			elif [[ ! -z "$(echo "$command" | grep "@IMPORT_ISA")" ]]; then
@@ -64,7 +64,7 @@ if [[ -f "$NVRAM/enable_dev_option" ]] || [[ "$OS_UnlockedDistro" == "Unlocked" 
 				if [[ -f "$OSSERVICES/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit" ]]; then
 					source "$OSSERVICES/Services/LegacySupport/TDAPI/VirtualISAKit-v${command[1]}.iskit"
 				else
-					echo "ERROR: Instruction Kit $command does not exist in LegacySupport."
+					echo "${ERROR}Instruction Kit $command does not exist in LegacySupport."
 					exit 0
 				fi
 			elif [[ ! -z $command ]]; then

@@ -4,18 +4,18 @@
 # delete [key or value name]
 # read [key or value name]
 if [[ "$HUID" -ne 0 ]]; then
-	echo "Permission denied: $HUID"
+	echo "${PERMISSION_DENIED}$HUID"
 	exit 0
 fi
 
 if [[ "$(access_fs "$MULTIPLEX/$2")" == "-9" ]]; then
-	echo "Error: Modifying data not within multiplex is not permitted."
+	echo "${ERROR}Modifying data not within multiplex is not permitted."
 	exit -9
 fi
 
 if [[ "$1" == "setkey" ]]; then
 	if [[ -z "$2" ]]; then
-		echo "Error: Key name is not specified."
+		echo "${ERROR}Key name is not specified."
 		exit 0
 	fi
 	if [[ -e "$MULTIPLEX/$2" ]]; then
@@ -31,11 +31,11 @@ if [[ "$1" == "setkey" ]]; then
 	fi
 elif [[ "$1" == "setvalue" ]]; then
 	if [[ -z "$2" ]]; then
-		echo "Error: Value name is not specified."
+		echo "${ERROR}Value name is not specified."
 		exit 0
 	fi
 	if [[ -z "$3" ]]; then
-		echo "Error: value is not specified."
+		echo "${ERROR}value is not specified."
 		exit 0
 	fi
 	if [[ -d "$MULTIPLEX/$2" ]]; then
@@ -46,7 +46,7 @@ elif [[ "$1" == "setvalue" ]]; then
 	fi
 elif [[ "$1" == "delete" ]]; then
 	if [[ -z "$2" ]]; then
-		echo "Error: Key name is not specified."
+		echo "${ERROR}Key name is not specified."
 		exit 0
 	fi
 	if [[ -e "$MULTIPLEX/$2" ]]; then
@@ -56,7 +56,7 @@ elif [[ "$1" == "delete" ]]; then
 	fi
 elif [[ "$1" == "read" ]]; then
 	if [[ -z "$2" ]]; then
-		echo "Error: Value or key name is not specified."
+		echo "${ERROR}Value or key name is not specified."
 		exit 0
 	fi
 	if [[ -d "$MULTIPLEX/$2" ]]; then

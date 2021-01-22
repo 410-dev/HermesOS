@@ -1,9 +1,9 @@
 #!/bin/bash
 if [[ -z "$1" ]]; then
-	echo "Error: location not specified!"
+	echo "${MISSING_PARAM}Project location"
 	exit
 elif [[ -d "$USERDATA/$1" ]]; then
-	echo "Directory already exists."
+	echo "Project already exists."
 	exit
 fi
 
@@ -19,5 +19,5 @@ export ALLOCTHREAD=\"main\"
 	echo \#\!/bin/bash > "$USERDATA/$1/code/main"
 else
 	rm -rf "$USERDATA/$1"
-	echo "Unable to open project: Unaccessible location"
+	echo "${ERROR}Unaccessible"
 fi

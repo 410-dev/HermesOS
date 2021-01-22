@@ -8,7 +8,7 @@ function @IMPORT_ISA() {
 	if [[ -f "$OSSERVICES/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit" ]]; then
 		source "$OSSERVICES/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit"
 	else
-		echo "ERROR: Virtual ISA Version $1 does not exist in LegacySupport."
+		echo "${ERROR}Virtual ISA Version $1 does not exist in LegacySupport."
 		exit 0
 	fi
 }
@@ -19,7 +19,7 @@ function @IMPORT() {
 	elif [[ -f "$LIBRARY/Developer/$1.iskit" ]]; then
 		source "$LIBRARY/Developer/$1.iskit"
 	else
-		echo "Error: Unable to find specified instruction set."
+		echo "${ERROR}Unable to find specified instruction set."
 		exit 0
 	fi
 }

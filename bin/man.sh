@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ -z "$1" ]]; then
-	echo "Missing parameter: command"
+	echo "${MISSING_PARAM}command"
 	exit 90
 fi
 if [[ -f "$SYSTEM/man/$1" ]]; then

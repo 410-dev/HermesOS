@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ "$HUID" -ne 0 ]]; then
-	echo "Permission denied: $HUID"
+	echo "${PERMISSION_DENIED}$HUID"
 	exit 0
 fi
 
@@ -54,7 +54,7 @@ while [[ true ]]; do
 		if [[ ! -z "$proc_name" ]]; then
 			touch "$NVRAM/security/frestrictor_trustedagents/$proc_name"
 		else
-			echo "Error: Process name cannot be empty."
+			echo "${ERROR}: Process name cannot be empty."
 		fi
 	elif [[ "$number" == "3" ]]; then
 		echo -n "Process name you want to remove: "
@@ -62,7 +62,7 @@ while [[ true ]]; do
 		if [[ -f "$NVRAM/security/frestrictor_trustedagents/$proc_name" ]] && [[ ! -z "$proc_name" ]] ; then
 			rm -rf "$NVRAM/security/frestrictor_trustedagents/$proc_name"
 		else
-			echo "Error: Not found."
+			echo "${ERROR}: Process not found on the list."
 		fi
 	else
 		exit 0

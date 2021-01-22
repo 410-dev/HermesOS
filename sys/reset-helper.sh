@@ -22,7 +22,7 @@ if [[ -d "$SYSTEM/__MACOSX" ]]; then
 fi
 if [[ -f "$OSSERVICES/Utility/convert" ]]; then
 	verbose "[${GREEN}*${C_DEFAULT}] Running convert command..."
-	"$OSSERVICES/Utility/convert" "$OS_Version_Major" "$OS_Version_Minor" "$OS_Version_Edit"
+	"$OSSERVICES/Utility/convert" "$OS_Version_Major" "$OS_Version_Minor" 2>/dev/null
 fi
 if [[ "$ACTION" == "restore" ]]; then
 	verbose "[${GREEN}*${C_DEFAULT}] Removing user data..."

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+syslog "DefaultSetup" "Automatically setting up files..."
 mkdir -p "$USERDATA"
 mkdir -p "$MULTIPLEX"
 
@@ -13,6 +13,7 @@ mkdir -p "$DATA/mount"
 mkdir -p "$DATA/Applications"
 
 if [[ ! -d "$NVRAM/security/frestrictor_trustedagents" ]]; then
+	syslog "DefaultSetup" "Setting up trusted agents..."
 	mkdir -p "$NVRAM/security/frestrictor_trustedagents"
 	touch "$NVRAM/security/frestrictor_trustedagents/ls"
 	touch "$NVRAM/security/frestrictor_trustedagents/copy"

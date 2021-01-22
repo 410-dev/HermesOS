@@ -1,3 +1,3 @@
 #!/bin/bash
-syslog "logo" "Showing startup screen..."
+sys_log "logo" "Showing startup screen..."
 "$OSSERVICES/Library/Services/Startup/logo/execute"

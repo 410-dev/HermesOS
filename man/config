@@ -5,7 +5,7 @@ Possible Actions
 --username [New username]
 --machinename [New machine name]
 --password
---fastboot [on/off]
+--language [any]
 
 Usage: config [action] [required arguments]
 Example: config --machinename Computer-Desktop

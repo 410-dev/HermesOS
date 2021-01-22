@@ -102,19 +102,19 @@ elif [[ "$1" == "--language" ]]; then
 		echo "You are currently using: ${LANG_ID}"
 		echo ""
 		echo "Available languages:"
-		ls -1 "$SYSTEM/sys/Default/Languages"
+		ls -1 "$OSSERVICES/Default/Languages"
 	elif [[ $(bootArgumentHas "verbose") == "1" ]] || [[ $(bootArgumentHas "nogui") == "1" ]] || [[ $(bootArgumentHas "safe") == "1" ]]; then
-		if [[ -f "$SYSTEM/sys/Default/Languages/$2" ]]; then
+		if [[ -f "$OSSERVICES/Default/Languages/$2" ]]; then
 			echo "Setting language..."
-			cp "$SYSTEM/sys/Default/Languages/en-us/"* "$LIBRARY/Preferences/Language/"
+			cp "$OSSERVICES/Default/Languages/en-us/"* "$LIBRARY/Preferences/Language/"
 			source "$LIBRARY/Preferences/Language/system.hlang"
 			echo "${LANGUAGE_CHANGED}"
 		else
 			echo "No such language found."
 		fi
 	else
-		export BundlePath="$SYSTEM/sys/Utility/Setup"
-		"$SYSTEM/sys/Utility/Setup/code/langset_gui"
+		export BundlePath="$OSSERVICES/Utility/Setup"
+		"$OSSERVICES/Utility/Setup/code/langset_gui"
 	fi
 else
 	echo "Unknown action."

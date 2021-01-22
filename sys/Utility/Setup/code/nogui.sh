@@ -1,6 +1,6 @@
 #!/bin/bash
 verbose "[${GREEN}*${C_DEFAULT}] Starting non-graphical setup..."
-ls -1 "$SYSTEM/sys/Default/Languages"
+ls -1 "$OSSERVICES/Default/Languages"
 while [[ true ]]; do
 	echo ""
 	echo "${SETUP_KEEP_LANG}"
@@ -8,9 +8,9 @@ while [[ true ]]; do
 	read language
 	if [[ -z "$language" ]]; then
 		echo "${SETUP_LANG_SELECTED} ${LANG_ID}"
-	elif [[ -d "$SYSTEM/sys/Default/Languages/$language" ]]; then
+	elif [[ -d "$OSSERVICES/Default/Languages/$language" ]]; then
 		echo "${SETTING_LANGUAGE}"
-		cp "$SYSTEM/sys/Default/Languages/$language/"* "$LIBRARY/Preferences/Language/"
+		cp "$OSSERVICES/Default/Languages/$language/"* "$LIBRARY/Preferences/Language/"
 		source "$LIBRARY/Preferences/Language/system.hlang"
 		echo "${SETUP_LANGUAGE_CHANGED}"
 	else

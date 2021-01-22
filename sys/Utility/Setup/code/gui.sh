@@ -4,7 +4,7 @@ verbose "[${GREEN}*${C_DEFAULT}] Starting graphical setup..."
 "$BundlePath/code/langset_gui"
 source "$LIBRARY/Preferences/Language/system.hlang"
 while [[ true ]]; do
-	export USRNAME="$("$SYSTEM/sys/Library/display" --stdout --inputbox "${SETUP_ASK_NAME}" 0 0)"
+	export USRNAME="$("$OSSERVICES/Library/display" --stdout --inputbox "${SETUP_ASK_NAME}" 0 0)"
 	if [[ -z "$USRNAME" ]]; then
 		echo "${SETUP_INVALID_INPUT}"
 	else
@@ -13,7 +13,7 @@ while [[ true ]]; do
 	fi
 done
 while [[ true ]]; do
-	export DEVN="$("$SYSTEM/sys/Library/display" --stdout --inputbox "${SETUP_ASK_DEVNAME}" 0 0)"
+	export DEVN="$("$OSSERVICES/Library/display" --stdout --inputbox "${SETUP_ASK_DEVNAME}" 0 0)"
 	if [[ -z "$DEVN" ]]; then
 		echo "${SETUP_INVALID_INPUT}"
 	else
@@ -21,7 +21,7 @@ while [[ true ]]; do
 		break
 	fi
 done
-"$SYSTEM/sys/Library/display" --title "${SETUP}" --yesno "${SETUP_ASK_PASSBOOL}" 0 0
+"$OSSERVICES/Library/display" --title "${SETUP}" --yesno "${SETUP_ASK_PASSBOOL}" 0 0
 export PASSPRESENT=$?
 if [[ "$PASSPRESENT" == "0" ]]; then
 	export PASSPRESENT="1"
@@ -43,7 +43,7 @@ while [[ "$PASSPRESENT" == "1" ]]; do
 		fi
 	fi
 done
-"$SYSTEM/sys/Library/display" --title "${SETUP}" --yesno "${SETUP_ENABLE_PROSYSTEM}" 0 0
+"$OSSERVICES/Library/display" --title "${SETUP}" --yesno "${SETUP_ENABLE_PROSYSTEM}" 0 0
 export PROSYS=$?
 if [[ "$PROSYS" == "0" ]]; then
 	export PROSYS="1"
@@ -60,7 +60,7 @@ elif [[ "$PROSYS" == "0" ]]; then
 	echo "Locked" > "$NVRAM/security/lockstate"
 fi
 if [[ "$PROSYS" == 1 ]] && [[ "$PASSPRESENT" == "1" ]]; then
-	"$SYSTEM/sys/Library/display" --title "${SETUP}" --yesno "${SETUP_ENABLE_AUTOLOGIN}" 0 0
+	"$OSSERVICES/Library/display" --title "${SETUP}" --yesno "${SETUP_ENABLE_AUTOLOGIN}" 0 0
 	export AUTOLOGIN=$?
 	if [[ "$AUTOLOGIN" == "0" ]]; then
 		export AUTOLOGIN="1"

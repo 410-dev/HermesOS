@@ -74,8 +74,8 @@ while [[ true ]]; do
 	elif [[ "$(mplxr USER/INTERFACE/DEVELOPER_OPTION)" == "1" ]]; then
 		export lastExecutedCommand="$command"
 		echo "${args[0]}" > "$CACHE/process"
-		if [[ -f "$SYSTEM/sys/Library/Developer/bin/${args[0]}" ]]; then
-			"$SYSTEM/sys/Library/Developer/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
+		if [[ -f "$OSSERVICES/Library/Developer/bin/${args[0]}" ]]; then
+			"$OSSERVICES/Library/Developer/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
 		else
 			echo "${COMMAND_NOT_FOUND}${args[0]}"
 		fi

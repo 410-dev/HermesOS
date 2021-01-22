@@ -12,6 +12,8 @@ mkdir -p "$LIBRARY/Preferences/"
 mkdir -p "$DATA/mount"
 mkdir -p "$DATA/Applications"
 
+mkdir -p "$CACHE"
+
 if [[ ! -d "$NVRAM/security/frestrictor_trustedagents" ]]; then
 	sys_log "DefaultSetup" "Setting up trusted agents..."
 	mkdir -p "$NVRAM/security/frestrictor_trustedagents"
@@ -41,8 +43,6 @@ if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
 	mkdir -p "$DATA/init"
 	mkdir -p "$LIBRARY/Logs"
 	verbose "[${GREEN}*${C_DEFAULT}] Configurating multiplex..."
-	mplxw USER/INTERFACE/ALERT "" >/dev/null
-	mplxw USER/INTERFACE/ALERT_PRESENT 0 >/dev/null
 	mplxw USER/INTERFACE/START_MODE Setup >/dev/null
 	mplxw SYSTEM/COMMON/DataCompatibility "$DATA_COMPATIBILITY" >/dev/null
 	verbose "[${GREEN}*${C_DEFAULT}] Done."

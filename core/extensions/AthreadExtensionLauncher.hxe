@@ -8,3 +8,4 @@ do
 		"$CORE/extensions/athread/$defname" &
 	fi
 done <<< "$(ls -p | grep -v / | grep ".hxe")"
+sys_log "Athread" "Done."

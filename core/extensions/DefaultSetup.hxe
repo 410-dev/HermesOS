@@ -13,6 +13,7 @@ mkdir -p "$DATA/mount"
 mkdir -p "$DATA/Applications"
 
 mkdir -p "$CACHE"
+sys_log "DefaultSetup" "Auto setup complete."
 
 if [[ ! -d "$NVRAM/security/frestrictor_trustedagents" ]]; then
 	sys_log "DefaultSetup" "Setting up trusted agents..."
@@ -29,28 +30,39 @@ if [[ ! -d "$NVRAM/security/frestrictor_trustedagents" ]]; then
 	touch "$NVRAM/security/frestrictor_trustedagents/super"
 	touch "$NVRAM/security/frestrictor_trustedagents/tpaste"
 	touch "$NVRAM/security/frestrictor_trustedagents/installdriver"
+	sys_log "DefaultSetup" "Agents setup complete."
 fi
 
 export DATA_COMPATIBILITY="11"
 if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
+	sys_log "DefaultSetup" "Repairing data partition..."
 	verbose "[${GREEN}*${C_DEFAULT}] Start data partition repair!"
 	rm -rf "$MULTIPLEX" 2>/dev/null
+	sys_log "DefaultSetup" "Removed multiplex."
 	rm -rf "$NVRAM" 2>/dev/null
+	sys_log "DefaultSetup" "Removed nvram."
 	verbose "[${GREEN}*${C_DEFAULT}] Removed old partition data."
 	verbose "[${GREEN}*${C_DEFAULT}] Rewriting..."
+	sys_log "DefaultSetup" "Files are rewriting from defaults..."
 	cp -r "$OSSERVICES/Default/multiplex" "$LIBRARY"
 	mv "$LIBRARY/multiplex" "$MULTIPLEX"
 	mkdir -p "$DATA/init"
 	mkdir -p "$LIBRARY/Logs"
-	verbose "[${GREEN}*${C_DEFAULT}] Configurating multiplex..."
+	sys_log "DefaultSetup" "OK"
+	sys_log "DefaultSetup" "Configuring multiplex..."
+	verbose "[${GREEN}*${C_DEFAULT}] Configuring multiplex..."
 	mplxw USER/INTERFACE/START_MODE Setup >/dev/null
 	mplxw SYSTEM/COMMON/DataCompatibility "$DATA_COMPATIBILITY" >/dev/null
 	verbose "[${GREEN}*${C_DEFAULT}] Done."
+	sys_log "DefaultSetup" "Done."
 elif [[ "$(mplxr SYSTEM/COMMON/DataCompatibility)" -ne "$DATA_COMPATIBILITY" ]]; then
+	sys_log "DefaultSetup" "Upgrading data partition..."
 	verbose "[${GREEN}*${C_DEFAULT}] Upgrading data partition."
 	cp -r "$DATA/config" "$DATA/config.old"
+	sys_log "DefaultSetup" "Done."
 else
+	sys_log "DefaultSetup" "No task for data partition modification."
 	verbose "[${GREEN}*${C_DEFAULT}] No task for data partition modification."
 fi
-
+sys_log "DefaultSetup" "All task complete."
 exit 0

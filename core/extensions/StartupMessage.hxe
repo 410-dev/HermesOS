@@ -1,9 +1,11 @@
 #!/bin/bash
 if [[ -f "$CACHE/alert" ]]; then
 	if [[ -z "$(cat "$CACHE/alert" | grep "Hermes User Executive")" ]]; then
+		sys_log "StartupMessage" "Adding greeting to alert file..."
 		echo "Hermes User Executive" >> "$CACHE/alert"
 	fi
 else
+	sys_log "StartupMessage" "Adding greeting to alert file..."
 	echo "Hermes User Executive" >> "$CACHE/alert"
 fi
 exit 0

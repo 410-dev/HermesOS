@@ -4,23 +4,30 @@
 # It also manages fundamental hardware such as S2G1 operation.
 
 export HardLink_Version="11.0.0"
-
+sys_log "HardLink" "Running hardlink read..."
+sys_log "HardLink" "Reading default hardlinks first.."
 cd "$OSSERVICES/Default/GenericExtensions"
 while read extension
 do
+	sys_log "HardLink" "Loading generic Hardlink: $extension"
 	verbose "[${GREEN}*${C_DEFAULT}] Loading Generic HardLink Extensions: $extension"
 	source "$OSSERVICES/Default/GenericExtensions/$extension"
+	sys_log "HardLink" "Loaded: $extension"
 done <<< "$(ls -p | grep -v / | grep ".hdlink")"
 
 if [[ $(bootArgumentHas "safe") == 0 ]]; then
+	sys_log "HardLink" "System is not running in safe mode."
 	if [[ -d "$LIBRARY/HardwareExtensions/" ]]; then
 		if [[ -f "$LIBRARY/HardwareExtensions/memory.hdlink" ]]; then
 			cd "$LIBRARY/HardwareExtensions/"
 			while read extension
 			do
+				sys_log "HardLink" "Loading HardLink extension from library: $extension"
 				verbose "[${GREEN}*${C_DEFAULT}] Loading HardLink Extensions: $extension"
 				source "$LIBRARY/HardwareExtensions/$extension"
+				sys_log "HardLink" "Loaded: $extension"
 			done <<< "$(ls -p | grep -v / | grep ".hdlink")"
 		fi
 	fi
 fi
+sys_log "HardLink" "Extensions loaded."

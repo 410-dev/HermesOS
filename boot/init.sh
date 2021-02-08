@@ -41,12 +41,12 @@ while [[ $(bootArgumentHas "recovery") == 0 ]]; do
 			leaveSystem
 		elif [[ $endcode -ne 0 ]]; then
 			sys_log "boot" "System exception: ${endcode}"
-			"$CORE/error" "${RED}Core.osstart terminated with unexpected return code: ${endcode}${C_DEFAULT}"
+			error "${RED}Core.osstart terminated with unexpected return code: ${endcode}${C_DEFAULT}"
 			exit 0
 		fi
 	else
 		sys_log "boot" "Unable to load core."
-		"$CORE/error" "${RED}Unable to load core. Aborting boot procedure.${C_DEFAULT}"
+		error "${RED}Unable to load core. Aborting boot procedure.${C_DEFAULT}"
 		exit 0
 	fi
 	sys_log "boot" "Starting UI..."

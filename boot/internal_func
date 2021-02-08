@@ -28,8 +28,15 @@ function leaveSystem() {
 	exit 0
 }
 
+function error() {
+	echo "==========SYSTEM FATAL EXCEPTION=========="
+	echo -e "$1"
+	echo "=========================================="
+}
+
 export -f bootArgumentHas
 export -f verbose
 export -f leaveSystem
 export -f sys_log
+export -f error
 export LOGFILENAME="$(date '+%Y%m%d%H%M%S')"

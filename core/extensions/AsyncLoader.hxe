@@ -1,0 +1,11 @@
+#!/bin/bash
+cd "$CORE/extensions/async"
+while read defname
+do
+	if [[ -f "$CORE/extensions/async/$defname" ]]; then
+		verbose "[${GREEN}*${C_DEFAULT}] Launching async extension: $defname"
+		sys_log "Async" "Launching: $defname"
+		"$CORE/extensions/async/$defname" &
+	fi
+done <<< "$(ls -p | grep -v / | grep ".hxe")"
+sys_log "Async" "Done."

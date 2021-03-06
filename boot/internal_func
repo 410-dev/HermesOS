@@ -29,9 +29,19 @@ function leaveSystem() {
 }
 
 function error() {
+	clear
 	echo "==========SYSTEM FATAL EXCEPTION=========="
 	echo -e "$1"
 	echo "=========================================="
+	sys_log "ErrorHandler" "There was an error reported."
+	sys_log "ErrorHandler" "$1"
+	if [[ ! -z "$(LITE_HELP)" ]]; then
+		sys_log "ErrorHandler" "LiteOS present in memory. Calling main..."
+		liteos_main
+	else
+		sys_log "ErrorHandler" "LiteOS is not uploaded in memory. Leaving system..."
+		leaveSystem
+	fi
 }
 
 export -f bootArgumentHas

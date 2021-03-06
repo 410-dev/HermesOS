@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [[ -z "$(FIRMWARE_INFO 2>/dev/null)" ]] && [[ $(bootArgumentHas "no-firm-support") == "0" ]]; then
+	function FIRMWARE_INFO() {
+		if [[ "$1" == "version" ]]; then
+			echo "1.0Emu"
+		elif [[ "$1" == "manufacture" ]]; then
+			echo "410"
+		else
+			echo "Version: 1.0Emu"
+			echo "Manufacture: 410"
+		fi
+	}
+
+	export -f FIRMWARE_INFO
+fi

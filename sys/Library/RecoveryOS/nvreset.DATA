@@ -3,9 +3,7 @@
 function nvreset() {
 	if [[ -z "$selectedDisk" ]]; then
 		colorprint "${RED}Error: Disk not selected."
-		break
-	fi
-	if [[ -d "$selectedDisk/Library/nvram" ]]; then
+	elif [[ -d "$selectedDisk/Library/nvram" ]]; then
 		rm -rf "$selectedDisk/Library/nvram"
 		mkdir -p "$selectedDisk/Library/nvram"
 	fi

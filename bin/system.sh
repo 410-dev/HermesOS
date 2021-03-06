@@ -69,19 +69,40 @@ elif [[ "$1" == "--info" ]]; then
 	echo "System Mode: $OS_ProSystemStatus"
 	echo "Language: $LANG_ID"
 	echo "Copyright Statement: $OS_CopyrightStatement"
-	echo ""
-	echo "Hardware Information"
-	echo "HardLink Version: $HardLink_Version"
-	echo "Processor: $CPU_MANU $CPU_NAME $CPU_CLOCK ${CPU_CORES}-Core with $CPU_CACHE Cache"
-	echo "Video: $VID_MANU - $VID_NAME with $VID_MEM_SIZE$VID_MEM_UNIT $VID_MEM_TYPE"
-	echo "Memory: $MEM_SIZE$MEM_UNIT $MEM_MANU $MEM_NAME $MEM_CLOCK"
-	echo "Disk: $DISK_MANU $DISK_NAME $DISK_SIZE$DISK_UNIT $DISK_TYPE Drive"
+	if [[ "$2" == "--detail" ]]; then
+		echo ""
+		echo "Hardware Information"
+		echo "HardLink Version: $HardLink_Version"
+		echo "Processor: $CPU_MANU $CPU_NAME $CPU_CLOCK ${CPU_CORES}-Core with $CPU_CACHE Cache"
+		echo "Video: $VID_MANU - $VID_NAME with $VID_MEM_SIZE$VID_MEM_UNIT $VID_MEM_TYPE"
+		echo "Memory: $MEM_SIZE$MEM_UNIT $MEM_MANU $MEM_NAME $MEM_CLOCK"
+		echo "Disk: $DISK_MANU $DISK_NAME $DISK_SIZE$DISK_UNIT $DISK_TYPE Drive"
+		echo ""
+		echo "Detailed Information"
+		echo "Boot arguments: ${BOOTARGS}"
+		if [[ $(bootArgumentHas "safe") == "1" ]]; then
+			echo "Safe Mode: Enabled"
+		else
+			echo "Safe Mode: Disabled"
+		fi
+		if [[ $(bootArgumentHas "no-firm-support") == "1" ]]; then
+			echo "Firmware Support: Disabled (Unsafe)"
+		else
+			echo "Firmware Support: Enabled"
+		fi
+		echo "Firmware Version: $(FIRMWARE_INFO version)"
+		echo "Firmware Manufacturer: $(FIRMWARE_INFO manufacture)"
+		if [[ ! -z "$(LITE_HELP)" ]]; then
+			echo "LiteOS Activity: Enabled"
+		else
+			echo "LiteOS Activity: Disabled"
+		fi
+	fi
 elif [[ "$1" == "--nvram-reset" ]]; then
 	if [[ "$HUID" -ne 0 ]]; then
 		echo "${PERMISSION_DENIED}$HUID"
 		exit 0
 	fi
-
 	echo -e "${RED}Are you sure you want to reset NVRAM?"
 	echo -e "${RED}This action will reset all the frestrictor trusted data.${C_DEFAULT}"
 	echo "y/n"

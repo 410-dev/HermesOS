@@ -1,0 +1,20 @@
+#!/bin/bash
+function LITE_LOG() {
+	if [[ -z "$(ls "$LIBRARY/Logs/")" ]]; then
+		echo "There is no log to display."
+	else
+		echo "Type the log name to display: "
+		echo ""
+		echo "Logs: "
+		ls -1 "$LIBRARY/Logs/"
+		echo -n "Log name: "
+		read logname
+		if [[ -f "$LIBRARY/Logs/$logname" ]]; then
+			cat "$LIBRARY/Logs/$logname"
+		else
+			echo "Log not found."
+		fi
+	fi
+}
+
+export -f LITE_LOG

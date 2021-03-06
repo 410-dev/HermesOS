@@ -1,0 +1,22 @@
+#!/bin/bash
+function LITE_CLEAR() {
+	unset OSSTART
+	unset LITE_HELP
+	unset LITE_START
+	unset LITE_INSTALL
+	unset LITE_EXTERN_BOOT
+	unset LITE_BOOT_SYSTEM
+	unset liteos_main
+	unset LITE_LOG
+	unset LITE_FILESYS
+	unset LITE_CLEAR
+}
+
+function LITE_CLEAR_BOOTSTAGE() {
+	unset OSSTART
+	unset LITE_START
+	unset LITE_EXTERN_BOOT
+}
+
+export -f LITE_CLEAR
+export -f LITE_CLEAR_BOOTSTAGE

@@ -1,0 +1,25 @@
+#!/bin/bash
+function OSSTART() {
+	export BOOTARGS="${BOOTARGS} $1 $2 $3 $4 $5 $6 $7 $8 $9"
+	export SYSNAME="LiteOS"
+	export SYSVERS="1.0"
+	export SYSLOC="$SYSTEM/boot/bootloader/liteos"
+	export SYSCAC="$CACHE"
+
+	verbose "Loading $SYSNAME: $SYSNAME $SYSVERS"
+	cd "$SYSLOC"
+	while read DATAFILE
+	do
+		source "$SYSLOC/$DATAFILE"
+	done <<< "$(ls -p | grep -v / | grep ".DATA")"
+	verbose "$SYSNAME data is uploaded to memory."
+
+	if [[ $(bootArgumentHas "lite") == "1" ]]; then
+		LITE_START
+	else
+		LITE_BOOT_SYSTEM
+	fi
+}
+
+export -f OSSTART
+export BOOT_LOADER="liteos"

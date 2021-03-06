@@ -1,0 +1,51 @@
+#!/bin/bash
+function LITE_EXTERN_BOOT() {
+	echo -n ""
+}
+
+function LITE_START() {
+	clear
+	sys_log "LiteOS" "Entered menu."
+	echo "LiteOS Menu"
+	echo "==================="
+	echo "1. Enter HermesOS"
+	echo "2. Enter LiteOS"
+	echo "3. Start from external system"
+	echo "4. Start without firmware support (Unsafe)"
+	echo "5. Enter Safe Mode"
+	echo "6. Custom boot arguments"
+	echo -n "> "
+	read in
+	if [[ "$in" == "1" ]]; then
+		sys_log "LiteOS" "Option 1 selected - Entering HermesOS..."
+		echo "Entering HermesOS..."
+		LITE_BOOT_SYSTEM
+	elif [[ "$in" == "2" ]]; then
+		clear
+		sys_log "LiteOS" "Option 2 selected - Starting LiteOS Console..."
+		echo "Starting LiteOS console..."
+		liteos_main
+	elif [[ "$in" == "3" ]]; then
+		sys_log "LiteOS" "Option 3 selected - Starting system from external device..."
+		sys_log "LiteOS" "Warning: System log may not present during this stage!"
+		LITE_EXTERN_BOOT
+		sys_log "LiteOS" "Process from external device is done."
+	elif [[ "$in" == "4" ]]; then
+		export BOOTARGS="no-firm-support"
+		LITE_BOOT_SYSTEM
+	elif [[ "$in" == "5" ]]; then
+		export BOOTARGS="safe"
+		LITE_BOOT_SYSTEM
+	elif [[ "$in" == "6" ]]; then
+		echo -n "Boot argument > "
+		read BOOTARGS
+		LITE_BOOT_SYSTEM
+	else
+		sys_log "LiteOS" "Invalid option: $in - Continuing to default setting..."
+		echo "Invalid option. Continuing to default setting..."
+		LITE_BOOT_SYSTEM
+	fi
+}
+
+export -f LITE_EXTERN_BOOT
+export -f LITE_START

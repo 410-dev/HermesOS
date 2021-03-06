@@ -1,0 +1,25 @@
+#!/bin/bash
+function liteos_main() {
+	echo "LiteOS - Main Shell"
+	echo "Type LITE_HELP to see available commands."
+	unset selectedDisk
+	while [[ true ]]; do
+		echo -n "LITEOS > "
+		read commands
+		if 
+		[[ "$commands" == "LITE_HELP" ]] || 
+		[[ "$commands" == "LITE_LOG" ]] || 
+		[[ "$commands" == "LITE_FILESYS" ]] || 
+		[[ "$commands" == "LITE_INSTALL" ]]; then
+			"$commands"
+		elif [[ "$commands" == "shutdown" ]]; then
+			rm -rf "$SYSCAC"
+			LITE_CLEAR
+			break
+		else
+			echo "Command not found."
+		fi
+	done
+}
+
+export -f liteos_main

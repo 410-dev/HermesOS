@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function LITE_HELP() {
+	echo "shutdown:     Stops LiteOS
+LITE_INSTALL: Installs minimal compatible system
+LITE_HELP:    Shows this message
+LITE_LOG:     Shows log stored in disk
+LITE_FILESYS: Modify files in disk
+"
+}
+
+export -f LITE_HELP

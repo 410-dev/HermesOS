@@ -2,7 +2,6 @@
 function diagnostics() {
 	echo "Running Quick Diagnostics..."
 	declare -i numOf="$(echo "$(ls -R1 "$SYSTEM")" | wc -l)"
-	echo "$numOf out of 291 files in system presents."
 	if [[ $numOf -lt 1 ]]; then
 		echo "Unable to access to system partition."
 		echo "Entering LiteOS for recovery!"

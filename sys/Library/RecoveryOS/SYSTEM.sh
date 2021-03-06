@@ -11,6 +11,7 @@ while [[ true ]]; do
 	[[ "$commands" == "install" ]] || 
 	[[ "$commands" == "selectdisk" ]] || 
 	[[ "$commands" == "updatept" ]] ||
+	[[ "$commands" == "nvreset_force" ]] ||
 	[[ "$commands" == "nvreset" ]]; then
 		"$commands" "rec_mode_set_unlocked_installer"
 	elif [[ "$commands" == "shutdown" ]]; then

@@ -1,6 +1,31 @@
 #!/bin/bash
 
 function nvreset() {
+
+	export crucialValues="boot_reference"
+
+	if [[ -z "$selectedDisk" ]]; then
+		colorprint "${RED}Error: Disk not selected."
+	elif [[ -d "$selectedDisk/Library/nvram" ]]; then
+		export skipProc="0"
+		while read d
+		do
+			if [[ ! -z "$(echo "$crucialValues" | grep "$d")" ]]; then
+				echo "There is a crucial data inside NVRAM."
+				echo "This action may cause compatibility issue with hardware and operating system."
+				echo "If you want to continue, please run: nvreset_force"
+				export skipProc="1"
+				break
+			fi
+		done <<< "$(ls -1 "$selectedDisk/Library/nvram")"
+		if [[ "$skipProc" == "0" ]]; then
+			rm -rf "$selectedDisk/Library/nvram"
+			mkdir -p "$selectedDisk/Library/nvram"
+		fi
+	fi
+}
+
+function nvreset_force() {
 	if [[ -z "$selectedDisk" ]]; then
 		colorprint "${RED}Error: Disk not selected."
 	elif [[ -d "$selectedDisk/Library/nvram" ]]; then
@@ -10,3 +35,4 @@ function nvreset() {
 }
 
 export -f nvreset
+export -f nvreset_force

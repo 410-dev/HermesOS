@@ -1,0 +1,20 @@
+#!/bin/bash
+function diagnostics() {
+	echo "Running Quick Diagnostics..."
+	declare -i numOf="$(echo "$(ls -R1 "$SYSTEM")" | wc -l)"
+	echo "$numOf out of 291 files in system presents."
+	if [[ $numOf -lt 1 ]]; then
+		echo "Unable to access to system partition."
+		echo "Entering LiteOS for recovery!"
+		liteos_main
+		exit
+	elif [[ $numOf -lt 292 ]]; then
+		echo "Some files are missing in system partition."
+		echo "Entering LiteOS for recovery!"
+		liteos_main
+		exit
+	fi
+	echo "Diagnostic complete."
+}
+
+export -f diagnostics

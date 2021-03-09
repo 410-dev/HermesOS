@@ -2,6 +2,7 @@
 if [[ ! -f "$NVRAM/bootaction" ]]; then
 	verbose "[${GREEN}*${C_DEFAULT}] No boot action requested."
 else
+	clear
 	export ACTION="$(<"$NVRAM/bootaction")"
 	if [[ "$ACTION" == "update" ]]; then
 		echo "[*] Hermes is being updated..."

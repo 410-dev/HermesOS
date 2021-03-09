@@ -1,0 +1,16 @@
+packager - Manages the installation / removal of packages
+
+This command will maintain thirdparty packages.
+You may install applications or drivers with this command.
+
+Action Parameter:
+-i or --install        Install an application package
+-r or --remove         Removes installed application
+--install-driver       Install a driver
+--remove-driver        Remove a driver
+
+Usage: packager [action parameter] [specification]
+
+Example:
+packager -i myapplication.hxa
+packager -r myapplication

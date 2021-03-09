@@ -1,20 +1,15 @@
 #!/bin/bash
-
 if [[ -z "$1" ]]; then
+	sys_log "open" "Application name is missing."
 	echo "${MISSING_PARAM}app name"
 	exit
 fi
 
 if [[ -f "$USERDATA/$1" ]]; then
-	echo "Unpacking..."
-	mkdir -p "$CACHE/pkgunpack"
-	mv "$USERDATA/$1" "$CACHE/package.zip"
-	unzip -q "$CACHE/package.zip" -d "$CACHE/pkgunpack"
-	source "$CACHE/pkgunpack/INFO"
-	cp -r "$CACHE/pkgunpack" "$DATA/Applications/"
-	mv "$DATA/Applications/pkgunpack" "$DATA/Applications/$APPNAME"
-	rm -f "$CACHE/package.zip"
-	echo "Installation successful."
+	sys_log "open" "User tried to install an application."
+	sys_log "open" "Warning: Installation via open command will be unsupported soon."
+	echo "Warning: Installation via open command will be unsupported soon."
+	"$SYSTEM/bin/packager" --install "$1"
 elif [[ -d "$DATA/Applications/$1" ]]; then
 	if [[ -f "$DATA/Applications/$1/runner" ]]; then
 		if [[ ! -f "$DATA/Applications/$1/INFO" ]]; then
@@ -24,6 +19,7 @@ elif [[ -d "$DATA/Applications/$1" ]]; then
 		source "$DATA/Applications/$1/INFO"
 		if [[ "$BUILTFOR" == "$SDK_COMPATIBILITY" ]] || [[ $(bootArgumentHas "ignore_sdk_compatibility") == 1 ]] || [[ "$BUILTFOR" == "all" ]]; then
 			chmod +x "$DATA/Applications/$1/runner"
+			export BundlePath="$DATA/Applications/$1"
 			if [[ "$ALLOCTHREAD" == "backgroundservice" ]]; then
 				"$DATA/Applications/$1/runner" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" &
 				echo "Background Service launched."

@@ -73,9 +73,9 @@ done <<< \"\$(echo \"$FRAMEWORKS\")\"
 echo "$RUNNERDATA" >> "$USERDATA/$1/build/runner"
 echo "Writing additional data..."
 if [[ "$2" == "--nosdkv" ]]; then
-	echo "export BUILTFOR=\"$SDK_COMPATIBILITY\"" >> "$USERDATA/$1/build/INFO"
-else
 	echo "export BUILTFOR=\"all\"" >> "$USERDATA/$1/build/INFO"
+else
+	echo "export BUILTFOR=\"$SDK_COMPATIBILITY\"" >> "$USERDATA/$1/build/INFO"
 fi
 echo "export BUILDER=\"$builderversion\"" >> "$USERDATA/$1/build/INFO"
 echo "Setting files runnable..."

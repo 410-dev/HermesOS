@@ -14,7 +14,7 @@ elif [[ -f "$USERDATA/$1" ]]; then
 	do
 		echo "$QuarantineData" | while read disabledCommand
 		do
-			if [[ $(echo "$fileLine") ==  "$disabledCommand "* ]]; then
+			if [[ $(echo "$fileLine") ==  "$disabledCommand "* ]] && [[ "$OS_ProSystemStatus" -ne "Pro System" ]]; then
 				echo "Execution disabled by sandbox."
 				cd "$DATA"
 				exit 9

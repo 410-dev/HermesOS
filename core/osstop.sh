@@ -1,7 +1,10 @@
 #!/bin/bash
 verbose "[${GREEN}*${C_DEFAULT}] Loading lists of backgroundworkers..."
 sys_log "OSStop" "Listing backgroundworkers..."
-ALIVE=$(ps -ax | grep "$CORE/extensions[/]")
+ALIVE="$(ps -ax | grep "$CORE/extensions[/]")
+$(ps -ax | grep "$SYSTEM/bin[/]")
+$(ps -ax | grep "$SYSTEM/sys[/]")
+"
 sys_log "OSStop" "Background workers: $ALIVE"
 verbose "[${GREEN}*${C_DEFAULT}] Killing syncronously..."
 sys_log "OSStop" "Killing all threads syncronously..."

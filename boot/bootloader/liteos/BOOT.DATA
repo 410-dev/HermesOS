@@ -29,6 +29,7 @@ function LITE_BOOT_SYSTEM() {
 	sys_log "boot" "Did not enter recovery."
 
 	while [[ $(bootArgumentHas "recovery") == 0 ]]; do
+		clear
 		sys_log "boot" "Starting Hermes..."
 		verbose "[${GREEN}*${C_DEFAULT}] Starting Hermes..."
 		if [[ -f "$CORE/loader" ]]; then
@@ -54,6 +55,11 @@ function LITE_BOOT_SYSTEM() {
 		if [[ "$?" == 0 ]]; then
 			sys_log "boot" "Shutdown signal received..."
 			break
+		fi
+		if [[ -f "$NVRAM/boot-arguments" ]]; then
+			export BOOTARGS="$(<"$NVRAM/boot-arguments")"
+		else
+			export BOOTARGS=""
 		fi
 	done
 }

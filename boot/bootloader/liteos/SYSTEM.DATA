@@ -13,9 +13,22 @@ function liteos_main() {
 		[[ "$commands" == "LITE_INSTALL" ]]; then
 			"$commands"
 		elif [[ "$commands" == "shutdown" ]]; then
-			rm -rf "$SYSCAC"
-			LITE_CLEAR
-			break
+			if [[ ! -f "$CORE/extensions/Profile.hmref" ]]; then
+				echo "It seems OS is not installed properly! Are you sure you want to shut down? Y/n"
+				echo -n "> "
+				read yn
+				if [[ "$yn" == "Y" ]] || [[ "$yn" == "y" ]]; then
+					rm -rf "$SYSCAC"
+					LITE_CLEAR
+					break
+				else
+					echo "Shutdown aborted."
+				fi
+			else
+				rm -rf "$SYSCAC"
+				LITE_CLEAR
+				break
+			fi
 		else
 			echo "Command not found."
 		fi

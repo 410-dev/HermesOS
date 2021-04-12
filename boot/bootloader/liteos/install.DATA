@@ -4,22 +4,21 @@ function LITE_INSTALL() {
 	if [[ -d "$SYSLOC/sysorig" ]]; then
 		echo "Using local package..."
 		echo "Installing..."
-		cp -r "$SYSLOC/sysorig/System" "$selectedDisk"
+		cp -r "$SYSLOC/sysorig/System" "$ROOTFS"
 	else
 		echo "System package not found."
 		echo "Downloading system packages..."
 		colorprint "${YELLOW}Package will be downloaded to current disk."
-		mkdir -p "$selectedDisk/recovery_dimg"
-		curl -Ls "https://github.com/410-dev/HermesOS/releases/download/13.0.1/image.zip" -o "$selectedDisk/recovery_dimg/image.zip"
+		if [[ -d "$SYSTEM" ]]; then
+			rm -rf "$SYSTEM"
+		fi
+		mkdir -p "$SYSTEM/recovery_dimg"
+		curl -Ls "https://github.com/410-dev/HermesOS/releases/download/14.0/image.zip" -o "$SYSTEM/recovery_dimg/image.zip"
 		if [[ $? -ne 0 ]]; then
-			echo "Failed downloading HermesOS 13.0.1 (Minimum compatible version)"
+			echo "Failed downloading/saving HermesOS 14.0."
 		else
-			echo "Installing HermesOS 13.0.1..."
-			if [[ -d "$selectedDisk/System" ]]; then
-				rm -rf "$selectedDisk/System"
-			fi
-			mkdir -p "$selectedDisk/System"
-			unzip -o -q "$selectedDisk/recovery_dimg/image.zip" -d "$selectedDisk/System"
+			echo "Installing HermesOS 14.0..."
+			unzip -o -q "$SYSTEM/recovery_dimg/image.zip" -d "$SYSTEM"
 		fi
 	fi
 	colorprint "${GREEN}Done."

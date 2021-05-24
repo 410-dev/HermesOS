@@ -68,6 +68,11 @@ elif [[ "$1" == "--info" ]]; then
 	echo "Lock State: $OS_UnlockedDistro"
 	echo "System Mode: $OS_ProSystemStatus"
 	echo "Language: $LANG_ID"
+	if [[ -f "$NVRAM/ignore_sdk_compatibility" ]] || [[ $(bootArgumentHas "ignore_sdk_compatibility") == 1 ]]; then
+		echo "SDK Version: $SDK_COMPATIBILITY (System-wide Ignored)"
+	else
+		echo "SDK Version: $SDK_COMPATIBILITY"
+	fi
 	echo "Copyright Statement: $OS_CopyrightStatement"
 	if [[ "$2" == "--detail" ]]; then
 		echo ""

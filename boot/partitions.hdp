@@ -18,6 +18,7 @@ export BOOTSECT="$SYSTEM/boot"
 
 export USERDATA="$DATA/User"
 export MULTIPLEX="$LIBRARY/config"
+export EBHOME="$OSSERVICES/Library/Developer/eBash"
 
 export NVRAM="$LIBRARY/nvram"
 export RECOVERY="$CACHE/recovery"

@@ -42,7 +42,7 @@ if [[ -d "$USERDATA/$1/build" ]]; then
 fi
 
 while read requiredFramework; do
-	if [[ ! -e "$LIBRARY/Developer/Frameworks/$requiredFramework.hfw" ]]; then
+	if [[ ! -e "$LIBRARY/Developer/hermesapi/Frameworks/$requiredFramework.hfw" ]]; then
 		echo "Build Failed: $requiredFramework - No such framework found."
 		exit
 	fi
@@ -51,9 +51,9 @@ done <<< "$(echo "$FRAMEWORKS")"
 mkdir -p "$USERDATA/$1/build"
 mkdir -p "$USERDATA/$1/build/frameworks"
 echo "$FRAMEWORKS" | while read requiredFramework; do
-	if [[ -f "$LIBRARY/Developer/Frameworks/$requiredFramework.hfw" ]]; then
+	if [[ -f "$LIBRARY/Developer/hermesapi/Frameworks/$requiredFramework.hfw" ]]; then
 		echo "Adding $requiredFramework to package..."
-		cp "$LIBRARY/Developer/Frameworks/$requiredFramework.hfw" "$USERDATA/$1/build/frameworks/"
+		cp "$LIBRARY/Developer/hermesapi/Frameworks/$requiredFramework.hfw" "$USERDATA/$1/build/frameworks/"
 	fi
 done
 

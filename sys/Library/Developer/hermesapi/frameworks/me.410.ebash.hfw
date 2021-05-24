@@ -1,0 +1,7 @@
+export ORIGH="$(pwd)"
+cd "$OSSERVICES/Library/Developer/eBash/base"
+while read DATAFILE
+do
+	source "${DATAFILE}"
+done <<< "$(ls -1 | grep ".ebbasesrc")"
+cd "$ORIGH"

@@ -14,10 +14,10 @@ function @IMPORT_ISA() {
 }
 
 function @IMPORT() {
-	if [[ -f "$OSSERVICES/Library/Developer/$1.iskit" ]]; then
-		source "$OSSERVICES/Library/Developer/$1.iskit"
-	elif [[ -f "$LIBRARY/Developer/$1.iskit" ]]; then
-		source "$LIBRARY/Developer/$1.iskit"
+	if [[ -f "$OSSERVICES/Library/Developer/hermesapi/$1.iskit" ]]; then
+		source "$OSSERVICES/Library/Developer/hermesapi/$1.iskit"
+	elif [[ -f "$LIBRARY/Developer/hermesapi/$1.iskit" ]]; then
+		source "$LIBRARY/Developer/hermesapi/$1.iskit"
 	else
 		echo "${ERROR}Unable to find specified instruction set."
 		exit 0
@@ -29,7 +29,7 @@ function ISA.version() {
 }
 
 function ISA.manual() {
-	export manuals="$OSSERVICES/Library/Developer/manuals"
+	export manuals="$OSSERVICES/Library/Developer/hermesapi/manuals"
 	cat "$manuals/ISA"
 	echo ""
 	echo ""

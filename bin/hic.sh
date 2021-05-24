@@ -6,7 +6,7 @@ if [[ "$HUID" -ne 0 ]]; then
 fi
 
 
-source "$OSSERVICES/Library/Developer/System.iskit"
+source "$OSSERVICES/Library/Developer/hermesapi/System.iskit"
 function internal_exec() {
 	cat "$1" | while read fileLine
 	do
@@ -51,10 +51,10 @@ if [[ -f "$NVRAM/enable_dev_option" ]] || [[ "$OS_UnlockedDistro" == "Unlocked" 
 				break
 			elif [[ ! -z "$(echo "$command" | grep "@IMPORT")" ]]; then
 				parse=($command)
-				if [[ -f "$OSSERVICES/Library/Developer/${parse[1]}.iskit" ]]; then
-					source "$OSSERVICES/Library/Developer/${parse[1]}.iskit"
-				elif [[ -f "$LIBRARY/Developer/${parse[1]}.iskit" ]]; then
-					source "$LIBRARY/Developer/${parse[1]}.iskit"
+				if [[ -f "$OSSERVICES/Library/Developer/hermesapi/${parse[1]}.iskit" ]]; then
+					source "$OSSERVICES/Library/Developer/hermesapi/${parse[1]}.iskit"
+				elif [[ -f "$LIBRARY/Developer/hermesapi/${parse[1]}.iskit" ]]; then
+					source "$LIBRARY/Developer/hermesapi/${parse[1]}.iskit"
 				else
 					echo "${ERROR}Unable to find specified instruction set."
 					exit 0

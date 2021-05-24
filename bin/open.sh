@@ -5,19 +5,14 @@ if [[ -z "$1" ]]; then
 	exit
 fi
 
-if [[ -f "$USERDATA/$1" ]]; then
-	sys_log "open" "User tried to install an application."
-	sys_log "open" "Warning: Installation via open command will be unsupported soon."
-	echo "Warning: Installation via open command will be unsupported soon."
-	"$SYSTEM/bin/packager" --install "$1"
-elif [[ -d "$DATA/Applications/$1" ]]; then
+if [[ -d "$DATA/Applications/$1" ]]; then
 	if [[ -f "$DATA/Applications/$1/runner" ]]; then
 		if [[ ! -f "$DATA/Applications/$1/INFO" ]]; then
 			echo "Unable to execute application: INFO is missing."
 			exit
 		fi
 		source "$DATA/Applications/$1/INFO"
-		if [[ "$BUILTFOR" == "$SDK_COMPATIBILITY" ]] || [[ $(bootArgumentHas "ignore_sdk_compatibility") == 1 ]] || [[ "$BUILTFOR" == "all" ]]; then
+		if [[ "$BUILTFOR" == "$SDK_COMPATIBILITY" ]] || [[ -f "$NVRAM/ignore_sdk_compatibility" ]] || [[ $(bootArgumentHas "ignore_sdk_compatibility") == 1 ]] || [[ "$BUILTFOR" == "all" ]]; then
 			chmod +x "$DATA/Applications/$1/runner"
 			export BundlePath="$DATA/Applications/$1"
 			if [[ "$ALLOCTHREAD" == "backgroundservice" ]]; then

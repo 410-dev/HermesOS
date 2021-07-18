@@ -1,0 +1,32 @@
+#!/bin/bash
+function LITE_START() {
+	clear
+	sys_log "LiteOS II" "Entered menu."
+	sc_out "LiteOS II Menu"
+	sc_out "==================="
+	sc_out "1. Start HermesOS"
+	sc_out "2. Start Legacy HermesOS (15.0)"
+	sc_out "3. Custom boot arguments"
+	sc_out_nlb "> "
+	read in
+	if [[ "$in" == "1" ]]; then
+		sys_log "LiteOS" "Option 1 selected - Starting HermesOS..."
+		sc_out "Starting HermesOS..."
+		LITE_BOOT_SYSTEM
+	elif [[ "$in" == "2" ]]; then
+		clear
+		sys_log "LiteOS" "Option 2 selected - Starting Legacy HermesOS..."
+		sc_out "Starting Legacy HermesOS..."
+		LITE_BOOT_SYSTEM_LEGACY
+	elif [[ "$in" == "3" ]]; then
+		sc_out_nlb "Boot argument > "
+		read BOOTARGS
+		LITE_BOOT_SYSTEM
+	else
+		sys_log "LiteOS" "Invalid option: $in - Continuing to default setting..."
+		sc_out "Invalid option. Continuing to default setting..."
+		LITE_BOOT_SYSTEM
+	fi
+}
+
+export -f LITE_START

@@ -1,0 +1,19 @@
+#!/bin/bash
+cd "$SYSLIB/Drivers"
+mkdir -p "$CACHE/Drivers"
+while read driver
+do
+	sys_log "DriversPrep" "Copying kernel hardware extension: $driver"
+	verbose "[${GREEN}*${C_DEFAULT}] Copying kernel hardware extension: $driver"
+	cp -r "./$driver" "$CACHE/Drivers"
+	sys_log "DriversPrep" "Finished copying kernel hardware extension: $driver"
+done <<< "$(ls -p | grep -v / | grep ".hext")"
+
+cd "$LIBRARY/Extensions"
+while read driver
+do
+	sys_log "DriversPrep" "Copying 3rd party hardware extension: $driver"
+	verbose "[${GREEN}*${C_DEFAULT}] Copying 3rd party hardware extension: $driver"
+	cp -r "./$driver" "$CACHE/Drivers"
+	sys_log "DriversPrep" "Finished copying 3rd party hardware extension: $driver"
+done <<< "$(ls -p | grep -v / | grep ".hext")"

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# 3 - Strongest (Check permission and disk access in driver level)
+# 2 - Intermediate (Check permission only)
+# 1 - Open (Never checks permission nor disk access)
+
+export CONF_XGUARD_POLICY="3"

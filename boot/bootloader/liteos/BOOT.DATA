@@ -1,0 +1,70 @@
+#!/bin/bash
+function LITE_BOOT_SYSTEM() {
+	LITE_CLEAR
+	sys_log "lite_boot" "System start up."
+	
+	if [[ -f "$BOOTSECT/oemconf" ]]; then
+		sys_log "lite_boot" "OEM Configuration found."
+		chmod +x "$BOOTSECT/oemconf"
+		source "$BOOTSECT/oemconf"
+		sys_log "lite_boot" "Loaded OEM Configuration."
+	fi
+
+	if [[ -f "$BOOTREFUSE" ]]; then
+		sys_log "lite_boot" "Last boot was not successful."
+		export LAST_BOOT_UNSUCCESSFUL="1"
+		rm -f "$BOOTREFUSE"
+	fi
+
+	export BOOTARGS="${BOOTARGS} $1 $2 $3 $4 $5 $6 $7 $8 $9"
+	if [[ -f "$LIBRARY/boot-arguments" ]]; then
+		export BOOTARGS="$BOOTARGS $(<"$LIBRARY/boot-arguments")"
+	fi
+	sys_log "lite_boot" "Boot arguments: $BOOTARGS"
+	
+	# Add recovery here if prepared
+
+	while [[ $(bootArgumentHas "recovery") == 0 ]]; do
+		clear
+		sys_log "lite_boot" "Starting Hermes..."
+		verbose "[${GREEN}*${C_DEFAULT}] Starting Hermes..."
+		if [[ -f "$CORE/loader" ]]; then
+			sys_log "lite_boot" "Reading loader..."
+			source "$CORE/loader"
+			export endcode=$?
+			if [[ -f "$BOOTREFUSE" ]]; then
+				sys_log "lite_boot" "Boot refused."
+				sc_out "[${RED}-${C_DEFAULT}] Ending System."
+				leaveSystem
+			elif [[ $endcode -ne 0 ]]; then
+				sys_log "lite_boot" "System exception: ${endcode}"
+				error "${RED}Core.osstart terminated with unexpected return code: ${endcode}${C_DEFAULT}"
+				exit 0
+			fi
+		else
+			sys_log "lite_boot" "Unable to load core."
+			error "${RED}Unable to load core. Aborting boot procedure.${C_DEFAULT}"
+			exit 0
+		fi
+		sys_log "lite_boot" "Starting UI..."
+		"$CORE/uistart"
+		if [[ "$?" == 0 ]]; then
+			sys_log "liteos" "Shutdown signal received..."
+			break
+		fi
+		if [[ -f "$LIBRARY/boot-arguments" ]]; then
+			export BOOTARGS="$(<"$NVRAM/boot-arguments")"
+		else
+			export BOOTARGS=""
+		fi
+	done
+}
+
+function LITE_BOOT_SYSTEM_LEGACY() {
+	LITE_CLEAR
+	
+}
+
+
+export -f LITE_BOOT_SYSTEM
+export -f LITE_BOOT_SYSTEM_LEGACY

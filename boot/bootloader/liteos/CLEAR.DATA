@@ -1,0 +1,9 @@
+#!/bin/bash
+function LITE_CLEAR() {
+	unset OSSTART
+	unset LITE_START
+	unset LITE_BOOT_SYSTEM
+	unset LITE_CLEAR
+}
+
+export -f LITE_CLEAR

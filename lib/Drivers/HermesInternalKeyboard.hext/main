@@ -1,0 +1,13 @@
+#!/bin/bash
+function key_in() {
+	read input
+	echo "$input"
+}
+
+function key_in_secure() {
+	read -s input
+	echo "$input"
+}
+
+export -f key_in
+export -f key_in_secure

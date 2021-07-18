@@ -1,0 +1,9 @@
+#!/bin/bash
+cd "$LIBRARY/Configurations"
+while read conf
+do
+	sys_log "Configurations" "Loading configuration data: $conf"
+	verbose "[${GREEN}*${C_DEFAULT}] Loading configuration data: $conf"
+	source "$LIBRARY/Configurations/$conf"
+	sys_log "Configurations" "Finished loading configuration data: $conf"
+done <<< "$(ls -p | grep -v / | grep ".hconf")"

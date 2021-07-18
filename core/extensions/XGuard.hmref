@@ -1,0 +1,4 @@
+#!/bin/bash
+export XGuardLibPath="$SYSLIB/XGuard"
+export XGuardReqPath="$CACHE/xgrequest"
+export XGuardOutPath="$CACHE/xgresponse"

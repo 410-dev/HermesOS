@@ -1,0 +1,9 @@
+export DISK_NUMBER="1" # Disk 0 is always ROM
+export DISK_MANU="Hermes"
+export DISK_NAME="Generic Storage Device"
+export DISK_SIZE="64"
+export DISK_UNIT="MB"
+export DISK_TYPE="Solid State"
+export DISK_DFLT_MODE="Read Write"
+export DISK_CTL="$OSSERVICES/Default/GenericExtensions/diskctl"
+export DISK_LOC="$ROOTFS"

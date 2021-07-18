@@ -1,0 +1,11 @@
+#!/bin/bash
+function sc_out() {
+	echo -e "$1"
+}
+
+function sc_out_nlb() {
+	echo -ne "$1"
+}
+
+export -f sc_out
+export -f sc_out_nlb

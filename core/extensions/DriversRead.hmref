@@ -1,0 +1,9 @@
+#!/bin/bash
+cd "$CACHE"
+while read driver
+do
+	sys_log "DriversLoader" "Loading hardware driver extension: $driver"
+	verbose "[${GREEN}*${C_DEFAULT}] Loading hardware driver extension: $driver"
+	source "./$driver/main"
+	sys_log "DriversLoader" "Finished loading hardware driver extension: $driver"
+done <<< "$(ls -p | grep -v / | grep ".hext")"

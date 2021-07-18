@@ -1,0 +1,32 @@
+#!/bin/bash
+
+function f_out() {
+	echo "$2" > "$1"
+}
+
+function f_append() {
+	echo "$2" >> "$1"
+}
+
+function f_in() {
+	cat "$1"
+}
+
+function d_out() {
+	mkdir -p "$1"
+}
+
+function d_in() {
+	ls -1 "$1"
+}
+
+function d_del() {
+	rm -rf "$1"
+}
+
+export -f f_in
+export -f f_out
+export -f f_append
+export -f d_in
+export -f d_out
+export -f d_del

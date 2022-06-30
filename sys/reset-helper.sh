@@ -29,6 +29,14 @@ if [[ "$ACTION" == "restore" ]]; then
 	rm -rf "$LIBRARY"/* "$DATA"/*
 	mkdir -p "$LIBRARY" "$DATA"
 fi
+if [[ -f "$SYSTEM/Boot/x64" ]]; then
+	echo -e "[${GREEN}*${C_DEFAULT}] Adopting bootloader..."
+	mkdir -p "$SYSTEM/boot"
+	cp "$SYSTEM/Boot/x64" "$SYSTEM/boot/init" 2>/dev/null
+	cp "$SYSTEM/Boot/Partitions" "$SYSTEM/boot/Partitions" 2>/dev/null
+fi
+
+
 echo "[*] Done."
 mkdir -p "$CACHE"
 touch "$CACHE/updated"

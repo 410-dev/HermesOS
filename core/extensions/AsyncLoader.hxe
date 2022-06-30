@@ -1,5 +1,5 @@
 #!/bin/bash
-cd "$CORE/extensions/async"
+cd "$CORE/extensions/async" 2>/dev/null
 while read defname
 do
 	if [[ -f "$CORE/extensions/async/$defname" ]]; then

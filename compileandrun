@@ -64,6 +64,8 @@ do
 done
 find "$pth" -name *.hxe.x.c -depth -exec rm {} \;
 
+find "$pth" -name *.sh.x -depth -exec rm {} \;
+
 cd "$pth"
 
 if [[ "$1" == "norun" ]]; then

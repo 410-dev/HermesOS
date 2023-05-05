@@ -14,7 +14,7 @@ rm -rf "$PWD/System/compileandrun"
 echo "Sync done."
 
 # .sh
-LIST=$(find "$pth" -name *.sh -depth)
+LIST=$(find "$pth" -name *.sh)
 echo "$LIST" | while read line
 do
 	cd "$(dirname "$line")"
@@ -24,12 +24,12 @@ do
 	name=$(echo "$line" | cut -f 1 -d '.')
 	mv "$name.sh" "$name" 2>/dev/null
 done
-find "$pth" -name *.sh.x.c -depth -exec rm {} \;
+find "$pth" -name *.sh.x.c -exec rm {} \;
 
 
 
 # .framework
-LIST=$(find "$pth" -name *.sh -depth)
+LIST=$(find "$pth" -name *.sh)
 echo "$LIST" | while read line
 do
 	name=$(echo "$line" | cut -f 1 -d '.')
@@ -40,7 +40,7 @@ done
 
 
 # .init
-LIST=$(find "$pth" -name *.sh -depth)
+LIST=$(find "$pth" -name *.sh)
 echo "$LIST" | while read line
 do
 	name=$(echo "$line" | cut -f 1 -d '.')
@@ -51,7 +51,7 @@ done
 
 
 # .hxe
-LIST=$(find "$pth" -name *.hxe -depth)
+LIST=$(find "$pth" -name *.hxe)
 echo "$LIST" | while read line
 do
 	cd "$(dirname "$line")"
@@ -61,9 +61,9 @@ do
 	name=$(echo "$line" | cut -f 1 -d '.')
 	mv "$name.sh" "$name" 2>/dev/null
 done
-find "$pth" -name *.hxe.x.c -depth -exec rm {} \;
+find "$pth" -name *.hxe.x.c -exec rm {} \;
 
-find "$pth" -name *.sh.x -depth -exec rm {} \;
+find "$pth" -name *.sh.x -exec rm {} \;
 
 cd "$pth"
 

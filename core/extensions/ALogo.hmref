@@ -1,3 +1,4 @@
 #!/bin/bash
 sys_log "logo" "Showing startup screen..."
 "$OSSERVICES/Library/Services/Startup/logo/execute"
+sleep 1

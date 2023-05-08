@@ -1,6 +1,6 @@
 #!/bin/bash
-verbose "[${GREEN}*${C_DEFAULT}] Starting non-graphical setup..."
-sys_log "Setup" "Graphical setup started."
+verbose "[${GREEN}*${C_DEFAULT}] Starting setup..."
+sys_log "Setup" "Setup started."
 ls -1 "$OSSERVICES/Default/Languages"
 while [[ true ]]; do
 	echo ""

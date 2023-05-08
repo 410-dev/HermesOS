@@ -1,6 +1,6 @@
 #!/bin/bash
-export OS_Version="15.11"
-export OS_Version_Major="15"
+export OS_Version="16.0"
+export OS_Version_Major="16"
 export OS_Version_Minor="11"
 export OS_Build="1204"
 export OS_Name="HermesOS"

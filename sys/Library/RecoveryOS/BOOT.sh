@@ -5,7 +5,7 @@
 
 # EDIT THE VALUES HERE
 export SYSNAME="Hermes Recovery"
-export SYSVERS="15.0"
+export SYSVERS="16.0"
 export SYSEXEC="SYSTEM"
 
 # DO NOT EDIT FROM HERE

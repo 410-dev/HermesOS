@@ -1,5 +1,5 @@
 #!/bin/bash
-sys_log "Login" "Non-graphical login started."
+sys_log "Login" "Login started."
 if [[ "$(mplxr USER/SECURITY/PASSCODE)" == "nothing" ]] || [[ "$(mplxr USER/SECURITY/PASSCODE_PRESENT)" == "0" ]]; then
 	verbose "[${GREEN}*${C_DEFAULT}] Login successful."
 	sys_log "Login" "Password is not present."

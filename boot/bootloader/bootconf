@@ -18,7 +18,8 @@ function OSSTART() {
 		verbose "Firmware information is detected."
 		if [[ $(bootArgumentHas "no-firm-support") == "1" ]]; then
 			verbose "Firmware support is disabled."
-			unset FIRMWARE_INFO
+			unset -f FIRMWARE_INFO 2>/dev/null
+			unset -f FIRMWARE 2>/dev/null
 		else
 			verbose "Firmware support is enabled."
 			verbose "Firmware version: $(FIRMWARE_INFO version)"

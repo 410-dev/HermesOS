@@ -1,17 +1,68 @@
 #!/bin/bash
 function LITE_EXTERN_BOOT() {
-	echo -n ""
+	read -p "Enter the path of the mount point: " path
+	if [[ -z "$path" ]]; then
+		sys_log "LiteOS" "Invalid path - Exiting..."
+		echo "Invalid path. Exiting..."
+		exit 1
+	fi
+
+	if [[ ! -d "$path" ]]; then
+		sys_log "LiteOS" "Path is not a directory - Exiting..."
+		echo "Path is not a directory. Exiting..."
+		exit 1
+	fi
+
+	sys_log "LiteOS" "Updating startup map..."
+	echo "Updating startup map..."
+
+	export ROOTFS="$path"
+	ORIGSYS="$SYSTEM"
+
+	# Any of these files can be used to determine the system location.
+	# /System/boot/partitions.hdp
+	# /System/partitions.hdp
+	# /partitions.hdp
+	# /boot/partitions.hdp
+	if [[ -f "$path/System/boot/partitions.hdp" ]]; then
+		source "$path/System/boot/partitions.hdp"
+	elif [[ -f "$path/System/partitions.hdp" ]]; then
+		source "$path/System/partitions.hdp"
+	elif [[ -f "$path/partitions.hdp" ]]; then
+		source "$path/partitions.hdp"
+	elif [[ -f "$path/boot/partitions.hdp" ]]; then
+		source "$path/boot/partitions.hdp"
+	else
+		sys_log "LiteOS" "Invalid system - Exiting..."
+		echo "Invalid system. Exiting..."
+		exit 1
+	fi
+
+	sys_log "LiteOS" "Startup map is updated."
+	echo "Startup map is updated."
+
+	sys_log "LiteOS" "Updated system location: $ORIGSYS -> $SYSTEM"
+	echo "Updated system location: $ORIGSYS -> $SYSTEM"
+	unset ORIGSYS
+
+	sys_log "LiteOS" "Reloading LiteOS data..."
+	echo "Reloading LiteOS data..."
+
+	source "$SYSTEM/boot/bootloader/bootconf"
+	OSSTART "$@"
+	
 }
 
 function LITE_START() {
-	clear
 	sys_log "LiteOS" "Entered menu."
+	echo ""
+	echo ""
 	echo "LiteOS Menu"
 	echo "==================="
 	echo "1. Enter HermesOS"
 	echo "2. Enter LiteOS"
 	echo "3. Start from external system"
-	echo "4. Start without firmware support (Unsafe)"
+	echo "4. Start without firmware support"
 	echo "5. Enter Safe Mode"
 	echo "6. Custom boot arguments"
 	echo -n "> "
@@ -28,7 +79,7 @@ function LITE_START() {
 	elif [[ "$in" == "3" ]]; then
 		sys_log "LiteOS" "Option 3 selected - Starting system from external device..."
 		sys_log "LiteOS" "Warning: System log may not present during this stage!"
-		LITE_EXTERN_BOOT
+		LITE_EXTERN_BOOT "$@"
 		sys_log "LiteOS" "Process from external device is done."
 	elif [[ "$in" == "4" ]]; then
 		export BOOTARGS="no-firm-support"

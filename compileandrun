@@ -1,76 +1,40 @@
 #!/bin/bash
 
+# 프로젝트 루트 디렉토리로 이동
 cd "$(dirname "$0")/../"
-pth="$PWD/System"
 
-echo "Sync start."
-rm -rf "$PWD/System"
-cp -r "$PWD/Source" "$PWD/System"
-rm -rf "$PWD/System/.git"
-rm -rf "$PWD/System/.gitattributes"
-rm -rf "$PWD/System/.gitignore"
-rm -rf "$PWD/System/README.md"
-rm -rf "$PWD/System/compileandrun"
-echo "Sync done."
-
-# .sh
-LIST=$(find "$pth" -name *.sh)
-echo "$LIST" | while read line
-do
-	cd "$(dirname "$line")"
-	echo "PROCESSING: $line"
-	shc -r -f "$line" 2>/dev/null
-	gcc "$line.x.c" -o "$line"
-	name=$(echo "$line" | cut -f 1 -d '.')
-	mv "$name.sh" "$name" 2>/dev/null
-done
-find "$pth" -name *.sh.x.c -exec rm {} \;
+# Source 폴더에서 System 폴더로 파일 복사 후 불필요한 파일 삭제
+rm -rf "System"
+cp -r "Source" "System"
+rm -rf "System/.git" "System/.gitattributes" "System/.gitignore" "System/README.md" "System/compileandrun"
 
 
+# .sh, .hxe 확장자를 가진 파일 처리
+for ext in sh hxe; do
+    # 해당 확장자를 가진 파일 검색
+    LIST=$(find "System" -name "*.$ext")
 
-# .framework
-LIST=$(find "$pth" -name *.sh)
-echo "$LIST" | while read line
-do
-	name=$(echo "$line" | cut -f 1 -d '.')
-	chmod +x "$name.framework/exec.sh" 2>/dev/null
-	mv "$name.framework/exec.sh" "$name.framework/exec" 2>/dev/null
+    # 검색된 파일 이름에서 확장자 제거 후 실행 권한 부여 및 이름 변경
+    echo "$LIST" | while read line; do
+		chmod +x "$line"
+		if [[ "$ext" == "sh" ]]; then	
+			mv "$line" "$(echo "$line" | cut -f 1 -d '.')"
+		fi
+		
+    done
 done
 
+# .framework와 .init에서 exec.sh 파일 이름 변경
+find "System" -path "*/.framework/exec.sh" -exec sh -c 'chmod +x "$0" && mv "$0" "$(dirname "$0")/exec"' {} \;
+find "System" -path "*/.init/exec.sh" -exec sh -c 'chmod +x "$0" && mv "$0" "$(dirname "$0")/exec"' {} \;
 
 
-# .init
-LIST=$(find "$pth" -name *.sh)
-echo "$LIST" | while read line
-do
-	name=$(echo "$line" | cut -f 1 -d '.')
-	chmod +x "$name.init/exec.sh" 2>/dev/null
-	mv "$name.init/exec.sh" "$name.init/exec" 2>/dev/null
-done
-
-
-
-# .hxe
-LIST=$(find "$pth" -name *.hxe)
-echo "$LIST" | while read line
-do
-	cd "$(dirname "$line")"
-	echo "PROCESSING: $line"
-	shc -r -f "$line" 2>/dev/null
-	gcc "$line.x.c" -o "$line"
-	name=$(echo "$line" | cut -f 1 -d '.')
-	mv "$name.sh" "$name" 2>/dev/null
-done
-find "$pth" -name *.hxe.x.c -exec rm {} \;
-
-find "$pth" -name *.sh.x -exec rm {} \;
-
-cd "$pth"
-
+# 실행 인수에 따라 스크립트 종료 또는 실행 파일 실행
 if [[ "$1" == "norun" ]]; then
-	exit 0
+    exit 0
 elif [[ "$1" == "pkg" ]]; then
-	zip -rq "image.zip" . -x ".*" -x "__MACOSX"
-	exit 0
+    zip -rq "image.zip" "System" -x ".*" -x "__MACOSX"
+    exit 0
+else
+    "$PWD/System/boot/init" "$@"
 fi
-"$PWD/boot/init" "$1" "$2" "$3" "$4" "$5" "$6"

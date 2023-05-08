@@ -3,12 +3,12 @@
 if [[ -z "$(FIRMWARE_INFO 2>/dev/null)" ]] || [[ $(bootArgumentHas "no-firm-support") == "1" ]]; then
 	function FIRMWARE_INFO() {
 		if [[ "$1" == "version" ]]; then
-			echo "1.0Emu"
+			echo "None"
 		elif [[ "$1" == "manufacture" ]]; then
-			echo "410"
+			echo "None"
 		else
-			echo "Version: 1.0Emu"
-			echo "Manufacture: 410"
+			echo "Version: None"
+			echo "Manufacture: None"
 		fi
 	}
 

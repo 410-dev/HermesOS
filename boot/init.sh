@@ -5,3 +5,4 @@ source "$(dirname "$0")/internal_func"
 source "$(dirname "$0")/bootloader/bootconf"
 OSSTART "$@"
 leaveSystem
+exit 0

@@ -93,9 +93,9 @@ elif [[ "$1" == "--info" ]]; then
 		echo "Firmware Version: $(FIRMWARE_INFO version)"
 		echo "Firmware Manufacturer: $(FIRMWARE_INFO manufacture)"
 		if [[ ! -z "$(LITE_HELP)" ]]; then
-			echo "LiteOS Activity: Enabled"
+			echo "LiteOS Support: Enabled"
 		else
-			echo "LiteOS Activity: Disabled"
+			echo "LiteOS Support: Disabled"
 		fi
 	fi
 elif [[ "$1" == "--nvram-reset" ]]; then

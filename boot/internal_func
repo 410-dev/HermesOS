@@ -25,7 +25,9 @@ function leaveSystem() {
 	if [[ $(bootArgumentHas "no-cache-reset") == 0 ]]; then
 		rm -rf "$CACHE" 2>/dev/null
 	fi
-	exit 0
+	trap - INT
+	unset -f sysreset 2>/dev/null
+	return 0
 }
 
 function error() {
@@ -41,6 +43,7 @@ function error() {
 	else
 		sys_log "ErrorHandler" "LiteOS is not uploaded in memory. Leaving system..."
 		leaveSystem
+		exit 0
 	fi
 }
 

@@ -18,7 +18,20 @@ function OSSTART() {
 		verbose "Firmware information is detected."
 		if [[ $(bootArgumentHas "no-firm-support") == "1" ]]; then
 			verbose "Firmware support is disabled."
-			unset -f FIRMWARE_INFO 2>/dev/null
+
+			if [[ "$(FIRMWARE_INFO unload)" == "1" ]]; then
+				if [[ "$(FIRMWARE unload)" == "0" ]]; then
+					verbose "Firmware is unloaded using provided function."
+				else
+					verbose "Failed to unload firmware. Using default method."
+					unset -f FIRMWARE_INFO 2>/dev/null
+					unset -f sysreset 2>/dev/null
+				fi
+			else
+				verbose "Firmware does not support self-unloading. Using default method."
+				unset -f FIRMWARE_INFO 2>/dev/null
+				unset -f sysreset 2>/dev/null
+			fi
 			unset -f FIRMWARE 2>/dev/null
 		else
 			verbose "Firmware support is enabled."

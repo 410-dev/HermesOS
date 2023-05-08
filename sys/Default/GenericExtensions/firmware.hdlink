@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ -z "$(FIRMWARE_INFO 2>/dev/null)" ]] && [[ $(bootArgumentHas "no-firm-support") == "0" ]]; then
+if [[ -z "$(FIRMWARE_INFO 2>/dev/null)" ]] || [[ $(bootArgumentHas "no-firm-support") == "1" ]]; then
 	function FIRMWARE_INFO() {
 		if [[ "$1" == "version" ]]; then
 			echo "1.0Emu"

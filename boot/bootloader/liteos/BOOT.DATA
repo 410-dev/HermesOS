@@ -40,6 +40,7 @@ function LITE_BOOT_SYSTEM() {
 				sys_log "boot" "Boot refused."
 				echo -e "[${RED}-${C_DEFAULT}] Ending System."
 				leaveSystem
+				exit 0
 			elif [[ $endcode -ne 0 ]]; then
 				sys_log "boot" "System exception: ${endcode}"
 				error "${RED}Core.osstart terminated with unexpected return code: ${endcode}${C_DEFAULT}"

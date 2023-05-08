@@ -8,9 +8,6 @@ function OSSTART() {
 
 	verbose "Loading $SYSNAME: $SYSNAME $SYSVERS"
 	cd "$SYSLOC"
-
-	
-
 	while read DATAFILE
 	do
 		source "$SYSLOC/$DATAFILE"

@@ -4,11 +4,11 @@ if [[ -z "$(FIRMWARE_INFO 2>/dev/null)" ]] || [[ $(bootArgumentHas "no-firm-supp
 	function FIRMWARE_INFO() {
 		if [[ "$1" == "version" ]]; then
 			echo "None"
-		elif [[ "$1" == "manufacture" ]]; then
+		elif [[ "$1" == "vendor" ]]; then
 			echo "None"
 		else
 			echo "Version: None"
-			echo "Manufacture: None"
+			echo "Vendor: None"
 		fi
 	}
 

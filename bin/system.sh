@@ -63,7 +63,7 @@ elif [[ "$1" == "--info" ]]; then
 	echo "OS Name: $OS_Name"
 	echo "Version: $OS_Version (build $OS_Build)"
 	echo "Kernel: $CoreName - $CoreVersion"
-	echo "Manufacturer: $OS_Manufacture"
+	echo "Vendor: $OS_Vendor"
 	echo "Interface Version: $OS_InterfaceVersion"
 	echo "Lock State: $OS_UnlockedDistro"
 	echo "System Mode: $OS_ProSystemStatus"
@@ -91,7 +91,7 @@ elif [[ "$1" == "--info" ]]; then
 			echo "Firmware Support: Enabled"
 		fi
 		echo "Firmware Version: $(FIRMWARE_INFO version)"
-		echo "Firmware Manufacturer: $(FIRMWARE_INFO manufacture)"
+		echo "Firmware Vendor: $(FIRMWARE_INFO vendor)"
 		if [[ ! -z "$(LITE_HELP)" ]]; then
 			echo "LiteOS Support: Enabled"
 		else

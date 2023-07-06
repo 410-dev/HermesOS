@@ -16,8 +16,8 @@ sys_log "interface" "Running preload..."
 "$OSSERVICES/Utility/preload"
 sys_log "interface" "Logged in."
 sys_log "interface" "Getting registry data..."
-export USERN=$(mplxr "USER/user_name")
-export MACHN=$(mplxr "SYSTEM/machine_name")
+export USERN=$(mplxr "USER/UserName")
+export MACHN=$(mplxr "MACHINE/MachineName")
 if [[ -z "$USERN" ]]; then
 	export USERN="root"
 fi
@@ -26,25 +26,10 @@ if [[ -z "$MACHN" ]]; then
 fi
 cd "$ROOTFS"
 
-while [[ true ]]; do
-	sys_log "interface" "Setting default permission value..."
-	declare -i HUID
-	if [[ "$OS_UnlockedDistro" == "Unlocked" ]]; then
-		export HUID="0"
-		sys_log "interface" "System is unlocked. Setting permission value to 0."
-	else
-		export HUID="1"
-		sys_log "interface" "System is locked. Setting permission value to 1."
-	fi
 
-	if [[ -f "$CACHE/alert" ]] ; then
-		sys_log "interface" "Alert present: $(cat "$CACHE/alert")"
-		cat "$CACHE/alert"
-		rm "$CACHE/alert"
-	fi
-	echo -en "${GREEN}${USERN}${C_DEFAULT}@${BLUE}${MACHN}${C_DEFAULT} ~ # "
-	read command
-	sys_log "interface" "Recieved input: $command"
+function execCommand() {
+	command="$1"
+	sys_log "interface" "Received input: $command"
 	export args=($command)
 	echo "${args[0]}" > "$CACHE/process"
 	if [[ "${args[0]}" == "../"* ]]; then
@@ -66,7 +51,7 @@ while [[ true ]]; do
 		diagnostics
 	elif [[ -z "$command" ]]; then
 		echo -n ""
-	elif [[ "$(mplxr USER/INTERFACE/DEVELOPER_OPTION)" == "1" ]]; then
+	elif [[ "$(mplxr USER/Shell/DeveloperOptions)" == "1" ]]; then
 		export lastExecutedCommand="$command"
 		echo "${args[0]}" > "$CACHE/process"
 		if [[ -f "$OSSERVICES/Library/Developer/bin/${args[0]}" ]]; then
@@ -78,13 +63,13 @@ while [[ true ]]; do
 		echo "${COMMAND_NOT_FOUND}${args[0]}"
 	fi
 	if [[ -f "$CACHE/stdown" ]]; then
-		sys_log "interface" "Shutdown signal recieved."
+		sys_log "interface" "Shutdown signal received."
 		sys_log "interface" "Flushing cache data..."
 		verbose "$FLUSHING_CACHE_DATA"
 		rm -rf "$CACHE"
 		exit 0
 	elif [[ -f "$CACHE/rboot" ]]; then
-		sys_log "interface" "Reboot signal recieved."
+		sys_log "interface" "Reboot signal received."
 		sys_log "interface" "Flushing cache data..."
 		verbose "$FLUSHING_CACHE_DATA"
 		rm -rf "$CACHE"
@@ -97,5 +82,87 @@ while [[ true ]]; do
 		sys_log "interface" "Reloading memory links..."
 		echo "$RELOAD_WARNING"
 		loadDefinition
+	fi
+}
+
+export AutoRunComplete=0
+
+while [[ true ]]; do
+	sys_log "interface" "Setting default permission value..."
+	declare -i HUID
+	if [[ "$OS_UnlockedDistro" == "Unlocked" ]]; then
+		export HUID="0"
+		sys_log "interface" "System is unlocked. Setting permission value to 0."
+	else
+		export HUID="1"
+		sys_log "interface" "System is locked. Setting permission value to 1."
+	fi
+
+	if [[ -f "$CACHE/alert" ]] ; then
+		sys_log "interface" "Alert present: $(cat "$CACHE/alert")"
+		cat "$CACHE/alert"
+		rm "$CACHE/alert"
+	fi
+	export OUTPUT_STYLE="$(mplxr USER/Shell/LineStyle)"
+	if [[ "$OUTPUT_STYLE" == "null" ]]; then
+		export OUTPUT_STYLE="${GREEN}${USERN}${C_DEFAULT}@${BLUE}${MACHN}${C_DEFAULT} ~ # "
+	fi
+	if [[ "$OUTPUT_STYLE" == "default" ]]; then
+		export OUTPUT_STYLE="${GREEN}${USERN}${C_DEFAULT}@${BLUE}${MACHN}${C_DEFAULT} ~ # "
+		mplxw "USER/Shell/LineStyle" "$OUTPUT_STYLE"
+	fi
+	echo -en "$OUTPUT_STYLE"
+	if [[ "$AutoRunComplete" == "0" ]]; then
+		export AutoRunList="$(mplxr USER/Shell/AutoRun)"
+		export AutoRunEnabled="$(mplxr USER/Shell/AutoRunEnabled)"
+
+		if [[ "$AutoRunEnabled" == "1" ]]; then
+			sys_log "interface" "AutoRun enabled. Running AutoRun list..."
+
+			if [[ "$(mplxr USER/Shell/EnableAutoRunFromRegistries)" == "0" ]]; then
+				sys_log "interface" "AutoRun from registries disabled by registry value. Skipping AutoRun list..."
+			else
+				sys_log "interface" "AutoRun list from registry: $AutoRunList"	
+				IFS_ORIG=$IFS
+				IFS=";"
+				read -ra substrings <<< "$AutoRunList"
+				IFS=$IFS_ORIG
+				for substring in "${substrings[@]}"; do
+					trimmed_substring=$(echo "$substring" | sed 's/^[[:space:]]*//')
+					if [ -z "$trimmed_substring" ]; then
+						continue
+					fi
+					sys_log "interface" "AutoRun command: $trimmed_substring"
+					execCommand "$trimmed_substring"
+				done
+			fi
+
+			if [[ "$(mplxr USER/Shell/EnableAutoRunFromFile)" -ne "0" ]]; then
+				sys_log "interface" "AutoRun from filesystem disabled by registry value. Skipping AutoRun list..."
+			else
+				sys_log "interface" "AutoRun list from filesystem: $ROOTFS/AUTORUN"
+				if [[ -f "$ROOTFS/AUTORUN" ]]; then
+					sys_log "interface" "AutoRun list found. Running AutoRun list..."
+					sys_log "interface" "AutoRun list: $(cat "$ROOTFS/AUTORUN")"
+					while read command
+					do
+						execCommand "$command"
+					done <<< "$(cat "$ROOTFS/AUTORUN")"
+				else
+					sys_log "interface" "AutoRun list not found."
+				fi
+			fi
+		else
+			sys_log "interface" "AutoRun disabled. Skipping AutoRun list..."
+		fi
+		export AutoRunComplete=1
+	fi
+
+	if [[ "$(mplxr USER/Shell/HaltAfterAutoRun)" == "1" ]]; then
+		sys_log "interface" "HaltAfterAutoRun is enabled. Sending shutdown signal..."
+		execCommand "shutdown"
+	else
+		read command
+		execCommand "$command"
 	fi
 done

@@ -1,6 +1,0 @@
-tcopy - Temporary Storage
-
-Copies file or text to temporary storage
-
-Usage: tcopy [to copy text]
-Example: tcopy "Hello World!"

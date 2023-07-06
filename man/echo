@@ -1,0 +1,8 @@
+echo - Print a string to the shell
+
+Description: 
+Prints a string to the shell
+
+Usage: echo [string]
+Example: echo "Hello World"
+

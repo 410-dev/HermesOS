@@ -1,13 +1,13 @@
 #!/bin/bash
-export OS_Version="16.0"
-export OS_Version_Major="16"
-export OS_Version_Minor="11"
-export OS_Build="1204"
-export OS_Name="HermesOS"
-export OS_Tag="15.1"
-export OS_Manufacture="410"
+export OS_Version="$(mplxr SYSTEM/Profile/ProductVersion/VersionMajor).$(mplxr SYSTEM/Profile/ProductVersion/VersionMinor)"
+export OS_Version_Major="$(mplxr SYSTEM/Profile/ProductVersion/VersionMajor)"
+export OS_Version_Minor="$(mplxr SYSTEM/Profile/ProductVersion/VersionMinor)"
+export OS_Build="$(mplxr SYSTEM/Profile/ProductVersion/BuildNumber)"
+export OS_Name="$(mplxr SYSTEM/Profile/ProductVersion/ProductName)"
+export OS_Tag="$(mplxr SYSTEM/Profile/ProductVersion/BuildTag)"
+export OS_Vendor="$(mplxr SYSTEM/Profile/ProductVersion/Vendor)"
 export OS_InterfaceVersion="$OS_Version"
-export OS_CopyrightStatement="Copyright (C) 410 2021. All rights reserved."
+export OS_CopyrightStatement="$(mplxr SYSTEM/Profile/ProductVersion/Copyright)"
 
 mkdir -p "$NVRAM/security"
 

@@ -15,6 +15,12 @@ elif [[ "$1" == "-i" ]] || [[ "$1" == "--install" ]]; then
         exit 99
     fi
 
+	if [[ -d "$CACHE/pkgunpack" ]] || [[ -d "$DATA/Applications/pkgunpack" ]]; then
+		sys_log "installapp" "Error: Package installation process is already running."
+		echo "Error: Package installation process is already running."
+		exit
+	fi
+
 	if [[ -f "$USERDATA/$2" ]]; then
 		echo "Unpacking..."
 		sys_log "installapp" "Creating temporary directory..."

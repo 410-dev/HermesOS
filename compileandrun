@@ -33,7 +33,7 @@ find "System" -path "*/.init/exec.sh" -exec sh -c 'chmod +x "$0" && mv "$0" "$(d
 if [[ "$1" == "norun" ]]; then
     exit 0
 elif [[ "$1" == "pkg" ]]; then
-    zip -rq "image.zip" "System" -x ".*" -x "__MACOSX"
+    tar -czpf "image.tar.gz" --exclude=".*" --exclude="__MACOSX" "System"
     exit 0
 else
     "$PWD/System/boot/init" "$@"

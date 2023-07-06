@@ -8,4 +8,4 @@ delete [key or value name]
 read [key or value name]
 
 Usage: mpedit [action] [required arguments]
-Example: mpedit setkey USER/INTERFACE/HELLO
+Example: mpedit setkey USER/Shell/HELLO

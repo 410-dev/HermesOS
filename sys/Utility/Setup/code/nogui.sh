@@ -32,7 +32,7 @@ while [[ true ]]; do
 		sys_log "Setup" "Invalid input for username."
 	else
 		sys_log "Setup" "Setting username: $USRNAME"
-		mplxw "USER/user_name" "$USRNAME" >/dev/null
+		mplxw "USER/UserName" "$USRNAME" >/dev/null
 		break
 	fi
 done
@@ -46,7 +46,7 @@ while [[ true ]]; do
 		echo "[-] ${SETUP_INVALID_INPUT}"
 	else
 		sys_log "Setup" "Setting device name: $DEVN"
-		mplxw "SYSTEM/machine_name" "$DEVN" >/dev/null
+		mplxw "MACHINE/MachineName" "$DEVN" >/dev/null
 		break
 	fi
 done
@@ -56,11 +56,11 @@ while [[ true ]]; do
 	read PASSPRESENT
 	if [[ "$PASSPRESENT" == 0 ]]; then
 		sys_log "Setup" "Password absent."
-		mplxw "USER/SECURITY/PASSCODE_PRESENT" "$PASSPRESENT" >/dev/null
+		mplxw "USER/Security/LoginPasswordEnabled" "$PASSPRESENT" >/dev/null
 		break
 	elif [[ "$PASSPRESENT" == 1 ]]; then
 		sys_log "Setup" "Password present."
-		mplxw "USER/SECURITY/PASSCODE_PRESENT" "$PASSPRESENT" >/dev/null
+		mplxw "USER/Security/LoginPasswordEnabled" "$PASSPRESENT" >/dev/null
 		sys_log "Setup" "Asking for new password..."
 		sys_log "Setup" "Log will be stopped temporarily for security reason."
 		while [[ true ]]; do
@@ -71,7 +71,7 @@ while [[ true ]]; do
 				if [[ -z "$PASS" ]]; then
 					echo "[-] ${SETUP_INVALID_INPUT}"
 				else
-					mplxw "USER/SECURITY/PASSCODE" "$(md5 -qs $PASS)" >/dev/null
+					mplxw "USER/Security/LoginPassword" "$(md5 -qs $PASS)" >/dev/null
 					break
 				fi
 			fi

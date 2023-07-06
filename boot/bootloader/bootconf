@@ -36,7 +36,7 @@ function OSSTART() {
 		else
 			verbose "Firmware support is enabled."
 			verbose "Firmware version: $(FIRMWARE_INFO version)"
-			verbose "Firmware manufacture: $(FIRMWARE_INFO manufacture)"
+			verbose "Firmware vendor: $(FIRMWARE_INFO vendor)"
 		fi
 	else
 		verbose "Firmware information is not detected."

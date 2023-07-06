@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 echo "HermesOS $OS_Version"
-if [[ ! -f "$OSSERVICES/Utility/$(mplxr USER/INTERFACE/START_MODE)/runner" ]]; then
+if [[ ! -f "$OSSERVICES/Utility/$(mplxr USER/Shell/StartupMode)/runner" ]]; then
 	echo "⛔️"
 	verbose "Unable to load preload utility."
 	sys_log "preload" "Preload specification not found!"
@@ -9,6 +9,6 @@ if [[ ! -f "$OSSERVICES/Utility/$(mplxr USER/INTERFACE/START_MODE)/runner" ]]; t
 		sleep 1000
 	done
 else
-	sys_log "preload" "Starting preload: $(mplxr USER/INTERFACE/START_MODE)"
-	aopen "$OSSERVICES/Utility/$(mplxr USER/INTERFACE/START_MODE)"
+	sys_log "preload" "Starting preload: $(mplxr USER/Shell/StartupMode)"
+	aopen "$OSSERVICES/Utility/$(mplxr USER/Shell/StartupMode)"
 fi

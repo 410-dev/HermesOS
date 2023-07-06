@@ -34,7 +34,7 @@ if [[ ! -d "$NVRAM/security/frestrictor_trustedagents" ]]; then
 fi
 
 export DATA_COMPATIBILITY="11"
-if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
+if [[ "$(mplxr "SYSTEM/Common/DataSetupDone")" == "null" ]]; then
 	sys_log "DefaultSetup" "Repairing data partition..."
 	verbose "[${GREEN}*${C_DEFAULT}] Start data partition repair!"
 	rm -rf "$MULTIPLEX" 2>/dev/null
@@ -51,11 +51,11 @@ if [[ "$(mplxr "SYSTEM/DATASETUP_COMPLETE")" == "null" ]]; then
 	sys_log "DefaultSetup" "OK"
 	sys_log "DefaultSetup" "Configuring multiplex..."
 	verbose "[${GREEN}*${C_DEFAULT}] Configuring multiplex..."
-	mplxw USER/INTERFACE/START_MODE Setup >/dev/null
-	mplxw SYSTEM/COMMON/DataCompatibility "$DATA_COMPATIBILITY" >/dev/null
+	mplxw USER/Shell/StartupMode Setup >/dev/null
+	mplxw SYSTEM/Common/DataCompatibility "$DATA_COMPATIBILITY" >/dev/null
 	verbose "[${GREEN}*${C_DEFAULT}] Done."
 	sys_log "DefaultSetup" "Done."
-elif [[ "$(mplxr SYSTEM/COMMON/DataCompatibility)" -ne "$DATA_COMPATIBILITY" ]]; then
+elif [[ "$(mplxr SYSTEM/Common/DataCompatibility)" -ne "$DATA_COMPATIBILITY" ]]; then
 	sys_log "DefaultSetup" "Upgrading data partition..."
 	verbose "[${GREEN}*${C_DEFAULT}] Upgrading data partition."
 	cp -r "$DATA/config" "$DATA/config.old"

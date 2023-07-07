@@ -15,7 +15,7 @@ else
 		exit 0
 	fi
 	verbose "[${GREEN}*${C_DEFAULT}] Checking image..."
-	if [[ -f "$LIBRARY/image.zip" ]]; then
+	if [[ -f "$LIBRARY/image.tar.gz" ]]; then
 		verbose "[${GREEN}*${C_DEFAULT}] Image found."
 		verbose "[${GREEN}*${C_DEFAULT}] Uploading reset utility to cache drive..."
 		cp "$OSSERVICES/reset-helper" "$CACHE/"

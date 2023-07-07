@@ -5,7 +5,7 @@ if [[ "$1" == "--clean-restore" ]]; then
 		echo "${PERMISSION_DENIED}$HUID"
 		exit 0
 	fi
-	if [[ -f "$LIBRARY/image.zip" ]]; then
+	if [[ -f "$LIBRARY/image.tar.gz" ]]; then
 		echo "Preparing to restore..."
 		echo "restore" > "$NVRAM/bootaction"
 		echo "Shutting down..."
@@ -30,9 +30,9 @@ elif [[ "$1" == "--rollback" ]]; then
 		exit 0
 	fi
 
-	if [[ -f "$LIBRARY/rbimage.zip" ]]; then
+	if [[ -f "$LIBRARY/rbimage.tar.gz" ]]; then
 		echo "Preparing for rollback..."
-		mv "$LIBRARY/rbimage.zip" "$LIBRARY/image.zip"
+		mv "$LIBRARY/rbimage.tar.gz" "$LIBRARY/image.tar.gz"
 		echo "rollback" > "$NVRAM/bootaction"
 		echo "Shutting down..."
 		"$SYSTEM/bin/shutdown"
@@ -47,10 +47,10 @@ elif [[ "$1" == "--update" ]]; then
 		exit 0
 	fi
 
-	if [[ -f "$LIBRARY/image.zip" ]] || [[ -f "$USERDATA/update.zip" ]]; then
+	if [[ -f "$LIBRARY/image.tar.gz" ]] || [[ -f "$USERDATA/update.tar.gz" ]]; then
 		echo "Preparing for update..."
-		if [[ -f "$USERDATA/update.zip" ]]; then
-			mv "$USERDATA/update.zip" "$LIBRARY/image.zip"
+		if [[ -f "$USERDATA/update.tar.gz" ]]; then
+			mv "$USERDATA/update.tar.gz" "$LIBRARY/image.tar.gz"
 		fi
 		echo "update" > "$NVRAM/bootaction"
 		echo "Shutting down..."

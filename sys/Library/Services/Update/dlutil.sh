@@ -1,5 +1,5 @@
 #!/bin/bash
-if [[ -f "$LIBRARY/image.zip" ]]; then
+if [[ -f "$LIBRARY/image.tar.gz" ]]; then
 	echo "You already have an image downloaded."
 	echo -n "Do you want to continue? (Y/n): "
 	read yn

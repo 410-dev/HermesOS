@@ -1,0 +1,27 @@
+#!/bin/bash
+
+function LITE_INSTALL2X() {
+	if [[ -d "$SYSLOC/sysorig" ]]; then
+		echo "Using local package..."
+		echo "Installing..."
+		cp -r "$SYSLOC/sysorig/System" "$ROOTFS"
+	else
+		echo "System package not found."
+		echo "Downloading system packages..."
+		colorprint "${YELLOW}Package will be downloaded to current disk."
+		if [[ -d "$SYSTEM" ]]; then
+			rm -rf "$SYSTEM"
+		fi
+		mkdir -p "$SYSTEM/recovery_dimg"
+		curl -Ls "https://github.com/410-dev/HermesOS/releases/download/20.0/image.tar.gz" -o "$SYSTEM/recovery_dimg/image.tar.gz"
+		if [[ $? -ne 0 ]]; then
+			echo "Failed downloading/saving HermesOS 20.0."
+		else
+			echo "Installing HermesOS 20.0..."
+            tar -xf "$SYSTEM/recovery_dimg/image.tar.gz" -C "$SYSTEM"
+		fi
+	fi
+	colorprint "${GREEN}Done."
+}
+
+export -f LITE_INSTALL

@@ -1,7 +1,7 @@
 #!/bin/bash
 sys_log "DefaultSetup" "Automatically setting up files..."
 mkdir -p "$USERDATA"
-mkdir -p "$MULTIPLEX"
+mkdir -p "$REGISTRY"
 
 mkdir -p "$LIBRARY/Developer/Frameworks"
 touch "$LIBRARY/Developer/Frameworks/org.hermesapi.Foundation.hfw"
@@ -34,28 +34,28 @@ if [[ ! -d "$NVRAM/security/frestrictor_trustedagents" ]]; then
 fi
 
 export DATA_COMPATIBILITY="11"
-if [[ "$(mplxr "SYSTEM/Common/DataSetupDone")" == "null" ]]; then
+if [[ "$(regread "SYSTEM/Common/DataSetupDone")" == "null" ]]; then
 	sys_log "DefaultSetup" "Repairing data partition..."
 	verbose "[${GREEN}*${C_DEFAULT}] Start data partition repair!"
-	rm -rf "$MULTIPLEX" 2>/dev/null
-	sys_log "DefaultSetup" "Removed multiplex."
+	rm -rf "$REGISTRY" 2>/dev/null
+	sys_log "DefaultSetup" "Removed registry."
 	rm -rf "$NVRAM" 2>/dev/null
 	sys_log "DefaultSetup" "Removed nvram."
 	verbose "[${GREEN}*${C_DEFAULT}] Removed old partition data."
 	verbose "[${GREEN}*${C_DEFAULT}] Rewriting..."
 	sys_log "DefaultSetup" "Files are rewriting from defaults..."
-	cp -r "$OSSERVICES/Default/multiplex" "$LIBRARY"
-	mv "$LIBRARY/multiplex" "$MULTIPLEX"
+	cp -r "$OSSERVICES/Default/registry" "$LIBRARY"
+	mv "$LIBRARY/registry" "$REGISTRY"
 	mkdir -p "$DATA/init"
 	mkdir -p "$LIBRARY/Logs"
 	sys_log "DefaultSetup" "OK"
-	sys_log "DefaultSetup" "Configuring multiplex..."
-	verbose "[${GREEN}*${C_DEFAULT}] Configuring multiplex..."
-	mplxw USER/Shell/StartupMode Setup >/dev/null
-	mplxw SYSTEM/Common/DataCompatibility "$DATA_COMPATIBILITY" >/dev/null
+	sys_log "DefaultSetup" "Configuring registry..."
+	verbose "[${GREEN}*${C_DEFAULT}] Configuring registry..."
+	regwrite USER/Shell/StartupMode Setup >/dev/null
+	regwrite SYSTEM/Common/DataCompatibility "$DATA_COMPATIBILITY" >/dev/null
 	verbose "[${GREEN}*${C_DEFAULT}] Done."
 	sys_log "DefaultSetup" "Done."
-elif [[ "$(mplxr SYSTEM/Common/DataCompatibility)" -ne "$DATA_COMPATIBILITY" ]]; then
+elif [[ "$(regread SYSTEM/Common/DataCompatibility)" -ne "$DATA_COMPATIBILITY" ]]; then
 	sys_log "DefaultSetup" "Upgrading data partition..."
 	verbose "[${GREEN}*${C_DEFAULT}] Upgrading data partition."
 	cp -r "$DATA/config" "$DATA/config.old"

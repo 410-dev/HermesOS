@@ -19,7 +19,7 @@ export BOOTREFUSE="$CACHE/bootrefuse"
 export BOOTSECT="$SYSTEM/boot"
 
 export USERDATA="$DATA/User"
-export MULTIPLEX="$LIBRARY/config"
+export REGISTRY="$LIBRARY/config"
 
 export NVRAM="$LIBRARY/nvram"
 export RECOVERY="$CACHE/recovery"

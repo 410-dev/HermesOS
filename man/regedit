@@ -1,4 +1,4 @@
-mpedit - Edit multiplex
+regedit - Edit registry
 
 Possible Actions: 
 
@@ -7,5 +7,5 @@ setvalue [value name] [value]
 delete [key or value name]
 read [key or value name]
 
-Usage: mpedit [action] [required arguments]
-Example: mpedit setkey USER/Shell/HELLO
+Usage: regedit [action] [required arguments]
+Example: regedit setkey USER/Shell/Hello

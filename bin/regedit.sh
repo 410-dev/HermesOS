@@ -8,8 +8,8 @@ if [[ "$HUID" -ne 0 ]]; then
 	exit 0
 fi
 
-if [[ "$(access_fs "$MULTIPLEX/$2")" == "-9" ]]; then
-	echo "${ERROR}Modifying data not within multiplex is not permitted."
+if [[ "$(access_fs "$REGISTRY/$2")" == "-9" ]]; then
+	echo "${ERROR}Modifying data not within registry is not permitted."
 	exit -9
 fi
 
@@ -18,8 +18,8 @@ if [[ "$1" == "setkey" ]]; then
 		echo "${ERROR}Key name is not specified."
 		exit 0
 	fi
-	if [[ -e "$MULTIPLEX/$2" ]]; then
-		if [[ -d "$MULTIPLEX/$2" ]]; then
+	if [[ -e "$REGISTRY/$2" ]]; then
+		if [[ -d "$REGISTRY/$2" ]]; then
 			echo "The key already exists."
 			exit 0
 		else
@@ -27,7 +27,7 @@ if [[ "$1" == "setkey" ]]; then
 			exit 0
 		fi
 	else
-		mkdir -p "$MULTIPLEX/$2"
+		mkdir -p "$REGISTRY/$2"
 	fi
 elif [[ "$1" == "setvalue" ]]; then
 	if [[ -z "$2" ]]; then
@@ -38,19 +38,19 @@ elif [[ "$1" == "setvalue" ]]; then
 		echo "${ERROR}value is not specified."
 		exit 0
 	fi
-	if [[ -d "$MULTIPLEX/$2" ]]; then
+	if [[ -d "$REGISTRY/$2" ]]; then
 		echo "There is a key with the same name."
 		exit 0
 	else
-		echo "$3" > "$MULTIPLEX/$2"
+		echo "$3" > "$REGISTRY/$2"
 	fi
 elif [[ "$1" == "delete" ]]; then
 	if [[ -z "$2" ]]; then
 		echo "${ERROR}Key name is not specified."
 		exit 0
 	fi
-	if [[ -e "$MULTIPLEX/$2" ]]; then
-		rm -rf "$MULTIPLEX/$2"
+	if [[ -e "$REGISTRY/$2" ]]; then
+		rm -rf "$REGISTRY/$2"
 	else
 		echo "There is no such key or value."
 	fi
@@ -59,11 +59,11 @@ elif [[ "$1" == "read" ]]; then
 		echo "${ERROR}Value or key name is not specified."
 		exit 0
 	fi
-	if [[ -d "$MULTIPLEX/$2" ]]; then
-		ls -1 "$MULTIPLEX/$2"
+	if [[ -d "$REGISTRY/$2" ]]; then
+		ls -1 "$REGISTRY/$2"
 		exit 0
 	else
-		cat "$MULTIPLEX/$2"
+		cat "$REGISTRY/$2"
 		exit 0
 	fi
 else

@@ -1,0 +1,8 @@
+virt-remove - Remove virtual machine
+
+Description: 
+Remove an existing HermesOS virtual machine.
+
+
+Usage: 
+virt-remove <name> : Remove virtual machine.

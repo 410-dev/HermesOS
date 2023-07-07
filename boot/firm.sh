@@ -8,16 +8,15 @@ ORIG_BOOT_ARGS="$@"
 
 function FIRMWARE_INFO() {
     if [[ "$1" == "version" ]]; then
-        echo "LiteFirm 1.1"
+        echo "LiteFirm 1.2"
     elif [[ "$1" == "vendor" ]]; then
         echo "410"
     elif [[ "$1" == "virtualization" ]]; then
-        echo "0"
+        echo "1"
     elif [[ "$1" == "unload" ]]; then
         echo "1"
     else
-        echo "Version: 1.0Emu"
-        echo "Vendor: 410"
+        echo "0"
     fi
 }
 

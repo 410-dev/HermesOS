@@ -1,0 +1,13 @@
+virt-make - Make a new virtual machine
+
+Description: 
+Create a new virtual machine that runs HermesOS. This virtual machine does not run in background.
+
+
+Usage: 
+virt-make <name> <image.tar.gz> -a <autoconfig file>    : Use when creating HermesOS 20.0+ virtual machines with autoconfiguration
+virt-make <name> <image.tar.gz>                         : Use when creating HermesOS 20.0+ virtual machines without autoconfiguration
+virt-make <name> <image.zip> --legacy                   : Use when creating HermesOS < 16.0 virtual machines
+virt-make <name> --clone                                : Use current system, while copying all configurations (Library only)
+virt-make <name> --system -a <autoconfig file>          : Use current system with autoconfiguration
+virt-make <name> --system                               : Use current system without autoconfiguration

@@ -1,0 +1,8 @@
+virt-list - List virtual machines
+
+Description: 
+List all existing HermesOS virtual machines.
+
+
+Usage: 
+virt-list: List existing virtual machines.

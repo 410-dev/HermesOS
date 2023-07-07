@@ -1,0 +1,8 @@
+virt-run - Launch virtual machine
+
+Description: 
+Launch an existing HermesOS virtual machine.
+
+
+Usage: 
+virt-run <name> [boot arguments]: Launch virtual machine.

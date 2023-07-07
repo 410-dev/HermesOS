@@ -36,5 +36,10 @@ elif [[ "$1" == "pkg" ]]; then
     tar -czpf "image.tar.gz" --exclude=".*" --exclude="__MACOSX" "System"
     exit 0
 else
-    "$PWD/System/boot/init" "$@"
+    if [[ "$1" == "--firm" ]]; then
+        shift
+        "$PWD/System/boot/firm" "$@"
+    else
+        "$PWD/System/boot/init" "$@"
+    fi
 fi

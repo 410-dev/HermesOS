@@ -40,7 +40,7 @@ function execCommand() {
 			echo -n ""
 		else
 			export lastExecutedCommand="$command"
-			if [[ "${args[0]}" == "super" ]]; then
+			if [[ "${args[0]}" == "sudo" ]]; then
 				echo "${args[1]}" > "$CACHE/process"
 			else
 				echo "${args[0]}" > "$CACHE/process"

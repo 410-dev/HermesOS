@@ -1,4 +1,4 @@
-super - Separating command execution privilage
+sudo - Separating command execution privilage
 
 Description: 
 This command elevates running instance privilage to access
@@ -7,11 +7,11 @@ sensitive commands, such as:
 config
 frestrictor
 hic
-mpedit
+regedit
 reboot
 shutdown
 system
 
 
-Usage: super [command to run] [parameter]
-Example: super config --username user
+Usage: sudo [command to run] [parameter]
+Example: sudo config --username user

@@ -7,7 +7,7 @@ if [[ "$?" == 0 ]]; then
 	if [[ -f "$SYSTEM/bin/$1" ]]; then
 		"$SYSTEM/bin/$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
 	else
-		echo "super: $1: command not found."
+		echo "sudo: $1: command not found."
 	fi
 fi
 export HUID="1"

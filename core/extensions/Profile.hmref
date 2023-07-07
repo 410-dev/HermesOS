@@ -1,13 +1,13 @@
 #!/bin/bash
-export OS_Version="$(mplxr SYSTEM/Profile/ProductVersion/VersionMajor).$(mplxr SYSTEM/Profile/ProductVersion/VersionMinor)"
-export OS_Version_Major="$(mplxr SYSTEM/Profile/ProductVersion/VersionMajor)"
-export OS_Version_Minor="$(mplxr SYSTEM/Profile/ProductVersion/VersionMinor)"
-export OS_Build="$(mplxr SYSTEM/Profile/ProductVersion/BuildNumber)"
-export OS_Name="$(mplxr SYSTEM/Profile/ProductVersion/ProductName)"
-export OS_Tag="$(mplxr SYSTEM/Profile/ProductVersion/BuildTag)"
-export OS_Vendor="$(mplxr SYSTEM/Profile/ProductVersion/Vendor)"
+export OS_Version="$(regread SYSTEM/Profile/ProductVersion/VersionMajor).$(regread SYSTEM/Profile/ProductVersion/VersionMinor)"
+export OS_Version_Major="$(regread SYSTEM/Profile/ProductVersion/VersionMajor)"
+export OS_Version_Minor="$(regread SYSTEM/Profile/ProductVersion/VersionMinor)"
+export OS_Build="$(regread SYSTEM/Profile/ProductVersion/BuildNumber)"
+export OS_Name="$(regread SYSTEM/Profile/ProductVersion/ProductName)"
+export OS_Tag="$(regread SYSTEM/Profile/ProductVersion/BuildTag)"
+export OS_Vendor="$(regread SYSTEM/Profile/ProductVersion/Vendor)"
 export OS_InterfaceVersion="$OS_Version"
-export OS_CopyrightStatement="$(mplxr SYSTEM/Profile/ProductVersion/Copyright)"
+export OS_CopyrightStatement="$(regread SYSTEM/Profile/ProductVersion/Copyright)"
 
 mkdir -p "$NVRAM/security"
 

@@ -16,8 +16,8 @@ sys_log "interface" "Running preload..."
 "$OSSERVICES/Utility/preload"
 sys_log "interface" "Logged in."
 sys_log "interface" "Getting registry data..."
-export USERN=$(mplxr "USER/UserName")
-export MACHN=$(mplxr "MACHINE/MachineName")
+export USERN=$(regread "USER/UserName")
+export MACHN=$(regread "MACHINE/MachineName")
 if [[ -z "$USERN" ]]; then
 	export USERN="root"
 fi
@@ -51,7 +51,7 @@ function execCommand() {
 		diagnostics
 	elif [[ -z "$command" ]]; then
 		echo -n ""
-	elif [[ "$(mplxr USER/Shell/DeveloperOptions)" == "1" ]]; then
+	elif [[ "$(regread USER/Shell/DeveloperOptions)" == "1" ]]; then
 		export lastExecutedCommand="$command"
 		echo "${args[0]}" > "$CACHE/process"
 		if [[ -f "$OSSERVICES/Library/Developer/bin/${args[0]}" ]]; then
@@ -103,23 +103,23 @@ while [[ true ]]; do
 		cat "$CACHE/alert"
 		rm "$CACHE/alert"
 	fi
-	export OUTPUT_STYLE="$(mplxr USER/Shell/LineStyle)"
+	export OUTPUT_STYLE="$(regread USER/Shell/LineStyle)"
 	if [[ "$OUTPUT_STYLE" == "null" ]]; then
 		export OUTPUT_STYLE="${GREEN}${USERN}${C_DEFAULT}@${BLUE}${MACHN}${C_DEFAULT} ~ # "
 	fi
 	if [[ "$OUTPUT_STYLE" == "default" ]]; then
 		export OUTPUT_STYLE="${GREEN}${USERN}${C_DEFAULT}@${BLUE}${MACHN}${C_DEFAULT} ~ # "
-		mplxw "USER/Shell/LineStyle" "$OUTPUT_STYLE"
+		regwrite "USER/Shell/LineStyle" "$OUTPUT_STYLE"
 	fi
 	echo -en "$OUTPUT_STYLE"
 	if [[ "$AutoRunComplete" == "0" ]]; then
-		export AutoRunList="$(mplxr USER/Shell/AutoRun)"
-		export AutoRunEnabled="$(mplxr USER/Shell/AutoRunEnabled)"
+		export AutoRunList="$(regread USER/Shell/AutoRun)"
+		export AutoRunEnabled="$(regread USER/Shell/AutoRunEnabled)"
 
 		if [[ "$AutoRunEnabled" == "1" ]]; then
 			sys_log "interface" "AutoRun enabled. Running AutoRun list..."
 
-			if [[ "$(mplxr USER/Shell/EnableAutoRunFromRegistries)" == "0" ]]; then
+			if [[ "$(regread USER/Shell/EnableAutoRunFromRegistries)" == "0" ]]; then
 				sys_log "interface" "AutoRun from registries disabled by registry value. Skipping AutoRun list..."
 			else
 				sys_log "interface" "AutoRun list from registry: $AutoRunList"	
@@ -137,7 +137,7 @@ while [[ true ]]; do
 				done
 			fi
 
-			if [[ "$(mplxr USER/Shell/EnableAutoRunFromFile)" -ne "0" ]]; then
+			if [[ "$(regread USER/Shell/EnableAutoRunFromFile)" -ne "0" ]]; then
 				sys_log "interface" "AutoRun from filesystem disabled by registry value. Skipping AutoRun list..."
 			else
 				sys_log "interface" "AutoRun list from filesystem: $ROOTFS/AUTORUN"
@@ -158,7 +158,7 @@ while [[ true ]]; do
 		export AutoRunComplete=1
 	fi
 
-	if [[ "$(mplxr USER/Shell/HaltAfterAutoRun)" == "1" ]]; then
+	if [[ "$(regread USER/Shell/HaltAfterAutoRun)" == "1" ]]; then
 		sys_log "interface" "HaltAfterAutoRun is enabled. Sending shutdown signal..."
 		execCommand "shutdown"
 	else

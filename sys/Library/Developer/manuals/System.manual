@@ -9,7 +9,7 @@ System Static____________
 
 System Function (Does not require prefix)
    -(char_intform) accessible() {c,r,w} {path}: Checks whether the file or directory is accessible with specified permission: c (catalog), r (read), w (write)
-   -(String) mplxr() {address}: Returns value in specified address stored in Multiplex.
-   -(char_intform) mplxw() {address} {value}: Creates / Write value on specified key address. If successful, the function returns 0. If failed, the function returns -9.
-   -(char_intform) mplxk() {key}: Creates key. If successful, the function returns 0. If failed, the function returns -9.
-   -(char_intform) mplxd() {address/key}: Removes key or value. If successful, the function returns 0. If failed, the function returns -9.
+   -(String) regread() {address}: Returns value in specified address stored in registry.
+   -(char_intform) regwrite() {address} {value}: Creates / Write value on specified key address. If successful, the function returns 0. If failed, the function returns -9.
+   -(char_intform) regkeygen() {key}: Creates key. If successful, the function returns 0. If failed, the function returns -9.
+   -(char_intform) regdel() {address/key}: Removes key or value. If successful, the function returns 0. If failed, the function returns -9.

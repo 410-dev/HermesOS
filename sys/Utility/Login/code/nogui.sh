@@ -1,11 +1,11 @@
 #!/bin/bash
 sys_log "Login" "Login started."
-if [[ "$(mplxr USER/Security/LoginPassword)" == "nothing" ]] || [[ "$(mplxr USER/Security/LoginPasswordEnabled)" == "0" ]]; then
+if [[ "$(regread USER/Security/LoginPassword)" == "nothing" ]] || [[ "$(regread USER/Security/LoginPasswordEnabled)" == "0" ]]; then
 	verbose "[${GREEN}*${C_DEFAULT}] Login successful."
 	sys_log "Login" "Password is not present."
 	sys_log "Login" "Login was successful."
 	exit 0
-elif [[ "$(mplxr USER/Security/AUTOLOGIN)" == "system" ]]; then
+elif [[ "$(regread USER/Security/AUTOLOGIN)" == "system" ]]; then
 	verbose "[${GREEN}*${C_DEFAULT}] Login successful."
 	sys_log "Login" "Autologin is enabled."
 	sys_log "Login" "Login was successful."
@@ -19,7 +19,7 @@ else
 		echo ""
 		if [[ -z "$PASS" ]]; then
 			echo -n
-		elif [[ "$(mplxr USER/Security/LoginPassword)" == "$(md5 -qs $PASS)" ]]; then
+		elif [[ "$(regread USER/Security/LoginPassword)" == "$(md5 -qs $PASS)" ]]; then
 			echo -e "Login successful."
 			sys_log "Login" "Login was successful."
 			export successful=1

@@ -2,6 +2,7 @@
 verbose "[${GREEN}*${C_DEFAULT}] Starting setup..."
 sys_log "Setup" "Setup started."
 ls -1 "$OSSERVICES/Default/Languages"
+source "$OSSERVICES/Default/Languages/en-us/setup.hlang"
 while [[ true ]]; do
 	echo ""
 	echo "${SETUP_KEEP_LANG}"
@@ -32,7 +33,7 @@ while [[ true ]]; do
 		sys_log "Setup" "Invalid input for username."
 	else
 		sys_log "Setup" "Setting username: $USRNAME"
-		mplxw "USER/UserName" "$USRNAME" >/dev/null
+		regwrite "USER/UserName" "$USRNAME" >/dev/null
 		break
 	fi
 done
@@ -46,7 +47,7 @@ while [[ true ]]; do
 		echo "[-] ${SETUP_INVALID_INPUT}"
 	else
 		sys_log "Setup" "Setting device name: $DEVN"
-		mplxw "MACHINE/MachineName" "$DEVN" >/dev/null
+		regwrite "MACHINE/MachineName" "$DEVN" >/dev/null
 		break
 	fi
 done
@@ -56,11 +57,11 @@ while [[ true ]]; do
 	read PASSPRESENT
 	if [[ "$PASSPRESENT" == 0 ]]; then
 		sys_log "Setup" "Password absent."
-		mplxw "USER/Security/LoginPasswordEnabled" "$PASSPRESENT" >/dev/null
+		regwrite "USER/Security/LoginPasswordEnabled" "$PASSPRESENT" >/dev/null
 		break
 	elif [[ "$PASSPRESENT" == 1 ]]; then
 		sys_log "Setup" "Password present."
-		mplxw "USER/Security/LoginPasswordEnabled" "$PASSPRESENT" >/dev/null
+		regwrite "USER/Security/LoginPasswordEnabled" "$PASSPRESENT" >/dev/null
 		sys_log "Setup" "Asking for new password..."
 		sys_log "Setup" "Log will be stopped temporarily for security reason."
 		while [[ true ]]; do
@@ -71,7 +72,7 @@ while [[ true ]]; do
 				if [[ -z "$PASS" ]]; then
 					echo "[-] ${SETUP_INVALID_INPUT}"
 				else
-					mplxw "USER/Security/LoginPassword" "$(md5 -qs $PASS)" >/dev/null
+					regwrite "USER/Security/LoginPassword" "$(md5 -qs $PASS)" >/dev/null
 					break
 				fi
 			fi

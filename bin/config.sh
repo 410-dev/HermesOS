@@ -35,19 +35,19 @@ elif [[ "$1" == "--username" ]]; then
 		echo "${ERROR}New username is not specified."
 		exit 0
 	fi
-	mplxw "USER/UserName" "$2" >/dev/null
+	regwrite "USER/UserName" "$2" >/dev/null
 elif [[ "$1" == "--machinename" ]]; then
 	if [[ -z "$2" ]]; then
 		echo "${ERROR}New machine name is not specified."
 		exit 0
 	fi
-	mplxw "MACHINE/MachineName" "$2" >/dev/null
+	regwrite "MACHINE/MachineName" "$2" >/dev/null
 elif [[ "$1" == "--password" ]]; then
-	if [[ "$(mplxr USER/Security/LoginPasswordEnabled)" == "1" ]]; then
+	if [[ "$(regread USER/Security/LoginPasswordEnabled)" == "1" ]]; then
 		echo -n "Old Password: "
 		read -s pw
 		echo ""
-		if [[ "$(mplxr USER/Security/LoginPassword)" == "$(md5 -qs "$pw")" ]]; then
+		if [[ "$(regread USER/Security/LoginPassword)" == "$(md5 -qs "$pw")" ]]; then
 			echo -n "New Password: "
 			read -s pw1
 			echo ""
@@ -56,9 +56,9 @@ elif [[ "$1" == "--password" ]]; then
 			echo ""
 			if [[ "$pw1" == "$pw2" ]]; then
 				if [[ -z "$pw1" ]]; then
-					mplxw "USER/Security/LoginPasswordEnabled" "0" >/dev/null
+					regwrite "USER/Security/LoginPasswordEnabled" "0" >/dev/null
 				fi
-				mplxw "USER/Security/LoginPassword" "$(md5 -qs "$pw1")" >/dev/null
+				regwrite "USER/Security/LoginPassword" "$(md5 -qs "$pw1")" >/dev/null
 				echo "${DONE}"
 			else
 				echo "${ERROR}Password does not match."
@@ -75,8 +75,8 @@ elif [[ "$1" == "--password" ]]; then
 		read -s pw2
 		echo ""
 		if [[ "$pw1" == "$pw2" ]]; then
-			mplxw "USER/Security/LoginPassword" "$(md5 -qs "$pw1")" >/dev/null
-			mplxw "USER/Security/LoginPasswordEnabled" "1" >/dev/null
+			regwrite "USER/Security/LoginPassword" "$(md5 -qs "$pw1")" >/dev/null
+			regwrite "USER/Security/LoginPasswordEnabled" "1" >/dev/null
 			echo "${DONE}"
 		else
 			echo "${ERROR}Password does not match."

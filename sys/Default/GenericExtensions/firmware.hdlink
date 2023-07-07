@@ -7,8 +7,7 @@ if [[ -z "$(FIRMWARE_INFO 2>/dev/null)" ]] || [[ $(bootArgumentHas "no-firm-supp
 		elif [[ "$1" == "vendor" ]]; then
 			echo "None"
 		else
-			echo "Version: None"
-			echo "Vendor: None"
+			echo "0"
 		fi
 	}
 

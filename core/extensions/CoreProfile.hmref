@@ -1,4 +1,4 @@
 #!/bin/bash
-export CoreVersion="4.1"
-export CoreBuild="38"
+export CoreVersion="5.0"
+export CoreBuild="-"
 export CoreName="Hermes Pure"

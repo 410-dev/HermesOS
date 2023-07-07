@@ -1,0 +1,13 @@
+[LANG] en-us
+[REG] USER/Shell/AutoRunEnabled=0
+[REG] USER/UserName=Administrator
+[REG] MACHINE/MachineName=VirtualMachine
+[REG] USER/Security/LoginPasswordEnabled=0
+[NVRK] security
+[NVRV] security/prosys=Default
+[NVRV] security/lockstate=Locked
+[NVRV] security/autologin=system
+[REG] SYSTEM/Common/DataSetupDone=1
+[REG] SYSTEM/Common/SetupDone=1
+[REG] SYSTEM/Common/ConfigureDone=1
+[REG] USER/Shell/StartupMode=Login

@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# This script is used to automatically configure based on the configuration file in the root directory.
+if [[ -f "$ROOTFS/AUTOCONFIG" ]]; then
+    verbose "[${GREEN}*${C_DEFAULT}] Autoconfigure data file found. Running auto configuration..."
+    sys_log "autoconfigure" "Autoconfigure data file found. Running auto configuration..."
+
+    while read line
+    do
+        if [[ "$line" == "[REG] "* ]]; then
+            # Trim the [REG] prefix
+            line="${line:6}"
+            # Split the line into key and value
+            key="${line%%=*}"
+            value="${line#*=}"
+            # Write the value to the registry
+            # Get the parent directory of key
+            parent="$(dirname "$key")"
+            regkeygen "$parent" >/dev/null
+            regwrite "$key" "$value" >/dev/null
+            sys_log "autoconfigure" "Registry updated: $value ----> $key"
+            verbose "[${GREEN}*${C_DEFAULT}] Registry updated: $value ----> $key"
+        elif [[ "$line" == "[LANG] "* ]]; then
+            # Trim the [LANG] prefix
+            line="${line:7}"
+            cp "$OSSERVICES/Default/Languages/$line/"* "$LIBRARY/Preferences/Language/"
+            sys_log "autoconfigure" "Language updated: $line"
+            verbose "[${GREEN}*${C_DEFAULT}] Language updated: $line"
+        elif [[ "$line" == "[NVRK] "* ]]; then
+            # Trim the [NVRK] prefix
+            line="${line:7}"
+            # Write the key to the nvram
+            mkdir -p "$NVRAM/$line"
+            sys_log "autoconfigure" "NVRAM key created: $line"
+            verbose "[${GREEN}*${C_DEFAULT}] NVRAM key created: $line"
+        elif [[ "$line" == "[NVRV] "* ]]; then
+            # Trim the [NVRV] prefix
+            line="${line:7}"
+            # Split the line into key and value
+            key="${line%%=*}"
+            value="${line#*=}"
+            # Write the value to the nvram
+            echo "$value" > "$NVRAM/$key"
+            sys_log "autoconfigure" "NVRAM value updated: $value ----> $key"
+            verbose "[${GREEN}*${C_DEFAULT}] NVRAM value updated: $value ----> $key"
+        fi
+    done <<< "$(cat "$ROOTFS/AUTOCONFIG")"
+
+    verbose "[${GREEN}*${C_DEFAULT}] Auto configuration complete."
+    sys_log "autoconfigure" "Auto configuration complete."
+
+    # Delete the autoconfigure file
+    rm "$ROOTFS/AUTOCONFIG"
+    
+else
+    verbose "[*] Autoconfigure data file not found. Skipping auto configuration..."
+    sys_log "autoconfigure" "Autoconfigure data file not found. Skipping auto configuration..."
+fi

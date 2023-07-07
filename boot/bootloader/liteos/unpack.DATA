@@ -1,0 +1,61 @@
+#!/bin/bash
+
+function LITE_UNPACK() {
+    echo "LiteOS Package Unpacking Utility"
+    echo "This utility allows unpacking tar.gz files to disk."
+    echo ""
+    echo "Select source to use:"
+    echo "1. From local disk"
+    echo "2. From remote server (Using URL)"
+    echo ""
+    echo -n "Enter selection: "
+    read -r selection
+    if [[ "$selection" == "1" ]]; then
+        echo -n "Enter source: "
+        read -r source
+        if [[ -f "$source" ]]; then
+            echo -n "Enter destination: "
+            read -r destination
+            if [[ -d "$destination" ]]; then
+                echo "Unpacking..."
+                tar -xf "$ROOTFS/$source" -C "$ROOTFS/$destination"
+                if [[ $? -ne 0 ]]; then
+                    echo "Failed unpacking."
+                else
+                    echo "Done."
+                fi
+            else
+                echo "Destination not found."
+            fi
+        else
+            echo "Source not found."
+        fi
+    elif [[ "$selection" == "2" ]]; then
+        echo -n "Enter URL: "
+        read -r url
+        echo -n "Enter destination: "
+        read -r destination
+        if [[ -d "$destination" ]]; then
+            echo "Downloading..."
+            curl -Ls "$url" -o "$ROOTFS/$destination/package.tar.gz"
+            if [[ $? -ne 0 ]]; then
+                echo "Failed downloading."
+            else
+                echo "Unpacking..."
+                tar -xf "$ROOTFS/$destination/package.tar.gz" -C "$ROOTFS/$destination"
+                if [[ $? -ne 0 ]]; then
+                    echo "Failed unpacking."
+                else
+                    echo "Done."
+                fi
+            fi
+        else
+            echo "Destination not found."
+        fi
+    else
+        echo "Invalid selection."
+    fi
+	colorprint "${GREEN}Done."
+}
+
+export -f LITE_INSTALL

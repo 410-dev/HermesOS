@@ -10,6 +10,7 @@ function liteos_main() {
 		[[ "$commands" == "LITE_HELP" ]] || 
 		[[ "$commands" == "LITE_LOG" ]] || 
 		[[ "$commands" == "LITE_FILESYS" ]] || 
+		[[ "$commands" == "LITE_UNPACK" ]] ||
 		[[ "$commands" == "LITE_INSTALL" ]]; then
 			"$commands"
 		elif [[ "$commands" == "shutdown" ]]; then

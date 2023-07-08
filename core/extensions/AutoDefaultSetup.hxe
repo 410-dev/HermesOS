@@ -15,23 +15,6 @@ mkdir -p "$DATA/Applications"
 mkdir -p "$CACHE"
 sys_log "DefaultSetup" "Auto setup complete."
 
-if [[ ! -d "$NVRAM/security/frestrictor_trustedagents" ]]; then
-	sys_log "DefaultSetup" "Setting up trusted agents..."
-	mkdir -p "$NVRAM/security/frestrictor_trustedagents"
-	touch "$NVRAM/security/frestrictor_trustedagents/ls"
-	touch "$NVRAM/security/frestrictor_trustedagents/copy"
-	touch "$NVRAM/security/frestrictor_trustedagents/mkdir"
-	touch "$NVRAM/security/frestrictor_trustedagents/mv"
-	touch "$NVRAM/security/frestrictor_trustedagents/nano"
-	touch "$NVRAM/security/frestrictor_trustedagents/open"
-	touch "$NVRAM/security/frestrictor_trustedagents/read"
-	touch "$NVRAM/security/frestrictor_trustedagents/rm"
-	touch "$NVRAM/security/frestrictor_trustedagents/setrunnable"
-	touch "$NVRAM/security/frestrictor_trustedagents/super"
-	touch "$NVRAM/security/frestrictor_trustedagents/tpaste"
-	touch "$NVRAM/security/frestrictor_trustedagents/installdriver"
-	sys_log "DefaultSetup" "Agents setup complete."
-fi
 
 export DATA_COMPATIBILITY="11"
 if [[ "$(regread "SYSTEM/Common/DataSetupDone")" == "null" ]]; then

@@ -104,7 +104,6 @@ elif [[ "$1" == "--nvram-reset" ]]; then
 		exit 0
 	fi
 	echo -e "${RED}Are you sure you want to reset NVRAM?"
-	echo -e "${RED}This action will reset all the frestrictor trusted data.${C_DEFAULT}"
 	echo "y/n"
 	read yn
 	if [[ "$yn" == "y" ]] || [[ "$yn" == "Y" ]]; then

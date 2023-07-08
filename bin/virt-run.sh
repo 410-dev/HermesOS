@@ -15,6 +15,10 @@ if [[ -z "$1" ]]; then
     echo "Missing container name."
     exit 90
 fi
+if [[ "$1" == "."* ]]; then
+    echo "Invalid container name."
+    exit 90
+fi
 
 if [[ ! -d "$USERDATA/VirtualMachines/containers/$1" ]]; then
     echo "Container does not exist."

@@ -10,6 +10,20 @@ sys_log "Fort Manager" "PermissionData = $1"
 sys_log "Fort Manager" "ExecutionType = $2"
 sys_log "Fort Manager" "AccessLocation = $3"
 
+# Access location absolute
+export AccessLocationAbsolutePath="$(realpath "$AccessLocation")"
+export AccessLocationAbsPathLength="${#AccessLocationAbsolutePath}"
+export RootFSAbsolutePath="$(realpath "$ROOTFS")"
+export RootFSAbsPathLength="${#RootFSAbsolutePath}"
+if [[ "$AccessLocationAbsPathLength" -lt "$RootFSAbsPathLength" ]]; then
+	sys_log "Fort Manager" "Access location is not in rootfs."
+	unset AccessLocationAbsolutePath AccessLocationAbsPathLength RootFSAbsolutePath RootFSAbsPathLength
+	echo "-9"
+	exit
+fi
+unset AccessLocationAbsolutePath AccessLocationAbsPathLength RootFSAbsolutePath RootFSAbsPathLength
+
+
 if [[ "$ExecutionType" == "fsys" ]]; then
 	source "$EntitlementLoc/filesystems.entitlement"
 	sys_log "Fort Manager" "Data from entitlement file: $(cat "$EntitlementLoc/filesystems.entitlement")"

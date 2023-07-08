@@ -16,6 +16,10 @@ if [[ -z "$ContainerName" ]]; then
     echo "Missing container name."
     exit 90
 fi
+if [[ "$ContainerName" == "."* ]]; then
+    echo "Invalid container name."
+    exit 90
+fi
 
 # Get image path
 ImagePath="$2"
@@ -23,6 +27,10 @@ if [[ -z "$ImagePath" ]]; then
     echo "Missing image path."
     echo "Try using --clone or --system to create a new virtual machine from current system."
     exit 90
+fi
+if [[ "$(access_fs "$USERDATA/$ImagePath")" == -9 ]]; then
+	echo "${OPERATION_NOT_PERMITTED}File Read"
+	exit 99
 fi
 
 # Get third parameter (--legacy or -a)
@@ -36,6 +44,10 @@ fi
 
 # Get fourth parameter (-a)
 if [[ "$AutoConfiguration" == "true" ]]; then
+    if [[ "$(access_fs "$USERDATA/$4")" == -9 ]]; then
+        echo "${OPERATION_NOT_PERMITTED}File Read"
+        exit 99
+    fi
     AutoConfigurationFile="$(cat "$USERDATA/$4")"
 fi
 

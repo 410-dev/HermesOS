@@ -18,7 +18,7 @@ fi
 if [[ "$1" == "."* ]]; then
     echo "Invalid container name."
     exit 90
-fi
+fi  
 
 if [[ ! -d "$USERDATA/VirtualMachines/containers/$1" ]]; then
     echo "Container does not exist."
@@ -61,6 +61,9 @@ sed "s|CONTAINER_NAME|$ContainerName|g" $USERDATA/VirtualMachines/containers/$Co
 rm $USERDATA/VirtualMachines/containers/$ContainerName/disk/System/boot/partinf.hdp
 echo "Partition map patched."
 
+ORIG_BOOTARGS="$BOOTARGS"
+unset BOOTARGS
+
 if [[ "$Firmware" == "--firm" ]]; then
     echo "Launching using firmware..."
     cd "$USERDATA/VirtualMachines/containers/$ContainerName/disk/"
@@ -70,6 +73,8 @@ else
     cd "$USERDATA/VirtualMachines/containers/$ContainerName/disk/"
     "./System/boot/init" "$Parameters"
 fi
+
+BOOTARGS="$ORIG_BOOTARGS"
 
 cd "$currentWorkingDirectory"
 

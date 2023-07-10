@@ -5,7 +5,7 @@ if [[ -z "$1" ]]; then
 	exit
 fi
 
-if [[ -f "$USERDATA/$1" ]]; then
+if [[ -f "$PWD/$1" ]]; then
 	sys_log "open" "User tried to install an application."
 	sys_log "open" "Warning: Installation via open command will be unsupported soon."
 	echo "Warning: Installation via open command will be unsupported soon."

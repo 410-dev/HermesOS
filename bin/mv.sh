@@ -7,17 +7,17 @@ if [[ -z "$2" ]]; then
 	echo "${MISSING_PARAM}New file location"
 	exit 90
 fi
-if [[ ! -e "$USERDATA/$1" ]]; then
+if [[ ! -e "$PWD/$1" ]]; then
 	echo "${NO_SUCH_FILE}$1"
 	exit 91
 fi
-if [[ "$(access_fs "$USERDATA/$1")" -ne 0 ]]; then
+if [[ "$(access_fs "$PWD/$1")" -ne 0 ]]; then
 	echo "${OPERATION_NOT_PERMITTED}File Read"
 	exit 99
 fi
-if [[ "$(access_fs "$USERDATA/$2")" == -9 ]]; then
+if [[ "$(access_fs "$PWD/$2")" == -9 ]]; then
 	echo "${OPERATION_NOT_PERMITTED}File Write"
 	exit 99
 fi
-mv "$USERDATA/$1" "$USERDATA/$2"
+mv "$PWD/$1" "$PWD/$2"
 exit $?

@@ -1,0 +1,6 @@
+cd - Change Directory
+
+Changes current working directory to specified directory.
+
+Usage:
+cd <directory>

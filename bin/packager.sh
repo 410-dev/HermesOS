@@ -10,7 +10,7 @@ elif [[ "$1" == "-i" ]] || [[ "$1" == "--install" ]]; then
 		exit
 	fi
 
-	if [[ "$(access_fs "$USERDATA/$2")" -ne 0 ]]; then
+	if [[ "$(access_fs "$PWD/$2")" -ne 0 ]]; then
         echo "${OPERATION_NOT_PERMITTED}Read File"
         exit 99
     fi
@@ -21,12 +21,12 @@ elif [[ "$1" == "-i" ]] || [[ "$1" == "--install" ]]; then
 		exit
 	fi
 
-	if [[ -f "$USERDATA/$2" ]]; then
+	if [[ -f "$PWD/$2" ]]; then
 		echo "Unpacking..."
 		sys_log "installapp" "Creating temporary directory..."
 		mkdir -p "$CACHE/pkgunpack"
 		sys_log "installapp" "Copying package..."
-		mv "$USERDATA/$2" "$CACHE/package.tar.gz"
+		mv "$PWD/$2" "$CACHE/package.tar.gz"
 		sys_log "installapp" "Unpacking using unzip..."
 		unzip -q "$CACHE/package.tar.gz" -d "$CACHE/pkgunpack"
 		sys_log "installapp" "Reading application info..."
@@ -68,16 +68,16 @@ elif [[ "$1" == "--install-driver" ]]; then
 	    exit 0
 	fi
 
-	if [[ -f "$USERDATA/$2" ]]; then
-	    if [[ "$(access_fs "$USERDATA/$2")" -ne 0 ]]; then
-	    	sys_log "installdriver" "Access denied: $USERDATA/$2"
+	if [[ -f "$PWD/$2" ]]; then
+	    if [[ "$(access_fs "$PWD/$2")" -ne 0 ]]; then
+	    	sys_log "installdriver" "Access denied: $PWD/$2"
 	        echo "${OPERATION_NOT_PERMITTED}Read File"
 	        exit 99
 	    fi
 	    sys_log "installdriver" "Installing package..."
 	    echo "Installing package..."
 	    sys_log "installdriver" "Unpacking package..."
-	    unzip -o -q "$USERDATA/$2" -d "$LIBRARY/HardwareExtensions"
+	    unzip -o -q "$PWD/$2" -d "$LIBRARY/HardwareExtensions"
 	    sys_log "installdriver" "Removing remnent..."
 	    rm -rf "$LIBRARY/HardwareExtensions/__MACOSX"
 	    sys_log "installdriver" "Done."

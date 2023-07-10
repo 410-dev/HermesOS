@@ -24,7 +24,7 @@ fi
 if [[ -z "$MACHN" ]]; then
 	export MACHN="apple_terminal"
 fi
-cd "$ROOTFS"
+cd "$USERDATA"
 
 
 function execCommand() {
@@ -35,6 +35,26 @@ function execCommand() {
 	if [[ "${args[0]}" == "../"* ]]; then
 		echo -e "$ESCAPE_NOT_ALLOWED"
 		sys_log "interface" "Escape detected."
+	elif [[ "${args[0]}" == "cd" ]]; then
+		if [[ -z "${args[1]}" ]]; then
+			echo "${MISSING_PARAM}Directory to enter"
+		else
+			if [[ -d "./${args[1]}" ]]; then
+				@IMPORT FileIO
+				if [[ "$(dopen "./${args[1]}")" == "0" ]]; then
+					export ppw="$PWD"
+					cd "./${args[1]}"
+					if [[ "$PWD" == "$ROOTFS" ]]; then
+						echo "${ACCESS_DENIED}Unaccessible location."
+						cd "$ppw"
+					fi
+				else
+					echo "${ACCESS_DENIED}Unaccessible location."
+				fi
+			else
+				echo "No such directory: ${args[1]}"
+			fi
+		fi
 	elif [[ -f "$SYSTEM/bin/${args[0]}" ]]; then
 		if [[ "${args[0]}" == "lec" ]]; then
 			echo -n ""

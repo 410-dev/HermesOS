@@ -82,10 +82,10 @@ function LITE_START() {
 		LITE_EXTERN_BOOT "$@"
 		sys_log "LiteOS" "Process from external device is done."
 	elif [[ "$in" == "4" ]]; then
-		export BOOTARGS="no-firm-support"
+		export BOOTARGS="$BOOTARGS no-firm-support"
 		LITE_BOOT_SYSTEM
 	elif [[ "$in" == "5" ]]; then
-		export BOOTARGS="safe"
+		export BOOTARGS="$BOOTARGS safe"
 		LITE_BOOT_SYSTEM
 	elif [[ "$in" == "6" ]]; then
 		echo -n "Boot argument > "

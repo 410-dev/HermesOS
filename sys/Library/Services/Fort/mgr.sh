@@ -11,6 +11,12 @@ sys_log "Fort Manager" "ExecutionType = $2"
 sys_log "Fort Manager" "AccessLocation = $3"
 
 # Access location absolute
+# If real path does not exist, try dirname until it exists
+if [[ ! -e "$AccessLocation" ]]; then
+	while [[ ! -d "$AccessLocation" ]]; do
+		AccessLocation="$(dirname "$AccessLocation")"
+	done
+fi
 export AccessLocationAbsolutePath="$(realpath "$AccessLocation")"
 export AccessLocationAbsPathLength="${#AccessLocationAbsolutePath}"
 export RootFSAbsolutePath="$(realpath "$ROOTFS")"

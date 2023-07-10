@@ -48,7 +48,7 @@ function LITE_EXTERN_BOOT() {
 	sys_log "LiteOS" "Reloading LiteOS data..."
 	echo "Reloading LiteOS data..."
 
-	source "$SYSTEM/boot/bootloader/bootconf"
+	source "$SYSTEM/boot/bootloader/osstart"
 	OSSTART "$@"
 	
 }

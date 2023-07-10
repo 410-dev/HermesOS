@@ -2,7 +2,7 @@
 
 source "$(dirname "$0")/partitions.hdp"
 source "$(dirname "$0")/internal_func"
-source "$(dirname "$0")/bootloader/bootconf"
+source "$(dirname "$0")/bootloader/osstart"
 
 ORIG_BOOT_ARGS="$@"
 

@@ -28,6 +28,7 @@ if [[ "$1" == "setkey" ]]; then
 		fi
 	else
 		mkdir -p "$REGISTRY/$2"
+		echo "Key created: $2"
 	fi
 elif [[ "$1" == "setvalue" ]]; then
 	if [[ -z "$2" ]]; then
@@ -42,7 +43,11 @@ elif [[ "$1" == "setvalue" ]]; then
 		echo "There is a key with the same name."
 		exit 0
 	else
-		echo "$3" > "$REGISTRY/$2"
+		REGLOC="$REGISTRY/$2"
+		shift
+		shift
+		echo "$@" > "$REGLOC"
+		echo "Value set: $@"
 	fi
 elif [[ "$1" == "delete" ]]; then
 	if [[ -z "$2" ]]; then
@@ -51,6 +56,7 @@ elif [[ "$1" == "delete" ]]; then
 	fi
 	if [[ -e "$REGISTRY/$2" ]]; then
 		rm -rf "$REGISTRY/$2"
+		echo "Key or value deleted: $2"
 	else
 		echo "There is no such key or value."
 	fi

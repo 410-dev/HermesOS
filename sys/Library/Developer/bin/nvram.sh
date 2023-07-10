@@ -31,8 +31,9 @@ elif [[ "$1" == "set" ]]; then
 		exit 9
 	else
         shift
+        LOC="$NVRAM/$1"
         shift
-		echo "$@" > "$NVRAM/$2"
+		echo "$@" > "$LOC"
 	fi
 
 # Delete NVRAM variable
@@ -70,6 +71,6 @@ elif [[ "$1" == "get" ]]; then
         exit 9
     fi
 else
-    echo "${INVALID_PARAM}$1"
+    echo "Invalid parameter: $1"
     exit 9
 fi

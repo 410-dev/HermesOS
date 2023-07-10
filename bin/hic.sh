@@ -34,7 +34,9 @@ function internal_exec() {
 	exitc=$?
 	if [[ $exitc == 0 ]]; then
 		cd "$USERDATA"
-		"$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8"
+		CMD="$USERDATA/$1"
+		shift
+		"$CMD" "$@"
 	fi
 }
 

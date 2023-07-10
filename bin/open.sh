@@ -20,11 +20,13 @@ elif [[ -d "$DATA/Applications/$1" ]]; then
 		if [[ "$BUILTFOR" == "$SDK_COMPATIBILITY" ]] || [[ $(bootArgumentHas "ignore_sdk_compatibility") == 1 ]] || [[ "$BUILTFOR" == "all" ]]; then
 			chmod +x "$DATA/Applications/$1/runner"
 			export BundlePath="$DATA/Applications/$1"
+			CMD="$DATA/Applications/$1/runner"
+			shift
 			if [[ "$ALLOCTHREAD" == "backgroundservice" ]]; then
-				"$DATA/Applications/$1/runner" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9" &
+				"$CMD" "$@" &
 				echo "Background Service launched."
 			else
-				"$DATA/Applications/$1/runner" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+				"$CMD" "$@"
 				exit $?
 			fi
 		else

@@ -39,7 +39,9 @@ elif [[ -f "$PWD/$1" ]]; then
 			echo "[*] Verification complete."
 		fi
 		cd "$PWD"
-		"$PWD/$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8"
+		CMD="$PWD/$1"
+		shift
+		"$CMD" "$@"
 		exitcode=$?
 		cd "$DATA"
 		exit $exitcode

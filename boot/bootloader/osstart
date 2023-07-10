@@ -42,6 +42,9 @@ function OSSTART() {
 		verbose "Firmware information is not detected."
 	fi
 
+	if [[ -f "$NVRAM/boot-arguments" ]]; then
+		export BOOTARGS="$BOOTARGS $(<"$NVRAM/boot-arguments")"
+	fi
 
 	if [[ $(bootArgumentHas "lite") == "1" ]]; then
 		LITE_START

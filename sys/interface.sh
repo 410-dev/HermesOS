@@ -125,12 +125,17 @@ while [[ true ]]; do
 	fi
 	export OUTPUT_STYLE="$(regread USER/Shell/LineStyle)"
 	if [[ "$OUTPUT_STYLE" == "null" ]]; then
-		export OUTPUT_STYLE="${GREEN}${USERN}${C_DEFAULT}@${BLUE}${MACHN}${C_DEFAULT} ~ # "
+		export OUTPUT_STYLE="${GREEN}%USERNAME%${C_DEFAULT}@${BLUE}%MACHINENAME%${C_DEFAULT} %PWD% # "
 	fi
 	if [[ "$OUTPUT_STYLE" == "default" ]]; then
-		export OUTPUT_STYLE="${GREEN}${USERN}${C_DEFAULT}@${BLUE}${MACHN}${C_DEFAULT} ~ # "
+		export OUTPUT_STYLE="${GREEN}%USERNAME%${C_DEFAULT}@${BLUE}%MACHINENAME%${C_DEFAULT} %PWD% # "
 		regwrite "USER/Shell/LineStyle" "$OUTPUT_STYLE"
 	fi
+	export OUTPUT_STYLE="${OUTPUT_STYLE//%USERNAME%/$USERN}"
+	export OUTPUT_STYLE="${OUTPUT_STYLE//%MACHINENAME%/$MACHN}"
+	export OUTPUT_STYLE="${OUTPUT_STYLE//%PWD%/$PWD}"
+	export OUTPUT_STYLE="${OUTPUT_STYLE//$USERDATA/~}"
+	export OUTPUT_STYLE="${OUTPUT_STYLE//$ROOTFS/}"
 	echo -en "$OUTPUT_STYLE"
 	if [[ "$AutoRunComplete" == "0" ]]; then
 		export AutoRunList="$(regread USER/Shell/AutoRun)"

@@ -92,6 +92,9 @@ elif [[ "$1" == "--info" ]]; then
 		fi
 		echo "Firmware Version: $(FIRMWARE_INFO version)"
 		echo "Firmware Vendor: $(FIRMWARE_INFO vendor)"
+		echo "Virtualization: $(FIRMWARE_INFO virtualization)"
+		echo "Encryption: $(FIRMWARE_INFO encryption)"
+		echo "Isolation: $(FIRMWARE_INFO isolation)"
 		if [[ ! -z "$(LITE_HELP)" ]]; then
 			echo "LiteOS Support: Enabled"
 		else

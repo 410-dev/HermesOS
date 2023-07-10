@@ -1,7 +1,6 @@
 config - Edit configurations
 
 Possible Actions
---nvram [key name] [value]
 --username [New username]
 --machinename [New machine name]
 --password

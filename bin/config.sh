@@ -7,29 +7,6 @@ fi
 if [[ -z "$1" ]]; then
 	echo "${NOT_ENOUGH_ARGS}"
 	exit 0
-elif [[ "$1" == "--nvram" ]]; then
-	mkdir -p "$NVRAM"
-	if [[ -z "$2" ]]; then
-		ls -1 "$NVRAM" | while read conf
-		do
-			if [[ -f "$NVRAM/$conf" ]]; then
-				echo "$conf        : $(cat "$NVRAM/$conf")"
-			else
-				echo "$conf - has multiple configurations"
-			fi
-		done
-		exit 0
-	fi
-	if [[ -z "$3" ]]; then	
-		echo "${NOT_ENOUGH_ARGS}"
-		exit 0
-	fi
-	if [[ ! -z "$(echo $2 | grep security/)" ]]; then
-		echo "${OPERATION_NOT_PERMITTED}Editing security data in NVRAM is not permitted."
-		exit 9
-	else
-		echo "$3 $4 $5 $6 $7 $8 $9" > "$NVRAM/$2"
-	fi
 elif [[ "$1" == "--username" ]]; then
 	if [[ -z "$2" ]]; then
 		echo "${ERROR}New username is not specified."

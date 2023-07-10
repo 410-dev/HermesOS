@@ -1,0 +1,17 @@
+nvram - Configure NVRAM variables
+
+This command is used to configure NVRAM variables. 
+It can be used to set the boot-arguments, boot-reference, etc.
+
+Usage: 
+nvram set <variable> <value>
+nvram get
+nvram get <variable>
+nvram reset
+nvram delete <variable>
+
+ex: 
+nvram set boot-arguments verbose
+nvram get boot-arguments
+nvram reset
+nvram delete boot-arguments

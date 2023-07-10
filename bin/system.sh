@@ -98,22 +98,6 @@ elif [[ "$1" == "--info" ]]; then
 			echo "LiteOS Support: Disabled"
 		fi
 	fi
-elif [[ "$1" == "--nvram-reset" ]]; then
-	if [[ "$HUID" -ne 0 ]]; then
-		echo "${PERMISSION_DENIED}$HUID"
-		exit 0
-	fi
-	echo -e "${RED}Are you sure you want to reset NVRAM?"
-	echo "y/n"
-	read yn
-	if [[ "$yn" == "y" ]] || [[ "$yn" == "Y" ]]; then
-		echo "Reseting NVRAM..."
-		rm -rf "$NVRAM"
-		mkdir -p "$NVRAM"
-		echo "Done."
-	else
-		echo "Aborted."
-	fi 
 elif [[ "$1" == "--logflush" ]]; then
 	rm -rf "$LIBRARY/Logs"
 	mkdir -p "$LIBRARY/Logs"

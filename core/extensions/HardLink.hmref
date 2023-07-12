@@ -17,7 +17,6 @@ do
 	GENERIC_HARDLINKS="$GENERIC_HARDLINKS
 	$extension"
 done <<< "$(ls -p | grep -v / | grep ".hdlink")"
-echo "$GENERIC_HARDLINKS" > "$CACHE/generic_hardlinks"
 
 export HARDLINKS=""
 if [[ $(bootArgumentHas "safe") == 0 ]]; then
@@ -37,5 +36,4 @@ if [[ $(bootArgumentHas "safe") == 0 ]]; then
 		fi
 	fi
 fi
-echo "$HARDLINKS" > "$CACHE/hardlinks"
 sys_log "HardLink" "Extensions loaded."

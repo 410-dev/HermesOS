@@ -4,8 +4,11 @@ if [[ ! -f "$LIBRARY/Developer/ZLang/zlang-linker" ]]; then
 	echo "ZLang is not installed."
 	exit 1
 fi
-source "$LIBRARY/Developer/ZLang/zlang-linker" "$LIBRARY/Developer/ZLang"
 export ZLANG_SUPPRESS_WARNING=1
+function ZLang() {
+	source "$LIBRARY/Developer/ZLang/zlang-linker" "$LIBRARY/Developer/ZLang"
+}
+export -f ZLang	
 if [[ "$1" == "--version" ]]; then
 	echo "Interpreter Version: 2.0"
 	exit 0

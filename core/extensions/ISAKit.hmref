@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 function @PROG_RUNNABLE(){
 	echo -n ""
 }
@@ -43,6 +45,8 @@ function ISA.manual() {
 		echo ""
 	done
 }
+
+verbose "[*] ISAKit 2.0.1 Loaded"
 
 export -f @PROG_RUNNABLE
 export -f @IMPORT_ISA

@@ -13,7 +13,6 @@ do
 $SYNC_DEFNAME"
 	unset SYNC_DEFNAME
 done <<< "$(ls -p | grep -v / | grep ".hmref")"
-echo "$ALLOC_DATA" > "$CACHE/alloc_data"
 sys_log "loader" "Finished reading allocation data."
 
 cd "$CORE/extensions"
@@ -50,5 +49,4 @@ $agentname"
 		fi
 	fi
 done <<< "$agentlist"
-echo "$EXTENSION_LOADED" > "$CACHE/extension_loaded"
 sys_log "loader" "Agent loading complete."

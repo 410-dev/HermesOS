@@ -11,5 +11,4 @@ do
 $defname"
 	fi
 done <<< "$(ls -p | grep -v / | grep ".hxe")"
-echo "$ASYNC_LOADED" > "$CACHE/async_loaded"
 sys_log "Async" "Done."

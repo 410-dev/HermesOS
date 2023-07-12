@@ -1,4 +1,9 @@
 #!/bin/bash
+if [[ "$(regread "USER/System/Legacy/EnableLegacyISA")" -ne "1" ]]; then
+	echo "Legacy ISA is not enabled."
+	exit 0
+fi
+
 if [[ -z "$1" ]]; then
 	echo "Missing parameter: framework file"
 	exit

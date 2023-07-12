@@ -1,11 +1,15 @@
 #!/bin/bash
 cd "$CORE/extensions/async" 2>/dev/null
+export ASYNC_LOADED=""
 while read defname
 do
 	if [[ -f "$CORE/extensions/async/$defname" ]]; then
 		verbose "[${GREEN}*${C_DEFAULT}] Launching async extension: $defname"
 		sys_log "Async" "Launching: $defname"
 		"$CORE/extensions/async/$defname" &
+		export ASYNC_LOADED="$ASYNC_LOADED
+$defname"
 	fi
 done <<< "$(ls -p | grep -v / | grep ".hxe")"
+echo "$ASYNC_LOADED" > "$CACHE/async_loaded"
 sys_log "Async" "Done."

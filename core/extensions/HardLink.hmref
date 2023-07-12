@@ -7,14 +7,19 @@ export HardLink_Version="11.0.0"
 sys_log "HardLink" "Running hardlink read..."
 sys_log "HardLink" "Reading default hardlinks first.."
 cd "$OSSERVICES/Default/GenericExtensions"
+GENERIC_HARDLINKS=""
 while read extension
 do
 	sys_log "HardLink" "Loading generic Hardlink: $extension"
 	verbose "[${GREEN}*${C_DEFAULT}] Loading Generic HardLink Extensions: $extension"
 	source "$OSSERVICES/Default/GenericExtensions/$extension"
 	sys_log "HardLink" "Loaded: $extension"
+	GENERIC_HARDLINKS="$GENERIC_HARDLINKS
+	$extension"
 done <<< "$(ls -p | grep -v / | grep ".hdlink")"
+echo "$GENERIC_HARDLINKS" > "$CACHE/generic_hardlinks"
 
+export HARDLINKS=""
 if [[ $(bootArgumentHas "safe") == 0 ]]; then
 	sys_log "HardLink" "System is not running in safe mode."
 	if [[ -d "$LIBRARY/HardwareExtensions/" ]]; then
@@ -26,8 +31,11 @@ if [[ $(bootArgumentHas "safe") == 0 ]]; then
 				verbose "[${GREEN}*${C_DEFAULT}] Loading HardLink Extensions: $extension"
 				source "$LIBRARY/HardwareExtensions/$extension"
 				sys_log "HardLink" "Loaded: $extension"
+				HARDLINKS="$HARDLINKS
+				$extension"
 			done <<< "$(ls -p | grep -v / | grep ".hdlink")"
 		fi
 	fi
 fi
+echo "$HARDLINKS" > "$CACHE/hardlinks"
 sys_log "HardLink" "Extensions loaded."

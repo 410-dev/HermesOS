@@ -1,0 +1,6 @@
+bootinfo - Show boot information
+
+This command will show what services are loaded on boot.
+
+Usage:
+bootinfo

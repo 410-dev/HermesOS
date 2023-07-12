@@ -1,18 +1,12 @@
 #!/bin/bash
 
-if [[ "$(regread "USER/System/Legacy/EnableLegacyISA")" -ne "1" ]]; then
-	return # This will disable the ISAKit
-fi
-
-echo "[!] WARNING! This is a legacy feature and may be removed in the future."
-
 function @PROG_RUNNABLE(){
 	echo -n ""
 }
 
 function @IMPORT_ISA() {
-	if [[ -f "$OSSERVICES/Library/Legacy/ISA/$1/ISAKit.hmref" ]]; then
-		source "$OSSERVICES/Library/Legacy/ISA/$1/ISAKit.hmref"
+	if [[ -f "$OSSERVICES/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit" ]]; then
+		source "$OSSERVICES/Services/LegacySupport/ISA/VirtualISAKit-v$1.iskit"
 	else
 		echo "${ERROR}Virtual ISA Version $1 does not exist in LegacySupport."
 		exit 0
@@ -20,8 +14,10 @@ function @IMPORT_ISA() {
 }
 
 function @IMPORT() {
-	if [[ -f "$OSSERVICES/Library/Legacy/ISA/2.0.2/$1.iskit" ]]; then
-		source "$OSSERVICES/Library/Legacy/ISA/2.0.2/$1.iskit"
+	if [[ -f "$OSSERVICES/Library/Developer/$1.iskit" ]]; then
+		source "$OSSERVICES/Library/Developer/$1.iskit"
+	elif [[ -f "$LIBRARY/Developer/$1.iskit" ]]; then
+		source "$LIBRARY/Developer/$1.iskit"
 	else
 		echo "${ERROR}Unable to find specified instruction set."
 		exit 0
@@ -29,7 +25,7 @@ function @IMPORT() {
 }
 
 function ISA.version() {
-	echo "2.0.2"
+	echo "2.0.1"
 }
 
 function ISA.manual() {
@@ -47,6 +43,8 @@ function ISA.manual() {
 		echo ""
 	done
 }
+
+verbose "[*] ISAKit is loaded."
 
 export -f @PROG_RUNNABLE
 export -f @IMPORT_ISA

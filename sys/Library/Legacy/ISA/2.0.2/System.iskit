@@ -1,0 +1,22 @@
+#!/bin/bash
+
+function System.getSystemVersion() {
+	echo "$OS_Version"
+}
+
+function System.getSystemBuild() {
+	echo "$OS_Build"
+}
+
+function println() {
+	echo -e "$1 $2 $3 $4 $5 $6 $7 $8 $9${C_DEFAULT}"
+}
+
+function print() {
+	echo -en "$1 $2 $3 $4 $5 $6 $7 $8 $9${C_DEFAULT}"
+}
+
+export -f System.getSystemVersion
+export -f System.getSystemBuild
+export -f println
+export -f print

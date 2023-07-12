@@ -20,8 +20,8 @@ function @IMPORT_ISA() {
 }
 
 function @IMPORT() {
-	if [[ -f "$OSSERVICES/Library/Legacy/ISA/2.0.2/$1.iskit" ]]; then
-		source "$OSSERVICES/Library/Legacy/ISA/2.0.2/$1.iskit"
+	if [[ -f "$OSSERVICES/Library/Legacy/ISA/2.0.1/$1.iskit" ]]; then
+		source "$OSSERVICES/Library/Legacy/ISA/2.0.1/$1.iskit"
 	else
 		echo "${ERROR}Unable to find specified instruction set."
 		exit 0
@@ -29,7 +29,7 @@ function @IMPORT() {
 }
 
 function ISA.version() {
-	echo "2.0.2"
+	echo "2.0.1"
 }
 
 function ISA.manual() {

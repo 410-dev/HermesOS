@@ -1,0 +1,17 @@
+#!/bin/bash
+
+function Interface.addAlert() {
+	echo "$1" >> "$CACHE/alert"
+}
+
+function Interface.updateDefinitionsOnProgramEnd() {
+	touch "$CACHE/defreload"
+}
+
+function Interface.restartOnProgramEnd() {
+	touch "$CACHE/uirestart"
+}
+
+export -f Interface.addAlert
+export -f Interface.updateDefinitionsOnProgramEnd
+export -f Interface.restartOnProgramEnd

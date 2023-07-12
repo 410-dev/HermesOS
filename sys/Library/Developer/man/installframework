@@ -1,7 +1,0 @@
-installframework - Installs extra framework
-
-This command will install other frameworks that contains
-more instructions and commands for better application development.
-
-Usage: installframework [file name]
-ex: installframework myFramework.hfw

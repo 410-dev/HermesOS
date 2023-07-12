@@ -3,3 +3,4 @@ USER/Shell/AutoRun                     [STRNG]: List of scripts that shell will 
 USER/Shell/LineStyle                   [STRNG]: Line style for shell window (default: Will replace with default line style on next input prompt)
 USER/Shell/EnableAutoRunFromFile       [DWORD]: Enable or disable autorun by shell logon from file
 USER/Shell/EnableAutoRunFromRegistries [DWORD]: Enable or disable autorun by shell logon from registries
+USER/System/Legacy/EnableLegacyISA     [DWORD]: Enable or disable legacy ISA support

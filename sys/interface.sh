@@ -40,8 +40,7 @@ function execCommand() {
 			echo "${MISSING_PARAM}Directory to enter"
 		else
 			if [[ -d "./${args[1]}" ]]; then
-				@IMPORT FileIO
-				if [[ "$(dopen "./${args[1]}")" == "0" ]]; then
+				if [[ "$(access_fs "./${args[1]}")" -ne "-9" ]]; then
 					export ppw="$PWD"
 					cd "./${args[1]}"
 					if [[ "$PWD" == "$ROOTFS" ]]; then

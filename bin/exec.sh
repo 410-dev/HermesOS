@@ -1,14 +1,17 @@
 #!/bin/bash
+
+if [[ ! -f "$LIBRARY/Developer/ZLang/zlang-linker" ]]; then
+	echo "ZLang is not installed."
+	exit 1
+fi
+source "$LIBRARY/Developer/ZLang/zlang-linker" "$LIBRARY/Developer/ZLang"
+export ZLANG_SUPPRESS_WARNING=1
 if [[ "$1" == "--version" ]]; then
-	echo "Interpreter Version: 1.0.1"
+	echo "Interpreter Version: 2.0"
 	exit 0
 elif [[ -f "$PWD/$1" ]]; then
 	if [[ $(bootArgumentHas "verbose") == 1 ]]; then
 		echo "[*] Verifying..."
-	fi
-	if [[ -z "$(cat "$PWD/$1" | grep "@PROG_RUNNABLE")" ]]; then
-		echo "Unable to start program: Unable to find @PROG_RUNNABLE"
-		exit 9
 	fi
 	cat "$PWD/$1" | while read fileLine
 	do

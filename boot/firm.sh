@@ -15,6 +15,16 @@ function FIRMWARE_INFO() {
         echo "1"
     elif [[ "$1" == "unload" ]]; then
         echo "1"
+    elif [[ "$1" == "instruction" ]]; then
+        if [[ ! -z "$2" ]]; then
+            if [[ ! -z "$(which "$2")" ]]; then
+                echo "1"
+            else
+                echo "0"
+            fi
+        else
+            echo "0"
+        fi
     else
         echo "0"
     fi

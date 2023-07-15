@@ -66,8 +66,8 @@ function execCommand() {
 			fi
 		fi
 		"$SYSTEM/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
-	elif [[ "$command" == "diagnostics" ]]; then
-		diagnostics
+	elif [[ "$command" == "switch_to_liteos" ]]; then
+		switch_to_liteos
 	elif [[ -z "$command" ]]; then
 		echo -n ""
 	elif [[ "$(regread USER/Shell/DeveloperOptions)" == "1" ]]; then

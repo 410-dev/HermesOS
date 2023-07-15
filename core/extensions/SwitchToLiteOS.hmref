@@ -1,0 +1,11 @@
+#!/bin/bash
+function switch_to_liteos() {
+	if [[ "$HUID" -ne 0 ]]; then
+		echo "${PERMISSION_DENIED} $HUID"
+		return
+	fi
+	liteos_main
+	exit 0
+}
+
+export -f switch_to_liteos

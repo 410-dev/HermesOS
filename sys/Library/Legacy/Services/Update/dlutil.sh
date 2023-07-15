@@ -11,33 +11,18 @@ if [[ -f "$LIBRARY/image.zip" ]]; then
 		exit 0
 	fi
 fi
-echo "Checking tag..."
-export URL="$(<"$(dirname "$0")/ota-profile")"
-if [[ -f "$NVRAM/ota-profile" ]]; then
-	export URL="$(<"$NVRAM/ota-profile")"
+
+URL="$(regread "SYSTEM/Update/LegacyImageURL")"
+if [[ -z "$URL" ]] || [[ "$URL" == "null" ]]; then
+	URL="https://github.com/410-dev/HermesOS/releases/download/15.1/image.zip"
 fi
-curl -Ls "$URL" -o "$CACHE/ota-profile"
-if [[ ! -z "$(cat "$CACHE/ota-profile" | grep "404:")" ]]; then
-	echo "Compatible image not found. Unable to download image."
+
+curl -L --progress-bar "$(<"$(dirname "$0")/ota-address")/$OS_Tag/$(<"$(dirname "$0")/ota-filename")" -o "$LIBRARY/image.zip"
+if [[ ! -z "$(cat "$LIBRARY/image.zip" | grep "sys/interface")" ]]; then
+	echo "Download was successful: $OS_Tag"
 	exit 0
-fi
-source "$CACHE/ota-profile"
-if [[ ! -z "$OS_Version_Major" ]]; then
-	if [[ ! -z "$(<"$(dirname "$0")/ota-address")" ]] && [[ ! -z "$(<"$(dirname "$0")/ota-filename")" ]]; then
-		curl -L --progress-bar "$(<"$(dirname "$0")/ota-address")/$OS_Tag/$(<"$(dirname "$0")/ota-filename")" -o "$LIBRARY/image.zip"
-		if [[ ! -z "$(cat "$LIBRARY/image.zip" | grep "sys/interface")" ]]; then
-			echo "Download was successful: $OS_Tag"
-			exit 0
-		else
-			echo "Failed downloading: $OS_Tag"
-			rm "$LIBRARY/image.zip"
-			exit 0
-		fi
-	else
-		echo "Internal ${ERROR}Address not found."
-		exit 0
-	fi
 else
-	echo "Compatible image not found. Unable to download image."
+	echo "Failed downloading: $OS_Tag"
+	rm "$LIBRARY/image.zip"
 	exit 0
 fi

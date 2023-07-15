@@ -6,3 +6,4 @@ USER/Shell/EnableAutoRunFromRegistries [DWORD]: Enable or disable autorun by she
 USER/System/Legacy/EnableLegacyISA     [DWORD]: Enable or disable legacy ISA support
 USER/System/Legacy/EnableLegacyUpdate  [DWORD]: Enable or disable legacy update support
 SYSTEM/Update/Channel                  [STRNG]: Channel to update from (master, beta) (default: master)
+SYSTEM/Update/LegacyImageURL           [STRNG]: URL to legacy channel (default: https://github.com/410-dev/HermesOS/releases/download/15.1/image.zip)

@@ -7,16 +7,21 @@ if [[ "$ACTION" == "update" ]]; then
 	echo "[*] Making rollback image..."
 	export pwdb="$PWD"
 	cd "$LIBRARY/system-backup"
-	zip -rq "rbimage.zip" . -x ".*" -x "__MACOSX"
+	tar -czpf "rbimage.tar.gz" --exclude=".*" --exclude="__MACOSX" .
 	cd "$pwdb"
-	mv "$LIBRARY/system-backup/rbimage.zip" "$LIBRARY/rbimage.zip"
+	mv "$LIBRARY/system-backup/rbimage.tar.gz" "$LIBRARY/rbimage.tar.gz"
 	rm -rf "$LIBRARY/system-backup"
 fi
 verbose "[${GREEN}*${C_DEFAULT}] Cleaning system..."
 rm -rf "$SYSTEM/"*
 mkdir -p "$SYSTEM"
 verbose "[${GREEN}*${C_DEFAULT}] Extracting system..."
-unzip -q "$LIBRARY/image.zip" -d "$SYSTEM"
+if [[ -f "$LIBRARY/image.tar.gz" ]]; then
+	tar -xf "$LIBRARY/image.tar.gz" -C "$ROOTFS"
+elif [[ -f "$LIBRARY/image.zip" ]]; then
+	unzip -q "$LIBRARY/image.zip" -d "$SYSTEM"
+fi
+
 if [[ -d "$SYSTEM/__MACOSX" ]]; then
 	rm -rf "$SYSTEM/__MACOSX"
 fi

@@ -30,5 +30,9 @@ fi
 
 echo "Preparing update..."
 echo "update" > "$NVRAM/bootaction"
+if [[ -f "$LIBRARY/image.zip" ]]; then
+    rm -f "$LIBRARY/image.zip"
+fi
+touch "$LIBRARY/image.zip"
 echo "Shutting down..."
 "$SYSTEM/bin/shutdown"

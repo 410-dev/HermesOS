@@ -12,7 +12,11 @@ function FIRMWARE_INFO() {
     elif [[ "$1" == "vendor" ]]; then
         echo "410"
     elif [[ "$1" == "virtualization" ]]; then
-        echo "1"
+        if [[ "$ORIG_BOOT_ARGS" == *"vm.nested=1"* ]]; then
+            echo "0"
+        else
+            echo "1"
+        fi
     elif [[ "$1" == "unload" ]]; then
         echo "1"
     elif [[ "$1" == "instruction" ]]; then

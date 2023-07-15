@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check if virtualizable
-if [[ "$(bootArgumentHas "vm.nested=0")" == 1 ]]; then
+if [[ "$(bootArgumentHas "vm.nested=1")" == 1 ]]; then
     echo "Nested virtualization is unavailable."
     exit 90
 fi
@@ -43,7 +43,7 @@ fi
 Parameters="$@"
 
 if [[ "$(regread SYSTEM/Virtualization/AllowNestedVM)" -ne "1" ]]; then
-    Parameters="$Parameters vm.nested=0"
+    Parameters="$Parameters vm.nested=1"
 fi
 
 # Check legacy and patch boot files according to it.

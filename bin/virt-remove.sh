@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check if virtualizable
-if [[ "$(bootArgumentHas "vm.nested=0")" == 1 ]]; then
+if [[ "$(bootArgumentHas "vm.nested=1")" == 1 ]]; then
     echo "Nested virtualization is unavailable."
     exit 90
 fi

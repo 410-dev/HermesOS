@@ -1,7 +1,7 @@
 [LANG] en-us
 [REG] USER/Shell/AutoRunEnabled=0
 [REG] USER/UserName=Administrator
-[REG] MACHINE/MachineName=VirtualMachine
+[REG] MACHINE/MachineName=Machine
 [REG] USER/Security/LoginPasswordEnabled=0
 [NVRK] security
 [NVRV] security/prosys=Default

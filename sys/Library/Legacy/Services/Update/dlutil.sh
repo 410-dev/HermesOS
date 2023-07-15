@@ -1,5 +1,6 @@
 #!/bin/bash
-echo "WARNING: Legacy OTA downloading feature will be removed in a future release."
+echo "WARNING: Legacy OTA downloading feature will be removed in a future release." 
+echo "This will download HermesOS 15.1.1."
 if [[ -f "$LIBRARY/image.zip" ]]; then
 	echo "You already have an image downloaded."
 	echo -n "Do you want to continue? (Y/n): "
@@ -14,7 +15,7 @@ fi
 
 URL="$(regread "SYSTEM/Update/LegacyImageURL")"
 if [[ -z "$URL" ]] || [[ "$URL" == "null" ]]; then
-	URL="https://github.com/410-dev/HermesOS/releases/download/15.1/image.zip"
+	URL="https://github.com/410-dev/HermesOS/releases/download/15.1.1/image.zip"
 fi
 
 curl -L --progress-bar "$URL" -o "$LIBRARY/image.zip"

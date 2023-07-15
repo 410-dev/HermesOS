@@ -1,6 +1,6 @@
 #!/bin/bash
 function OSSTART() {
-	export BOOTARGS="${BOOTARGS} $1 $2 $3 $4 $5 $6 $7 $8 $9"
+	export BOOTARGS="${BOOTARGS} $@"
 	export SYSNAME="LiteOS"
 	export SYSVERS="1.2"
 	export SYSLOC="$SYSTEM/boot/bootloader/liteos"

@@ -88,7 +88,7 @@ elif [[ "$1" == "--language" ]]; then
 		echo ""
 		echo "Available languages:"
 		ls -1 "$OSSERVICES/Default/Languages"
-	else
+	elif [[ $(bootArgumentHas "verbose") == "1" ]] || [[ $(bootArgumentHas "nogui") == "1" ]] || [[ $(bootArgumentHas "safe") == "1" ]]; then
 		if [[ -f "$OSSERVICES/Default/Languages/$2" ]]; then
 			echo "Setting language..."
 			cp "$OSSERVICES/Default/Languages/en-us/"* "$LIBRARY/Preferences/Language/"
@@ -97,6 +97,9 @@ elif [[ "$1" == "--language" ]]; then
 		else
 			echo "No such language found."
 		fi
+	else
+		export BundlePath="$OSSERVICES/Utility/Setup"
+		"$OSSERVICES/Utility/Setup/code/langset_gui"
 	fi
 else
 	echo "Unknown action."

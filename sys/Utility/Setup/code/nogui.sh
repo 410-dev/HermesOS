@@ -1,6 +1,6 @@
 #!/bin/bash
-verbose "[${GREEN}*${C_DEFAULT}] Starting setup..."
-sys_log "Setup" "Setup started."
+verbose "[${GREEN}*${C_DEFAULT}] Starting non-graphical setup..."
+sys_log "Setup" "Graphical setup started."
 ls -1 "$OSSERVICES/Default/Languages"
 while [[ true ]]; do
 	echo ""
@@ -9,7 +9,6 @@ while [[ true ]]; do
 	read language
 	if [[ -z "$language" ]]; then
 		echo "${SETUP_LANG_SELECTED} ${LANG_ID}"
-		break
 	elif [[ -d "$OSSERVICES/Default/Languages/$language" ]]; then
 		echo "${SETTING_LANGUAGE}"
 		cp "$OSSERVICES/Default/Languages/$language/"* "$LIBRARY/Preferences/Language/"
@@ -24,7 +23,6 @@ source "$LIBRARY/Preferences/Language/setup.hlang"
 sys_log "Setup" "Setting up name..."
 while [[ true ]]; do
 	sys_log "Setup" "Asking for input..."
-	echo -n "${SETUP_ASK_NAME}"
 	echo -n ""
 	read USRNAME
 	if [[ -z "$USRNAME" ]]; then
@@ -39,7 +37,7 @@ done
 sys_log "Setup" "Setting up device name..."
 while [[ true ]]; do
 	sys_log "Setup" "Asking for input..."
-	echo -n "${SETUP_ASK_DEVNAME}"
+	echo -n "${SETUP_ASL_DEVNAME}"
 	read DEVN
 	if [[ -z "$DEVN" ]]; then
 		sys_log "Setup" "Invalid input for device name."

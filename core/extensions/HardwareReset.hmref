@@ -1,0 +1,12 @@
+#!/bin/bash
+
+trap sysreset INT
+function sysreset() {
+	echo ""
+	clear
+	sys_log "CoreTrapper" "Device reset!!"
+    echo "[System Event] Resetting device..."
+    sleep 1
+    rm -rf "$CACHE"
+    "$CORE/osstop"
+}

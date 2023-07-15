@@ -2,7 +2,7 @@
 function OSSTART() {
 	export BOOTARGS="${BOOTARGS} $1 $2 $3 $4 $5 $6 $7 $8 $9"
 	export SYSNAME="LiteOS"
-	export SYSVERS="1.1"
+	export SYSVERS="1.0"
 	export SYSLOC="$SYSTEM/boot/bootloader/liteos"
 	export SYSCAC="$CACHE"
 
@@ -13,35 +13,6 @@ function OSSTART() {
 		source "$SYSLOC/$DATAFILE"
 	done <<< "$(ls -p | grep -v / | grep ".DATA")"
 	verbose "$SYSNAME data is uploaded to memory."
-
-	if [[ ! -z "$(FIRMWARE_INFO 2>/dev/null)" ]]; then
-		verbose "Firmware information is detected."
-		if [[ $(bootArgumentHas "no-firm-support") == "1" ]]; then
-			verbose "Firmware support is disabled."
-
-			if [[ "$(FIRMWARE_INFO unload)" == "1" ]]; then
-				if [[ "$(FIRMWARE unload)" == "0" ]]; then
-					verbose "Firmware is unloaded using provided function."
-				else
-					verbose "Failed to unload firmware. Using default method."
-					unset -f FIRMWARE_INFO 2>/dev/null
-					unset -f sysreset 2>/dev/null
-				fi
-			else
-				verbose "Firmware does not support self-unloading. Using default method."
-				unset -f FIRMWARE_INFO 2>/dev/null
-				unset -f sysreset 2>/dev/null
-			fi
-			unset -f FIRMWARE 2>/dev/null
-		else
-			verbose "Firmware support is enabled."
-			verbose "Firmware version: $(FIRMWARE_INFO version)"
-			verbose "Firmware manufacture: $(FIRMWARE_INFO manufacture)"
-		fi
-	else
-		verbose "Firmware information is not detected."
-	fi
-
 
 	if [[ $(bootArgumentHas "lite") == "1" ]]; then
 		LITE_START

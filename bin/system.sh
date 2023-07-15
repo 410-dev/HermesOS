@@ -41,6 +41,48 @@ elif [[ "$1" == "--rollback" ]]; then
 	fi
 elif [[ "$1" == "--uirestart" ]]; then
 	touch "$CACHE/uirestart"
+elif [[ "$1" == "--update-legacy" ]]; then
+	if [[ "$(regread "USER/System/Legacy/EnableLegacyUpdate")" -ne "1" ]]; then
+		echo "Legacy update is unsupported."
+		exit 0
+	fi
+
+	if [[ "$HUID" -ne 0 ]]; then
+		echo "${PERMISSION_DENIED}$HUID"
+		exit 0
+	fi
+
+	if [[ -f "$LIBRARY/image.zip" ]]; then
+
+		if [[ "$(FIRMWARE_INFO virtualization)" == "1" ]]; then
+			echo "Your system supports virtualization."
+			echo "It is highly recommended that you use the virtualization."
+			echo "Do you want to continue with the legacy update? (y/n)"
+			read -r -n 1 -s
+			if [[ "$REPLY" != "y" ]] || [[ "$REPLY" != "Y" ]]; then
+				echo "Aborted."
+				exit 0
+			fi
+		fi
+
+		echo -e "${RED}WARNING: Legacy update is not recommended.${C_DEFAULT}"
+		echo -e "${YELLOW}This may damage your system and cause data loss.${C_DEFAULT}"
+		echo -e "${YELLOW}Please backup your data before continuing.${C_DEFAULT}"
+		echo -e "${YELLOW}Do you want to continue? (y/n)${C_DEFAULT}"
+		read -r -n 1 -s
+		if [[ "$REPLY" != "y" ]] || [[ "$REPLY" != "Y" ]]; then
+			echo "Aborted."
+			exit 0
+		fi
+
+		echo "Preparing for update..."
+		echo "Setting LiteOS to update mode..."
+		cp "$OSSERVICES/Library/Legacy/Compatibility/LegacyOSInstall.litescript" "$ROOTFS/TERMINATE.litescript"
+		echo "Shutting down and entering LiteOS interpreter mode..."
+		"$SYSTEM/bin/shutdown"
+	else
+		echo "System update not detected."
+	fi
 elif [[ "$1" == "--update" ]]; then
 	if [[ "$HUID" -ne 0 ]]; then
 		echo "${PERMISSION_DENIED}$HUID"
@@ -105,12 +147,11 @@ elif [[ "$1" == "--logflush" ]]; then
 	rm -rf "$LIBRARY/Logs"
 	mkdir -p "$LIBRARY/Logs"
 elif [[ "$1" == "--ota-download" ]]; then
-	if [[ "$2" == "--legacy" ]] && [[ "$(regread "USER/System/Legacy/EnableLegacyUpdate")" == "1" ]]; then
+	if [[ "$2" == "--legacy" ]] && [[ "$(regread "USER/System/Legacy/EnableLegacyUpdate")" == *"1"* ]]; then
 		"$OSSERVICES/Library/Legacy/Services/Update/dlutil"
 	else
 		"$OSSERVICES/Library/Services/Update/dlutil"
 	fi
-
 elif [[ "$1" == "--extensions" ]]; then
 	if [[ -d "$LIBRARY/HardwareExtensions" ]]; then
 		ls -1 "$LIBRARY/HardwareExtensions"

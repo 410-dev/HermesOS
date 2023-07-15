@@ -8,7 +8,8 @@ if [[ "$HUID" -ne 0 ]]; then
 	exit 0
 fi
 
-if [[ "$(access_fs "$REGISTRY/$2")" == "-9" ]]; then
+# If length of realpath "$REGISTRY/$2" is shorter than length of realpath "$REGISTRY", then it is not within the registry.
+if [[ "$(realpath "$REGISTRY/$2" | wc -c)" -lt "$(realpath "$REGISTRY" | wc -c)" ]]; then
 	echo "${ERROR}Modifying data not within registry is not permitted."
 	exit -9
 fi
@@ -43,6 +44,10 @@ elif [[ "$1" == "setvalue" ]]; then
 		echo "There is a key with the same name."
 		exit 0
 	else
+		if [[ ! -d "$(dirname "$REGISTRY/$2")" ]]; then
+			mkdir -p "$(dirname "$REGISTRY/$2")"
+			echo "Key created: $(dirname "$REGISTRY/$2")"
+		fi
 		REGLOC="$REGISTRY/$2"
 		shift
 		shift

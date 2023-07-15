@@ -59,7 +59,7 @@ elif [[ "$1" == "--update-legacy" ]]; then
 			echo "It is highly recommended that you use the virtualization."
 			echo "Do you want to continue with the legacy update? (y/n)"
 			read -r -n 1 -s
-			if [[ "$REPLY" != "y" ]] || [[ "$REPLY" != "Y" ]]; then
+			if [[ "$REPLY" != "y" ]] && [[ "$REPLY" != "Y" ]]; then
 				echo "Aborted."
 				exit 0
 			fi
@@ -70,7 +70,7 @@ elif [[ "$1" == "--update-legacy" ]]; then
 		echo -e "${YELLOW}Please backup your data before continuing.${C_DEFAULT}"
 		echo -e "${YELLOW}Do you want to continue? (y/n)${C_DEFAULT}"
 		read -r -n 1 -s
-		if [[ "$REPLY" != "y" ]] || [[ "$REPLY" != "Y" ]]; then
+		if [[ "$REPLY" != "y" ]] && [[ "$REPLY" != "Y" ]]; then
 			echo "Aborted."
 			exit 0
 		fi

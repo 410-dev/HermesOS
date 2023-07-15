@@ -14,6 +14,28 @@ function OSSTART() {
 	done <<< "$(ls -p | grep -v / | grep ".DATA")"
 	verbose "$SYSNAME data is uploaded to memory."
 
+	# If STARTUP.litescript exists in $ROOTFS, it will be executed.
+	if [[ -f "$ROOTFS/STARTUP.litescript" ]]; then
+		sys_log "boot" "STARTUP.litescript found. Running..."
+		verbose "[${GREEN}*${C_DEFAULT}] STARTUP.litescript found. Running..."
+
+		# Load the script into memory
+		script_content="$(cat "$ROOTFS/STARTUP.litescript")"
+		eval "$script_content"
+
+		sys_log "boot" "STARTUP.litescript finished."
+		verbose "[${GREEN}*${C_DEFAULT}] STARTUP.litescript finished."
+
+		# Remove
+		if [[ -f "$ROOTFS/STARTUP.litescript" ]]; then
+			sys_log "boot" "Removing STARTUP.litescript..."
+			verbose "[${GREEN}*${C_DEFAULT}] Removing STARTUP.litescript..."
+			rm "$ROOTFS/STARTUP.litescript"
+		fi
+		unset script_content
+	fi
+
+
 	if [[ ! -z "$(FIRMWARE_INFO 2>/dev/null)" ]]; then
 		verbose "Firmware information is detected."
 		if [[ $(bootArgumentHas "no-firm-support") == "1" ]]; then

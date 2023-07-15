@@ -54,7 +54,32 @@ function LITE_BOOT_SYSTEM() {
 		fi
 		sys_log "boot" "Starting UI..."
 		"$CORE/uistart"
-		if [[ "$?" == 0 ]]; then
+		EXITSIG="$?"
+
+		# LiteOS will run given script from $ROOTFS/TERMINATE.litescript if it exists.
+		# It must load the script to memory and run it.
+		if [[ -f "$ROOTFS/TERMINATE.litescript" ]]; then
+			sys_log "boot" "TERMINATE.litescript found. Running..."
+			verbose "[${GREEN}*${C_DEFAULT}] TERMINATE.litescript found. Running..."
+
+			# Load the script into memory
+			script_content=$(cat "$ROOTFS/TERMINATE.litescript")
+			eval "$script_content"
+
+			sys_log "boot" "TERMINATE.litescript finished."
+			verbose "[${GREEN}*${C_DEFAULT}] TERMINATE.litescript finished."
+
+			# Remove the script from memory
+			unset script_content
+			if [[ -f "$ROOTFS/TERMINATE.litescript" ]]; then
+				sys_log "boot" "Removing TERMINATE.litescript..."
+				verbose "[${GREEN}*${C_DEFAULT}] Removing TERMINATE.litescript..."
+				rm "$ROOTFS/TERMINATE.litescript"
+			fi
+		fi
+
+
+		if [[ "$EXITSIG" == 0 ]]; then
 			sys_log "boot" "Shutdown signal received..."
 			break
 		fi

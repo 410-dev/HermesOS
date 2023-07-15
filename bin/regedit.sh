@@ -8,9 +8,9 @@ if [[ "$HUID" -ne 0 ]]; then
 	exit 0
 fi
 
-# If length of realpath "$REGISTRY/$2" is shorter than length of realpath "$REGISTRY", then it is not within the registry.
-if [[ "$(realpath "$REGISTRY/$2" | wc -c)" -lt "$(realpath "$REGISTRY" | wc -c)" ]]; then
-	echo "${ERROR}Modifying data not within registry is not permitted."
+# If length of realpath "$REGISTRY/$2" is longer than length of realpath "$REGISTRY", then it is not within the registry.
+if [[ "$2" == *"."* ]]; then
+	echo "${ERROR}Invalid character found in key name."
 	exit -9
 fi
 
@@ -46,7 +46,7 @@ elif [[ "$1" == "setvalue" ]]; then
 	else
 		if [[ ! -d "$(dirname "$REGISTRY/$2")" ]]; then
 			mkdir -p "$(dirname "$REGISTRY/$2")"
-			echo "Key created: $(dirname "$REGISTRY/$2")"
+			echo "Key created: $(dirname "$2")"
 		fi
 		REGLOC="$REGISTRY/$2"
 		shift

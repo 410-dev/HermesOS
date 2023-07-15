@@ -1,5 +1,6 @@
 #!/bin/bash
-if [[ -f "$LIBRARY/image.tar.gz" ]]; then
+echo "WARNING: Legacy OTA downloading feature will be removed in a future release."
+if [[ -f "$LIBRARY/image.zip" ]]; then
 	echo "You already have an image downloaded."
 	echo -n "Do you want to continue? (Y/n): "
 	read yn
@@ -15,30 +16,21 @@ export URL="$(<"$(dirname "$0")/ota-profile")"
 if [[ -f "$NVRAM/ota-profile" ]]; then
 	export URL="$(<"$NVRAM/ota-profile")"
 fi
-
-# Replace __CHANNEL__ in URL with the channel name from registry. Default is master.
-ChannelName="$(regread "SYSTEM/Update/Channel")"
-if [[ "$ChannelName" != "null" ]]; then
-	export URL="$(echo "$URL" | sed "s/__CHANNEL__/$ChannelName/g")"
-else
-	export URL="$(echo "$URL" | sed "s/__CHANNEL__/master/g")"
-fi
-
 curl -Ls "$URL" -o "$CACHE/ota-profile"
 if [[ ! -z "$(cat "$CACHE/ota-profile" | grep "404:")" ]]; then
 	echo "Compatible image not found. Unable to download image."
 	exit 0
 fi
-OS_Version_Major="$(cat "$CACHE/ota-profile")"
+source "$CACHE/ota-profile"
 if [[ ! -z "$OS_Version_Major" ]]; then
 	if [[ ! -z "$(<"$(dirname "$0")/ota-address")" ]] && [[ ! -z "$(<"$(dirname "$0")/ota-filename")" ]]; then
-		curl -L --progress-bar "$(<"$(dirname "$0")/ota-address")/$OS_Tag/$(<"$(dirname "$0")/ota-filename")" -o "$LIBRARY/image.tar.gz"
-		if [[ ! -z "$(cat "$LIBRARY/image.tar.gz" | grep "sys/interface")" ]]; then
+		curl -L --progress-bar "$(<"$(dirname "$0")/ota-address")/$OS_Tag/$(<"$(dirname "$0")/ota-filename")" -o "$LIBRARY/image.zip"
+		if [[ ! -z "$(cat "$LIBRARY/image.zip" | grep "sys/interface")" ]]; then
 			echo "Download was successful: $OS_Tag"
 			exit 0
 		else
 			echo "Failed downloading: $OS_Tag"
-			rm "$LIBRARY/image.tar.gz"
+			rm "$LIBRARY/image.zip"
 			exit 0
 		fi
 	else

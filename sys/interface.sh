@@ -65,7 +65,8 @@ function execCommand() {
 				echo "${args[0]}" > "$CACHE/process"
 			fi
 		fi
-		"$SYSTEM/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
+		command_args=("${args[@]}")
+		"${SYSTEM}/bin/${command_args[@]}"
 	elif [[ "$command" == "switch_to_liteos" ]]; then
 		switch_to_liteos
 	elif [[ -z "$command" ]]; then
@@ -73,8 +74,9 @@ function execCommand() {
 	elif [[ "$(regread USER/Shell/DeveloperOptions)" == "1" ]]; then
 		export lastExecutedCommand="$command"
 		echo "${args[0]}" > "$CACHE/process"
-		if [[ -f "$OSSERVICES/Library/Developer/bin/${args[0]}" ]]; then
-			"$OSSERVICES/Library/Developer/bin/${args[0]}" "${args[1]}" "${args[2]}" "${args[3]}" "${args[4]}" "${args[5]}" "${args[6]}" "${args[7]}" "${args[8]}" "${args[9]}" "${args[10]}" "${args[11]}" "${args[12]}"
+		if [[ -f "$OSSERVICES/Library/Developer/bin/${args[0]}" ]]; then\
+			command_args=("${args[@]}")
+			"$OSSERVICES/Library/Developer/bin/${command_args[@]}"
 		else
 			echo "${COMMAND_NOT_FOUND}${args[0]}"
 		fi

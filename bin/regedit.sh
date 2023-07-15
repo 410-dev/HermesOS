@@ -52,7 +52,7 @@ elif [[ "$1" == "setvalue" ]]; then
 		shift
 		shift
 		echo "$@" > "$REGLOC"
-		echo "Value set: $@"
+		echo "Value set: '$@'"
 	fi
 elif [[ "$1" == "delete" ]]; then
 	if [[ -z "$2" ]]; then

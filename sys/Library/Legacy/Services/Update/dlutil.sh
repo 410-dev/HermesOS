@@ -17,12 +17,12 @@ if [[ -z "$URL" ]] || [[ "$URL" == "null" ]]; then
 	URL="https://github.com/410-dev/HermesOS/releases/download/15.1/image.zip"
 fi
 
-curl -L --progress-bar "$(<"$(dirname "$0")/ota-address")/$OS_Tag/$(<"$(dirname "$0")/ota-filename")" -o "$LIBRARY/image.zip"
+curl -L --progress-bar "$URL" -o "$LIBRARY/image.zip"
 if [[ ! -z "$(cat "$LIBRARY/image.zip" | grep "sys/interface")" ]]; then
-	echo "Download was successful: $OS_Tag"
+	echo "Download was successful."
 	exit 0
 else
-	echo "Failed downloading: $OS_Tag"
+	echo "Failed downloading legacy image. (Unable to verify)"
 	rm "$LIBRARY/image.zip"
 	exit 0
 fi

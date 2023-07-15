@@ -105,7 +105,12 @@ elif [[ "$1" == "--logflush" ]]; then
 	rm -rf "$LIBRARY/Logs"
 	mkdir -p "$LIBRARY/Logs"
 elif [[ "$1" == "--ota-download" ]]; then
-	"$OSSERVICES/Library/Services/Update/dlutil"
+	if [[ "$2" == "--legacy" ]] && [[ "$(regread "USER/System/Legacy/EnableLegacyUpdate")" == "1" ]]; then
+		"$OSSERVICES/Library/Legacy/Services/Update/dlutil"
+	else
+		"$OSSERVICES/Library/Services/Update/dlutil"
+	fi
+
 elif [[ "$1" == "--extensions" ]]; then
 	if [[ -d "$LIBRARY/HardwareExtensions" ]]; then
 		ls -1 "$LIBRARY/HardwareExtensions"

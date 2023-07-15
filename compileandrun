@@ -3,8 +3,9 @@
 # 프로젝트 루트 디렉토리로 이동
 cd "$(dirname "$0")/../"
 
-if [[ "$1" -ne "nosync" ]]; then
+if [[ "$1" != "nosync" ]]; then
     # Source 폴더에서 System 폴더로 파일 복사 후 불필요한 파일 삭제
+    echo "Syncing..."
     rm -rf "System"
     cp -r "Source" "System"
     rm -rf "System/.git" "System/.gitattributes" "System/.gitignore" "System/README.md" "System/compileandrun"

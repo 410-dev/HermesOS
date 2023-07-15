@@ -29,15 +29,15 @@ if [[ ! -z "$(cat "$CACHE/ota-profile" | grep "404:")" ]]; then
 	echo "Compatible image not found. Unable to download image."
 	exit 0
 fi
-OS_Version_Major="$(cat "$CACHE/ota-profile")"
-if [[ ! -z "$OS_Version_Major" ]]; then
+SYSVER="$(cat "$CACHE/ota-profile")"
+if [[ ! -z "$SYSVER" ]]; then
 	if [[ ! -z "$(<"$(dirname "$0")/ota-address")" ]] && [[ ! -z "$(<"$(dirname "$0")/ota-filename")" ]]; then
-		curl -L --progress-bar "$(<"$(dirname "$0")/ota-address")/$OS_Tag/$(<"$(dirname "$0")/ota-filename")" -o "$LIBRARY/image.tar.gz"
-		if [[ ! -z "$(cat "$LIBRARY/image.tar.gz" | grep "sys/interface")" ]]; then
-			echo "Download was successful: $OS_Tag"
+		curl -L --progress-bar "$(<"$(dirname "$0")/ota-address")/$SYSVER/$(<"$(dirname "$0")/ota-filename")" -o "$LIBRARY/image.tar.gz"
+		if [[ ! -z "$(file "$LIBRARY/image.tar.gz" | grep "gzip compressed data")" ]]; then
+			echo "Download was successful: $SYSVER"
 			exit 0
 		else
-			echo "Failed downloading: $OS_Tag"
+			echo "Failed downloading: $SYSVER"
 			rm "$LIBRARY/image.tar.gz"
 			exit 0
 		fi

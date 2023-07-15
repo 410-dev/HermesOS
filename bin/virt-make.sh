@@ -117,8 +117,11 @@ else
     fi
 fi
 
-echo "Cleaning extended attributes..."
-find "$USERDATA/VirtualMachines/containers/$ContainerName/disk" -exec xattr -c {} \;
+if [[ "$(FIRMWARE_INFO instruction xattr)" == "1" ]]; then
+    find "$USERDATA/VirtualMachines/containers/$ContainerName/disk" -exec xattr -c {} \;
+else
+    echo "Warning: xattr is not supported on this system. The virtual machine may not work properly."
+fi
 
 if [[ -x "$USERDATA/VirtualMachines/containers/$ContainerName/System/boot/firm" ]]; then
     echo "The image contains built-in firmware. Use --firm to use it."

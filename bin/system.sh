@@ -104,7 +104,7 @@ elif [[ "$1" == "--info" ]]; then
 	echo "System Information"
 	echo "OS Name: $OS_Name"
 	echo "Version: $OS_Version (build $OS_Build)"
-	echo "Kernel: $CoreName - $CoreVersion"
+	echo "Kernel: $KernelName - $KernelVersion"
 	echo "Vendor: $OS_Vendor"
 	echo "Interface Version: $OS_InterfaceVersion"
 	echo "Lock State: $OS_UnlockedDistro"

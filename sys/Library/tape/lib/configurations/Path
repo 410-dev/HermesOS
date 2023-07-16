@@ -1,0 +1,4 @@
+#!/bin/bash
+export LOCK="$TAPEPACKAGER/lock"
+export TEMP="$TAPEPACKAGER/temp"
+export DEFAULT_TARGET="/"

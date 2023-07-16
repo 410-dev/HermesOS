@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "Taped Gzip-Packager"
+echo "Version 1.0.0"
+echo "By: 410-dev"

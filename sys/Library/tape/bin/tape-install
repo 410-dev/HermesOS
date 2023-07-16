@@ -1,0 +1,567 @@
+#!/bin/bash
+
+# Verify library installation
+if [[ -z "$TAPEPACKAGER" ]]; then
+    ORIG_PATH="$PWD"
+    cd "$(dirname "$0")/../"
+    export TAPEPACKAGER="$PWD"
+    cd "$ORIG_PATH"
+    echo -e "${YELLOW}Warning:${NC} The TAPEPACKAGER environment variable is not set."
+    if [[ ! -d "$TAPEPACKAGER/lib" ]] || [[ ! -d "$TAPEPACKAGER/bin" ]]; then
+        echo -e "${RED}Error:${NC} Auto setting the TAPEPACKAGER environment variable failed. Please set it manually."
+        exit 1
+    else
+        echo -e "${YELLOW}Warning:${NC} Auto-corrected the TAPEPACKAGER environment variable: $TAPEPACKAGER"
+    fi
+fi
+
+
+# Color profiles
+source "$TAPEPACKAGER/lib/configurations/Color"
+source "$TAPEPACKAGER/lib/configurations/Path"
+source "$TAPEPACKAGER/lib/configurations/Hashes"
+
+
+# This will receive the path to package path.
+# Example: ./bin/install.sh /home/user/package.tape --target=/home/user/package
+# Manual ---------
+# Arguments with --xxx=value is optional.
+# --target=path: The path to extract the package.
+# --ignore-dependencies: Ignore dependencies.
+# --ignore-conflicts: Ignore conflicts.
+# --overwrite: Overwrite the package if it is already installed.
+# --force: Force the installation. (Ignore dependencies and conflicts, and overwrite the package if it is already installed.)
+# --verify-md5=md5: Verify the package MD5.
+# --verify-sha2=sha2: Verify the package SHA2.
+# --help: Show the help.
+
+# Check if the package path is provided.
+if [[ -z "$1" ]]; then
+    echo -e "${RED}Error:${NC} No package path provided. Type ${GREEN}tape-install --help${NC} for more information."
+    exit 1
+fi
+
+# Check if argument is help
+if [[ "$1" == "--help" ]]; then
+    cat "$TAPEPACKAGER/lib/help/install"
+    exit 0
+fi
+
+# Check if the package path is valid.
+if [[ ! -f "$1" ]]; then
+    echo -e "${RED}Error:${NC} Invalid package path."
+    exit 1
+fi
+
+# Check if the package path is a valid package.
+if [[ ! "$1" =~ \.tape$ ]]; then
+    echo -e "${RED}Error:${NC} Invalid package extension. The package must have the .tape extension."
+    exit 1
+elif [[ "$(file -b "$1")" != *"gzip compressed data"* ]]; then
+    echo -e "${RED}Error:${NC} Invalid package format. The package must be a gzip compressed data."
+    exit 1
+fi
+
+# Verify the package MD5 if provided and supports md5 command.
+if [[ "$@" =~ --verify-md5=.{32} ]]; then
+    if [[ "$(md5 "$1")" != "$(echo "$@" | sed -n 's/.*--verify-md5=\([^ ]*\).*/\1/p')" ]]; then
+        echo -e "${RED}Error:${NC} The package MD5 does not match."
+        exit 1
+    else
+        echo -e "The package MD5 matches."
+    fi
+fi
+
+# Verify the package SHA2 if provided and supports
+if [[ "$@" =~ --verify-sha2=.{64} ]]; then
+    if [[ "$(sha2 "$1")" != "$(echo "$@" | sed -n 's/.*--verify-sha2=\([^ ]*\).*/\1/p')" ]]; then
+        echo -e "${RED}Error:${NC} The package SHA2 does not match."
+        exit 1
+    else
+        echo -e "The package SHA2 matches."
+    fi
+fi
+
+# Check if temporary directory is in use by checking the lock file
+if [[ -f "$LOCK" ]]; then
+    echo -e "${RED}Error:${NC} The temporary directory is in use. Please wait until the current installation is finished."
+    exit 1
+else
+    touch "$LOCK"
+fi
+
+# Check if the temporary directory exists
+if [[ ! -d "$TEMP" ]]; then
+    mkdir "$TEMP"
+    if [[ ! -d "$TEMP" ]]; then
+        echo -e "${RED}Error:${NC} The temporary directory could not be created."
+        exit 1
+    fi
+fi
+
+# Check if the temporary directory is writable
+if [[ ! -w "$TEMP" ]]; then
+    echo -e "${RED}Error:${NC} The temporary directory is not writable."
+    exit 1
+fi
+
+# Unpacking package. Multiple packages can be provided. Ignore if argument starts with --.
+echo -e "Unpacking package..."
+invalidPackageList=""
+failedUnpackList=""
+
+for package in "$@"; do
+    if [[ ! "$package" =~ ^-- ]]; then
+        echo -e "Unpacking $package..."
+        mkdir -p "$TEMP/$(basename "$package" .tape)"
+        tar -xf "$package" -C "$TEMP/$(basename "$package" .tape)" --strip-components=1
+        if [[ $? -ne 0 ]]; then
+            echo -e "${RED}Error:${NC} The package could not be unpacked."
+            if [[ -d "$TEMP/$(basename "$package" .tape)" ]]; then
+                rm -rf "$TEMP/$(basename "$package" .tape)"
+            fi
+            failedUnpackList="$failedUnpackList $package"
+        fi
+        if [[ ! -d "$TEMP/$(basename "$package" .tape)/meta" ]]; then
+            echo -e "${RED}Error:${NC} The package does not contain package information. Dropping from installation queue..."
+            rm -rf "$TEMP/$(basename "$package" .tape)"
+            invalidPackageList="$invalidPackageList $package"
+            continue
+        elif [[ ! -f "$TEMP/$(basename "$package" .tape)/meta/name" ]]; then
+            echo -e "${RED}Error:${NC} The package does not contain package name. Dropping from installation queue..."
+            rm -rf "$TEMP/$(basename "$package" .tape)"
+            invalidPackageList="$invalidPackageList $package"
+            continue
+        else
+            mv "$TEMP/$(basename "$package" .tape)" "$TEMP/$(cat "$TEMP/$(basename "$package" .tape)/meta/name")"
+        fi
+        echo -e "Unpacked $package."
+    fi
+done
+
+# Set target installation location
+if [[ "$@" =~ --target= ]]; then
+    target=$(echo "$@" | sed -n 's/.*--target=\([^ ]*\).*/\1/p')
+    realtarget="$target"
+    target="$(echo "$target" | sed 's|/|_|g')"
+    mkdir -p "$realtarget"
+    mkdir -p "$TAPEPACKAGER/lib/database/$target"
+elif [[ ! -z "$DEFAULT_TARGET" ]]; then
+    target="$DEFAULT_TARGET"
+    realtarget="$target"
+    target="$(echo "$target" | sed 's|/|_|g')"
+    mkdir -p "$realtarget"
+    mkdir -p "$TAPEPACKAGER/lib/database/$target"
+else
+    target="_"
+    realtarget="/"
+    mkdir -p "$TAPEPACKAGER/lib/database/$target"
+fi
+
+# Check if the package is already installed
+echo -e "Checking if the package is already installed..."
+skippedPackages_alreadyInstalled=""
+
+for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
+    if [[ -z "$package" ]]; then
+        continue
+    fi
+    if [[ -f "$package/meta/name" ]]; then
+        packageName="$(cat "$package/meta/name")"
+        if [[ -d "$TAPEPACKAGER/lib/database/$target/$packageName" ]]; then
+            if [[ -f "$TAPEPACKAGER/lib/database/$target/$packageName/version" ]]; then
+                installedVersion="$(cat "$TAPEPACKAGER/lib/database/$target/$packageName/version")"
+            else
+                installedVersion="undefined"
+            fi
+            if [[ -f "$package/meta/version" ]]; then
+                packageVersion="$(cat "$package/meta/version")"
+            else
+                packageVersion="undefined"
+            fi
+            if [[ "$@" =~ --overwrite ]] || [[ "$@" =~ --force ]] || [[ "$packageVersion" != "$installedVersion" ]]; then
+                echo -e "${YELLOW}Warning:${NC} The package $packageName is already installed."
+                if [[ "$packageVersion" != "$installedVersion" ]]; then
+                    echo -e "Upgrading $packageName from $installedVersion to $packageVersion."
+                fi
+                rm -rf "$TAPEPACKAGER/lib/database/$target/$packageName"
+            else
+                echo -e "${YELLOW}Warning:${NC} The package $packageName is already installed. Dropping from installation queue..."
+                skippedPackages_alreadyInstalled="$skippedPackages_alreadyInstalled $packageName"
+                rm -rf "$package"
+                continue
+            fi
+        fi
+    fi
+done
+
+# Check if any packages conflicts that is already installed
+echo -e "Checking conflicts..."
+skippedPackages_conflict=""
+
+for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
+    if [[ -z "$package" ]]; then
+        continue
+    fi
+    if [[ -f "$package/meta/name" ]]; then
+        packageName="$(cat "$package/meta/name")"
+        if [[ -f "$package/meta/conflicts" ]]; then
+            for conflict in $(cat "$package/meta/conflicts"); do
+
+                if [[ -z "$conflict" ]]; then
+                    continue
+                fi
+
+                # Conflict version operator ==
+                if [[ "$conflict" == *"=="* ]]; then
+                    conflictVersion="$(echo "$conflict" | awk -F "==" '{print $2}')"
+                    conflictVersionOperator="=="
+                    conflict="$(echo "$conflict" | awk -F "==" '{print $1}')"
+
+                # Conflict version operator >=
+                elif [[ "$conflict" == *">="* ]]; then
+                    conflictVersion="$(echo "$conflict" | awk -F ">=" '{print $2}')"
+                    conflictVersionOperator=">="
+                    conflict="$(echo "$conflict" | awk -F ">=" '{print $1}')"
+
+                # Conflict version operator <=
+                elif [[ "$conflict" == *"<="* ]]; then
+                    conflictVersion="$(echo "$conflict" | awk -F "<=" '{print $2}')"
+                    conflictVersionOperator="<="
+                    conflict="$(echo "$conflict" | awk -F "<=" '{print $1}')"
+                fi
+
+                # Check if the package is installed
+                if [[ -d "$TAPEPACKAGER/lib/database/$target/$conflict" ]]; then
+
+                    # Check version if operator exists
+                    if [[ ! -z "$conflictVersionOperator" ]]; then
+                        if [[ -f "$TAPEPACKAGER/lib/database/$target/$conflict/version" ]]; then
+                            installedVersion="$(cat "$TAPEPACKAGER/lib/database/$target/$conflict/version")"
+                            # Equal case
+                            if [[ "$conflictVersionOperator" == "==" ]]; then
+                                if [[ "$installedVersion" != "$conflictVersion" ]]; then
+                                    continue
+                                fi
+                            # Greater than or equal case
+                            elif [[ "$conflictVersionOperator" == ">=" ]]; then
+                                if [[ "$installedVersion" < "$conflictVersion" ]]; then
+                                    continue
+                                fi
+
+                            # Less than or equal case
+                            elif [[ "$conflictVersionOperator" == "<=" ]]; then
+                                if [[ "$installedVersion" > "$conflictVersion" ]]; then
+                                    continue
+                                fi
+                            fi
+                        fi
+                    fi
+                    
+                    # Update queue based on arguments
+                    if [[ "$@" =~ --ignore-conflicts ]] || [[ "$@" =~ --force ]]; then
+                        echo -e "${YELLOW}Warning:${NC} The package $packageName conflicts with $conflict."
+                        continue
+                    else
+                        echo -e "${RED}Error:${NC} The package $packageName conflicts with $conflict. Dropping from installation queue..."
+                        skippedPackages_conflict="$skippedPackages_conflict $packageName"
+                        rm -rf "$package"
+                        continue
+                    fi
+                fi
+            done
+        fi
+    fi
+done
+
+# Read all conflict files in the target database
+for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
+    if [[ -f "$package/meta/version" ]]; then
+        packageVersion="$(cat "$package/meta/version")"
+    else
+        packageVersion="undefined"
+    fi
+    list1="$("$TAPEPACKAGER/bin/tape-conflicts" "$target" "$(basename "$package")=$packageVersion")"
+    list2="$("$TAPEPACKAGER/bin/tape-conflicts" "%TEMP%" "$(basename "$package")=$packageVersion")"
+    if [[ ! -z "$list1" ]]; then
+        if [[ "$@" =~ --ignore-conflicts ]] || [[ "$@" =~ --force ]]; then
+            echo -e "${YELLOW}Warning:${NC} The following installed packages are conflicting with $(basename "$package"): "
+            echo -e "$list1"
+            continue
+        else
+            echo -e "${RED}Error:${NC} The following installed packages are conflicting with $(basename "$package"). Dropping from installation queue..."
+            echo -e "$list1"
+            skippedPackages_conflict="$skippedPackages_conflict $(basename "$package")"
+            rm -rf "$package"
+            continue
+        fi
+    fi
+    if [[ ! -z "$list2" ]]; then
+        if [[ "$@" =~ --ignore-conflicts ]] || [[ "$@" =~ --force ]]; then
+            echo -e "${YELLOW}Warning:${NC} The following queued packages are conflicting with $package: "
+            echo -e "$list2"
+            continue
+        else
+            echo -e "${RED}Error:${NC} The following queued packages are conflicting with $package. Dropping from installation queue..."
+            echo -e "$list2"
+            skippedPackages_conflict="$skippedPackages_conflict $package"
+            rm -rf "$package"
+            continue
+        fi
+    fi
+done
+
+
+# Check if any packages are missing dependencies
+echo -e "Checking dependencies..."
+skippedPackages_dependency=""
+
+for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
+    if [[ -z "$package" ]]; then
+        continue
+    fi
+    if [[ -f "$package/meta/name" ]]; then
+        packageName="$(cat "$package/meta/name")"
+        if [[ -f "$package/meta/dependencies" ]]; then
+            for dependency in $(cat "$package/meta/dependencies"); do
+
+                if [[ -z "$dependency" ]]; then
+                    continue
+                fi
+
+                # Dependency version operator ==
+                if [[ "$dependency" == *"=="* ]]; then
+                    dependencyVersion="$(echo "$dependency" | awk -F "==" '{print $2}')"
+                    dependencyVersionOperator="=="
+                    dependency="$(echo "$dependency" | awk -F "==" '{print $1}')"
+
+                # Dependency version operator >=
+                elif [[ "$dependency" == *">="* ]]; then
+                    dependencyVersion="$(echo "$dependency" | awk -F ">=" '{print $2}')"
+                    dependencyVersionOperator=">="
+                    dependency="$(echo "$dependency" | awk -F ">=" '{print $1}')"
+
+                # Dependency version operator <=
+                elif [[ "$dependency" == *"<="* ]]; then
+                    dependencyVersion="$(echo "$dependency" | awk -F "<=" '{print $2}')"
+                    dependencyVersionOperator="<="
+                    dependency="$(echo "$dependency" | awk -F "<=" '{print $1}')"
+
+                fi
+
+
+                # Check if the package is installed or is in installation queue 
+                if [[ -d "$TAPEPACKAGER/lib/database/$target/$dependency" ]] || [[ -d "$TEMP/$dependency" ]]; then
+
+                    # Dependency meta location
+                    if [[ -d "$TEMP/$dependency" ]]; then
+                        dependencyMetaLocation="$TEMP/$dependency/meta"
+                    else
+                        dependencyMetaLocation="$TAPEPACKAGER/lib/database/$target/$dependency"
+                    fi
+
+                    # Check version if operator exists
+                    if [[ ! -z "$dependencyVersionOperator" ]]; then
+
+                        # Check if the dependency has a version file
+                        if [[ -f "$dependencyMetaLocation/version" ]]; then
+                            installedVersion="$(cat "$dependencyMetaLocation/version")"
+                            # Equal case
+                            if [[ "$dependencyVersionOperator" == "==" ]]; then
+                                if [[ "$installedVersion" != "$dependencyVersion" ]]; then
+                                    echo -ne "${YELLOW}Warning:${NC} The package $packageName depends on $dependency $dependencyVersionOperator $dependencyVersion, but the dependency is version $installedVersion."
+                                    
+                                    # Update queue based on arguments
+                                    if [[ "$@" =~ --ignore-dependencies ]] || [[ "$@" =~ --force ]]; then
+                                        continue
+                                    else
+                                        echo -e "Dropping from installation queue..."
+                                        skippedPackages_dependency="$skippedPackages_dependency $packageName"
+                                        rm -rf "$package"
+                                        continue
+                                    fi
+                                fi
+                            # Greater than or equal case
+                            elif [[ "$dependencyVersionOperator" == ">=" ]]; then
+                                if [[ "$installedVersion" < "$dependencyVersion" ]]; then
+                                    echo -ne "${YELLOW}Warning:${NC} The package $packageName depends on $dependency $dependencyVersionOperator $dependencyVersion, but the dependency is version $installedVersion."
+                                    
+                                    # Update queue based on arguments
+                                    if [[ "$@" =~ --ignore-dependencies ]] || [[ "$@" =~ --force ]]; then
+                                        continue
+                                    else
+                                        echo -e "Dropping from installation queue..."
+                                        skippedPackages_dependency="$skippedPackages_dependency $packageName"
+                                        rm -rf "$package"
+                                        continue
+                                    fi
+                                fi
+
+                            # Less than or equal case
+                            elif [[ "$dependencyVersionOperator" == "<=" ]]; then
+                                if [[ "$installedVersion" > "$dependencyVersion" ]]; then
+                                    echo -ne "${YELLOW}Warning:${NC} The package $packageName depends on $dependency $dependencyVersionOperator $dependencyVersion, but the dependency is version $installedVersion."
+                                    
+                                    # Update queue based on arguments
+                                    if [[ "$@" =~ --ignore-dependencies ]] || [[ "$@" =~ --force ]]; then
+                                        continue
+                                    else
+                                        echo -e "Dropping from installation queue..."
+                                        skippedPackages_dependency="$skippedPackages_dependency $packageName"
+                                        rm -rf "$package"
+                                        continue
+                                    fi
+                                fi
+                            fi
+
+                        # Dependency version file does not exist
+                        else
+                            echo -e "${YELLOW}Warning:${NC} The package $packageName depends on $dependency $dependencyVersionOperator $dependencyVersion, but the dependency does not have a version file."
+                            continue
+                        fi
+                    fi
+                # Dependency version operator does not exist
+                else
+                    echo -ne "${YELLOW}Warning:${NC} The package $packageName depends on $dependency."
+                    if [[ "$@" =~ --ignore-dependencies ]] || [[ "$@" =~ --force ]]; then
+                        continue
+                    else
+                        echo -e "Dropping from installation queue..."
+                        skippedPackages_dependency="$skippedPackages_dependency $packageName"
+                        rm -rf "$package"
+                        continue
+                    fi
+                fi
+            done
+        fi
+    fi
+done
+
+# Check if meta/preinstall.sh exists
+PreinstallFailed=""
+for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
+    if [[ -z "$package" ]]; then
+        continue
+    fi
+    if [[ -f "$package/meta/preinstall.sh" ]]; then
+        packageName="$(cat "$package/meta/name")"
+        echo -e "Running preinstall script for $packageName..."
+        echo -ne "${GRAY}"
+        bash "$package/meta/preinstall.sh"
+        exitCode="$?"
+        echo -ne "${NC}"
+        echo -e "Finished running preinstall script for $packageName."
+        if [[ "$exitCode" != "0" ]]; then
+            echo -e "${RED}Failed:${NC} The preinstall script for $packageName exited with code $exitCode."
+            PreinstallFailed="$PreinstallFailed $packageName"
+            continue
+        fi
+    fi
+done
+
+# Install each packages
+echo -e "Installing packages..."
+Installed=""
+for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
+    if [[ -z "$package" ]]; then
+        continue
+    fi
+    if [[ -d "$package/payload" ]]; then
+        packageName="$(cat "$package/meta/name")"
+        if [[ -f "$package/meta/version" ]]; then
+            packageVersion="$(cat "$package/meta/version")"
+        else
+            packageVersion="undefined"
+        fi
+        echo -e "Installing $packageName - $packageVersion..."
+        find "$package/payload" -mindepth 1 -maxdepth 1 -exec cp -r {} "$realtarget" \;
+    fi
+    Installed="$Installed
+$packageName"
+done
+
+# Check if meta/postinstall.sh exists
+PostinstallFailed=""
+for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
+    if [[ -z "$package" ]]; then
+        continue
+    fi
+    if [[ -f "$package/meta/postinstall.sh" ]]; then
+        packageName="$(cat "$package/meta/name")"
+        echo -e "Running postinstall script for $packageName..."
+        echo -ne "${GRAY}"
+        bash "$package/meta/postinstall.sh"
+        exitCode="$?"
+        echo -ne "${NC}"
+        echo -e "Finished running postinstall script for $packageName."
+        if [[ "$exitCode" != "0" ]]; then
+            echo -e "${RED}Failed:${NC} The postinstall script for $packageName exited with code $exitCode."
+            PostinstallFailed="$PostinstallFailed $packageName"
+            continue
+        fi
+    fi
+done
+
+# Copy meta files
+echo -e "Updating database..."
+for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
+    if [[ -z "$package" ]]; then
+        continue
+    fi
+    packageName="$(cat "$package/meta/name")"
+    mkdir -p "$TAPEPACKAGER/lib/database/$target/$packageName"
+    find "$package/meta" -mindepth 1 -maxdepth 1 -exec cp -r {} "$TAPEPACKAGER/lib/database/$target/$packageName/" \;
+    echo -e "Updated database for $packageName."
+done
+
+# Generate receipt file
+echo -e "Generating receipts..."
+realtarget="${realtarget%/}/"
+for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
+    if [[ -z "$package" ]]; then
+        continue
+    fi
+    packageName="$(cat "$package/meta/name")"
+    echo -e "Generating receipt for $packageName..."
+    if [[ -z "$packageName" ]]; then
+        continue
+    fi
+    fileList=$(find "$(realpath "$package")/payload" -mindepth 1 | awk '{ lines[i++] = $0 } END { for (j = i - 1; j >= 0; j--) print lines[j] }')
+    fileList=$(echo "$fileList" | sed "s|$(realpath "$package")/payload/|$realtarget|g")
+    echo "$fileList" > "$TAPEPACKAGER/lib/database/$target/$packageName/receipt"
+done
+
+# Remove temporary directory
+echo -e "Cleaning up..."
+
+for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
+    if [[ -z "$package" ]]; then
+        continue
+    fi
+    rm -rf "$package"
+done
+rm -rf "$LOCK"
+
+echo -e "${GREEN}Done:${NC} Finished installing packages."
+echo -e "${GREEN}Success: ${NC}$(echo "$Installed" | sed '/^$/d' | wc -l | sed 's/ //g') package(s) installed."
+if [[ -n "${skippedPackages_dependency//[[:space:]]/}" ]]; then
+    echo -e "${RED}Failed: ${NC}Skipped packages due to dependency issues: $skippedPackages_dependency"
+fi
+if [[ -n "${skippedPackages_conflict//[[:space:]]/}" ]]; then
+    echo -e "${RED}Failed: ${NC}Skipped packages due to conflict issues: $skippedPackages_conflict"
+fi
+if [[ -n "${failedUnpackList//[[:space:]]/}" ]]; then
+    echo -e "${RED}Failed: ${NC}Unpacking: $failedUnpackList"
+fi
+if [[ -n "${invalidPackageList//[[:space:]]/}" ]]; then
+    echo -e "${RED}Failed: ${NC}Invalid packages: $invalidPackageList"
+fi
+if [[ -n "${PreinstallFailed//[[:space:]]/}" ]]; then
+    echo -e "${RED}Pre-install configuration failed: ${NC}: $PreinstallFailed"
+fi
+if [[ -n "${PostinstallFailed//[[:space:]]/}" ]]; then
+    echo -e "${RED}Post-install configuration failed: ${NC}: $PostinstallFailed"
+fi
+if [[ -n "${skippedPackages_alreadyInstalled//[[:space:]]/}" ]]; then
+    echo -e "${YELLOW}Skipped: ${NC}Already installed: $skippedPackages_alreadyInstalled"
+fi

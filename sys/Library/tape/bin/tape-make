@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Compress given directory to tar.gz
+# Usage: tape-make.sh <directory> <output directory (optional)>
+# Example: tape-make.sh /home/user/Downloads/MyProject /home/user/Downloads
+
+
+# Verify library installation
+if [[ -z "$TAPEPACKAGER" ]]; then
+    ORIG_PATH="$PWD"
+    cd "$(dirname "$0")/../"
+    export TAPEPACKAGER="$PWD"
+    cd "$ORIG_PATH"
+    echo -e "${YELLOW}Warning:${NC} The TAPEPACKAGER environment variable is not set."
+    if [[ ! -d "$TAPEPACKAGER/lib" ]] || [[ ! -d "$TAPEPACKAGER/bin" ]]; then
+        echo -e "${RED}Error:${NC} Auto setting the TAPEPACKAGER environment variable failed. Please set it manually."
+        exit 1
+    else
+        echo -e "${YELLOW}Warning:${NC} Auto-corrected the TAPEPACKAGER environment variable: $TAPEPACKAGER"
+    fi
+fi
+
+
+# Color profiles
+source "$TAPEPACKAGER/lib/configurations/Color"
+source "$TAPEPACKAGER/lib/configurations/Path"
+source "$TAPEPACKAGER/lib/configurations/Hashes"
+
+
+if [[ ! -z "$2" ]]; then
+    OUTPUT_DIR="$2"
+else
+    OUTPUT_DIR="$PWD"
+fi
+
+SOURCE_DIR="$(realpath "$1")"
+
+echo "Input directory: $SOURCE_DIR"
+echo "Output directory: $OUTPUT_DIR"
+
+if [[ ! -d "$1" ]]; then
+    echo -e "${RED}Error:${NC} The directory $SOURCE_DIR does not exist."
+    exit 1
+fi
+
+if [[ ! -d "$OUTPUT_DIR" ]]; then
+    echo -e "${RED}Error:${NC} The directory $OUTPUT_DIR does not exist."
+    exit 1
+fi
+
+if [[ ! -w "$OUTPUT_DIR" ]]; then
+    echo -e "${RED}Error:${NC} The directory $OUTPUT_DIR is not writable."
+    exit 1
+fi
+
+PREVD="$PWD"
+cd "$(dirname "$SOURCE_DIR")"
+tar -czf "$OUTPUT_DIR/$(basename "$SOURCE_DIR").tape" "$(basename "$SOURCE_DIR")" --exclude=".DS_Store" --exclude="._*" --exclude="Thumbs.db" --exclude="ehthumbs.db" --exclude="desktop.ini"
+cd "$PREVD"
+echo -e "${GREEN}Success:${NC} Created $OUTPUT_DIR/$(basename "$SOURCE_DIR").tape"
+echo "MD5: $(md5 "$OUTPUT_DIR/$(basename "$SOURCE_DIR").tape")"
+echo "SHA2: $(sha2 "$OUTPUT_DIR/$(basename "$SOURCE_DIR").tape")"
+exit 0

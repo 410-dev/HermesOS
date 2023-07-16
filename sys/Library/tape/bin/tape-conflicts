@@ -1,0 +1,124 @@
+#!/bin/bash
+
+# Verify library installation
+if [[ -z "$TAPEPACKAGER" ]]; then
+    ORIG_PATH="$PWD"
+    cd "$(dirname "$0")/../"
+    export TAPEPACKAGER="$PWD"
+    cd "$ORIG_PATH"
+    echo -e "${YELLOW}Warning:${NC} The TAPEPACKAGER environment variable is not set."
+    if [[ ! -d "$TAPEPACKAGER/lib" ]] || [[ ! -d "$TAPEPACKAGER/bin" ]]; then
+        echo -e "${RED}Error:${NC} Auto setting the TAPEPACKAGER environment variable failed. Please set it manually."
+        exit 1
+    else
+        echo -e "${YELLOW}Warning:${NC} Auto-corrected the TAPEPACKAGER environment variable: $TAPEPACKAGER"
+    fi
+fi
+
+
+# Color profiles
+source "$TAPEPACKAGER/lib/configurations/Color"
+
+# Path Configurations
+source "$TAPEPACKAGER/lib/configurations/Path"
+
+# This will check if the given package name and version conflicts to whatever in the database.
+# Usage: tape-conflicts.sh <database target name> <package name>=<package version>
+# Example: tape-conflicts.sh _ mypackage=1.0.0        # Check if mypackage=1.0.0 conflicts to root database
+# Example: tape-conflicts.sh %TEMP% mypackage=1.0.0   # Check if mypackage=1.0.0 conflicts to temporary database
+
+if [[ -z "$1" ]]; then
+    echo -e "${RED}Error:${NC} No database target name given."
+    exit 1
+fi
+
+if [[ -z "$2" ]]; then
+    echo -e "${RED}Error:${NC} No package name and version given."
+    exit 1
+fi
+
+if [[ ! "$2" =~ ^[a-zA-Z0-9_-]+=[a-zA-Z0-9_.-]+$ ]]; then
+    echo -e "${RED}Error:${NC} Invalid package name and version given."
+    exit 1
+fi
+
+# Locate database
+if [[ "$1" == "%TEMP%" ]]; then
+    # Temporary database
+    DB="$TEMP"
+else
+    DB="$TAPEPACKAGER/lib/database/$1"
+fi
+
+# Check if database exists
+if [[ ! -d "$DB" ]]; then
+    echo -e "${RED}Error:${NC} The database $DB does not exist."
+    exit 1
+fi
+
+# Get package name and version
+package_name="$(echo "$2" | awk -F "=" '{print $1}')"
+package_version="$(echo "$2" | awk -F "=" '{print $2}')"
+
+# For each..
+for package in $(find "$DB" -type d -mindepth 1 -maxdepth 1); do
+    # Get package name
+    # Check if package name matches
+    if [[ "$1" == "%TEMP%" ]]; then
+        METAPATH="$package/meta"
+    else
+        METAPATH="$package"
+    fi
+
+    installedPackageName="$(cat "$METAPATH/name")"
+
+    if [[ ! -f "$METAPATH/conflicts" ]]; then
+        continue
+    fi
+
+    
+    for conflict in $(cat "$METAPATH/conflicts"); do
+
+        if [[ -z "$conflict" ]]; then
+            continue
+        fi
+
+        if [[ "$conflict" != *"$package_name"* ]]; then
+            continue
+        fi
+
+        # Conflict version operator ==
+        if [[ "$conflict" == *"=="* ]]; then
+            conflictVersion="$(echo "$conflict" | awk -F "==" '{print $2}')"
+            conflictVersionOperator="=="
+            conflict="$(echo "$conflict" | awk -F "==" '{print $1}')"
+
+        # Conflict version operator >=
+        elif [[ "$conflict" == *">="* ]]; then
+            conflictVersion="$(echo "$conflict" | awk -F ">=" '{print $2}')"
+            conflictVersionOperator=">="
+            conflict="$(echo "$conflict" | awk -F ">=" '{print $1}')"
+
+        # Conflict version operator <=
+        elif [[ "$conflict" == *"<="* ]]; then
+            conflictVersion="$(echo "$conflict" | awk -F "<=" '{print $2}')"
+            conflictVersionOperator="<="
+            conflict="$(echo "$conflict" | awk -F "<=" '{print $1}')"
+        fi
+
+        # Check version operator
+        if [[ "$conflictVersionOperator" == "==" ]]; then
+            if [[ "$package_version" == "$conflictVersion" ]]; then
+                echo "$installedPackageName"
+            fi
+        elif [[ "$conflictVersionOperator" == ">=" ]]; then
+            if [[ "$package_version" == "$conflictVersion" ]] || [[ "$package_version" > "$conflictVersion" ]]; then
+                echo "$installedPackageName"
+            fi
+        elif [[ "$conflictVersionOperator" == "<=" ]]; then
+            if [[ "$package_version" == "$conflictVersion" ]] || [[ "$package_version" < "$conflictVersion" ]]; then
+                echo "$installedPackageName"
+            fi
+        fi
+    done
+done

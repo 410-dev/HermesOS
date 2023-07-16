@@ -1,0 +1,10 @@
+ Usage: tape-install.sh [package path] [arguments]
+ Arguments:
+   --target=path: The path to extract the package.
+   --ignore-dependencies: Ignore dependencies.
+   --ignore-conflicts: Ignore conflicts.
+   --overwrite: Overwrite the package if it is already installed.
+   --force: Force the installation. (Ignore dependencies and conflicts, and overwrite the package if it is already installed.)
+   --verify-md5=md5: Verify the package MD5.
+   --verify-sha2=sha2: Verify the package SHA2.
+   --help: Show the help.

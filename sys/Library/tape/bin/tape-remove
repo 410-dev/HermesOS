@@ -1,0 +1,166 @@
+#!/bin/bash
+
+
+# Verify library installation
+if [[ -z "$TAPEPACKAGER" ]]; then
+    ORIG_PATH="$PWD"
+    cd "$(dirname "$0")/../"
+    export TAPEPACKAGER="$PWD"
+    cd "$ORIG_PATH"
+    echo -e "${YELLOW}Warning:${NC} The TAPEPACKAGER environment variable is not set."
+    if [[ ! -d "$TAPEPACKAGER/lib" ]] || [[ ! -d "$TAPEPACKAGER/bin" ]]; then
+        echo -e "${RED}Error:${NC} Auto setting the TAPEPACKAGER environment variable failed. Please set it manually."
+        exit 1
+    else
+        echo -e "${YELLOW}Warning:${NC} Auto-corrected the TAPEPACKAGER environment variable: $TAPEPACKAGER"
+    fi
+fi
+
+
+# Color profiles
+source "$TAPEPACKAGER/lib/configurations/Color"
+
+# Path Configurations
+source "$TAPEPACKAGER/lib/configurations/Path"
+
+# This will check if the given package name and version dependencies to whatever in the database.
+# --target=path: The path to remove the package.
+# --force: Ignore dependencies.
+# --help: Show the help.
+
+if [[ -z "$1" ]]; then
+    echo -e "${RED}Error:${NC} No database target name given."
+    exit 1
+fi
+
+if [[ -z "$2" ]]; then
+    echo -e "${RED}Error:${NC} No package name and version given."
+    exit 1
+fi
+
+# Locate database
+if [[ "$@" =~ --target= ]]; then
+    target=$(echo "$@" | sed -n 's/.*--target=\([^ ]*\).*/\1/p')
+    target="$(echo "$target" | sed 's|/|_|g')"
+elif [[ ! -z "$DEFAULT_TARGET" ]]; then
+    target="$DEFAULT_TARGET"
+    target="$(echo "$target" | sed 's|/|_|g')"
+else
+    target="_"
+fi
+
+if [[ ! -d "$TAPEPACKAGER/lib/database/$target" ]]; then
+    echo -e "${RED}Error:${NC} The database $target does not exist."
+    exit 1
+fi
+
+# Check for dependencies
+not_exist=""
+dependency_remaining=""
+removable=""
+for packageName in "$@"; do
+
+    if [[ "$packageName" =~ ^-- ]]; then
+        continue
+    fi
+
+    # Check if package exists
+    if [[ ! -d "$TAPEPACKAGER/lib/database/$target/$packageName" ]]; then
+        echo -e "${RED}Error:${NC} The package $packageName does not exist."
+        not_exist="$not_exist $packageName"
+        continue
+    fi
+
+    # Get list of dependency packages from database
+    list="$(TAPEPACKAGER="$TAPEPACKAGER" "$TAPEPACKAGER/bin/tape-dependencies" "$target" "$2")"
+    
+    # For each arguments, remove from list
+    for package in $list; do
+        for arg in "$@"; do
+            if [[ "$package" == "$arg" ]]; then
+                list="$(echo "$list" | sed "s|$arg||g")"
+            fi
+        done
+    done
+    # Remove empty lines
+    list="$(echo "$list" | sed '/^$/d')"
+
+    # Check if package is dependent to any other package
+    if [[ ! -z "$list" ]]; then
+        if [[ "$@" =~ --force ]]; then
+            echo -e "${YELLOW}Warning:${NC} The package $2 is dependent to the following packages:"
+            echo "$list"
+            echo -e "${YELLOW}Warning:${NC} Ignoring dependencies."
+            removable="$removable
+$packageName"
+        else
+            echo -e "${RED}Error:${NC} The package $2 is dependent to the following packages:"
+            echo "$list"
+            echo -e "${RED}Error:${NC} Use --force to ignore dependencies."
+            dependency_remaining="$dependency_remaining $packageName"
+        fi
+    else
+        removable="$removable
+$packageName"
+    fi
+done
+
+# Remove package using receipt file in database
+PrermFailed=""
+PostrmFailed=""
+for packageName in $removable; do
+
+    if [[ "$packageName" =~ ^-- ]]; then
+        continue
+    fi
+
+    # Run prerm script
+    if [[ -f "$TAPEPACKAGER/lib/database/$target/$packageName/prerm" ]]; then
+        echo "Running prerm script of $packageName..."
+        if ! "$TAPEPACKAGER/lib/database/$target/$packageName/prerm"; then
+            echo -e "${RED}Error:${NC} The prerm script of $packageName failed."
+            PrermFailed="$PrermFailed $packageName"
+            continue
+        fi
+    fi
+
+    # Remove package
+    fileList="$(cat "$TAPEPACKAGER/lib/database/$target/$packageName/receipt")"
+    for file in $fileList; do
+        if [[ -f "$file" ]]; then
+            rm "$file"
+        elif [[ -d "$file" ]]; then
+            # Remove directory if empty or only has .DS_Store
+            if [[ "$(ls -A "$file")" == ".DS_Store" ]] || [[ -z "$(ls -A "$file")" ]]; then
+                rm -rf "$file"
+            else
+                echo -e "${YELLOW}Warning:${NC} The directory $file is not empty. Skipping removal."
+            fi
+        fi
+    done
+    echo "Removed content of $packageName."
+
+    # Run postrm script
+    if [[ -f "$TAPEPACKAGER/lib/database/$target/$packageName/postrm" ]]; then
+        echo "Running postrm script of $packageName..."
+        if ! "$TAPEPACKAGER/lib/database/$target/$packageName/postrm"; then
+            echo -e "${RED}Error:${NC} The postrm script of $packageName failed."
+            PostrmFailed="$PostrmFailed $packageName"
+            continue
+        fi
+    fi
+
+    # Remove meta data
+    rm -rf "$TAPEPACKAGER/lib/database/$target/$packageName"
+    echo "Removed meta data of $packageName."
+
+done
+
+# Print success and failure (number of packages success - 1)
+echo -e "${GREEN}Success: ${NC}$(echo "$removable" | sed '/^$/d' | wc -l | sed 's/ //g') package(s) removed."
+if [[ -n "${not_exist//[[:space:]]/}" ]]; then
+    echo -e "${RED}Failed: ${NC}Not exists: $not_exist"
+fi
+if [[ -n "${dependency_remaining//[[:space:]]/}" ]]; then
+    echo -e "${RED}Failed: ${NC}Dependency Issue: $dependency_remaining"
+fi

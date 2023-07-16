@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Verify library installation
+if [[ -z "$TAPEPACKAGER" ]]; then
+    ORIG_PATH="$PWD"
+    cd "$(dirname "$0")/../"
+    export TAPEPACKAGER="$PWD"
+    cd "$ORIG_PATH"
+    echo -e "${YELLOW}Warning:${NC} The TAPEPACKAGER environment variable is not set."
+    if [[ ! -d "$TAPEPACKAGER/lib" ]] || [[ ! -d "$TAPEPACKAGER/bin" ]]; then
+        echo -e "${RED}Error:${NC} Auto setting the TAPEPACKAGER environment variable failed. Please set it manually."
+        exit 1
+    else
+        echo -e "${YELLOW}Warning:${NC} Auto-corrected the TAPEPACKAGER environment variable: $TAPEPACKAGER"
+    fi
+fi
+
+
+# Color profiles
+source "$TAPEPACKAGER/lib/configurations/Color"
+
+# Path Configurations
+source "$TAPEPACKAGER/lib/configurations/Path"
+
+
+# List of required variables
+VARS=( "TAPEPACKAGER" "LOCK" "TEMP" "NC" "BLACK" "RED" "GREEN" "YELLOW" )
+for VAR in "${VARS[@]}"; do
+    if [[ -z "${!VAR}" ]]; then
+        echo -e "${RED}Error:${NC} The $VAR environment variable is not set."
+        exit 1
+    fi
+done

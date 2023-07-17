@@ -58,6 +58,7 @@ fi
 not_exist=""
 dependency_remaining=""
 removable=""
+unremovable=""
 for packageName in "$@"; do
 
     if [[ "$packageName" =~ ^-- ]]; then
@@ -69,6 +70,18 @@ for packageName in "$@"; do
         echo -e "${RED}Error:${NC} The package $packageName does not exist."
         not_exist="$not_exist $packageName"
         continue
+    fi
+
+    # Check if package is marked unremovable
+    if [[ -f "$TAPEPACKAGER/lib/database/$target/$packageName/unremovable" ]]; then
+        if [[ "$@" =~ --force ]]; then
+            echo -e "${YELLOW}Warning:${NC} The package $packageName is marked unremovable."
+            echo -e "${YELLOW}Warning:${NC} Ignoring unremovable mark."
+        else
+            echo -e "${RED}Error:${NC} The package $packageName is marked unremovable. Use --force to ignore."
+            unremovable="$unremovable $packageName"
+            continue
+        fi
     fi
 
     # Get list of dependency packages from database
@@ -163,4 +176,7 @@ if [[ -n "${not_exist//[[:space:]]/}" ]]; then
 fi
 if [[ -n "${dependency_remaining//[[:space:]]/}" ]]; then
     echo -e "${RED}Failed: ${NC}Dependency Issue: $dependency_remaining"
+fi
+if [[ -n "${unremovable//[[:space:]]/}" ]]; then
+    echo -e "${RED}Failed: ${NC}Unremovable: $unremovable"
 fi

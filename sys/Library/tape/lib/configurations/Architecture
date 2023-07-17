@@ -1,0 +1,8 @@
+#!/bin/bash
+function architectureGet() {
+    # Returns in following format
+    # Kernel@Machine
+    # Example: Linux@x86_64
+    echo "$KernelName@$(uname -m)"
+}
+export -f architectureGet

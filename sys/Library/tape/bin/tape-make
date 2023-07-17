@@ -78,8 +78,13 @@ fi
 
 echo "Name: $name"
 echo "Version: $version"
-tar -czf "$OUTPUT_DIR/$name-$version.tape" "$(basename "$SOURCE_DIR")" --exclude="*.DS_Store" --exclude="._*" 2>/dev/null
+if [[ -f "$SOURCE_DIR/meta/architecture" ]]; then
+    echo -n "Architecture: "
+    cat "$SOURCE_DIR/meta/architecture"
+    echo ""
+fi
+tar -czf "$OUTPUT_DIR/$name-$version.tape" "$(basename "$SOURCE_DIR")" --exclude=".DS_Store" --exclude="._*" 2>/dev/null
 cd "$PREVD"
 echo -e "${GREEN}Success:${NC} Created $OUTPUT_DIR/$(basename "$SOURCE_DIR").tape"
-echo "SHA2: $(sha2 "$OUTPUT_DIR/$(basename "$SOURCE_DIR").tape")"
+echo "SHA2: $(sha2 "$OUTPUT_DIR/$name-$version.tape")"
 exit 0

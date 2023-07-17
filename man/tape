@@ -4,7 +4,18 @@ Description:
 This will take care of system packages.
 
 Usage: tape [verb] [optional arguments]
-Verbs: install, remove, list, dependencies, conflicts, make, version
+Verbs: install, remove, list, dependencies, conflicts, make, version, help
+
+Required Arguments:
+  install:
+    [package path]: The path to the package.
+  
+  remove:
+    [package names]: The names of packages to remove.
+
+  make:
+    [package path]: The path to the package.
+
 Optional Arguments:
   install:
     --ignore-dependencies: Ignore dependencies.
@@ -18,3 +29,5 @@ Optional Arguments:
   remove:
     --force: Force the removal. (Ignore dependencies / unremovable packages)
 
+  make:
+    [output path]: The path to the output package.

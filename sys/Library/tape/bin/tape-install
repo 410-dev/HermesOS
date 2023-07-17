@@ -140,7 +140,7 @@ for package in "$@"; do
             invalidPackageList="$invalidPackageList $package"
             continue
         else
-            if [[ "$(realpath "$TEMP/$(basename "$package" .tape)")" != "$(realpath "$TEMP/$(cat "$TEMP/$(basename "$package" .tape)/meta/name")")" ]]; then
+            if [[ "$(realpath "$TEMP/$(basename "$package" .tape)" 2>/dev/null)" != "$(realpath "$TEMP/$(cat "$TEMP/$(basename "$package" .tape)/meta/name")" 2>/dev/null)" ]]; then
                 mv "$TEMP/$(basename "$package" .tape)" "$TEMP/$(cat "$TEMP/$(basename "$package" .tape)/meta/name")" 2>/dev/null
             fi
         fi

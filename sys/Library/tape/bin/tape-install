@@ -130,12 +130,19 @@ for package in "$@"; do
             invalidPackageList="$invalidPackageList $package"
             continue
         elif [[ ! -f "$TEMP/$(basename "$package" .tape)/meta/name" ]]; then
-            echo -e "${RED}Error:${NC} The package does not contain package name. Dropping from installation queue..."
+            echo -e "${RED}Error:${NC} The package does not contain package name. (No file) Dropping from installation queue..."
+            rm -rf "$TEMP/$(basename "$package" .tape)"
+            invalidPackageList="$invalidPackageList $package"
+            continue
+        elif [[ -z "$(cat "$TEMP/$(basename "$package" .tape)/meta/name")" ]]; then
+            echo -e "${RED}Error:${NC} The package does not contain package name. (File empty) Dropping from installation queue..."
             rm -rf "$TEMP/$(basename "$package" .tape)"
             invalidPackageList="$invalidPackageList $package"
             continue
         else
-            mv "$TEMP/$(basename "$package" .tape)" "$TEMP/$(cat "$TEMP/$(basename "$package" .tape)/meta/name")"
+            if [[ "$(realpath "$TEMP/$(basename "$package" .tape)")" != "$(realpath "$TEMP/$(cat "$TEMP/$(basename "$package" .tape)/meta/name")")" ]]; then
+                mv "$TEMP/$(basename "$package" .tape)" "$TEMP/$(cat "$TEMP/$(basename "$package" .tape)/meta/name")" 2>/dev/null
+            fi
         fi
 
         echo -e "Unpacked $package."
@@ -148,18 +155,16 @@ if [[ "$@" =~ --target= ]]; then
     realtarget="$target"
     target="$(echo "$target" | sed 's|/|_|g')"
     mkdir -p "$realtarget"
-    mkdir -p "$TAPEPACKAGER/lib/database/$target"
 elif [[ ! -z "$DEFAULT_TARGET" ]]; then
     target="$DEFAULT_TARGET"
     realtarget="$target"
     target="$(echo "$target" | sed 's|/|_|g')"
     mkdir -p "$realtarget"
-    mkdir -p "$TAPEPACKAGER/lib/database/$target"
 else
     target="_"
     realtarget="/"
-    mkdir -p "$TAPEPACKAGER/lib/database/$target"
 fi
+mkdir -p "$TAPEPACKAGER/lib/database/$target"
 
 # Check architecture if specified
 for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
@@ -169,9 +174,9 @@ for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
     if [[ -f "$package/meta/architecture" ]]; then
         if [[ -z "$(cat "$package/meta/architecture" | grep "$(architectureGet)")" ]]; then
             if [[ "$@" =~ --force ]]; then
-                echo -e "${RED}Warning:${NC} The package is not compatible with the current architecture. Forcing installation..."
+                echo -e "${RED}Warning:${NC} The package is not compatible with the current architecture (Expected: $(cat "$package/meta/architecture"), Actual: $(architectureGet)). Forcing installation..."
             else
-                echo -e "${RED}Error:${NC} The package is not compatible with the current architecture. Dropping from installation queue..."
+                echo -e "${RED}Error:${NC} The package is not compatible with the current architecture (Expected: $(cat "$package/meta/architecture"), Actual: $(architectureGet)). Dropping from installation queue..."
                 rm -rf "$package"
                 invalidPackageList="$invalidPackageList $package"
                 continue

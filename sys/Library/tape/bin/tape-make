@@ -55,9 +55,31 @@ fi
 
 PREVD="$PWD"
 cd "$(dirname "$SOURCE_DIR")"
-tar -czf "$OUTPUT_DIR/$(basename "$SOURCE_DIR").tape" "$(basename "$SOURCE_DIR")" --exclude=".DS_Store" --exclude="._*" --exclude="Thumbs.db" --exclude="ehthumbs.db" --exclude="desktop.ini"
+if [[ ! -f "$SOURCE_DIR/meta/name" ]]; then
+    echo -e "${RED}Error:${NC} The directory $SOURCE_DIR does not contain a meta/name file."
+    exit 1
+fi
+if [[ ! -f "$SOURCE_DIR/meta/version" ]]; then
+    echo -e "${RED}Error:${NC} The directory $SOURCE_DIR does not contain a meta/version file."
+    exit 1
+fi
+
+name="$(cat "$SOURCE_DIR/meta/name")"
+version="$(cat "$SOURCE_DIR/meta/version")"
+
+if [[ ! -n "${name//[[:space:]]/}" ]]; then
+    echo -e "${RED}Error: ${NC} The name is empty."
+    exit 1
+fi
+if [[ ! -n "${version//[[:space:]]/}" ]]; then
+    echo -e "${RED}Error: ${NC} The version is empty."
+    exit 1
+fi
+
+echo "Name: $name"
+echo "Version: $version"
+tar -czf "$OUTPUT_DIR/$name-$version.tape" "$(basename "$SOURCE_DIR")" --exclude="*.DS_Store" --exclude="._*" 2>/dev/null
 cd "$PREVD"
 echo -e "${GREEN}Success:${NC} Created $OUTPUT_DIR/$(basename "$SOURCE_DIR").tape"
-echo "MD5: $(md5 "$OUTPUT_DIR/$(basename "$SOURCE_DIR").tape")"
 echo "SHA2: $(sha2 "$OUTPUT_DIR/$(basename "$SOURCE_DIR").tape")"
 exit 0

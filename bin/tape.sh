@@ -1,4 +1,10 @@
 #!/bin/bash
+if [[ "$HUID" -ne 0 ]]; then
+	echo "${PERMISSION_DENIED}$HUID"
+	exit 0
+fi
+
+
 if [[ ! -d "$LIBRARY/tape" ]]; then
     cp -r "$OSSERVICES/Library/tape" "$LIBRARY/tape"
 fi

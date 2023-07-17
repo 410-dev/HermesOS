@@ -1,4 +1,4 @@
- Usage: tape-install.sh [package path] [arguments]
+ Usage: tape-install [package path] [optional arguments]
  Arguments:
    --target=path: The path to extract the package.
    --ignore-dependencies: Ignore dependencies.

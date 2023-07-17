@@ -1,0 +1,5 @@
+ Usage: tape-remove [package names] [optional arguments]
+ Arguments:
+   --target=path: The root location of package installation.
+   --force: Force the removal. (Ignore dependencies)
+   --help: Show the help.

@@ -29,13 +29,13 @@ source "$TAPEPACKAGER/lib/configurations/Path"
 # --help: Show the help.
 
 if [[ -z "$1" ]]; then
-    echo -e "${RED}Error:${NC} No database target name given."
+    echo -e "${RED}Error:${NC} Requires at least 1 argument. See --help for more information."
     exit 1
 fi
 
-if [[ -z "$2" ]]; then
-    echo -e "${RED}Error:${NC} No package name and version given."
-    exit 1
+if [[ "$1" == "--help" ]]; then
+    cat "$TAPEPACKAGER/lib/help/remove"
+    exit 0
 fi
 
 # Locate database

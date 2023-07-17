@@ -1,0 +1,64 @@
+#!/bin/bash
+# Verify library installation
+if [[ -z "$TAPEPACKAGER" ]]; then
+    ORIG_PATH="$PWD"
+    cd "$(dirname "$0")/../"
+    export TAPEPACKAGER="$PWD"
+    cd "$ORIG_PATH"
+    echo -e "${YELLOW}Warning:${NC} The TAPEPACKAGER environment variable is not set."
+    if [[ ! -d "$TAPEPACKAGER/lib" ]] || [[ ! -d "$TAPEPACKAGER/bin" ]]; then
+        echo -e "${RED}Error:${NC} Auto setting the TAPEPACKAGER environment variable failed. Please set it manually."
+        exit 1
+    else
+        echo -e "${YELLOW}Warning:${NC} Auto-corrected the TAPEPACKAGER environment variable: $TAPEPACKAGER"
+    fi
+fi
+
+
+# Color profiles
+source "$TAPEPACKAGER/lib/configurations/Color"
+source "$TAPEPACKAGER/lib/configurations/Path"
+
+# Read arguments
+if [[ "$1" == "--help" ]]; then
+    cat "$TAPEPACKAGER/lib/help/remove"
+    exit 0
+fi
+
+# Locate database
+if [[ "$@" =~ --target= ]]; then
+    target=$(echo "$@" | sed -n 's/.*--target=\([^ ]*\).*/\1/p')
+    target="$(echo "$target" | sed 's|/|_|g')"
+elif [[ ! -z "$DEFAULT_TARGET" ]]; then
+    target="$DEFAULT_TARGET"
+    target="$(echo "$target" | sed 's|/|_|g')"
+else
+    target="_"
+fi
+
+if [[ ! -d "$TAPEPACKAGER/lib/database/$target" ]]; then
+    echo -e "${RED}Error:${NC} The database $target does not exist."
+    exit 1
+fi
+
+# List all packages in the database
+for package in $(ls -1 "$TAPEPACKAGER/lib/database/$target"); do
+
+    # Drop if not directory
+    if [[ ! -d "$TAPEPACKAGER/lib/database/$target/$package" ]]; then
+        continue
+    fi
+
+    # Drop if does not contain name
+    if [[ ! -f "$TAPEPACKAGER/lib/database/$target/$package/name" ]]; then
+        continue
+    fi
+
+    # Get version
+    if [[ ! -f "$TAPEPACKAGER/lib/database/$target/$package/version" ]]; then
+        VERSION="undefined"
+    else
+        VERSION=$(cat "$TAPEPACKAGER/lib/database/$target/$package/version")
+    fi
+    echo "$package - $VERSION"
+done

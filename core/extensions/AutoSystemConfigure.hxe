@@ -43,6 +43,56 @@ if [[ -f "$ROOTFS/AUTOCONFIG" ]]; then
             echo "$value" > "$NVRAM/$key"
             sys_log "autoconfigure" "NVRAM value updated: $value ----> $key"
             verbose "[${GREEN}*${C_DEFAULT}] NVRAM value updated: $value ----> $key"
+        elif [[ "$line" == "[PKGI] "* ]]; then
+            # Trim the [PKGI] prefix
+            line="${line:7}"
+            # Run the package installer
+            verbose "[${GREEN}*${C_DEFAULT}] Installing package: $line"
+            sys_log "autoconfigure" "Installing package: $line"
+            if [[ ! -d "$LIBRARY/tape" ]]; then
+                verbose "[${GREEN}*${C_DEFAULT}] Preparing tape..."
+                sys_log "autoconfigure" "Preparing tape..."
+                cp -r "$OSSERVICES/Library/tape" "$LIBRARY/tape"
+            fi
+            if [[ ! -d "$LIBRARY/tape" ]]; then
+                verbose "[${RED}-${C_DEFAULT}] Unable to prepare tape."
+                sys_log "autoconfigure" "Unable to prepare tape."
+            fi
+            # Run the package installer
+            PREVPWD="$PWD"
+            cd "$LIBRARY"
+            if [[ -d "$LIBRARY/Packages" ]]; then
+                cd "$LIBRARY/Packages"
+            fi
+            TAPEPACKAGER="$LIBRARY/tape" "$LIBRARY/tape/bin/tape-install" $line --target="$ROOTFS"
+            cd "$PREVPWD"
+            verbose "[${GREEN}*${C_DEFAULT}] Installer exited."
+            sys_log "autoconfigure" "Installer exited."
+        elif [[ "$line" == "[PKGR] "* ]]; then
+            # Trim the [PKGR] prefix
+            line="${line:7}"
+            # Run the package remover
+            verbose "[${GREEN}*${C_DEFAULT}] Removing package: $line"
+            sys_log "autoconfigure" "Removing package: $line"
+            if [[ ! -d "$LIBRARY/tape" ]]; then
+                verbose "[${GREEN}*${C_DEFAULT}] Preparing tape..."
+                sys_log "autoconfigure" "Preparing tape..."
+                cp -r "$OSSERVICES/Library/tape" "$LIBRARY/tape"
+            fi
+            if [[ ! -d "$LIBRARY/tape" ]]; then
+                verbose "[${RED}-${C_DEFAULT}] Unable to prepare tape."
+                sys_log "autoconfigure" "Unable to prepare tape."
+            fi
+            # Run the package installer
+            TAPEPACKAGER="$LIBRARY/tape" "$LIBRARY/tape/bin/tape-remove" "$line"
+            verbose "[${GREEN}*${C_DEFAULT}] Remover exited."
+            sys_log "autoconfigure" "Remover exited."
+        elif [[ "$line" == "[PKGC]" ]]; then
+            verbose "[${GREEN}*${C_DEFAULT}] Cleaning /Library/Packages..."
+            sys_log "autoconfigure" "Cleaning /Library/Packages..."
+            rm -rf "$LIBRARY/Packages"
+            verbose "[${GREEN}*${C_DEFAULT}] Cleaning complete."
+            sys_log "autoconfigure" "Cleaning complete."
         fi
     done <<< "$(cat "$ROOTFS/AUTOCONFIG")"
 

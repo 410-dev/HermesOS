@@ -11,3 +11,5 @@
 [REG] SYSTEM/Common/SetupDone=1
 [REG] SYSTEM/Common/ConfigureDone=1
 [REG] USER/Shell/StartupMode=Login
+[PKGI] core-binaries.tape hermes-kernel-2x.tape hermes-services.tape liteos.tape --unremovable
+[PKGC]

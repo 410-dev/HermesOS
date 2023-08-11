@@ -1,0 +1,6 @@
+#!/bin/bash
+cp -r "$1/System/bin" "$2/System/"
+cp -r "$1/System/man" "$2/System/"
+rm -rf "$2/System/bin/virt"*
+rm -rf "$2/System/man/virt"*
+rm -rf "$2/System/bin/packager"

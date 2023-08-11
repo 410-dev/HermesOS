@@ -1,0 +1,7 @@
+#!/bin/bash
+mkdir -p "$2/System/bin/"
+mkdir -p "$2/System/man/"
+mkdir -p "$2/System/sys/Library"
+cp -r "$1/System/bin/virt"* "$2/System/bin/"
+cp -r "$1/System/man/virt"* "$2/System/man/"
+cp -r "$1/System/sys/Library/Virtualization" "$2/System/sys/Library/"

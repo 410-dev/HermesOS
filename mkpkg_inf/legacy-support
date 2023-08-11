@@ -1,0 +1,5 @@
+#!/bin/bash
+mkdir -p "$2/System/bin/"
+mkdir -p "$2/System/sys/Library"
+cp -r "$1/System/bin/packager" "$2/System/bin/"
+cp -r "$1/System/sys/Library/Legacy" "$2/System/sys/Library/"

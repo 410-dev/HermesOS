@@ -1,0 +1,4 @@
+#!/bin/bash
+cp -r "$1/System/sys" "$2/System/"
+rm -rf "$2/System/sys/Library/Virtualization"
+rm -rf "$2/System/sys/Library/Legacy"

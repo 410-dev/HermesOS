@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# 프로젝트 루트 디렉토리로 이동
+cd "$(dirname "$0")/mkpkg_inf"
+
+# Read list of files in Source/mkpkg_inf
+list="$(find . -type f)"
+
+cd ../..
+
+pwd
+
+# Package: core-binaries
+for file in $list; do
+    echo "Copying $file..."
+    rm -rf "__packages/$file/payload"
+    mkdir -p "__packages/$file/payload/System"
+    chmod +x "Source/mkpkg_inf/$file"
+    "./Source/mkpkg_inf/$file" "." "__packages/$file/payload"
+done
+
+
+# Make packages
+function makeInfo() {
+    pkgName="$1"
+    echo "Updating information: $pkgName"
+    ARCHITECTURE="$(cat "__packages/$pkgName/meta/architecture")"
+    VERSION="$(cat "__packages/$pkgName/meta/version")"
+    CONFLICTS="$(cat "__packages/$pkgName/meta/conflicts")"
+    DEPENDENCIES="$(cat "__packages/$pkgName/meta/dependencies")"
+    NAME="$(cat "__packages/$pkgName/meta/name")"
+    echo -n "architecture($ARCHITECTURE): "
+    read ARCHITECTURE2
+    echo -n "version($VERSION): "
+    read VERSION2
+    echo -n "conflicts($CONFLICTS): "
+    read CONFLICTS2
+    echo -n "dependencies($DEPENDENCIES): "
+    read DEPENDENCIES2
+    echo -n "name($NAME): "
+    read NAME2
+    if [[ ! -z "$ARCHITECTURE2" ]]; then
+        echo "$ARCHITECTURE2" > "__packages/$pkgName/meta/architecture"
+    fi
+    if [[ ! -z "$VERSION2" ]]; then
+        echo "$VERSION2" > "__packages/$pkgName/meta/version"
+    fi
+    if [[ ! -z "$CONFLICTS2" ]]; then
+        echo "$CONFLICTS2" > "__packages/$pkgName/meta/conflicts"
+    fi
+    if [[ ! -z "$DEPENDENCIES2" ]]; then
+        echo "$DEPENDENCIES2" > "__packages/$pkgName/meta/dependencies"
+    fi
+    if [[ ! -z "$NAME2" ]]; then
+        echo "$NAME2" > "__packages/$pkgName/meta/name"
+    fi
+    echo "Package information updated."
+    echo ""
+}
+
+for pkgName in $list; do
+    makeInfo "$pkgName"
+done
+
+# Build packages
+echo "Building packages..."
+cd "__packages"
+mkdir -p "../Source/Installer"
+for pkgName in $list; do
+    tape make "$pkgName" "../Source/Installer"
+done

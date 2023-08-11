@@ -1,2 +1,19 @@
 #!/bin/bash
-cp -r "$1/System/core" "$2/System/"
+mkdir -p "$2/System/core/extensions"
+
+cp "$1/System/core/loader" "$2/System/core"
+cp "$1/System/core/uistart" "$2/System/core"
+cp "$1/System/core/osstop" "$2/System/core"
+
+cp "$1/System/core/extensions/AutoDefaultSetup.hxe" "$2/System/core/extensions/"
+cp "$1/System/core/extensions/AutoSystemConfigure.hxe" "$2/System/core/extensions/"
+cp "$1/System/core/extensions/CoreFunctions.hfunc" "$2/System/core/extensions/"
+cp "$1/System/core/extensions/Fort.hfunc" "$2/System/core/extensions/"
+cp "$1/System/core/extensions/HardLink.hfunc" "$2/System/core/extensions/"
+cp "$1/System/core/extensions/ISAKit.hfunc" "$2/System/core/extensions/"
+cp "$1/System/core/extensions/KernelProfile.hfunc" "$2/System/core/extensions/"
+cp "$1/System/core/extensions/Language.hfunc" "$2/System/core/extensions/"
+cp "$1/System/core/extensions/OSUtility.hxe" "$2/System/core/extensions/"
+cp "$1/System/core/extensions/Profile.hfunc" "$2/System/core/extensions/"
+cp "$1/System/core/extensions/Quarantine.hfunc" "$2/System/core/extensions/"
+

@@ -2,3 +2,34 @@
 cp -r "$1/System/sys" "$2/System/"
 rm -rf "$2/System/sys/Library/Virtualization"
 rm -rf "$2/System/sys/Library/Legacy"
+
+cp -r "$1/System/core" "$2/System/"
+
+# Other core modules
+rm -rf "$2/System/core/loader"
+rm -rf "$2/System/core/osstop"
+rm -rf "$2/System/core/uistart"
+
+# Kernel built in extensions
+rm -rf "$2/System/core/extensions/AutoDefaultSetup.hxe"
+rm -rf "$2/System/core/extensions/AutoSystemConfigure.hxe"
+rm -rf "$2/System/core/extensions/CoreFunctions.hfunc"
+rm -rf "$2/System/core/extensions/Fort.hfunc"
+rm -rf "$2/System/core/extensions/HardLink.hfunc"
+rm -rf "$2/System/core/extensions/ISAKit.hfunc"
+rm -rf "$2/System/core/extensions/KernelProfile.hfunc"
+rm -rf "$2/System/core/extensions/Language.hfunc"
+rm -rf "$2/System/core/extensions/OSUtility.hxe"
+rm -rf "$2/System/core/extensions/Profile.hfunc"
+rm -rf "$2/System/core/extensions/Quarantine.hfunc"
+
+mkdir -p "$2/System/bin"
+mkdir -p "$2/System/man"
+cp "$1/System/bin/packager" "$2/System/bin"
+cp "$1/System/man/packager" "$2/System/man"
+cp "$1/System/bin/hic" "$2/System/bin"
+cp "$1/System/man/hic" "$2/System/man"
+cp "$1/System/bin/lec" "$2/System/bin"
+cp "$1/System/man/lec" "$2/System/man"
+cp "$1/System/bin/sudo" "$2/System/bin"
+cp "$1/System/man/sudo" "$2/System/man"

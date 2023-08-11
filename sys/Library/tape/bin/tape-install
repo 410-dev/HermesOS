@@ -172,7 +172,7 @@ for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
         continue
     fi
     if [[ -f "$package/meta/architecture" ]]; then
-        if [[ -z "$(cat "$package/meta/architecture" | grep "$(architectureGet)")" ]]; then
+        if [[ -z "$(cat "$package/meta/architecture" | grep "$(architectureGet)")" ]] && [[ -z "$(cat "$package/meta/architecture" | grep "$(architectureUniversal)")" ]]; then
             if [[ "$@" =~ --force ]]; then
                 echo -e "${RED}Warning:${NC} The package is not compatible with the current architecture (Expected: $(cat "$package/meta/architecture"), Actual: $(architectureGet)). Forcing installation..."
             else
@@ -402,7 +402,7 @@ for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
                                     if [[ "$@" =~ --ignore-dependencies ]] || [[ "$@" =~ --force ]]; then
                                         continue
                                     else
-                                        echo -e "Dropping from installation queue..."
+                                        echo -e " Dropping from installation queue..."
                                         skippedPackages_dependency="$skippedPackages_dependency $packageName"
                                         rm -rf "$package"
                                         continue
@@ -417,7 +417,7 @@ for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
                                     if [[ "$@" =~ --ignore-dependencies ]] || [[ "$@" =~ --force ]]; then
                                         continue
                                     else
-                                        echo -e "Dropping from installation queue..."
+                                        echo -e " Dropping from installation queue..."
                                         skippedPackages_dependency="$skippedPackages_dependency $packageName"
                                         rm -rf "$package"
                                         continue
@@ -433,7 +433,7 @@ for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
                                     if [[ "$@" =~ --ignore-dependencies ]] || [[ "$@" =~ --force ]]; then
                                         continue
                                     else
-                                        echo -e "Dropping from installation queue..."
+                                        echo -e " Dropping from installation queue..."
                                         skippedPackages_dependency="$skippedPackages_dependency $packageName"
                                         rm -rf "$package"
                                         continue
@@ -453,7 +453,7 @@ for package in $(find "$TEMP" -maxdepth 1 -mindepth 1 -type d); do
                     if [[ "$@" =~ --ignore-dependencies ]] || [[ "$@" =~ --force ]]; then
                         continue
                     else
-                        echo -e "Dropping from installation queue..."
+                        echo -e " Dropping from installation queue..."
                         skippedPackages_dependency="$skippedPackages_dependency $packageName"
                         rm -rf "$package"
                         continue

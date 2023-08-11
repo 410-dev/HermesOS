@@ -12,7 +12,7 @@ do
 	export ALLOC_DATA="$ALLOC_DATA
 $SYNC_DEFNAME"
 	unset SYNC_DEFNAME
-done <<< "$(ls -p | grep -v / | grep ".hmref")"
+done <<< "$(ls -p | grep -v / | grep ".hfunc")"
 sys_log "loader" "Finished reading allocation data."
 
 cd "$CORE/extensions"

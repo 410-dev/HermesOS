@@ -9,7 +9,7 @@ function loadDefinition() {
 		verbose "${REFRESHING_MEMORYLINK}$defname"
 		source "$CORE/extensions/$defname"
 		sys_log "interface" "Memory link updated: $defname"
-	done <<< "$(ls -p | grep -v / | grep ".hmref")"
+	done <<< "$(ls -p | grep -v / | grep ".hfunc")"
 }
 
 sys_log "interface" "Running preload..."

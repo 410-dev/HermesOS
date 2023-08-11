@@ -15,7 +15,7 @@ function liteos_main() {
 		[[ "$commands" == "LITE_INSTALL" ]]; then
 			"$commands"
 		elif [[ "$commands" == "shutdown" ]]; then
-			if [[ ! -f "$CORE/extensions/Profile.hmref" ]]; then
+			if [[ ! -f "$CORE/extensions/Profile.hfunc" ]]; then
 				echo "It seems OS is not installed properly! Are you sure you want to shut down? Y/n"
 				echo -n "> "
 				read yn

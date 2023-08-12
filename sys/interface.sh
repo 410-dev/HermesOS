@@ -26,7 +26,7 @@ if [[ -z "$MACHN" ]]; then
 fi
 cd "$USERDATA"
 
-export SEARCHPATHS="/System:/System/core:/System/sys/Library/Developer:/System/Installer"
+export SEARCHPATHS="/System:/System/core"
 
 function execCommand() {
 	command="$1"
@@ -134,6 +134,8 @@ function execCommand() {
 		loadDefinition
 	fi
 }
+
+export -f execCommand
 
 export AutoRunComplete=0
 

@@ -59,7 +59,8 @@ function makeInfo() {
 }
 
 for pkgName in $list; do
-    makeInfo "$pkgName"
+    # makeInfo "$pkgName"
+    :
 done
 
 # Build packages
@@ -67,5 +68,5 @@ echo "Building packages..."
 cd "__packages"
 mkdir -p "../Source/Installer"
 for pkgName in $list; do
-    tape make "$pkgName" "../Source/Installer"
+    tape make "$pkgName" "../System/Installer/packages"
 done

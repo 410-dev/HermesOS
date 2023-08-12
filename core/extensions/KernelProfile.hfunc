@@ -1,4 +1,4 @@
 #!/bin/bash
 export KernelVersion="20.0"
-export KernelBuild="2307151"
+export KernelBuild="2308121"
 export KernelName="Hermes 2X"

@@ -8,8 +8,6 @@ list="$(find . -type f)"
 
 cd ../..
 
-pwd
-
 # Package: core-binaries
 for file in $list; do
     echo "Copying $file..."

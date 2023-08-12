@@ -1,0 +1,44 @@
+#!/bin/bash
+# This script is used to install the package.
+echo "HermesOS Installer"
+echo "=================="
+echo "This script will install HermesOS on your system."
+
+echo "Please enter valid location. Leave it blank to install on the current device."
+read -p "Enter the location: " location
+
+if [[ "$location" == "" ]] || [[ "$location" == " " ]] || [[ -z "$location" ]]; then
+    location="$ROOTFS"
+fi
+
+echo "Please select the installation mode:"
+echo "1. Minimum"
+echo "2. Default"
+
+read -p "Enter your choice: " choice
+
+PKGPTH="$SYSTEM/Installer/packages"
+PKGREQUIRED="$PKGPTH/hermes-kernel-2x* $PKGPTH/liteos* $PKGPTH/hermes-services-core* $PKGPTH/core-binaries*"
+PKGADDITIONAL="$PKGPTH/hermes-services* $PKGPTH/virtualization* $PKGPTH/legacy-support*"
+
+if [ "$choice" == "1" ] || [ "$choice" == "2" ]; then
+    echo "Installing minimum packages..."
+    "$LIBRARY/tape/bin/tape-install" $PKGREQUIRED --target="$location"
+else
+    echo "Invalid choice."
+    exit 1
+fi
+
+if [ "$choice" == "2" ]; then
+    echo "Installing additional packages..."
+    "$LIBRARY/tape/bin/tape-install" $PKGADDITIONAL --target="$location"
+fi
+
+echo "Writing startup queue defaults..."
+echo "rm -rf \$DATA" > "$location/STARTUP.litescript"
+echo "rm -rf \$LIBRARY" >> "$location/STARTUP.litescript"
+
+echo "Shutting down!"
+mkdir -p "$CACHE"
+touch "$CACHE/stdown"
+exit 0

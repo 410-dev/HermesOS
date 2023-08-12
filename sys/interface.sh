@@ -26,9 +26,19 @@ if [[ -z "$MACHN" ]]; then
 fi
 cd "$USERDATA"
 
+export SEARCHPATHS="/System:/System/core:/System/sys/Library/Developer:/System/Installer"
 
 function execCommand() {
 	command="$1"
+
+	# Update path
+	SEARCHPATHS2="$(regread "SYSTEM/Path")"
+	if [[ ! -z "$SEARCHPATHS2" ]] && [[ "$SEARCHPATHS2" != "null" ]] && [[ "$SEARCHPATHS2" != "default" ]] && [[ "$SEARCHPATHS2" != "null" ]]; then
+		export SEARCHPATHS="$SEARCHPATHS2"
+	else
+		regwrite "SYSTEM/Path" "$SEARCHPATHS" > /dev/null
+	fi
+
 	sys_log "interface" "Received input: $command"
 	export args=($command)
 	echo "${args[0]}" > "$CACHE/process"
@@ -54,34 +64,53 @@ function execCommand() {
 				echo "No such directory: ${args[1]}"
 			fi
 		fi
-	elif [[ -f "$SYSTEM/bin/${args[0]}" ]]; then
-		if [[ "${args[0]}" == "lec" ]]; then
-			echo -n ""
-		else
-			export lastExecutedCommand="$command"
-			if [[ "${args[0]}" == "sudo" ]]; then
-				echo "${args[1]}" > "$CACHE/process"
-			else
-				echo "${args[0]}" > "$CACHE/process"
-			fi
-		fi
-		command_args=("${args[@]}")
-		"${SYSTEM}/bin/${command_args[@]}"
+	# elif [[ -f "$SYSTEM/bin/${args[0]}" ]]; then
+	# 	if [[ "${args[0]}" == "lec" ]]; then
+	# 		echo -n ""
+	# 	else
+	# 		export lastExecutedCommand="$command"
+	# 		if [[ "${args[0]}" == "sudo" ]]; then
+	# 			echo "${args[1]}" > "$CACHE/process"
+	# 		else
+	# 			echo "${args[0]}" > "$CACHE/process"
+	# 		fi
+	# 	fi
+	# 	command_args=("${args[@]}")
+	# 	"${SYSTEM}/bin/${command_args[@]}"
 	elif [[ "$command" == "switch_to_liteos" ]]; then
 		switch_to_liteos
 	elif [[ -z "$command" ]]; then
 		echo -n ""
-	elif [[ "$(regread USER/Shell/DeveloperOptions)" == "1" ]]; then
-		export lastExecutedCommand="$command"
-		echo "${args[0]}" > "$CACHE/process"
-		if [[ -f "$OSSERVICES/Library/Developer/bin/${args[0]}" ]]; then\
-			command_args=("${args[@]}")
-			"$OSSERVICES/Library/Developer/bin/${command_args[@]}"
-		else
+	# elif [[ "$(regread USER/Shell/DeveloperOptions)" == "1" ]]; then
+	# 	export lastExecutedCommand="$command"
+	# 	echo "${args[0]}" > "$CACHE/process"
+	# 	if [[ -f "$OSSERVICES/Library/Developer/bin/${args[0]}" ]]; then\
+	# 		command_args=("${args[@]}")
+	# 		"$OSSERVICES/Library/Developer/bin/${command_args[@]}"
+	# 	else
+	# 		echo "${COMMAND_NOT_FOUND}${args[0]}"
+	# 	fi
+	else
+		# Split by :
+		IFS=':' read -ra ListOfPath <<< "$SEARCHPATHS"
+		FOUND=0
+		for pth in "${ListOfPath[@]}"; do
+			pth="$ROOTFS$pth"
+			if [[ ! -d "$pth/bin" ]]; then
+				continue
+			fi
+			if [[ -f "$pth/bin/${args[0]}" ]]; then
+				export lastExecutedCommand="$command"
+				echo "${args[0]}" > "$CACHE/process"
+				command_args=("${args[@]}")
+				"$pth/bin/${command_args[@]}"
+				FOUND=1
+			fi
+		done
+
+		if [[ "$FOUND" -eq "0" ]]; then
 			echo "${COMMAND_NOT_FOUND}${args[0]}"
 		fi
-	else
-		echo "${COMMAND_NOT_FOUND}${args[0]}"
 	fi
 	if [[ -f "$CACHE/stdown" ]]; then
 		sys_log "interface" "Shutdown signal received."

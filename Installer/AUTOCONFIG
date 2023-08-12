@@ -1,5 +1,6 @@
 [LANG] en-us
 [REG] USER/Shell/AutoRunEnabled=1
+[REG] USER/Shell/AutoRun=
 [REG] USER/UserName=HermesInstaller
 [REG] MACHINE/MachineName=InstallationMedia
 [REG] USER/Security/LoginPasswordEnabled=0
@@ -11,3 +12,4 @@
 [REG] SYSTEM/Common/SetupDone=1
 [REG] SYSTEM/Common/ConfigureDone=1
 [REG] USER/Shell/StartupMode=Login
+[REG] SYSTEM/Path=/System:/System/core:/System/Installer

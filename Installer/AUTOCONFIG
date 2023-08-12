@@ -1,0 +1,13 @@
+[LANG] en-us
+[REG] USER/Shell/AutoRunEnabled=1
+[REG] USER/UserName=HermesInstaller
+[REG] MACHINE/MachineName=InstallationMedia
+[REG] USER/Security/LoginPasswordEnabled=0
+[NVRK] security
+[NVRV] security/prosys=Pro System
+[NVRV] security/lockstate=Unlocked
+[NVRV] security/autologin=system
+[REG] SYSTEM/Common/DataSetupDone=1
+[REG] SYSTEM/Common/SetupDone=1
+[REG] SYSTEM/Common/ConfigureDone=1
+[REG] USER/Shell/StartupMode=Login

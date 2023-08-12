@@ -8,7 +8,7 @@ if [[ "$1" != "nosync" ]]; then
     echo "Syncing..."
     rm -rf "System"
     cp -r "Source" "System"
-    rm -rf "System/.git" "System/.gitattributes" "System/.gitignore" "System/README.md" "System/compileandrun" "System/mkpkg_inf" "System/mkpkgs"
+    rm -rf "System/.git" "System/.gitattributes" "System/.gitignore" "System/README.md" "System/mk"* "System/Installer" "System/regkeys"
 
 
     # .sh, .hxe 확장자를 가진 파일 처리

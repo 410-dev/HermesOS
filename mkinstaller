@@ -25,12 +25,14 @@ tape install ../System/Installer/packages/hermes-kernel-2x-* ../System/Installer
 
 echo "Generating installer..."
 cp -r ../System/Installer ../Installer/System/
+echo "export BOOTARGS=\"verbose\"" >> ../Installer/System/boot/partitions.hdp
 
 echo "Removing unnecessary files..."
 rm -rf ../System
 
 echo "Moving files..."
 mv ../Installer/System ../System
+cp ../System/Installer/AUTOCONFIG ../System/
 rm -rf ../Installer
 
 echo "Generating into packages..."

@@ -62,7 +62,9 @@ do
 	name=$(echo "$line" | cut -f 1 -d '.')
 	mv "$name.sh" "$name" 2>/dev/null
 done
+
 find "$pth" -name *.hxe.x.c -depth -exec rm {} \;
+find "$pth" -name *.sh.x -depth -exec rm {} \;
 
 cd "$pth"
 

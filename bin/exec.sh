@@ -21,7 +21,7 @@ elif [[ -f "$PWD/$1" ]]; then
 		echo "$QuarantineData" | while read disabledCommand
 		do
 			if [[ $(echo "$fileLine") ==  "$disabledCommand "* ]] && [[ "$OS_ProSystemStatus" == "Default" ]]; then
-				echo "Execution disabled by sandbox."
+				echo "Execution disabled by script filter."
 				cd "$DATA"
 				exit 9
 			elif [[ $(echo "$fileLine") ==  "bin $disabledCommand "* ]]; then

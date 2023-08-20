@@ -1,12 +1,12 @@
 #!/bin/bash
-cd "$CORE/extensions"
+cd "$CORE/functions"
 export ALLOC_DATA=""
 while read defname
 do
 	sys_log "loader" "Reading memory allocation data: $defname"
 	verbose "[${GREEN}*${C_DEFAULT}] Reading memory allocation data: $defname"
 	export SYNC_DEFNAME="$defname"
-	source "$CORE/extensions/$defname"
+	source "$CORE/functions/$defname"
 	sys_log "loader" "Loaded: $SYNC_DEFNAME"
 	verbose "[${GREEN}*${C_DEFAULT}] Loaded: $defname"
 	export ALLOC_DATA="$ALLOC_DATA

@@ -2,3 +2,4 @@
 export KernelVersion="20.0"
 export KernelBuild="2308121"
 export KernelName="Hermes 2X"
+export KernelNumericVersion="20.000"

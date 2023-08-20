@@ -8,6 +8,7 @@ if [[ -z "$ROOTFS" ]]; then
     export ROOTFS="$PWD"
 fi
 
+export HERMESNAME="HermesOS"
 export SYSTEM="$ROOTFS/System"
 export OSSERVICES="$SYSTEM/sys"
 export DATA="$ROOTFS/Data"

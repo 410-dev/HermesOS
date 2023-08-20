@@ -26,18 +26,23 @@ function LITE_EXTERN_BOOT() {
 	# /boot/partitions.hdp
 	if [[ -f "$path/System/boot/partitions.hdp" ]]; then
 		source "$path/System/boot/partitions.hdp"
+		source "$path/System/boot/llhooks.ll"
 	elif [[ -f "$path/System/partitions.hdp" ]]; then
 		source "$path/System/partitions.hdp"
+		source "$path/System/llhooks.ll"
 	elif [[ -f "$path/partitions.hdp" ]]; then
 		source "$path/partitions.hdp"
+		source "$path/llhooks.ll"
 	elif [[ -f "$path/boot/partitions.hdp" ]]; then
 		source "$path/boot/partitions.hdp"
+		source "$path/boot/llhooks.ll"
 	else
 		sys_log "LiteOS" "Invalid system - Exiting..."
 		echo "Invalid system. Exiting..."
 		exit 1
 	fi
 
+	clear
 	sys_log "LiteOS" "Startup map is updated."
 	echo "Startup map is updated."
 
@@ -55,11 +60,12 @@ function LITE_EXTERN_BOOT() {
 
 function LITE_START() {
 	sys_log "LiteOS" "Entered menu."
+	sys_log "LiteOS" "Startup media: $ROOTFS"
 	echo ""
 	echo ""
 	echo "LiteOS Menu"
 	echo "==================="
-	echo "1. Enter HermesOS"
+	echo "1. Enter ${HERMESNAME}"
 	echo "2. Enter LiteOS"
 	echo "3. Start from external system"
 	echo "4. Start without firmware support"
@@ -68,8 +74,8 @@ function LITE_START() {
 	echo -n "> "
 	read in
 	if [[ "$in" == "1" ]]; then
-		sys_log "LiteOS" "Option 1 selected - Entering HermesOS..."
-		echo "Entering HermesOS..."
+		sys_log "LiteOS" "Option 1 selected - Entering ${HERMESNAME}..."
+		echo "Entering ${HERMESNAME}..."
 		LITE_BOOT_SYSTEM
 	elif [[ "$in" == "2" ]]; then
 		clear

@@ -25,9 +25,10 @@ tape install ../System/Installer/packages/hermes-kernel-2x-* ../System/Installer
 
 echo "Generating installer..."
 cp -r ../System/Installer ../Installer/System/
-echo "export BOOTARGS=\"verbose\"" >> ../Installer/System/boot/llhooks.ll
+echo "export HERMESNAME=\"HermesOS Installation Media\"" >> ../Installer/System/boot/llhooks.ll
+echo "export BOOTARGS=\"verbose liteos\"" >> ../Installer/System/boot/llhooks.ll
 echo "cp \"\$SYSTEM/AUTOCONFIG\" \"\$ROOTFS/\"" >> ../Installer/System/boot/llhooks.ll
-echo "rm -rf \"\$DATA\" \"\$LIBRARY\"" >> ../Installer/System/boot/llhooks.ll
+echo "rm -rf \"\$DATA\" \"\$LIBRARY\" 2>/dev/null" >> ../Installer/System/boot/llhooks.ll
 chmod +x ../Installer/System/Installer/bin/*
 
 echo "Removing unnecessary files..."

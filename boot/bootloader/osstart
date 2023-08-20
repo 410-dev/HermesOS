@@ -2,7 +2,7 @@
 function OSSTART() {
 	export BOOTARGS="${BOOTARGS} $@"
 	export SYSNAME="LiteOS"
-	export SYSVERS="1.2"
+	export SYSVERS="1.3"
 	export SYSLOC="$SYSTEM/boot/bootloader/liteos"
 	export SYSCAC="$CACHE"
 

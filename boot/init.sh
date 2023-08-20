@@ -1,6 +1,7 @@
 #!/bin/bash
 clear
 source "$(dirname "$0")/partitions.hdp"
+source "$(dirname "$0")/llhooks.ll"
 source "$(dirname "$0")/internal_func"
 source "$(dirname "$0")/bootloader/osstart"
 OSSTART "$@"

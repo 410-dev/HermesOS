@@ -73,9 +73,11 @@ elif [[ "$1" == "read" ]]; then
 	if [[ -d "$REGISTRY/$2" ]]; then
 		ls -1 "$REGISTRY/$2"
 		exit 0
-	else
+	elif [[ -f "$REGISTRY/$2" ]]; then
 		cat "$REGISTRY/$2"
 		exit 0
+	else
+		echo "${ERROR}No such key or value."
 	fi
 else
 	echo "Unknown action."

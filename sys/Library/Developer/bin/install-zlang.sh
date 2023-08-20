@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ "$(FIRMWARE_INFO "instruction" "zsh")" -ne "1" ]] || [[ "$(FIRMWARE_INFO "instruction" "java")" -ne "1" ]]; then
-    echo "Firmware does not support zlang."
+    echo "Firmware does not support zlang. (Expected 11, but received $(FIRMWARE_INFO "instruction" "zsh")$(FIRMWARE_INFO "instruction" "java").)"
     exit 1
 fi
 

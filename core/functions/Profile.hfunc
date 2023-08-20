@@ -9,14 +9,17 @@ export OS_Tag_Default="20.0pre3"
 export OS_Vendor_Default="410"
 export OS_InterfaceVersion_Default="$OS_Version_Default"
 export OS_CopyrightStatement="Copyright (C) 410 2023. All rights reserved."
+export OS_ProfileType_Default="3"
+export OS_MinimumCompatibility_Default="3"
 
-
-export OS_Version_Major="$(regread SYSTEM/Profile/ProductVersion/VersionMajor)"
-export OS_Version_Minor="$(regread SYSTEM/Profile/ProductVersion/VersionMinor)"
-export OS_Build="$(regread SYSTEM/Profile/ProductVersion/BuildNumber)"
-export OS_Name="$(regread SYSTEM/Profile/ProductVersion/ProductName)"
-export OS_Tag="$(regread SYSTEM/Profile/ProductVersion/BuildTag)"
-export OS_Vendor="$(regread SYSTEM/Profile/ProductVersion/Vendor)"
+export OS_Version_Major="$(regread SYSTEM/Profile2/ProductVersion/VersionMajor)"
+export OS_Version_Minor="$(regread SYSTEM/Profile2/ProductVersion/VersionMinor)"
+export OS_Build="$(regread SYSTEM/Profile2/ProductVersion/BuildNumber)"
+export OS_Name="$(regread SYSTEM/Profile2/ProductVersion/ProductName)"
+export OS_Tag="$(regread SYSTEM/Profile2/ProductVersion/BuildTag)"
+export OS_Vendor="$(regread SYSTEM/Profile2/ProductVersion/Vendor)"
+export OS_ProfileType="$(regread SYSTEM/Profile2/ProfileType)"
+export OS_MinimumCompatibility="$(regread SYSTEM/Profile2/MinimumCompatibility)"
 
 [ "$OS_Version_Major" = "null" ] && export OS_Version_Major="$OS_Version_Major_Default"
 [ "$OS_Version_Minor" = "null" ] && export OS_Version_Minor="$OS_Version_Minor_Default"
@@ -24,6 +27,8 @@ export OS_Vendor="$(regread SYSTEM/Profile/ProductVersion/Vendor)"
 [ "$OS_Name" = "null" ] && export OS_Name="$OS_Name_Default"
 [ "$OS_Tag" = "null" ] && export OS_Tag="$OS_Tag_Default"
 [ "$OS_Vendor" = "null" ] && export OS_Vendor="$OS_Vendor_Default"
+[ "$OS_ProfileType" = "null" ] && export OS_ProfileType="$OS_ProfileType_Default"
+[ "$OS_MinimumCompatibility" = "null" ] && export OS_MinimumCompatibility="$OS_MinimumCompatibility_Default"
 
 export OS_Version="$OS_Version_Major.$OS_Version_Minor"
 export OS_InterfaceVersion="$OS_Version"
@@ -36,6 +41,8 @@ unset OS_Name_Default
 unset OS_Tag_Default
 unset OS_Vendor_Default
 unset OS_InterfaceVersion_Default
+unset OS_ProfileType_Default
+unset OS_MinimumCompatibility_Default
 
 mkdir -p "$NVRAM/security"
 

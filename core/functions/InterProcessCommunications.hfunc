@@ -1,0 +1,45 @@
+#!/bin/bash
+
+function IPCRead() {
+
+    # 1st: Process ID
+    # 2nd: Memory name
+    PName="$1"
+    MName="$2"
+    if [[ -f "$CACHE/ipcsession/$PName/$MName" ]]; then
+        cat "$CACHE/ipcsession/$PName/$MName"
+    else
+        echo ""
+    fi
+}
+
+function IPCWrite() {
+
+    # 1st: Process ID
+    # 2nd: Memory name
+    # 3rd: Value
+    PName="$1"
+    MName="$2"
+    Value="$3"
+
+    mkdir -p "$CACHE/ipcsession/$PName/"
+    echo "$Value" > "$CACHE/ipcsession/$PName/$MName"
+}
+
+function IPCAppend() {
+    
+    # 1st: Process ID
+    # 2nd: Memory name
+    # 3rd: Value
+    PName="$1"
+    MName="$2"
+    Value="$3"
+
+    mkdir -p "$CACHE/ipcsession/$PName/"
+    echo "$Value" >> "$CACHE/ipcsession/$PName/$MName"
+
+}
+
+export -f IPCRead
+export -f IPCWrite
+export -f IPCAppend

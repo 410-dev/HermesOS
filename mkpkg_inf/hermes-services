@@ -23,6 +23,7 @@ rm -rf "$2/System/core/functions/KernelProfile.hfunc"
 rm -rf "$2/System/core/functions/Language.hfunc"
 rm -rf "$2/System/core/functions/Profile.hfunc"
 rm -rf "$2/System/core/functions/Quarantine.hfunc"
+rm -rf "$2/System/core/functions/InterProcessCommunications.hfunc"
 
 mkdir -p "$2/System/bin"
 mkdir -p "$2/System/man"

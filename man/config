@@ -1,10 +1,10 @@
 config - Edit configurations
 
 Possible Actions
---username [New username]
---machinename [New machine name]
---password
---language [any]
+username [New username]
+machinename [New machine name]
+password
+language [any]
 
 Usage: config [action] [required arguments]
-Example: config --machinename Computer-Desktop
+Example: config machinename Computer-Desktop

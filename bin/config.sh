@@ -7,19 +7,19 @@ fi
 if [[ -z "$1" ]]; then
 	echo "${NOT_ENOUGH_ARGS}"
 	exit 0
-elif [[ "$1" == "--username" ]]; then
+elif [[ "$1" == "username" ]]; then
 	if [[ -z "$2" ]]; then
 		echo "${ERROR}New username is not specified."
 		exit 0
 	fi
 	regwrite "USER/UserName" "$2" >/dev/null
-elif [[ "$1" == "--machinename" ]]; then
+elif [[ "$1" == "machinename" ]]; then
 	if [[ -z "$2" ]]; then
 		echo "${ERROR}New machine name is not specified."
 		exit 0
 	fi
 	regwrite "MACHINE/MachineName" "$2" >/dev/null
-elif [[ "$1" == "--password" ]]; then
+elif [[ "$1" == "password" ]]; then
 	if [[ "$(regread USER/Security/LoginPasswordEnabled)" == "1" ]]; then
 		echo -n "Old Password: "
 		read -s pw
@@ -59,7 +59,7 @@ elif [[ "$1" == "--password" ]]; then
 			echo "${ERROR}Password does not match."
 		fi
 	fi
-elif [[ "$1" == "--language" ]]; then
+elif [[ "$1" == "language" ]]; then
 	if [[ -z "$2" ]]; then
 		echo "You are currently using: ${LANG_ID}"
 		echo ""
@@ -75,6 +75,7 @@ elif [[ "$1" == "--language" ]]; then
 			echo "No such language found."
 		fi
 	fi
+
 else
 	echo "Unknown action."
 fi

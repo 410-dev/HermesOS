@@ -14,24 +14,37 @@ function OSSTART() {
 	done <<< "$(ls -p | grep -v / | grep ".DATA")"
 	verbose "$SYSNAME data is uploaded to memory."
 
-	# If STARTUP.litescript exists in $ROOTFS, it will be executed.
-	if [[ -f "$ROOTFS/STARTUP.litescript" ]]; then
-		sys_log "boot" "STARTUP.litescript found. Running..."
-		verbose "[${GREEN}*${C_DEFAULT}] STARTUP.litescript found. Running..."
+	# If STARTUP.LSC exists in $ROOTFS, it will be executed.
+	if [[ -f "$ROOTFS/STARTUP.LSC" ]]; then
+		sys_log "boot" "STARTUP.LSC found. Running..."
+		verbose "[${GREEN}*${C_DEFAULT}] STARTUP.LSC found. Running..."
 
 		# Load the script into memory
-		script_content="$(cat "$ROOTFS/STARTUP.litescript")"
+		script_content="$(cat "$ROOTFS/STARTUP.LSC")"
 		eval "$script_content"
 
-		sys_log "boot" "STARTUP.litescript finished."
-		verbose "[${GREEN}*${C_DEFAULT}] STARTUP.litescript finished."
+		sys_log "boot" "STARTUP.LSC finished."
+		verbose "[${GREEN}*${C_DEFAULT}] STARTUP.LSC finished."
 
 		# Remove
-		if [[ -f "$ROOTFS/STARTUP.litescript" ]]; then
-			sys_log "boot" "Removing STARTUP.litescript..."
-			verbose "[${GREEN}*${C_DEFAULT}] Removing STARTUP.litescript..."
-			rm "$ROOTFS/STARTUP.litescript"
+		if [[ -f "$ROOTFS/STARTUP.LSC" ]]; then
+			sys_log "boot" "Removing STARTUP.LSC..."
+			verbose "[${GREEN}*${C_DEFAULT}] Removing STARTUP.LSC..."
+			rm "$ROOTFS/STARTUP.LSC"
 		fi
+		unset script_content
+	fi
+	# PLSC: Persistent LiteScript
+	if [[ -f "$ROOTFS/STARTUP.PLSC" ]]; then
+		sys_log "boot" "STARTUP.PLSC found. Running..."
+		verbose "[${GREEN}*${C_DEFAULT}] STARTUP.PLSC found. Running..."
+
+		# Load the script into memory
+		script_content="$(cat "$ROOTFS/STARTUP.PLSC")"
+		eval "$script_content"
+
+		sys_log "boot" "STARTUP.PLSC finished."
+		verbose "[${GREEN}*${C_DEFAULT}] STARTUP.PLSC finished."
 		unset script_content
 	fi
 

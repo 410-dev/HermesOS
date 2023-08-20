@@ -77,7 +77,7 @@ elif [[ "$1" == "--update-legacy" ]]; then
 
 		echo "Preparing for update..."
 		echo "Setting LiteOS to update mode..."
-		cp "$OSSERVICES/Library/Legacy/Compatibility/LegacyOSInstall.litescript" "$ROOTFS/TERMINATE.litescript"
+		cp "$OSSERVICES/Library/Legacy/Compatibility/LegacyOSInstall.LSC" "$ROOTFS/TERMINATE.LSC"
 		echo "Shutting down and entering LiteOS interpreter mode..."
 		"$SYSTEM/bin/shutdown"
 	else

@@ -35,8 +35,8 @@ if [ "$choice" == "2" ]; then
 fi
 
 echo "Writing startup queue defaults..."
-echo "rm -rf \$DATA" > "$location/STARTUP.litescript"
-echo "rm -rf \$LIBRARY" >> "$location/STARTUP.litescript"
+echo "rm -rf \"\$DATA\" 2>/dev/null" > "$location/STARTUP.LSC"
+echo "rm -rf \"\$LIBRARY\" 2>/dev/null" >> "$location/STARTUP.LSC"
 
 echo "Shutting down!"
 mkdir -p "$CACHE"

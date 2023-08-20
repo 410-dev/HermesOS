@@ -56,26 +56,41 @@ function LITE_BOOT_SYSTEM() {
 		"$CORE/uistart"
 		EXITSIG="$?"
 
-		# LiteOS will run given script from $ROOTFS/TERMINATE.litescript if it exists.
+		# LiteOS will run given script from $ROOTFS/TERMINATE.LSC if it exists.
 		# It must load the script to memory and run it.
-		if [[ -f "$ROOTFS/TERMINATE.litescript" ]]; then
-			sys_log "boot" "TERMINATE.litescript found. Running..."
-			verbose "[${GREEN}*${C_DEFAULT}] TERMINATE.litescript found. Running..."
+		if [[ -f "$ROOTFS/TERMINATE.LSC" ]]; then
+			sys_log "boot" "TERMINATE.LSC found. Running..."
+			verbose "[${GREEN}*${C_DEFAULT}] TERMINATE.LSC found. Running..."
 
 			# Load the script into memory
-			script_content=$(cat "$ROOTFS/TERMINATE.litescript")
+			script_content=$(cat "$ROOTFS/TERMINATE.LSC")
 			eval "$script_content"
 
-			sys_log "boot" "TERMINATE.litescript finished."
-			verbose "[${GREEN}*${C_DEFAULT}] TERMINATE.litescript finished."
+			sys_log "boot" "TERMINATE.LSC finished."
+			verbose "[${GREEN}*${C_DEFAULT}] TERMINATE.LSC finished."
 
 			# Remove the script from memory
 			unset script_content
-			if [[ -f "$ROOTFS/TERMINATE.litescript" ]]; then
-				sys_log "boot" "Removing TERMINATE.litescript..."
-				verbose "[${GREEN}*${C_DEFAULT}] Removing TERMINATE.litescript..."
-				rm "$ROOTFS/TERMINATE.litescript"
+			if [[ -f "$ROOTFS/TERMINATE.LSC" ]]; then
+				sys_log "boot" "Removing TERMINATE.LSC..."
+				verbose "[${GREEN}*${C_DEFAULT}] Removing TERMINATE.LSC..."
+				rm "$ROOTFS/TERMINATE.LSC"
 			fi
+		fi
+		# PLSC: Persistent LiteScript
+		if [[ -f "$ROOTFS/TERMINATE.PLSC" ]]; then
+			sys_log "boot" "TERMINATE.PLSC found. Running..."
+			verbose "[${GREEN}*${C_DEFAULT}] TERMINATE.PLSC found. Running..."
+
+			# Load the script into memory
+			script_content=$(cat "$ROOTFS/TERMINATE.PLSC")
+			eval "$script_content"
+
+			sys_log "boot" "TERMINATE.PLSC finished."
+			verbose "[${GREEN}*${C_DEFAULT}] TERMINATE.PLSC finished."
+
+			# Remove the script from memory
+			unset script_content
 		fi
 
 

@@ -26,7 +26,7 @@ if [[ -z "$MACHN" ]]; then
 fi
 cd "$USERDATA"
 
-source "$OSSERVICES/Library/Services/Functions/ExecCommand.hfunc"
+getSystemFunction "ExecCommand.hfunc"
 
 export AutoRunComplete=0
 

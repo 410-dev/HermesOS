@@ -9,15 +9,30 @@ function aopen() {
 }
 
 function getSystemFunction() {
-	source "$OSSERVICES/Library/Services/Functions/$1"
+	if [[ -f "$OSSERVICES/Library/Services/Functions/$1" ]]; then
+		source "$OSSERVICES/Library/Services/Functions/$1"
+	else
+		echo "CRITICAL ERROR: Tried to load non-existent system function $1"
+		exit 1
+	fi
 }
 
 function getCoreFunction() {
-	source "$CORE/functions/$1"
+	if [[ -f "$CORE/functions/$1" ]]; then
+		source "$CORE/functions/$1"
+	else
+		echo "CRITICAL ERROR: Tried to load non-existent core function $1"
+		exit 1
+	fi
 }
 
 function getLibFunction() {
-	source "$LIBRARY/Functions/$1"
+	if [[ -f "$LIBRARY/Functions/$1" ]]; then
+		source "$LIBRARY/Functions/$1"
+	else
+		echo "CRITICAL ERROR: Tried to load non-existent library function $1"
+		exit 1
+	fi
 }
 
 export -f syslangversion

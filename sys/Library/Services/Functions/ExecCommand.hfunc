@@ -55,15 +55,6 @@ function execCommand() {
 		switch_to_liteos
 	elif [[ -z "$command" ]]; then
 		echo -n ""
-	# elif [[ "$(regread USER/Shell/DeveloperOptions)" == "1" ]]; then
-	# 	export lastExecutedCommand="$command"
-	# 	echo "${args[0]}" > "$CACHE/process"
-	# 	if [[ -f "$OSSERVICES/Library/Developer/bin/${args[0]}" ]]; then\
-	# 		command_args=("${args[@]}")
-	# 		"$OSSERVICES/Library/Developer/bin/${command_args[@]}"
-	# 	else
-	# 		echo "${COMMAND_NOT_FOUND}${args[0]}"
-	# 	fi
 	else
 		# Split by :
 		IFS=':' read -ra ListOfPath <<< "$SEARCHPATHS"

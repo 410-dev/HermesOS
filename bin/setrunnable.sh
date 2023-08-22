@@ -11,10 +11,6 @@ if [[ ! -z "$1" ]]; then
 			echo "${OPERATION_NOT_PERMITTED}File Write"
 			exit 99
 		fi
-		if [[ -z "$(cat "$PWD/$1" | grep "@PROG_RUNNABLE")" ]]; then
-			echo "Program not recognizable: Unable to find @PROG_RUNNABLE"
-			exit 9
-		fi
 		chmod +x "$PWD/$1"
 		echo "$1 is now runnable."
 	else

@@ -11,6 +11,7 @@ cp "$1/System/core/extensions/AutoSystemConfigure.hxe" "$2/System/core/extension
 cp "$1/System/core/extensions/OSUtility.hxe" "$2/System/core/extensions/"
 
 cp "$1/System/core/functions/CoreFunctions.hfunc" "$2/System/core/functions/"
+cp "$1/System/core/functions/CoreRegistryControl.hfunc" "$2/System/core/functions/"
 cp "$1/System/core/functions/Fort.hfunc" "$2/System/core/functions/"
 cp "$1/System/core/functions/HardLink.hfunc" "$2/System/core/functions/"
 cp "$1/System/core/functions/ISAKit.hfunc" "$2/System/core/functions/"

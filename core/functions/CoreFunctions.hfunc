@@ -1,6 +1,6 @@
 #!/bin/bash
 function syslangversion() {
-	echo "2.0"
+	echo "2.1"
 }
 
 function aopen() {
@@ -8,52 +8,20 @@ function aopen() {
 	"$1/runner"
 }
 
-function regread() {
-	if [[ -f "$REGISTRY/$1" ]]; then
-		echo "$(<"$REGISTRY/$1")"
-	else
-		echo "null"
-	fi
+function getSystemFunction() {
+	source "$OSSERVICES/Library/Services/Functions/$1"
 }
 
-function regwrite() {
-	if [[ ! -d "$REGISTRY/$1" ]]; then
-		echo "$2" > "$REGISTRY/$1"
-		if [[ "$(<"$REGISTRY/$1")" == "$2" ]]; then
-			echo "0"
-		else
-			echo "-9"
-		fi
-	else
-		echo "-9"
-	fi
+function getCoreFunction() {
+	source "$CORE/functions/$1"
 }
 
-function regkeygen() {
-	if [[ ! -f "$REGISTRY/$1" ]]; then
-		mkdir -p "$REGISTRY/$1"
-		if [[ -d "$REGISTRY/$1" ]]; then
-			echo "0"
-		else
-			echo "-9"
-		fi
-	else
-		echo "-9"
-	fi
-}
-
-function regdel() {
-	if [[ -e "$REGISTRY/$1" ]]; then
-		rm -rf "$REGISTRY/$1"
-		echo "0"
-	else
-		echo "-9"
-	fi
+function getLibFunction() {
+	source "$LIBRARY/Functions/$1"
 }
 
 export -f syslangversion
 export -f aopen
-export -f regwrite
-export -f regread
-export -f regkeygen
-export -f regdel
+export -f getSystemFunction
+export -f getCoreFunction
+export -f getLibFunction

@@ -1,0 +1,49 @@
+#!/bin/bash
+
+function regread() {
+	if [[ -f "$REGISTRY/$1" ]]; then
+		echo "$(<"$REGISTRY/$1")"
+	else
+		echo "null"
+	fi
+}
+
+function regwrite() {
+	if [[ ! -d "$REGISTRY/$1" ]]; then
+		echo "$2" > "$REGISTRY/$1"
+		if [[ "$(<"$REGISTRY/$1")" == "$2" ]]; then
+			echo "0"
+		else
+			echo "-9"
+		fi
+	else
+		echo "-9"
+	fi
+}
+
+function regkeygen() {
+	if [[ ! -f "$REGISTRY/$1" ]]; then
+		mkdir -p "$REGISTRY/$1"
+		if [[ -d "$REGISTRY/$1" ]]; then
+			echo "0"
+		else
+			echo "-9"
+		fi
+	else
+		echo "-9"
+	fi
+}
+
+function regdel() {
+	if [[ -e "$REGISTRY/$1" ]]; then
+		rm -rf "$REGISTRY/$1"
+		echo "0"
+	else
+		echo "-9"
+	fi
+}
+
+export -f regwrite
+export -f regread
+export -f regkeygen
+export -f regdel

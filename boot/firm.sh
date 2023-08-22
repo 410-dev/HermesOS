@@ -35,18 +35,21 @@ function FIRMWARE_INFO() {
     fi
 }
 
-trap sysreset INT
-function sysreset() {
-	echo ""
-	clear
-	sys_log "Firmware" "Device reset!!"
-    echo "[System Event] Resetting device..."
-    sleep 1
-    rm -rf "$CACHE"
-    "$CORE/osstop"
-    "$(dirname "$0")/firm" "$ORIG_BOOT_ARGS"
-}
-
+if [[ "$ORIG_BOOT_ARGS" == *"disable-sysreset"* ]]; then
+    :
+else
+    trap sysreset INT
+    function sysreset() {
+        echo ""
+        clear
+        sys_log "Firmware" "Device reset!!"
+        echo "[System Event] Resetting device..."
+        sleep 1
+        rm -rf "$CACHE"
+        "$CORE/osstop"
+        "$(dirname "$0")/firm" "$ORIG_BOOT_ARGS"
+    }
+fi
 
 function FIRMWARE() {
     if [[ "$1" == "unload" ]]; then

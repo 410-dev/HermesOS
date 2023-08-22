@@ -1,10 +1,4 @@
 #!/bin/bash
-if [[ "$HUID" -ne 0 ]]; then
-	echo "${PERMISSION_DENIED}$HUID"
-	exit 0
-fi
-
-
 if [[ ! -d "$LIBRARY/tape" ]]; then
     cp -r "$OSSERVICES/Library/tape" "$LIBRARY/tape"
 fi
@@ -12,6 +6,15 @@ fi
 if [[ ! -d "$LIBRARY/tape" ]]; then
     echo "Unable to prepare tape."
     exit 1
+fi
+
+if [[ "$1" == "prep" ]]; then
+    exit 0
+fi
+
+if [[ "$HUID" -ne 0 ]]; then
+	echo "${PERMISSION_DENIED}$HUID"
+	exit 0
 fi
 
 # Check if action binary exists

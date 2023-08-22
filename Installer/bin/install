@@ -11,6 +11,14 @@ if [[ "$location" == "" ]] || [[ "$location" == " " ]] || [[ -z "$location" ]]; 
     location="$ROOTFS"
 fi
 
+echo "Clear space?"
+read -p "Enter your choice (y/n): " format
+
+if [[ "$format" == "y" ]] || [[ "$format" == "Y" ]]; then
+    echo "Formatting..."
+    rm -rf "$location/*"
+fi
+
 echo "Please select the installation mode:"
 echo "1. Minimum"
 echo "2. Default"

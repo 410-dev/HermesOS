@@ -9,6 +9,26 @@ read -p "Enter the location: " location
 
 if [[ "$location" == "" ]] || [[ "$location" == " " ]] || [[ -z "$location" ]]; then
     location="$ROOTFS"
+else
+    disploc="$location"
+    location="$ROOTFS/../$location"
+    location="$(realpath "$location")"
+fi
+
+if [[ -d "$location" ]]; then
+    echo "Device found: $disploc"
+else
+    echo "Device not found: $disploc"
+    exit 1
+fi
+
+echo "Are you sure you want to install HermesOS on $disploc?"
+read -p "Enter your choice (y/n): " choice
+if [[ "$choice" == "y" ]] || [[ "$choice" == "Y" ]]; then
+    :
+else
+    echo "Aborting..."
+    exit 1
 fi
 
 echo "Clear space?"

@@ -13,7 +13,7 @@ function loadDefinition() {
 }
 
 sys_log "interface" "Running preload..."
-"$OSSERVICES/Library/Utility/preload"
+"$OSSERVICES/Library/Services/preload"
 sys_log "interface" "Logged in."
 sys_log "interface" "Getting registry data..."
 export USERN=$(regread "USER/UserName")
@@ -26,7 +26,7 @@ if [[ -z "$MACHN" ]]; then
 fi
 cd "$USERDATA"
 
-getSystemFunction "ExecCommand.hfunc"
+importSystemFunction "ExecCommand.hfunc"
 
 export AutoRunComplete=0
 

@@ -40,4 +40,14 @@ mv ../System/Installer/AUTOCONFIG ../System/
 rm -rf ../Installer
 
 echo "Generating into packages..."
+if [[ -f "../image.tar.gz" ]]; then
+    mv ../image.tar.gz ../image.tar.gz.bak
+fi
+if [[ -f "../installer.tar.gz" ]]; then
+    rm ../installer.tar.gz
+fi
 ./mksystem nosync pkg
+mv ../image.tar.gz ../installer.tar.gz
+if [[ -f "../image.tar.gz.bak" ]]; then
+    mv ../image.tar.gz.bak ../image.tar.gz
+fi

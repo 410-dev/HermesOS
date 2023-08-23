@@ -1,0 +1,2 @@
+#!/bin/bash
+cp -r "$1/System/Desktop" "$2/System/"

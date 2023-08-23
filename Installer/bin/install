@@ -47,7 +47,7 @@ read -p "Enter your choice: " choice
 
 PKGPTH="$SYSTEM/Installer/packages"
 PKGREQUIRED="$PKGPTH/hermes-kernel-2x* $PKGPTH/liteos* $PKGPTH/hermes-services-core* $PKGPTH/core-binaries*"
-PKGADDITIONAL="$PKGPTH/hermes-services* $PKGPTH/virtualization* $PKGPTH/legacy-support*"
+PKGADDITIONAL="$PKGPTH/hermes-services* $PKGPTH/virtualization* $PKGPTH/legacy-support* $PKGPTH/hermes-interface*"
 
 if [ "$choice" == "1" ] || [ "$choice" == "2" ]; then
     echo "Installing minimum packages..."

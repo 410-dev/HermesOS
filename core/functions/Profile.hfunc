@@ -3,7 +3,7 @@
 export OS_Version_Default="20.0pre3"
 export OS_Version_Major_Default="20"
 export OS_Version_Minor_Default="0"
-export OS_Build_Default="230821A"
+export OS_Build_Default="230824A"
 export OS_Name_Default="HermesOS"
 export OS_Tag_Default="20.0pre3"
 export OS_Vendor_Default="410"

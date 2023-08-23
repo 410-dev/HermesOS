@@ -28,7 +28,25 @@ cd "$USERDATA"
 
 importSystemFunction "ExecCommand.hfunc"
 
-export AutoRunComplete=0
+
+# Run files in $OSSERVICES/Library/Hooks/Login
+sys_log "interface" "Running login hooks..."
+PWDD="$(pwd)"
+cd "$OSSERVICES/Library/Hooks/Login"
+export SilenceAutoRun="$(regread USER/Shell/SilenceAutoRun)"
+while read hook
+do
+	sys_log "interface" "Running login hook: $hook"
+	if [[ "$SilenceAutoRun" == "1" ]]; then
+		:
+	else
+		verbose "Running: ${RUNNING_LOGIN_HOOK}$hook"
+	fi
+	source "$OSSERVICES/Library/Hooks/Login/$hook"
+	sys_log "interface" "Login hook complete: $hook"
+done <<< "$(ls -p | grep -v / | grep ".hxe")"
+sys_log "interface" "Login hooks complete."
+cd "$PWDD"
 
 while [[ true ]]; do
 	sys_log "interface" "Setting default permission value..."
@@ -60,51 +78,6 @@ while [[ true ]]; do
 	export OUTPUT_STYLE="${OUTPUT_STYLE//$USERDATA/~}"
 	export OUTPUT_STYLE="${OUTPUT_STYLE//$ROOTFS/}"
 	echo -en "$OUTPUT_STYLE"
-	if [[ "$AutoRunComplete" == "0" ]]; then
-		export AutoRunList="$(regread USER/Shell/AutoRun)"
-		export AutoRunEnabled="$(regread USER/Shell/AutoRunEnabled)"
-
-		if [[ "$AutoRunEnabled" == "1" ]]; then
-			sys_log "interface" "AutoRun enabled. Running AutoRun list..."
-
-			if [[ "$(regread USER/Shell/EnableAutoRunFromRegistries)" == "0" ]]; then
-				sys_log "interface" "AutoRun from registries disabled by registry value. Skipping AutoRun list..."
-			else
-				sys_log "interface" "AutoRun list from registry: $AutoRunList"	
-				IFS_ORIG=$IFS
-				IFS=";"
-				read -ra substrings <<< "$AutoRunList"
-				IFS=$IFS_ORIG
-				for substring in "${substrings[@]}"; do
-					trimmed_substring=$(echo "$substring" | sed 's/^[[:space:]]*//')
-					if [ -z "$trimmed_substring" ]; then
-						continue
-					fi
-					sys_log "interface" "AutoRun command: $trimmed_substring"
-					execCommand "$trimmed_substring"
-				done
-			fi
-
-			if [[ "$(regread USER/Shell/EnableAutoRunFromFile)" -ne "0" ]]; then
-				sys_log "interface" "AutoRun from filesystem disabled by registry value. Skipping AutoRun list..."
-			else
-				sys_log "interface" "AutoRun list from filesystem: $ROOTFS/AUTORUN"
-				if [[ -f "$ROOTFS/AUTORUN" ]]; then
-					sys_log "interface" "AutoRun list found. Running AutoRun list..."
-					sys_log "interface" "AutoRun list: $(cat "$ROOTFS/AUTORUN")"
-					while read command
-					do
-						execCommand "$command"
-					done <<< "$(cat "$ROOTFS/AUTORUN")"
-				else
-					sys_log "interface" "AutoRun list not found."
-				fi
-			fi
-		else
-			sys_log "interface" "AutoRun disabled. Skipping AutoRun list..."
-		fi
-		export AutoRunComplete=1
-	fi
 
 	if [[ "$(regread USER/Shell/HaltAfterAutoRun)" == "1" ]]; then
 		sys_log "interface" "HaltAfterAutoRun is enabled. Sending shutdown signal..."

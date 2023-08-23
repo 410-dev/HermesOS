@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# This script runs when HermesOS Shell starts.
+importSystemFunction ExecCommand.hfunc
+
+export AutoRunList="$(regread USER/Shell/AutoRun)"
+export AutoRunEnabled="$(regread USER/Shell/AutoRunEnabled)"
+export SilenceAutoRun="$(regread USER/Shell/SilenceAutoRun)"
+
+if [[ "$AutoRunEnabled" == "1" ]]; then
+    sys_log "interface" "AutoRun enabled. Running AutoRun list..."
+
+    if [[ "$(regread USER/Shell/EnableAutoRunFromRegistries)" == "0" ]]; then
+        sys_log "interface" "AutoRun from registries disabled by registry value. Skipping AutoRun list..."
+    else
+        sys_log "interface" "AutoRun list from registry: $AutoRunList"	
+        IFS_ORIG=$IFS
+        IFS=";"
+        read -ra substrings <<< "$AutoRunList"
+        IFS=$IFS_ORIG
+        for substring in "${substrings[@]}"; do
+            trimmed_substring=$(echo "$substring" | sed 's/^[[:space:]]*//')
+            if [ -z "$trimmed_substring" ]; then
+                continue
+            fi
+            sys_log "interface" "AutoRun command: $trimmed_substring"
+            if [[ "$SilenceAutoRun" == "1" ]]; then
+                execCommand "$trimmed_substring" > /dev/null
+            else
+                execCommand "$trimmed_substring"
+            fi
+        done
+    fi
+
+    if [[ "$(regread USER/Shell/EnableAutoRunFromFile)" -ne "0" ]]; then
+        sys_log "interface" "AutoRun from filesystem disabled by registry value. Skipping AutoRun list..."
+    else
+        sys_log "interface" "AutoRun list from filesystem: $ROOTFS/AUTORUN"
+        if [[ -f "$ROOTFS/AUTORUN" ]]; then
+            sys_log "interface" "AutoRun list found. Running AutoRun list..."
+            sys_log "interface" "AutoRun list: $(cat "$ROOTFS/AUTORUN")"
+            while read command
+            do
+                if [[ "$SilenceAutoRun" == "1" ]]; then
+                    execCommand "$command" > /dev/null
+                else
+                    execCommand "$command"
+                fi
+            done <<< "$(cat "$ROOTFS/AUTORUN")"
+        else
+            sys_log "interface" "AutoRun list not found."
+        fi
+    fi
+else
+    sys_log "interface" "AutoRun disabled. Skipping AutoRun list..."
+fi
+export AutoRunComplete=1

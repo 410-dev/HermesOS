@@ -1,0 +1,18 @@
+#!/bin/bash
+
+export WelcomeMessage="$(regread USER/Shell/WelcomeMessage)"
+if [[ "$WelcomeMessage" == "null" ]]; then
+    export WelcomeMessage="HermesOS User Executive"
+fi
+
+if [[ "$(regread USER/Shell/DisableWelcomeMessage)" -ne "1" ]]; then
+    if [[ -f "$CACHE/alert" ]]; then
+        if [[ -z "$(cat "$CACHE/alert" | grep "$WelcomeMessage")" ]]; then
+            sys_log "StartupMessage" "Adding greeting to alert file..."
+            echo "$WelcomeMessage" >> "$CACHE/alert"
+        fi
+    else
+        sys_log "StartupMessage" "Adding greeting to alert file..."
+        echo "$WelcomeMessage" >> "$CACHE/alert"
+    fi
+fi

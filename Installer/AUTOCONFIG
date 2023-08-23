@@ -1,9 +1,11 @@
 [LANG] en-us
 [REG] USER/Shell/AutoRunEnabled=1
 [REG] USER/Shell/AutoRun=tape prep
+[REG] USER/Shell/SilenceAutoRun=1
 [REG] USER/UserName=HermesInstaller
 [REG] MACHINE/MachineName=InstallationMedia
 [REG] USER/Security/LoginPasswordEnabled=0
+[REG] USER/Shell/WelcomeMessage=HermesOS Installer: Type 'install' to start installer, and 'diskutil' to start disk utility.
 [NVRK] security
 [NVRV] security/prosys=Pro System
 [NVRV] security/lockstate=Unlocked

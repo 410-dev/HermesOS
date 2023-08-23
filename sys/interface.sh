@@ -13,7 +13,7 @@ function loadDefinition() {
 }
 
 sys_log "interface" "Running preload..."
-"$OSSERVICES/Utility/preload"
+"$OSSERVICES/Library/Utility/preload"
 sys_log "interface" "Logged in."
 sys_log "interface" "Getting registry data..."
 export USERN=$(regread "USER/UserName")

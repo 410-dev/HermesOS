@@ -1,6 +1,6 @@
 [LANG] en-us
 [REG] USER/Shell/AutoRunEnabled=1
-[REG] USER/Shell/AutoRun=tape
+[REG] USER/Shell/AutoRun=tape prep
 [REG] USER/UserName=HermesInstaller
 [REG] MACHINE/MachineName=InstallationMedia
 [REG] USER/Security/LoginPasswordEnabled=0

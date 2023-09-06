@@ -4,7 +4,6 @@ function help() {
 	echo "shutdown:     Stops RecoveryOS
 install:      Installs System
 cleardisk:    Erase the entire disk
-selectdisk:   Select target disk to operate
 updatept:     Update Partition Table
 nvreset:      Reset NVRAM
 "

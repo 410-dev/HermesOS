@@ -1,17 +1,16 @@
 #!/bin/bash
 
-# MINISYSTEM is a small, lightweighted system
-# that is designed for specific purpose.
-
 # EDIT THE VALUES HERE
 export SYSNAME="Hermes Recovery"
-export SYSVERS="16.0"
+export SYSVERS="20.0"
 export SYSEXEC="SYSTEM"
 
 # DO NOT EDIT FROM HERE
 export SYSLOC="$RECOVERY"
 export SYSCAC="$CACHE"
 echo "Loading: $SYSNAME $SYSVERS"
+echo "Selecting disk..."
+export selectedDisk="$DISK_LOC"
 cd "$SYSLOC"
 while read DATAFILE
 do

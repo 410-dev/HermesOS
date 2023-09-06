@@ -9,7 +9,6 @@ while [[ true ]]; do
 	[[ "$commands" == "cleardisk" ]] || 
 	[[ "$commands" == "help" ]] || 
 	[[ "$commands" == "install" ]] || 
-	[[ "$commands" == "selectdisk" ]] || 
 	[[ "$commands" == "updatept" ]] ||
 	[[ "$commands" == "nvreset_force" ]] ||
 	[[ "$commands" == "nvreset" ]]; then
@@ -20,7 +19,6 @@ while [[ true ]]; do
 		unset cleardisk
 		unset help
 		unset install
-		unset selectdisk
 		unset updatept
 		unset nvreset
 	elif [[ ! -z "$(echo "$commands" | grep ".DATA")" ]]; then

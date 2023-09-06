@@ -1,8 +1,24 @@
 #!/bin/bash
 
 if [[ ! -f "$LIBRARY/Developer/ZLang/zlang-linker" ]]; then
-	echo "ZLang is not installed."
-	exit 1
+	if [[ ! -z "$(cat "$PWD/$1" | grep "#require zlang")" ]] || [[ ! -z "$(cat "$PWD/$1" | grep "# require zlang")" ]]; then
+		echo "Program requires ZLang but is not installed."
+		echo "Do you want to install ZLang? (y/n)"
+		read -r installZLang
+		if [[ "$installZLang" == "y" ]]; then
+			echo "Installing ZLang..."
+			"$OSSERVICES/Library/Developer/bin/install-zlang"
+			if [[ -f "$LIBRARY/Developer/ZLang/zlang-linker" ]]; then
+				echo "ZLang installed."
+			else
+				echo "ZLang not installed. Exiting..."
+				exit 1
+			fi
+		else
+			echo "ZLang not installed. Exiting..."
+			exit 1
+		fi
+	fi
 fi
 export ZLANG_SUPPRESS_WARNING=1
 function ZLang() {

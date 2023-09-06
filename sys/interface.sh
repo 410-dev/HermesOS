@@ -26,7 +26,7 @@ if [[ -z "$MACHN" ]]; then
 fi
 cd "$USERDATA"
 
-importSystemFunction "ExecCommand.hfunc"
+sysfunction execute
 
 
 # Run files in $OSSERVICES/Library/Hooks/Login

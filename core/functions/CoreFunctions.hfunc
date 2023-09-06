@@ -8,27 +8,27 @@ function aopen() {
 	"$1/runner"
 }
 
-function importSystemFunction() {
-	if [[ -f "$OSSERVICES/Library/Functions/$1" ]]; then
-		source "$OSSERVICES/Library/Functions/$1"
+function sysfunction() {
+	if [[ -f "$OSSERVICES/Library/Functions/$1.hfunc" ]]; then
+		source "$OSSERVICES/Library/Functions/$1.hfunc"
 	else
 		echo "CRITICAL ERROR: Tried to load non-existent system function $1"
 		exit 1
 	fi
 }
 
-function importCoreFunction() {
-	if [[ -f "$CORE/functions/$1" ]]; then
-		source "$CORE/functions/$1"
+function corefunction() {
+	if [[ -f "$CORE/functions/$1.hfunc" ]]; then
+		source "$CORE/functions/$1.hfunc"
 	else
 		echo "CRITICAL ERROR: Tried to load non-existent core function $1"
 		exit 1
 	fi
 }
 
-function importLibFunction() {
-	if [[ -f "$LIBRARY/Functions/$1" ]]; then
-		source "$LIBRARY/Functions/$1"
+function libfunction() {
+	if [[ -f "$LIBRARY/Functions/$1.hfunc" ]]; then
+		source "$LIBRARY/Functions/$1.hfunc"
 	else
 		echo "CRITICAL ERROR: Tried to load non-existent library function $1"
 		exit 1
@@ -37,6 +37,6 @@ function importLibFunction() {
 
 export -f syslangversion
 export -f aopen
-export -f importSystemFunction
-export -f importCoreFunction
-export -f importLibFunction
+export -f sysfunction
+export -f corefunction
+export -f libfunction

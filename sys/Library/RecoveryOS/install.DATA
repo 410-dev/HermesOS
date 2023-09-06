@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function installsys() {
+function install() {
 	if [[ -z "$selectedDisk" ]]; then
 		colorprint "${RED}Error: Disk not selected."
 		break
@@ -14,17 +14,21 @@ function installsys() {
 		echo "Downloading system packages..."
 		colorprint "${YELLOW}Package will be downloaded to current disk."
 		mkdir -p "$selectedDisk/recovery_dimg"
-		curl -Ls "https://github.com/410-dev/HermesOS/releases/download/13.0.1/image.zip" -o "$selectedDisk/recovery_dimg/image.zip"
+		curl -Ls "https://github.com/410-dev/HermesOS/releases/download/20.0pre3/image.tar.gz" -o "$selectedDisk/recovery_dimg/image.tar.gz"
 		if [[ $? -ne 0 ]]; then
 			echo "Failed downloading HermesOS 13.0.1 (Minimum compatible version)"
 			break
 		fi
-		echo "Installing HermesOS 13.0.1..."
+		echo "Installing HermesOS 20.0..."
 		if [[ -d "$selectedDisk/System" ]]; then
 			rm -rf "$selectedDisk/System"
 		fi
 		mkdir -p "$selectedDisk/System"
-		unzip -o -q "$selectedDisk/recovery_dimg/image.zip" -d "$selectedDisk/System"
+		# unzip -o -q "$selectedDisk/recovery_dimg/image.zip" -d "$selectedDisk/System"
+		tar -xf "$selectedDisk/recovery_dimg/image.tar.gz" -C "$ROOTFS"
+		if [[ -d "$SYSTEM/__MACOSX" ]]; then
+			rm -rf "$SYSTEM/__MACOSX"
+		fi
 	fi
 	echo "Configuring..."
 	postinstconfigure
@@ -32,63 +36,4 @@ function installsys() {
 	break
 }
 
-function install() {
-	if [[ $(bootArgumentHas "$1") == 1 ]]; then
-		echo "What do you want to install? :"
-		echo ""
-		echo "1. System"
-		echo "2. Package"
-		echo ""
-		echo -n "> "
-		read menu
-		while [[ true ]]; do
-			if [[ "$menu" == "1" ]]; then
-				installsys
-			elif [[ "$menu" == "2" ]]; then
-				if [[ ! -d "$DATA" ]]; then
-					colorprint "${RED}Unable to get package files from storage."
-					break
-				fi
-				if [[ -z "$selectedDisk" ]]; then
-					colorprint "${RED}Error: Disk not selected."
-					break
-				fi
-				if [[ ! -d "$selectedDisk/System" ]]; then
-					colorprint "${RED}Error: No system installed."
-					break
-				fi
-				echo "Finding package files..."
-				export query="$(find "$DATA" | grep ".PACKAGE")"
-				if [[ -z "$query" ]]; then
-					colorprint "${RED}Error: Unable to find package file."
-					break
-				fi
-				echo "Packages found: "
-				echo "$query"
-				echo "Please type the name of the package file."
-				echo -n "> "
-				read selected
-				if [[ "$selected" == ".DATA" ]] || [[ "$selected" == "/" ]]; then
-					colorprint "${RED}Such input is not allowed."
-					break
-				elif [[ ! -z "$(echo "$query" | grep "$selected")" ]]; then
-					echo "Installing package..."
-					unzip -o -q "$(echo "$query" | grep "$selected")" -d "$selectedDisk"
-					rm -rf "$selectedDisk/__MACOSX"
-					break
-				else
-					colorprint "${RED}Package not found."
-					break
-				fi
-			else
-				echo "No such option."
-				break
-			fi
-		done
-	else
-		installsys
-	fi
-}
-
-export -f installsys
 export -f install

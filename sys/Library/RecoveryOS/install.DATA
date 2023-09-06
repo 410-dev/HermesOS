@@ -1,31 +1,31 @@
 #!/bin/bash
 
 function install() {
-	if [[ -z "$selectedDisk" ]]; then
+	if [[ -z "$ROOTFS" ]]; then
 		colorprint "${RED}Error: Disk not selected."
 		break
 	fi
 	if [[ -d "$SYSLOC/sysorig" ]]; then
 		echo "Using local package..."
 		echo "Installing..."
-		cp -r "$SYSLOC/sysorig/System" "$selectedDisk"
+		cp -r "$SYSLOC/sysorig/System" "$ROOTFS"
 	else
 		echo "System package not found."
 		echo "Downloading system packages..."
 		colorprint "${YELLOW}Package will be downloaded to current disk."
-		mkdir -p "$selectedDisk/recovery_dimg"
-		curl -Ls "https://github.com/410-dev/HermesOS/releases/download/20.0pre3/image.tar.gz" -o "$selectedDisk/recovery_dimg/image.tar.gz"
+		mkdir -p "$ROOTFS/recovery_dimg"
+		curl -Ls "https://github.com/410-dev/HermesOS/releases/download/20.0pre3/image.tar.gz" -o "$ROOTFS/recovery_dimg/image.tar.gz"
 		if [[ $? -ne 0 ]]; then
 			echo "Failed downloading HermesOS 13.0.1 (Minimum compatible version)"
 			break
 		fi
 		echo "Installing HermesOS 20.0..."
-		if [[ -d "$selectedDisk/System" ]]; then
-			rm -rf "$selectedDisk/System"
+		if [[ -d "$ROOTFS/System" ]]; then
+			rm -rf "$ROOTFS/System"
 		fi
-		mkdir -p "$selectedDisk/System"
-		# unzip -o -q "$selectedDisk/recovery_dimg/image.zip" -d "$selectedDisk/System"
-		tar -xf "$selectedDisk/recovery_dimg/image.tar.gz" -C "$ROOTFS"
+		mkdir -p "$ROOTFS/System"
+		# unzip -o -q "$ROOTFS/recovery_dimg/image.zip" -d "$ROOTFS/System"
+		tar -xf "$ROOTFS/recovery_dimg/image.tar.gz" -C "$ROOTFS"
 		if [[ -d "$SYSTEM/__MACOSX" ]]; then
 			rm -rf "$SYSTEM/__MACOSX"
 		fi

@@ -9,8 +9,6 @@ export SYSEXEC="SYSTEM"
 export SYSLOC="$RECOVERY"
 export SYSCAC="$CACHE"
 echo "Loading: $SYSNAME $SYSVERS"
-echo "Selecting disk..."
-export selectedDisk="$DISK_LOC"
 cd "$SYSLOC"
 while read DATAFILE
 do

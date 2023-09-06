@@ -1,8 +1,8 @@
 #!/bin/bash
 
 function updatept() {
-	if [[ -f "$selectedDisk/System/boot/partitions.hdp" ]]; then
-		nano "$selectedDisk/System/boot/partitions.hdp"
+	if [[ -f "$ROOTFS/System/boot/partitions.hdp" ]]; then
+		nano "$ROOTFS/System/boot/partitions.hdp"
 	else
 		colorprint "${RED}System is not installed!"
 	fi

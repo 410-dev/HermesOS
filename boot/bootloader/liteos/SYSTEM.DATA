@@ -2,7 +2,7 @@
 function liteos_main() {
 	echo "LiteOS - Main Shell"
 	echo "Type LITE_HELP to see available commands."
-	unset selectedDisk
+	unset ROOTFS
 	while [[ true ]]; do
 		echo -n "LITEOS > "
 		read commands

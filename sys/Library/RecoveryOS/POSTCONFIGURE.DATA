@@ -1,13 +1,13 @@
 #!/bin/bash
 
 function postinstconfigure() {
-	if [[ -d "$selectedDisk/System/__MACOSX" ]]; then
+	if [[ -d "$ROOTFS/System/__MACOSX" ]]; then
 		echo "Cleaning things up..."
-		rm -rf "$selectedDisk/System/__MACOSX"
+		rm -rf "$ROOTFS/System/__MACOSX"
 	fi
 
-	if [[ -d "$selectedDisk/recovery_dimg" ]]; then
-		rm -rf "$selectedDisk/recovery_dimg"
+	if [[ -d "$ROOTFS/recovery_dimg" ]]; then
+		rm -rf "$ROOTFS/recovery_dimg"
 	fi
 }
 

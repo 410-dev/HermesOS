@@ -1,14 +1,14 @@
 #!/bin/bash
 function cleardisk() {
 	while [[ true ]]; do
-		if [[ -z "$selectedDisk" ]]; then
+		if [[ -z "$ROOTFS" ]]; then
 			colorprint "${RED}Error: Disk not selected."
 			break
 		fi
 		colorprint "${RED}Do you want to clear disk? (YES / no)"
 		read yn
 		if [[ "$yn" == "YES" ]]; then
-			export diskname="$selectedDisk"
+			export diskname="$ROOTFS"
 			rm -rf "$diskname"
 			mkdir -p "$diskname"
 		else

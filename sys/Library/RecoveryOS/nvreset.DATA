@@ -4,9 +4,9 @@ function nvreset() {
 
 	export crucialValues="boot_reference"
 
-	if [[ -z "$selectedDisk" ]]; then
+	if [[ -z "$ROOTFS" ]]; then
 		colorprint "${RED}Error: Disk not selected."
-	elif [[ -d "$selectedDisk/Library/nvram" ]]; then
+	elif [[ -d "$ROOTFS/Library/nvram" ]]; then
 		export skipProc="0"
 		while read d
 		do
@@ -17,20 +17,20 @@ function nvreset() {
 				export skipProc="1"
 				break
 			fi
-		done <<< "$(ls -1 "$selectedDisk/Library/nvram")"
+		done <<< "$(ls -1 "$ROOTFS/Library/nvram")"
 		if [[ "$skipProc" == "0" ]]; then
-			rm -rf "$selectedDisk/Library/nvram"
-			mkdir -p "$selectedDisk/Library/nvram"
+			rm -rf "$ROOTFS/Library/nvram"
+			mkdir -p "$ROOTFS/Library/nvram"
 		fi
 	fi
 }
 
 function nvreset_force() {
-	if [[ -z "$selectedDisk" ]]; then
+	if [[ -z "$ROOTFS" ]]; then
 		colorprint "${RED}Error: Disk not selected."
-	elif [[ -d "$selectedDisk/Library/nvram" ]]; then
-		rm -rf "$selectedDisk/Library/nvram"
-		mkdir -p "$selectedDisk/Library/nvram"
+	elif [[ -d "$ROOTFS/Library/nvram" ]]; then
+		rm -rf "$ROOTFS/Library/nvram"
+		mkdir -p "$ROOTFS/Library/nvram"
 	fi
 }
 

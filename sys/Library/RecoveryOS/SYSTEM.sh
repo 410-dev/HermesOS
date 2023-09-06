@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Hermes RecoveryOS"
 echo "Type help to see available commands."
-unset selectedDisk
+echo "Selecting disk..."
 while [[ true ]]; do
 	echo -n "RECOVERY > "
 	read commands

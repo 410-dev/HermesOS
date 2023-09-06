@@ -1,0 +1,52 @@
+#!/bin/bash
+
+function LiteOS.appendTerminateLSC() {
+    echo "$1" >> "$ROOTFS/TERMINATE.LSC"
+}
+
+function LiteOS.appendTerminatePLSC() {
+    echo "$1" >> "$ROOTFS/TERMINATE.PLSC"
+}
+
+function LiteOS.appendStartupLSC() {
+    echo "$1" >> "$ROOTFS/STARTUP.LSC"
+}
+
+function LiteOS.appendStartupPLSC() {
+    echo "$1" >> "$ROOTFS/STARTUP.PLSC"
+}
+
+function LiteOS.readTerminateLSC() {
+    cat "$ROOTFS/TERMINATE.LSC"
+}
+
+function LiteOS.readTerminatePLSC() {
+    cat "$ROOTFS/TERMINATE.PLSC"
+}
+
+function LiteOS.readStartupLSC() {
+    cat "$ROOTFS/STARTUP.LSC"
+}
+
+function LiteOS.readStartupPLSC() {
+    cat "$ROOTFS/STARTUP.PLSC"
+}
+
+function LiteOS.queueRecovery() {
+    echo "export BOOTARGS=\"\${BOOTARGS} recovery\"" >> "$NVRAM/boot_reference"
+}
+
+function LiteOS.queueLiteOS() {
+    LiteOS.appendStartupLSC "export BOOTARGS=\"\${BOOTARGS} liteos\""
+}
+
+export -f LiteOS.appendTerminateLSC
+export -f LiteOS.appendTerminatePLSC
+export -f LiteOS.appendStartupLSC
+export -f LiteOS.appendStartupPLSC
+export -f LiteOS.readTerminateLSC
+export -f LiteOS.readTerminatePLSC
+export -f LiteOS.readStartupLSC
+export -f LiteOS.readStartupPLSC
+export -f LiteOS.queueRecovery
+export -f LiteOS.queueLiteOS
